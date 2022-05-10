@@ -17,7 +17,7 @@ google search : adobe illustrator, vector, save as into html/SVG
 install : ```npm install mustache --save```
 
 usage :
-```
+```javascript
   var Mustache = require('mustache');
 
   var view = {
@@ -33,7 +33,7 @@ usage :
 ## Template
 
 Internal templates :
-```
+```javascript
   // file: render.js
   function renderHello() {
     var template = document.getElementById('template').innerHTML;
@@ -54,7 +54,7 @@ Internal templates :
 ```
 
 External Template, another example using ```fetch```:
-```
+```javascript
   function renderHello() {
     fetch('template.mustache')
       .then((rensponse) => response.text())
@@ -71,31 +71,31 @@ if you would like tho change HTML-escaping behavior globally (for example, to te
 
 you you want ``{{name}}`` not to be interpreted as a mustache tag, but rather to appear exactly as `{{name}}` in the output, you must change and then restore the default delimiter.
 by overriding the `mustache.tags` property itself:
-```
+```javascript
   var customTags = [ '<%', '%>' ];
 ```
 
 pass value into render method
-```
+```javascript
   Mustache.render(template, view, {}, customTag);
 ```
 
 override tags property
-```
+```javascript
   Mustache.tags = customTags;
   // Subsequent parse() and render() calls will use customTags
 ```
 
 ## sections
 view
-```
+```json
   {
     "person": false
   }
 ```
 
 template :
-```
+```mustache
   Shown.
   {{#person}}
   Never shown!
@@ -104,7 +104,7 @@ template :
 
 ## non-empty lists
 if the `person` key exist and is not `null`, `undefined`, or `false`, and is not an empty list the block will be rendered one or more times.
-```
+```mustache
 // view
 {
   "stooges": [
@@ -127,7 +127,7 @@ if the `person` key exist and is not `null`, `undefined`, or `false`, and is not
   <b>Curly</b>
 ```
 > when looping over an array of strings, a `.` can be used to refer to the current item in the list.
-```
+```mustache
   // view
 
   {
@@ -149,7 +149,7 @@ if the `person` key exist and is not `null`, `undefined`, or `false`, and is not
 ```
 
 > if the value of a section variable is a function, it will be called in the context of the current item in the list on each iteration.
-```
+```mustache
 {
   "beatles": [
     { "firstName": "John", "lastName": "Lennon" },
@@ -178,7 +178,7 @@ if the `person` key exist and is not `null`, `undefined`, or `false`, and is not
 
 ## functions
 if the value of a section key is a function, it is called with the section's literal block of text, un-rendered, as its first argument. the second argument is a special rendering function that uses the current view as its view argument. it is called in the context of the current view object.
-```
+```mustache
 // view
 
   {
