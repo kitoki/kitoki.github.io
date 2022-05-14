@@ -6,6 +6,7 @@ categories: [large_scale, maintain, codebase]
 tags: [CSS]
 ---
 
+> Large Scale mean :
 - it might be CSS that simply has a large file size. there's a lot of CSS output and so making changes to that codebase can be difficult, as there is so much of the code to consider.
 - the CSS could be said to be 'large' due to the complexity of the user interface that is being built with it. the overall file size may be smaller than the first situation but there may be a great many pieces of user interface that's codified in those styles. considering how to effect changes across all those visuals may be problematic.
 - it might be 'large CSS' simply due to the number of developers that have, are and will be likely to touch and change the CSS code base.
