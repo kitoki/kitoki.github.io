@@ -22,6 +22,7 @@ for item in animes:
        print(mood + ' anime: ' + item[0])
 ```
 
+
 - skill :
   - python
   - list
