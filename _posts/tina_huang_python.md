@@ -1,6 +1,8 @@
 title : 5 unique python projects (beginner to intermediate)
 
-#### recommended system
+
+
+#### recommended system / automating decision making
 ```python
 from random import choice
 
@@ -19,5 +21,21 @@ for item in animes:
     if item[1] == mood:
        print(mood + ' anime: ' + item[0])
 ```
+
+- skill :
+  - python
+  - list
+  - random module
+  - input()
+
+- advance skill :
+  - panda (data frame)
+  - APIs (to interface someone else software)
+    - utilitze APIs for automation (jikan.py)
+      - recommended system
+
+`nested list not best approach, use panda to create table (dataframe) when in  CLI more encourage`
+
+
 
 #### personal finance dashboard
