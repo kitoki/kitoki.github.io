@@ -1,6 +1,6 @@
 title : 5 unique python projects (beginner to intermediate)
 
-
+`when you start project, dont have like a super grand idea and feel really overwhelmed when implementing it`, start with something small, and after you get that working, then build on more features, amd more functionalities, and before you know it, you have project that able do so many more thing
 
 #### recommended system / automating decision making
 ```python
