@@ -1,4 +1,6 @@
-title: tips to learn technical things faster
+title: 
+
+## tips to learn technical things faster
 
 do you read things over and over again  
 do you spend most of your time taking notes  
@@ -14,3 +16,13 @@ do you actually read textbooks
 - priming (taking glance before actually learning)
   - if possible make it more enjoyable, such as, find multiple article that related with this topic, find multiple way to explore, check wikipedia outline, a way to get you motivated, find research with similar subject, project based,
   - find a way more engaging
+
+## how to take notes for technical things
+
+- tools
+- pre-learning (priming)
+- learning the concept (the framework of references)
+- project notes
+
+
+
