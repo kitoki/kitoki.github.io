@@ -5,9 +5,9 @@ title: CS50's web programming with python and javascript
 
 `git [command] -help`
 
- > setup
+> setup
 ```git
-git config --list or -l
+git config --list
 git config --global -l
 git config --global --unset name
 git config --global user.name "Dammy Adams"
@@ -26,6 +26,7 @@ git add <file>
 git add .
 git commit -m "commit message"
 git commit -am "commit message"
+git commit --amend
 ```
 
 > basic concepts
@@ -42,10 +43,15 @@ HEAD-4: great-great grandparent of HEAD
 git branch
 git branch <new-branch>
 git checkout <branch>
+git checkout -
 git checkout -b <new-branch>
+git checkout -b <local-branch-name> -t <remote>/<branch>
 git branch -d <branch>
 git branch -D <branch>
+git branch -m OldName NewName
 git tag <tag-name>
+git branches --no-merged
+git branches --merged
 ```
 
 > merging
@@ -71,6 +77,7 @@ git rm --cached <file>
 git checkout <commit_ID>
 git revert <commit_ID>
 git reset <commit_ID>
+
 ```
 
 > review your repo
@@ -106,6 +113,7 @@ git pull
 git pull --rebase <alias>
 git push <alias>
 git push <alias> <branch>
+git push origin-delete remote-branch
 ```
 
 > questions :
