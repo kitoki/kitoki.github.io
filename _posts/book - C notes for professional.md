@@ -199,10 +199,10 @@ Section 3.5: String Literals
 
 > #### Section 3.1: Interpreting Declarations
 The following set of operators with identical precedence and associativity are reused in declarators, namely:
-- the unary * "dereference" operator which denotes a pointer;
-- the binary [] "array subscription" operator which denotes an array;
-- the (1+n)-ary () "function call" operator which denotes a function;
-- the () grouping parentheses which override the precedence and associativity of the rest of the listedoperators.
+- the `unary *` "dereference" operator which denotes a pointer;
+- the `binary []` "array subscription" operator which denotes an array;
+- the `(1+n)-ary ()` "function call" operator which denotes a function;
+- the `() grouping parentheses` which override the precedence and associativity of the rest of the listedoperators.
 
 The above three operators have the following precedence and associativity:
 
