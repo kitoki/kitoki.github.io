@@ -202,7 +202,7 @@ The following set of operators with identical precedence and associativity are r
 - the `unary *` "dereference" operator which denotes a pointer;
 - the `binary []` "array subscription" operator which denotes an array;
 - the `(1+n)-ary ()` "function call" operator which denotes a function;
-- the `() grouping parentheses` which override the precedence and associativity of the rest of the listedoperators.
+- the `() grouping parentheses` which override the precedence and associativity of the rest of the listed operators.
 
 The above three operators have the following precedence and associativity:
 
@@ -240,7 +240,7 @@ The declared objects in the above example are:
 - fn: a function taking `void` and returning `int`;
 - ptr: a pointer to an `int`;
 - fp: a pointer to a function taking `int` and returning `int`;
-- arr: an array of size `10` of an array of size `20 of int`;
+- arr: an array of size `10` of an array of size `20` of `int`;
 - num: `int`.
 
 ```c
@@ -268,7 +268,7 @@ char *strings[10][20];
 
 > #### Section 3.2: Fixed Width Integer Types (since C99)
 
-The header <stdint.h> provides several fixed-width integer type definitions. These types are optional and only provided if the platform has an integer type of the corresponding width, and if the corresponding signed type has a two's complement representation of negative values.
+The header `<stdint.h>` provides several fixed-width integer type definitions. These types are optional and only provided if the platform has an integer type of the corresponding width, and if the corresponding signed type has a two's complement representation of negative values.
 
 ```c
 /* commonly used types include */
@@ -290,7 +290,7 @@ unsigned short = 2767;
 unsigned char = 255;
 ```
 
-For all types but char the signed version is assumed if the signed or unsigned part is omitted. The type char constitutes a third character type, different from signed char and unsigned char and the signedness (or not) depends on the platform.
+For all types but `char` the signed version is assumed if the signed or unsigned part is omitted. The type `char` constitutes a third character type, different from `signed char` and `unsigned char` and the `signedness` (or not) depends on the platform.
 Different types of integer constants (called literals in C jargon) can be written in different bases, and different width, based on their prefix or suffix.
 
 ```c
@@ -301,8 +301,8 @@ int x = 0xaf; /* hexadecimal constants (base16) */
 int X = 0XAf; /* (letters 'a' through 'f' (case insensitive) represent 10 through 15) */
 ```
 
-Decimal constants are always signed. Hexadecimal constants start with 0x or 0X and octal constants start just with
-a 0. The latter two are signed or unsigned depending on whether the value fits into the signed type or not.
+`Decimal constants` are always `signed`. Hexadecimal constants start with `0x` or `0X` and `octal` constants start just with
+a `0`. The latter two are `signed` or `unsigned` depending on whether the value fits into the `signed type` or not.
 
 ```c
 /* suffixes to describe width and signedness : */
@@ -311,9 +311,9 @@ unsigned int ui = 65535u; /* u or U represent unsigned int, or long int */
 long int li = 65536l; /* l or L represent long int */
 ```
 
-Without a suffix the constant has the first type that fits its value, that is a decimal constant that is larger than INT_MAX is of type long if possible, or long long otherwise.  
+Without a `suffix` the constant has the first type that fits its value, that is a `decimal constant that is larger than `INT_MAX` is of type long if possible, or `long long` otherwise.  
 
-The header file <limits.h> describes the limits of integers as follows. Their implementation-defined values shall be equal or greater in magnitude (absolute value) to those shown below, with the same sign.
+The header file `<limits.h>` describes the limits of integers as follows. Their implementation-defined values shall be `equal or greater` in magnitude (absolute value) to those shown below, with the same sign.
 
 | Macro | Type | Value |
 | :---  | :--- | :---  |
@@ -339,9 +339,9 @@ The header file <limits.h> describes the limits of integers as follows. Their im
 | LLONG_MAX | long long int | +9223372036854775807 / 263 - 1 |
 | ULLONG_MAX | unsigned long long int | 18446744073709551615 / 264 - 1 |
 
-If the value of an object of type char sign-extends when used in an expression, the value of CHAR_MIN shall be the same as that of SCHAR_MIN and the value of CHAR_MAX shall be the same as that of SCHAR_MAX . If the value of an object of type char does not sign-extend when used in an expression, the value of CHAR_MIN shall be 0 and the value of CHAR_MAX shall be the same as that of UCHAR_MAX.  
+If the value of an object of type char sign-extends` when used in an expression, the value of `CHAR_MIN` shall be the same as that of `SCHAR_MIN` and the value of `CHAR_MAX` shall be the same as that of `SCHAR_MAX`. If the value of an object of type char does `not sign-extend` when used in an expression, the value of `CHAR_MIN` shall be `0` and the value of `CHAR_MAX` shall be the same as that of `UCHAR_MAX`.  
 
-The C99 standard added a new header, <stdint.h>, which contains definitions for fixed width integers. See the fixed width integer example for a more in-depth explanation
+The C99 standard added a new header, `<stdint.h>`, which contains definitions for fixed width integers. See the fixed width integer example for a more in-depth explanation
 
 > #### Section 3.4: Floating Point Constants
 ```c
@@ -355,13 +355,13 @@ double y = .1; /* valid, whole-number part is optional */
 double sd = 1.2e3; /* decimal fraction 1.2 is scaled by 10^3, that is 1200.0 */
 ```
 
-The header <float.h> defines various limits for floating point operations.  
-Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use IEEE 754 floating point operations.  
-C also has three optional complex floating point types that are derived from the above.
+The header `<float.h>` defines various limits for floating point operations.  
+Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use `IEEE 754` floating point operations.  
+C also has `three optional complex floating point` types that are derived from the above.
 
 > #### Section 3.5: String Literals
 
-A string literal in C is a sequence of chars, terminated by a literal zero.
+A string literal in C is a `sequence` of chars, terminated by a literal `zero`.
 
 ```c
 char* str = "hello, world"; /* string literal */
@@ -371,7 +371,7 @@ char a2[4] = "abc"; /* same as a1 */
 char a3[3] = "abc"; /* a1 is char[3] holding {'a','b','c'}, missing the '\0' */
 ```
 
-String literals are not modifiable (and in fact may be placed in read-only memory such as .rodata). Attempting to alter their values results in undefined behaviour.
+String literals are `not modifiable` (and in fact may be placed in read-only memory such as .rodata). Attempting to alter their values results in `undefined behaviour`.
 
 ```c
 char* s = "foobar";
@@ -381,7 +381,7 @@ char const* s1 = "foobar";
 s1[0] = 'F'; /* compiler error! */
 ```
 
-Multiple string literals are concatenated at compile time, which means you can write construct like these.
+Multiple string literals are concatenated at `compile time`, which means you can write construct like these.
 
 ```c
 /* only two narrow or two wide string literals may be concatenated */
@@ -394,7 +394,7 @@ char* s1 = "Hello" ", " "World";
 char* fmt = "%" PRId16; /* PRId16 macro since C99 */
 ```
 
-String literals, same as character constants, support different character sets.
+String literals, same as character constants, `support` different character sets.
 
 ```c
 /* normal string literal, of type char[] */
