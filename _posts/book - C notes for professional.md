@@ -70,7 +70,7 @@
 
 **chapter 1: getting started with C language**
 
-> Section 1.1: Hello World
+> Section 1.1: Hello World  
 Section 1.2: Original "Hello, World!" in K&R C
 
 > Section 1.1: Hello World
@@ -106,10 +106,10 @@ main()
 
 **Chapter 2: Comments**
 
-> Section 2.1: Commenting using the preprocessor
-Section 2.2: /* */ delimited comments
-Section 2.3: // delimited comments
-Section 2.4: Possible pitfall due to trigraphs
+> Section 2.1: Commenting using the preprocessor  
+Section 2.2: /* */ delimited comments  
+Section 2.3: // delimited comments  
+Section 2.4: Possible pitfall due to trigraphs  
 
 
 > Section 2.1: Commenting using the preprocessor
@@ -191,7 +191,7 @@ bar += foo;
 
 **Chapter 3: Data Types**
 
-> Section 3.1: Interpreting Declarations
+> Section 3.1: Interpreting Declarations  
 
 
 > Section 3.1: Interpreting Declarations
