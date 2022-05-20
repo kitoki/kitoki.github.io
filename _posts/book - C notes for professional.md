@@ -66,3 +66,19 @@
 * credits
 * you may also like
 
+> ---
+
+** chapter 1: getting started with C language **
+> Section 1.1: Hello World
+```c
+#include <stdio.h>
+int main(void)
+{
+ puts("Hello, World");
+ return 0;
+}
+```
+
+
+
+
