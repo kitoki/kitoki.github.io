@@ -193,6 +193,8 @@ bar += foo;
 > Section 3.1: Interpreting Declarations  
 Section 3.2: Fixed Width Integer Types (since C99)  
 Section 3.3: Integer types and constants  
+Section 3.4: Floating Point Constants  
+Section 3.5: String Literals  
 
 
 > #### Section 3.1: Interpreting Declarations
@@ -337,10 +339,78 @@ The header file <limits.h> describes the limits of integers as follows. Their im
 | LLONG_MAX | long long int | +9223372036854775807 / 263 - 1 |
 | ULLONG_MAX | unsigned long long int | 18446744073709551615 / 264 - 1 |
 
+If the value of an object of type char sign-extends when used in an expression, the value of CHAR_MIN shall be the same as that of SCHAR_MIN and the value of CHAR_MAX shall be the same as that of SCHAR_MAX . If the value of an object of type char does not sign-extend when used in an expression, the value of CHAR_MIN shall be 0 and the value of CHAR_MAX shall be the same as that of UCHAR_MAX.  
 
+The C99 standard added a new header, <stdint.h>, which contains definitions for fixed width integers. See the fixed width integer example for a more in-depth explanation
 
+> #### Section 3.4: Floating Point Constants
+```c
+float f = 0.314f; /* suffix f or F denotes type float */
+double d = 0.314; /* no suffix denotes double */
+long double ld = 0.314l; /* suffix l or L denotes long double */
+/* the different parts of a floating point definition are optional */
+double x = 1.; /* valid, fractional part is optional */
+double y = .1; /* valid, whole-number part is optional */
+/* they can also defined in scientific notation */
+double sd = 1.2e3; /* decimal fraction 1.2 is scaled by 10^3, that is 1200.0 */
+```
 
+The header <float.h> defines various limits for floating point operations.  
+Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use IEEE 754 floating point operations.  
+C also has three optional complex floating point types that are derived from the above.
 
+> #### Section 3.5: String Literals
 
+A string literal in C is a sequence of chars, terminated by a literal zero.
 
+```c
+char* str = "hello, world"; /* string literal */
+/* string literals can be used to initialize arrays */
+char a1[] = "abc"; /* a1 is char[4] holding {'a','b','c','\0'} */
+char a2[4] = "abc"; /* same as a1 */
+char a3[3] = "abc"; /* a1 is char[3] holding {'a','b','c'}, missing the '\0' */
+```
+
+String literals are not modifiable (and in fact may be placed in read-only memory such as .rodata). Attempting to alter their values results in undefined behaviour.
+
+```c
+char* s = "foobar";
+s[0] = 'F'; /* undefined behaviour */
+/* it's good practice to denote string literals as such, by using `const` */
+char const* s1 = "foobar";
+s1[0] = 'F'; /* compiler error! */
+```
+
+Multiple string literals are concatenated at compile time, which means you can write construct like these.
+
+```c
+/* only two narrow or two wide string literals may be concatenated */
+char* s = "Hello, " "World";
+Version ≥ C99
+/* since C99, more than two can be concatenated */
+/* concatenation is implementation defined */
+char* s1 = "Hello" ", " "World";
+/* common usages are concatenations of format strings */
+char* fmt = "%" PRId16; /* PRId16 macro since C99 */
+```
+
+String literals, same as character constants, support different character sets.
+
+```c
+/* normal string literal, of type char[] */
+char* s1 = "abc";
+/* wide character string literal, of type wchar_t[] */
+wchar_t* s2 = L"abc";
+Version ≥ C11
+/* UTF-8 string literal, of type char[] */
+char* s3 = u8"abc";
+/* 16-bit wide string literal, of type char16_t[] */
+char16_t* s4 = u"abc";
+/* 32-bit wide string literal, of type char32_t[] */
+char32_t* s5 = U"abc";
+```
+
+>---
+
+**Chapter 4: Operators**
 
