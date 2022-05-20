@@ -206,7 +206,7 @@ The above three operators have the following precedence and associativity:
 | Operator | Relative Precedence | Associativity |
 | :---     | :---                | :--- |
 | [] (array subscription) | 1 | Left-to-right |
-| () (function call) 1 Left-to-right |
+| () (function call) | 1 | Left-to-right |
 | * (dereference) | 2 | Right-to-left |
 
 | Expression | Interpretation |
