@@ -237,11 +237,11 @@ int fn(void), *ptr, (*fp)(int), arr[10][20], num;
 ```
 
 The declared objects in the above example are:
-- fn: a function taking void and returning int;
-- ptr: a pointer to an int;
-- fp: a pointer to a function taking int and returning int;
-- arr: an array of size 10 of an array of size 20 of int;
-- num: int.
+- fn: a function taking `void` and returning `int`;
+- ptr: a pointer to an `int`;
+- fp: a pointer to a function taking `int` and returning `int`;
+- arr: an array of size `10` of an array of size `20 of int`;
+- num: `int`.
 
 ```c
 /*
