@@ -157,8 +157,7 @@ if (x && y) { /*this comment is at the end of a line */
 ```
 
 ```c
-/* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not
-this one => */
+/* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not this one => */
 ```
 
 > Section 2.3: // delimited comments
