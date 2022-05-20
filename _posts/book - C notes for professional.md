@@ -84,13 +84,13 @@ int main(void)
 ```
 
 > compiling using GCC compiler
-`gcc hello.c -o hello`
+`gcc hello.c -o hello`  
 > compiling with warning options
-`gcc -Wall -Wextra -Werror -o hello hello.c`
+`gcc -Wall -Wextra -Werror -o hello hello.c`  
 > compiling using clang compiler
-`clang -Wall -Wextra -Werror -o hello hello.c`
+`clang -Wall -Wextra -Werror -o hello hello.c`  
 > compiling using command line windows
-`cl hello.c`
+`cl hello.c`  
 
 > Section 1.2: Original "Hello, World!" in K&R C
 ```c
