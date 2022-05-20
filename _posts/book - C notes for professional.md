@@ -311,7 +311,7 @@ unsigned int ui = 65535u; /* u or U represent unsigned int, or long int */
 long int li = 65536l; /* l or L represent long int */
 ```
 
-Without a `suffix` the constant has the first type that fits its value, that is a `decimal constant that is larger than `INT_MAX` is of type long if possible, or `long long` otherwise.  
+Without a `suffix` the constant has the first type that fits its value, that is a `decimal constant` that is larger than `INT_MAX` is of type long if possible, or `long long` otherwise.  
 
 The header file `<limits.h>` describes the limits of integers as follows. Their implementation-defined values shall be `equal or greater` in magnitude (absolute value) to those shown below, with the same sign.
 
@@ -339,7 +339,7 @@ The header file `<limits.h>` describes the limits of integers as follows. Their 
 | LLONG_MAX | long long int | +9223372036854775807 / 263 - 1 |
 | ULLONG_MAX | unsigned long long int | 18446744073709551615 / 264 - 1 |
 
-If the value of an object of type char sign-extends` when used in an expression, the value of `CHAR_MIN` shall be the same as that of `SCHAR_MIN` and the value of `CHAR_MAX` shall be the same as that of `SCHAR_MAX`. If the value of an object of type char does `not sign-extend` when used in an expression, the value of `CHAR_MIN` shall be `0` and the value of `CHAR_MAX` shall be the same as that of `UCHAR_MAX`.  
+If the value of an object of type `char sign-extends` when used in an expression, the value of `CHAR_MIN` shall be the same as that of `SCHAR_MIN` and the value of `CHAR_MAX` shall be the same as that of `SCHAR_MAX`. If the value of an object of type char does `not sign-extend` when used in an expression, the value of `CHAR_MIN` shall be `0` and the value of `CHAR_MAX` shall be the same as that of `UCHAR_MAX`.  
 
 The C99 standard added a new header, `<stdint.h>`, which contains definitions for fixed width integers. See the fixed width integer example for a more in-depth explanation
 
