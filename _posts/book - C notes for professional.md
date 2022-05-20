@@ -73,7 +73,7 @@
 > Section 1.1: Hello World  
 Section 1.2: Original "Hello, World!" in K&R C
 
-> Section 1.1: Hello World
+> #### Section 1.1: Hello World
 ```c
 #include <stdio.h>
 int main(void)
@@ -92,7 +92,7 @@ int main(void)
 > compiling using command line windows
 `cl hello.c`  
 
-> Section 1.2: Original "Hello, World!" in K&R C
+> #### Section 1.2: Original "Hello, World!" in K&R C
 ```c
 #Version = K&R
 #include <stdio.h>
@@ -112,7 +112,7 @@ Section 2.3: // delimited comments
 Section 2.4: Possible pitfall due to trigraphs  
 
 
-> Section 2.1: Commenting using the preprocessor
+> #### Section 2.1: Commenting using the preprocessor
 ```c
 #if 0 /* Starts the "comment", anything from here on is removed by preprocessor */
 /* A large amount of code with multi-line comments */
@@ -131,7 +131,7 @@ int foo()
 /* code from here on is "uncommented" (included in compiled executable) */
 ```
 
-> Section 2.2: /* */ delimited comments
+> #### Section 2.2: /* */ delimited comments
 ```c
 /* this is a comment */
 
@@ -160,7 +160,7 @@ if (x && y) { /*this comment is at the end of a line */
 /* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not this one => */
 ```
 
-> Section 2.3: // delimited comments
+> #### Section 2.3: // delimited comments
 ```c
 // this is a comment
 
@@ -174,7 +174,7 @@ if (x && y) { // this comment is at the end of a line
 }
 ```
 
-> Section 2.4: Possible pitfall due to trigraphs
+> #### Section 2.4: Possible pitfall due to trigraphs
 ```c
 int x = 20; // Why did I do this??/
 
@@ -193,7 +193,7 @@ bar += foo;
 > Section 3.1: Interpreting Declarations  
 
 
-> Section 3.1: Interpreting Declarations
+> #### Section 3.1: Interpreting Declarations
 The following set of operators with identical precedence and associativity are reused in declarators, namely:
 - the unary * "dereference" operator which denotes a pointer;
 - the binary [] "array subscription" operator which denotes an array;
