@@ -1151,7 +1151,49 @@ See that the members of the array `arr` are accessed using the operators `+` and
 
 > Pointer subtraction
 
-Given two pointers to the same type, evaluates into an object of type ptrdiff_t that holds the scalar value that must be added to the second pointer in order to obtain the value of the first pointer.
+Given two pointers to the same type, evaluates into an object of type `ptrdiff_t` that holds the scalar value that must be added to the second pointer in order to obtain the value of the first pointer.
+
+```c
+int arr[] = {1, 2, 3, 4, 5};
+int *p = &arr[2];
+int *q = &arr[3];
+ptrdiff_t diff = q - p;
+
+printf("q - p = %ti\n", diff); /* Outputs "1". */
+printf("*(p + (q - p)) = %d\n", *(p + diff)); /* Outputs "4". */
+```
+
+> Section 4.15: _Alignof [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators-arrow_up)
+
+Queries the alignment requirement for the specified type. The alignment requirement is a positive integral power of 2 representing the number of bytes between which two objects of the type may be allocated. In C, the alignment requirement is measured in `size_t`.  
+
+The type name may not be an incomplete type nor a function type. If an array is used as the type, the type of the array element is used.  
+
+This operator is often accessed through the convenience macro `alignof` from `<stdalign.h>`.
+
+```c
+int main(void)
+{
+ printf("Alignment of char = %zu\n", alignof(char));
+ printf("Alignment of max_align_t = %zu\n", alignof(max_align_t));
+ printf("alignof(float[10]) = %zu\n", alignof(float[10]));
+ printf("alignof(struct{char c; int n;}) = %zu\n",
+      alignof(struct {char c; int n;}));
+}
+```
+Possible Output:
+```c
+Alignment of char = 1
+Alignment of max_align_t = 16
+alignof(float[10]) = 4
+alignof(struct{char c; int n;}) = 4
+```
+http://en.cppreference.com/w/c/language/_Alignof
+
+
+
+
+
 
 
 
