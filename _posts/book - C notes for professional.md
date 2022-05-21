@@ -450,8 +450,8 @@ xptr != yptr; /* evaluates to 1, the operands hold different location addresses.
 *xptr != *yptr; /* evaluates to 0, the operands point at locations that hold the same value. */
 ```
 
-Not operator "`!`" `!someVal`  
-the opposite `someVal == 0`  
+Not operator "`!`" : `!someVal`  
+the opposite "`==`" : `someVal == 0`  
 
 Greater than "`>`"
 ```c
