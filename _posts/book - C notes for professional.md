@@ -1,9 +1,9 @@
-**Contents**
+# **Contents**
 
-* chapter 1: getting started with C language
-* chapter 2: comments
-* chapter 3: data types
-* chapter 4: operators
+* [chapter 1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language): getting started with C language
+* [chapter 2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments): comments
+* [chapter 3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types): data types
+* [chapter 4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators): operators
 * chapter 5: boolean
 * chapter 6: strings
 * chapter 7: literals for numbers, characters and strings
@@ -70,8 +70,8 @@
 
 # **chapter 1: getting started with C language**
 
-> Section 1.1: Hello World  
-Section 1.2: Original "Hello, World!" in K&R C
+> [Section 1.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-11-hello-world): Hello World  
+[Section 1.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-12-original-hello-world-in-kr-c): Original "Hello, World!" in K&R C
 
 > #### Section 1.1: Hello World
 ```c
@@ -106,10 +106,10 @@ main()
 
 # **Chapter 2: Comments**
 
-> Section 2.1: Commenting using the preprocessor  
-Section 2.2: /* */ delimited comments  
-Section 2.3: // delimited comments  
-Section 2.4: Possible pitfall due to trigraphs  
+> [Section 2.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-21-commenting-using-the-preprocessor): Commenting using the preprocessor  
+[Section 2.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-22---delimited-comments): /* */ delimited comments  
+[Section 2.3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-23--delimited-comments): // delimited comments  
+[Section 2.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-24-possible-pitfall-due-to-trigraphs): Possible pitfall due to trigraphs  
 
 
 > #### Section 2.1: Commenting using the preprocessor
@@ -190,11 +190,11 @@ bar += foo;
 
 # **Chapter 3: Data Types**
 
-> Section 3.1: Interpreting Declarations  
-Section 3.2: Fixed Width Integer Types (since C99)  
-Section 3.3: Integer types and constants  
-Section 3.4: Floating Point Constants  
-Section 3.5: String Literals  
+> [Section 3.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-31-interpreting-declarations): Interpreting Declarations  
+[Section 3.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-32-fixed-width-integer-types-since-c99): Fixed Width Integer Types (since C99)  
+[Section 3.3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-33-integer-types-and-constants): Integer types and constants  
+[Section 3.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-34-floating-point-constants): Floating Point Constants  
+[Section 3.5](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-35-string-literals): String Literals  
 
 
 > #### Section 3.1: Interpreting Declarations
@@ -414,10 +414,10 @@ char32_t* s5 = U"abc";
 
 # **Chapter 4: Operators**
 
-> Section 4.1: Relational Operators  
-Section 4.2: Conditional Operator/Ternary Operator  
-Section 4.3: Bitwise Operators  
-Section 4.4: Short circuit behavior of logical operators  
+> [Section 4.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-41-relational-operators): Relational Operators  
+[Section 4.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-42-conditional-operatorternary-operator): Conditional Operator/Ternary Operator  
+[Section 4.3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-43-bitwise-operators): Bitwise Operators  
+[Section 4.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-44-short-circuit-behavior-of-logical-operators): Short circuit behavior of logical operators  
 
 
 C has many powerful operators. Many C operators are `binary` operators, which means they have `two operands`. For example, in `a / b`, `/` is a binary operator that accepts two operands (a, b). There are some unary operators which take one operand (for example: `~, ++`), and only one ternary operator `? :`.
