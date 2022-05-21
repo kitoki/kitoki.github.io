@@ -188,7 +188,7 @@ bar += foo;
 
 >---
 
-# **Chapter 3: Data Types** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
+# **Chapter 3: Data Types** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 3.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-31-interpreting-declarations): Interpreting Declarations  
 [Section 3.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-32-fixed-width-integer-types-since-c99): Fixed Width Integer Types (since C99)  
@@ -412,7 +412,7 @@ char32_t* s5 = U"abc";
 
 >---
 
-# **Chapter 4: Operators** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
+# **Chapter 4: Operators** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 4.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-41-relational-operators): Relational Operators  
 [Section 4.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-42-conditional-operatorternary-operator): Conditional Operator/Ternary Operator  
