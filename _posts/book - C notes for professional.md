@@ -976,7 +976,7 @@ tmp = b--;    /* decrements b by one, but returns old value; b == -1, tmp == 0 *
 
 ```
 
-Note that arithmetic operations do not introduce [sequence points](http://c-faq.com/expr/seqpoints.html), so certain expressions with ++ or -- operators may introduce undefined behaviour.
+Note that arithmetic operations do not introduce [sequence points](http://c-faq.com/expr/seqpoints.html), so certain expressions with `++` or `--` operators may introduce undefined behaviour.
 
 > #### Section 4.12: Assignment Operators [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators-arrow_up)
 
