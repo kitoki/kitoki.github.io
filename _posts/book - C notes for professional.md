@@ -1,9 +1,9 @@
 # **Contents**
 
-* [chapter 1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language): getting started with C language
-* [chapter 2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments): comments
-* [chapter 3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types): data types
-* [chapter 4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators): operators
+* [chapter 1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language-arrow_up): getting started with C language
+* [chapter 2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments-arrow_up): comments
+* [chapter 3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types-arrow_up): data types
+* [chapter 4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators-arrow_up): operators
 * chapter 5: boolean
 * chapter 6: strings
 * chapter 7: literals for numbers, characters and strings
@@ -70,10 +70,10 @@
 
 # **chapter 1: getting started with C language** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
-> [Section 1.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-11-hello-world): Hello World  
-[Section 1.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-12-original-hello-world-in-kr-c): Original "Hello, World!" in K&R C
+> [Section 1.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-11-hello-world-arrow_up): Hello World  
+[Section 1.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-12-original-hello-world-in-kr-c-arrow_up): Original "Hello, World!" in K&R C
 
-> #### Section 1.1: Hello World [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language)
+> #### Section 1.1: Hello World [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language-arrow_up)
 ```c
 #include <stdio.h>
 int main(void)
@@ -92,7 +92,7 @@ int main(void)
 > compiling using command line windows
 `cl hello.c`  
 
-> #### Section 1.2: Original "Hello, World!" in K&R C [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language)
+> #### Section 1.2: Original "Hello, World!" in K&R C [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language-arrow_up)
 ```c
 #Version = K&R
 #include <stdio.h>
@@ -106,13 +106,13 @@ main()
 
 # **Chapter 2: Comments** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
-> [Section 2.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-21-commenting-using-the-preprocessor): Commenting using the preprocessor  
-[Section 2.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-22---delimited-comments): /* */ delimited comments  
-[Section 2.3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-23--delimited-comments): // delimited comments  
-[Section 2.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-24-possible-pitfall-due-to-trigraphs): Possible pitfall due to trigraphs  
+> [Section 2.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-21-commenting-using-the-preprocessor-arrow_up): Commenting using the preprocessor  
+[Section 2.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-22---delimited-comments-arrow_up): /* */ delimited comments  
+[Section 2.3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-23--delimited-comments-arrow_up): // delimited comments  
+[Section 2.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-24-possible-pitfall-due-to-trigraphs-arrow_up): Possible pitfall due to trigraphs  
 
 
-> #### Section 2.1: Commenting using the preprocessor [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
+> #### Section 2.1: Commenting using the preprocessor [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments-arrow_up)
 ```c
 #if 0 /* Starts the "comment", anything from here on is removed by preprocessor */
 /* A large amount of code with multi-line comments */
@@ -131,7 +131,7 @@ int foo()
 /* code from here on is "uncommented" (included in compiled executable) */
 ```
 
-> #### Section 2.2: /* */ delimited comments [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
+> #### Section 2.2: /* */ delimited comments [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments-arrow_up)
 ```c
 /* this is a comment */
 
@@ -160,7 +160,7 @@ if (x && y) { /*this comment is at the end of a line */
 /* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not this one => */
 ```
 
-> #### Section 2.3: // delimited comments [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
+> #### Section 2.3: // delimited comments [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments-arrow_up)
 ```c
 // this is a comment
 
@@ -174,7 +174,7 @@ if (x && y) { // this comment is at the end of a line
 }
 ```
 
-> #### Section 2.4: Possible pitfall due to trigraphs [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
+> #### Section 2.4: Possible pitfall due to trigraphs [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments-arrow_up)
 ```c
 int x = 20; // Why did I do this??/
 
