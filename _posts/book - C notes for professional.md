@@ -68,7 +68,7 @@
 
 >---
 
-# **chapter 1: getting started with C language** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
+# **chapter 1: getting started with C language** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 1.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-11-hello-world-arrow_up): Hello World  
 [Section 1.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-12-original-hello-world-in-kr-c-arrow_up): Original "Hello, World!" in K&R C
@@ -104,7 +104,7 @@ main()
 
 >---
 
-# **Chapter 2: Comments** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
+# **Chapter 2: Comments** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 2.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-21-commenting-using-the-preprocessor-arrow_up): Commenting using the preprocessor  
 [Section 2.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-22---delimited-comments-arrow_up): /* */ delimited comments  
