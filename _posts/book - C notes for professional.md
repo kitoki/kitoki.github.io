@@ -451,8 +451,7 @@ xptr != yptr; /* evaluates to 1, the operands hold different location addresses.
 ```
 
 Not operator "`!`" `!someVal`  
-the opposite  
-`someVal == 0`  
+the opposite `someVal == 0`  
 
 Greater than "`>`"
 ```c
