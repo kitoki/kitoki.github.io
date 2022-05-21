@@ -1,3 +1,7 @@
+
+
+stackoverflow : tag : [C language](https://stackoverflow.com/questions/tagged/c?tab=Votes) sort by Votes, [C language](https://stackoverflow.com/questions/tagged/c?tab=Frequent) sort by frequent, [malloc](https://stackoverflow.com/questions/tagged/malloc?tab=Votes), undefined [behavior](https://stackoverflow.com/questions/tagged/undefined-behavior), unspecified [behavior](https://stackoverflow.com/questions/tagged/unspecified-behavior), implementation [defined](https://stackoverflow.com/questions/tagged/implementation-defined-behavior) behavior, buffer-[overflow](https://stackoverflow.com/questions/tagged/buffer-overflow), [pointer](https://stackoverflow.com/questions/tagged/pointers), segmentation [fault](https://stackoverflow.com/questions/tagged/segmentation-fault), size[of](https://stackoverflow.com/questions/tagged/sizeof), standard [compliance](https://stackoverflow.com/questions/tagged/standards-compliance), [performance](https://stackoverflow.com/questions/tagged/performance), [optimization](https://stackoverflow.com/questions/tagged/optimization), bitwise [operator](https://stackoverflow.com/questions/tagged/bitwise-operators), header-[files](https://stackoverflow.com/questions/tagged/header-files), [operator](https://stackoverflow.com/questions/tagged/operators), fault [tolerance](https://stackoverflow.com/questions/tagged/fault-tolerance), [memory](https://stackoverflow.com/questions/tagged/memory), memory [leaks](https://stackoverflow.com/questions/tagged/memory-leaks), [caching](https://stackoverflow.com/questions/tagged/caching), cpu [cache](https://stackoverflow.com/questions/tagged/cpu-cache)
+
 # **Contents**
 
 * [chapter 1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language-arrow_up): getting started with C language
@@ -356,7 +360,7 @@ double sd = 1.2e3; /* decimal fraction 1.2 is scaled by 10^3, that is 1200.0 */
 ```
 
 The header `<float.h>` defines various limits for floating point operations.  
-Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use `IEEE 754` floating point operations.  
+Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) floating point operations.  
 C also has `three optional complex floating point` types that are derived from the above.
 
 > #### Section 3.5: String Literals [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types-arrow_up)
