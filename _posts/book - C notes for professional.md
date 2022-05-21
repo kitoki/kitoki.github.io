@@ -68,7 +68,7 @@
 
 >---
 
-**chapter 1: getting started with C language**
+# **chapter 1: getting started with C language**
 
 > Section 1.1: Hello World  
 Section 1.2: Original "Hello, World!" in K&R C
