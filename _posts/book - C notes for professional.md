@@ -422,16 +422,17 @@ char32_t* s5 = U"abc";
 [Section 4.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-42-conditional-operatorternary-operator-arrow_up): Conditional Operator/Ternary Operator  
 [Section 4.3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-43-bitwise-operators-arrow_up): Bitwise Operators  
 [Section 4.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-44-short-circuit-behavior-of-logical-operators-arrow_up): Short circuit behavior of logical operators  
-Section 4.5: Comma Operator
-Section 4.6: Arithmetic Operators
-Section 4.7: Access Operators
-Section 4.8: sizeof Operator
-Section 4.9: Cast Operator
-Section 4.10: Function Call Operator
-Section 4.11: Increment / Decrement
-Section 4.12: Assignment Operators
-Section 4.13: Logical Operators
-Section 4.14: Pointer Arithmetic
+[Section 4.5](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-45-comma-operator-arrow_up): Comma Operator  
+[Section 4.6](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-46-arithmetic-operators-arrow_up): Arithmetic Operators  
+[Section 4.7](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-47-access-operators-arrow_up): Access Operators  
+[Section 4.8](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-48-sizeof-operator-arrow_up): sizeof Operator  
+[Section 4.9](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-49-cast-operator-arrow_up): Cast Operator  
+[Section 4.10](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-410-function-call-operator-arrow_up): Function Call Operator  
+[Section 4.11](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-411-increment--decrement-arrow_up): Increment / Decrement  
+[Section 4.12](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-412-assignment-operators-arrow_up): Assignment Operators  
+[Section 4.13](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-413-logical-operators-arrow_up): Logical Operators  
+[Section 4.14](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-414-pointer-arithmetic-arrow_up): Pointer Arithmetic  
+[Section 4.15](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-415-_alignof-arrow_up): _Alignof  
 
 
 C has many powerful operators. Many C operators are `binary` operators, which means they have `two operands`. For example, in `a / b`, `/` is a binary operator that accepts two operands (a, b). There are some unary operators which take one operand (for example: `~, ++`), and only one ternary operator `? :`.
@@ -1163,7 +1164,7 @@ printf("q - p = %ti\n", diff); /* Outputs "1". */
 printf("*(p + (q - p)) = %d\n", *(p + diff)); /* Outputs "4". */
 ```
 
-> Section 4.15: _Alignof [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators-arrow_up)
+> #### Section 4.15: _Alignof [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators-arrow_up)
 
 Queries the alignment requirement for the specified type. The alignment requirement is a positive integral power of 2 representing the number of bytes between which two objects of the type may be allocated. In C, the alignment requirement is measured in `size_t`.  
 
