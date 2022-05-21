@@ -1351,8 +1351,32 @@ This means that a C-string with a content of `"abc"` will have four characters `
 
 > #### Section 6.1: Tokenisation: strtok(), strtok_r() and strtok_s() [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-6-strings-arrow_up)
 
+The function `strtok` breaks a string into a smaller strings, or tokens, using a set of delimiters.
 
+```c
+#include <stdio.h>
+#include <string.h>
 
+int main(void)
+{
+   int toknum = 0;
+   char src[] = "Hello,, world!";
+   const char delimiters[] = ", !";
+   char *token = strtok(src, delimiters);
+   
+   while (token != NULL)
+   {
+     printf("%d: [%s]\n", ++toknum, token);
+     token = strtok(NULL, delimiters);
+   }
+   /* source is now "Hello\0, world\0\0" */
+}
+```
+Output: 
+```
+1: [Hello]
+2: [world]
+```
 
 
 
