@@ -1,4 +1,7 @@
 
+
+stackoverflow : tag : [C language](https://stackoverflow.com/questions/tagged/c?tab=Votes) sort by Votes, [C language](https://stackoverflow.com/questions/tagged/c?tab=Frequent) sort by frequent, [malloc](https://stackoverflow.com/questions/tagged/malloc?tab=Votes), undefined [behavior](https://stackoverflow.com/questions/tagged/undefined-behavior), unspecified [behavior](https://stackoverflow.com/questions/tagged/unspecified-behavior), implementation [defined](https://stackoverflow.com/questions/tagged/implementation-defined-behavior) behavior, buffer-[overflow](https://stackoverflow.com/questions/tagged/buffer-overflow), [pointer](https://stackoverflow.com/questions/tagged/pointers), segmentation [fault](https://stackoverflow.com/questions/tagged/segmentation-fault), size[of](https://stackoverflow.com/questions/tagged/sizeof), standard [compliance](https://stackoverflow.com/questions/tagged/standards-compliance), [performance](https://stackoverflow.com/questions/tagged/performance), [optimization](https://stackoverflow.com/questions/tagged/optimization), bitwise [operator](https://stackoverflow.com/questions/tagged/bitwise-operators), header-[files](https://stackoverflow.com/questions/tagged/header-files), [operator](https://stackoverflow.com/questions/tagged/operators), fault [tolerance](https://stackoverflow.com/questions/tagged/fault-tolerance), [memory](https://stackoverflow.com/questions/tagged/memory), memory [leaks](https://stackoverflow.com/questions/tagged/memory-leaks), [caching](https://stackoverflow.com/questions/tagged/caching), cpu [cache](https://stackoverflow.com/questions/tagged/cpu-cache)
+
 C Notes for Professionals
 
 ## Contents
@@ -382,14 +385,13 @@ C Notes for Professionals
 
 ### Section 1.1: Hello World
 
-To create a simple C program which prints _"Hello, World"_ on the screen, use a text editor to create a new file (e.g. hello.c — the file extension must be .c) containing the following source code:
+To create a simple C program which prints `"Hello, World"` on the screen, use a text editor to create a new file (e.g. `hello.c` — the file extension must be .c) containing the following source code:
 
 **hello.c**
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(void)
 {
 puts("Hello, World");
@@ -403,22 +405,14 @@ Live demo on Coliru
 ```c
 #include <stdio.h>
 ```
-This line tells the compiler to include the contents of the standard library header file stdio.h in the program.
-
-Headers are usually files containing function declarations, macros and data types, and you must include the header
-
-file before you use them. This line includes stdio.h so it can call the function puts().
-
+This line tells the compiler to include the contents of the standard library header file `stdio.h` in the program.
+Headers are usually files containing function declarations, macros and data types, and you must include the header file before you use them. This line includes `stdio.h` so it can call the function `puts()`.
 See more about headers.
 
 ```c
 int main(void)
 ```
-This line starts the definition of a function. It states the name of the function (main), the type and number of
-
-arguments it expects (void, meaning none), and the type of value that this function returns (int). Program
-
-execution starts in the main() function.
+This line starts the definition of a function. It states the name of the function (main), the type and number of arguments it expects (`void`, meaning none), and the type of value that this function returns (`int`). Program execution starts in the main() function.
 
 ##### {
 
@@ -426,21 +420,14 @@ execution starts in the main() function.
 
 ##### }
 
-The curly braces are used in pairs to indicate where a block of code begins and ends. They can be used in a lot of
-
-ways, but in this case they indicate where the function begins and ends.
+The curly braces are used in pairs to indicate where a block of code begins and ends. They can be used in a lot of ways, but in this case they indicate where the function begins and ends.
 
 ```c
 puts("Hello, World");
 ```
-This line calls the puts() function to output text to standard output (the screen, by default), followed by a newline.
-
-
+This line calls the `puts()` function to output text to standard output (the screen, by default), followed by a newline.
 The string to be output is included within the parentheses.
-
-"Hello, World" is the string that will be written to the screen. In C, every string literal value must be inside the
-
-double quotes "...".
+"Hello, World" is the string that will be written to the screen. In C, every string literal value must be inside the double quotes "...".
 
 See more about strings.
 
@@ -449,46 +436,32 @@ In C programs, every statement needs to be terminated by a semi-colon (i.e. ;).
 ```c
 return 0 ;
 ```
-When we defined main(), we declared it as a function returning an int, meaning it needs to return an integer. In
+When we defined main(), we declared it as a function returning an `int`, meaning it needs to return an integer. In this example, we are returning the integer value 0, which is used to indicate that the program exited successfully.
 
-this example, we are returning the integer value 0, which is used to indicate that the program exited successfully.
-
-After the return 0 ; statement, the execution process will terminate.
+After the `return 0 ;` statement, the execution process will terminate.
 
 **Editing the program**
 
-Simple text editors include vim or gedit on Linux, or Notepad on Windows. Cross-platform editors also include
-
-Visual Studio Code or Sublime Text.
+Simple text editors include vim or gedit on Linux, or Notepad on Windows. Cross-platform editors also include Visual Studio Code or Sublime Text.
 
 The editor must create plain text files, not RTF or other any other format.
 
 **Compiling and running the program**
 
-To run the program, this source file (hello.c) first needs to be compiled into an executable file (e.g. hello on
-
-Unix/Linux system or hello.exe on Windows). This is done using a compiler for the C language.
+To run the program, this source file (hello.c) first needs to be compiled into an executable file (e.g. hello on Unix/Linux system or hello.exe on Windows). This is done using a compiler for the C language.
 
 See more about compiling
 
 **Compile using GCC**
 
-GCC (GNU Compiler Collection) is a widely used C compiler. To use it, open a terminal, use the command line to
-
-navigate to the source file's location and then run:
+GCC (GNU Compiler Collection) is a widely used C compiler. To use it, open a terminal, use the command line to navigate to the source file's location and then run:
 
 ```c
 gcc hello.c - o hello
 ```
-If no errors are found in the the source code (hello.c), the compiler will create a **binary file** , the name of which is
+If no errors are found in the the source code (hello.c), the compiler will create a **binary file** , the name of which is given by the argument to the `-o` command line option (hello). This is the final executable file.
 
-given by the argument to the -o command line option (hello). This is the final executable file.
-
-We can also use the warning options -Wall -Wextra -Werror, that help to identify problems that can cause the
-
-program to fail or produce unexpected results. They are not necessary for this simple program but this is way of
-
-adding them:
+We can also use the warning options `-Wall -Wextra -Werror`, that help to identify problems that can cause the program to fail or produce unexpected results. They are not necessary for this simple program but this is way of adding them:
 
 ```c
 gcc -Wall -Wextra -Werror -o hello hello.c
@@ -504,249 +477,165 @@ By design, the clang command line options are similar to those of GCC.
 
 **Using the Microsoft C compiler from the command line**
 
-
-If using the Microsoft cl.exe compiler on a Windows system which supports Visual Studio and if all environment
-
-variables are set, this C example may be compiled using the following command which will produce an executable
-
-hello.exe within the directory the command is executed in (There are warning options such as /W3 for cl, roughly
-
-analogous to -Wall etc for GCC or clang).
+If using the Microsoft cl.exe compiler on a Windows system which supports Visual Studio and if all environment variables are set, this C example may be compiled using the following command which will produce an executable hello.exe within the directory the command is executed in (There are warning options such as `/W3` for `cl`, roughly analogous to `-Wall` etc for GCC or clang).
 
 ```c
 cl hello.c
 ```
 **Executing the program**
 
-Once compiled, the binary file may then be executed by typing ./hello in the terminal. Upon execution, the
-
-compiled program will print Hello, World, followed by a newline, to the command prompt.
+Once compiled, the binary file may then be executed by typing `./hello` in the terminal. Upon execution, the compiled program will print Hello, World, followed by a newline, to the command prompt.
 
 ### Section 1.2: Original "Hello, World!" in K&R C
 
-The following is the original "Hello, World!" program from the book The C Programming Language by Brian
-
-Kernighan and Dennis Ritchie (Ritchie was the original developer of the C programming language at Bell Labs),
-
-referred to as "K&R":
+The following is the original "Hello, World!" program from the book The C Programming Language by Brian Kernighan and Dennis Ritchie (Ritchie was the original developer of the C programming language at Bell Labs), referred to as "K&R":
 
 Version = K&R
 
 ```c
 #include <stdio.h>
-```
-```c
+
 main()
 {
 printf("hello, world \n ");
 }
 ```
-Notice that the C programming language was not standardized at the time of writing the first edition of this book
+Notice that the C programming language was not standardized at the time of writing the first edition of this book (1978), and that this program will probably not compile on most modern compilers unless they are instructed to accept C90 code.
 
-(1978), and that this program will probably not compile on most modern compilers unless they are instructed to
+This very first example in the K&R book is now considered `poor quality`, in part because it lacks an explicit return type for main() and in part because it lacks a return statement. The 2nd edition of the book was written for the old C89 standard. In C89, the type of main would default to int, but the K&R example does not return a defined value to the environment. In C99 and later standards, the return type is required, but it is safe to leave out the return statement of main (and only main), because of a special case introduced with C99 5.1.2.2.3 — it is equivalent to returning 0, which indicates success.
 
-accept C90 code.
-
-This very first example in the K&R book is now considered poor quality, in part because it lacks an explicit return
-
-type for main() and in part because it lacks a return statement. The 2nd edition of the book was written for the old
-
-C89 standard. In C89, the type of main would default to int, but the K&R example does not return a defined value
-
-to the environment. In C99 and later standards, the return type is required, but it is safe to leave out the return
-
-statement of main (and only main), because of a special case introduced with C99 5.1.2.2.3 — it is equivalent to
-
-returning 0, which indicates success.
-
-The recommended and most portable form of main for hosted systems is int main (void) when the program does
-
-not use any command line arguments, or int main(int argc, char **argv) when the program does use the
-
-command line arguments.
+The recommended and most portable form of main for hosted systems is int main (void) when the program does not use any command line arguments, or int main(`int argc`, `char **argv`) when the program does use the command line arguments.
 
 C90 §5.1.2.2.3 **Program termination**
 
-```
-A return from the initial call to the main function is equivalent to calling the exit function with the value
-returned by the main function as its argument. If the main function executes a return that specifies no
-value, the termination status returned to the host environment is undefined.
-```
+> A return from the initial call to the main function is equivalent to calling the exit function with the value returned by the main function as its argument. If the main function executes a return that specifies no value, the termination status returned to the host environment is undefined.
+
 C90 §6.6.6.4 **The return statement**
 
-```
-If a return statement without an expression is executed, and the value of the function call is used by the
-```
+> If a return statement without an expression is executed, and the value of the function call is used by the caller, the behavior is `undefined`. Reaching the } that terminates a function is equivalent to executing a return statement without an expression.
 
-```
-caller, the behavior is undefined. Reaching the } that terminates a function is equivalent to executing a
-return statement without an expression.
-```
 C99 §5.1.2.2.3 **Program termination**
 
-```
-If the return type of the main function is a type compatible with int, a return from the initial call to the
-main function is equivalent to calling the exit function with the value returned by the main function as its
-argument; reaching the } that terminates the main function returns a value of 0. If the return type is not
-compatible with int, the termination status returned to the host environment is unspecified.
-```
+> If the return type of the main function is a type compatible with int, a return from the initial call to the main function is equivalent to calling the exit function with the value returned by the main function as its argument; reaching the } that terminates the main function returns a value of 0. If the return type is not compatible with int, the termination status returned to the host environment is unspecified.
+
 
 ## Chapter 2: Comments
 
-Comments are used to indicate something to the person reading the code. Comments are treated like a blank by
-
-the compiler and do not change anything in the code's actual meaning. There are two syntaxes used for comments
-
-in C, the original _/* */_ and the slightly newer //. Some documentation systems use specially formatted comments
-
-to help produce the documentation for code.
+Comments are used to indicate something to the person reading the code. Comments are treated like a blank by the compiler and do not change anything in the code's actual meaning. There are two syntaxes used for comments in C, the original `/* */` and the slightly newer `//`. Some documentation systems use specially formatted comments to help produce the documentation for code.
 
 ### Section 2.1: Commenting using the preprocessor
 
-Large chunks of code can also be "commented out" using the preprocessor directives #if 0 and #endif. This is
-
-useful when the code contains multi-line comments that otherwise would not nest.
+Large chunks of code can also be "commented out" using the preprocessor directives `#if 0` and `#endif`. This is useful when the code contains multi-line comments that otherwise would not nest.
 
 ```c
 #if 0 /* Starts the "comment", anything from here on is removed by preprocessor */
-```
-```c
+
+
 /* A large amount of code with multi-line comments */
 int foo()
 {
 /* lots of code */
-```
-```c
+
 /* ... some comment describing the if statement ... */
 if (someTest) {
 /* some more comments */
 return 1 ;
 }
-```
-```c
+
 return 0 ;
 }
-```
-```c
+
 #endif /* 0 */
-```
-```c
+
 /* code from here on is "uncommented" (included in compiled executable) */
-```c
+```
+
 ### Section 2.2: /* */ delimited comments
 
-A comment starts with a forward slash followed immediately by an asterisk (/*), and ends as soon as an asterisk
-
-immediately followed by a forward slash (*/) is encountered. Everything in between these character combinations
-
-is a comment and is treated as a blank (basically ignored) by the compiler.
+A comment starts with a forward slash followed immediately by an asterisk (`/*`), and ends as soon as an asterisk immediately followed by a forward slash (`*/`) is encountered. Everything in between these character combinations is a comment and is treated as a blank (basically ignored) by the compiler.
 
 ```c
 /* this is a comment */
 ```
-The comment above is a single line comment. Comments of this /* type can span multiple lines, like so:
+The comment above is a single line comment. Comments of this `/*` type can span multiple lines, like so:
 
 ```c
 /* this is a
 multi-line
 comment */
 ```
-Though it is not strictly necessary, a common style convention with multi-line comments is to put leading spaces
+Though it is not strictly necessary, a common style convention with multi-line comments is to put leading spaces and asterisks on the lines subsequent to the first, and the `/*` and `*/` on new lines, such that they all line up:
 
-and asterisks on the lines subsequent to the first, and the /* and */ on new lines, such that they all line up:
-
-##### /*
-
-```
-* this is a
-* multi-line
-* comment
+```c
+/*
+ * this is a
+ * multi-line
+ * comment
+ */
 ```
 
-##### */
+The extra asterisks do not have any functional effect on the comment as none of them have a related forward slash.
 
-The extra asterisks do not have any functional effect on the comment as none of them have a related forward
-
-slash.
-
-These /* type of comments can be used on their own line, at the end of a code line, or even within lines of code:
+These `/*` type of comments can be used on their own line, at the end of a code line, or even within lines of code:
 
 ```c
 /* this comment is on its own line */
 if (x && y) { /*this comment is at the end of a line */
-if ((complexCondition1) /* this comment is within a line of code */
-&& (complexCondition2)) {
-/* this comment is within an if, on its own line */
-}
+  if ((complexCondition1) /* this comment is within a line of code */
+  && (complexCondition2)) {
+    /* this comment is within an if, on its own line */
+  }
 }
 ```
-Comments cannot be nested. This is because any subsequent /* will be ignored (as part of the comment) and the
-
-first */ reached will be treated as ending the comment. The comment in the following example _will not work_ :
+Comments cannot be nested. This is because any subsequent `/*` will be ignored (as part of the comment) and the first `*/` reached will be treated as ending the comment. The comment in the following example _will not work_ :
 
 ```c
 /* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not
 this one => */
 ```
-To comment blocks of code that contain comments of this type, that would otherwise be nested, see the
-
-Commenting using the preprocessor example below
+To comment blocks of code that contain comments of this type, that would otherwise be nested, see the Commenting using the preprocessor example below
 
 ### Section 2.3: // delimited comments
 
-Version ≥ C
+Version ≥ C99  
+C99 introduced the use of C++-style single-line comments. This type of comment starts with two forward slashes and runs to the end of a line:
 
-C99 introduced the use of C++-style single-line comments. This type of comment starts with two forward slashes
-
-and runs to the end of a line:
-
-```
+```c
 // this is a comment
 ```
-This type of comment does not allow multi-line comments, though it is possible to make a comment block by
+This type of comment does not allow multi-line comments, though it is possible to make a comment block by adding several single line comments one after the other:
 
-adding several single line comments one after the other:
-
-```
+```c
 // each of these lines are a single-line comment
 // note how each must start with
 // the double forward-slash
 ```
-This type of comment may be used on its own line or at the end of a code line. However, because they run _to the_
+This type of comment may be used on its own line or at the end of a code line. However, because they run _to the end of the line_ , they may _not_ be used within a code line
 
-_end of the line_ , they may _not_ be used within a code line
-
-```
+```c
 // this comment is on its own line
 if (x && y) { // this comment is at the end of a line
-// this comment is within an if, on its own line
+  // this comment is within an if, on its own line
 }
 ```c
+
 ### Section 2.4: Possible pitfall due to trigraphs
 
-Version ≥ C
+Version ≥ C99  
 
-While writing // delimited comments, it is possible to make a typographical error that affects their expected
-
-operation. If one types:
-
+While writing `//` delimited comments, it is possible to make a typographical error that affects their expected operation. If one types:
 
 ```c
 int x = 20 ; // Why did I do this??/
 ```
-The / at the end was a typo but now will get interpreted into \. This is because the ??/ forms a trigraph.
+The `/` at the end was a typo but now will get interpreted into `\`. This is because the `??/` forms a trigraph.
 
-The ??/ trigraph is actually a longhand notation for \, which is the line continuation symbol. This means that the
-
-compiler thinks the next line is a continuation of the current line, that is, a continuation of the comment, which may
-
-not be what is intended.
+The `??/` trigraph is actually a longhand notation for `\`, which is the line continuation symbol. This means that the compiler thinks the next line is a continuation of the current line, that is, a continuation of the comment, which may not be what is intended.
 
 ```c
 int foo = 20 ; // Start at 20 ??/
 int bar = 0 ;
-```
-```
+
 // The following will cause a compilation error (undeclared variable 'bar')
 // because 'int bar = 0;' is part of the comment on the preceding line
 bar += foo;
@@ -756,67 +645,55 @@ bar += foo;
 
 ### Section 3.1: Interpreting Declarations
 
-A distinctive syntactic peculiarity of C is that declarations mirror the use of the declared object as it would be in a
-
-normal expression.
+A distinctive syntactic peculiarity of C is that declarations mirror the use of the declared object as it would be in a normal expression.
 
 The following set of operators with identical precedence and associativity are reused in declarators, namely:
 
-```
-the unary * "dereference" operator which denotes a pointer;
-the binary [] "array subscription" operator which denotes an array;
-the (1+n)-ary () "function call" operator which denotes a function;
-the () grouping parentheses which override the precedence and associativity of the rest of the listed
-operators.
-```
+
+- the `unary *` "dereference" operator which denotes a pointer;
+- the `binary []` "array subscription" operator which denotes an array;
+- the `(1+n)-ary ()` "function call" operator which denotes a function;
+- the `()` grouping parentheses which override the precedence and associativity of the rest of the listed operators.
+
 The above three operators have the following precedence and associativity:
 
-```
-Operator Relative PrecedenceAssociativity
-[] (array subscription) 1 Left-to-right
-() (function call) 1 Left-to-right
-* (dereference) 2 Right-to-left
-```
-When interpreting declarations, one has to start from the identifier outwards and apply the adjacent operators in
+| Operator | Relative Precedence | Associativity |
+| :---     | :---                | :--- |
+| [] (array subscription) | 1 | Left-to-right |
+| () (function call) | 1 | Left-to-right |
+| * (dereference) | 2 | Right-to-left |
 
-the correct order as per the above table. Each application of an operator can be substituted with the following
+When interpreting declarations, one has to start from the identifier outwards and apply the adjacent operators in the correct order as per the above table. Each application of an operator can be substituted with the following English words:
 
-English words:
+| Expression | Interpretation |
+| :---       | :---           |
+| thing[X]   | an array of size X of... |
+| thing(t1, t2, t3) | a function taking t1, t2, t3 and returning... |
+|*thing | a pointer to... |
 
-```
-Expression Interpretation
-thing[X] an array of size X of...
-thing(t1, t2, t3)a function taking t1, t2, t3 and returning...
-*thing a pointer to...
-```
-It follows that the beginning of the English interpretation will always start with the identifier and will end with the
-
-type that stands on the left-hand side of the declaration.
+It follows that the beginning of the English interpretation will always start with the identifier and will end with the type that stands on the left-hand side of the declaration.
 
 **Examples**
 
-```
+```c
 char *names[ 20 ];
 ```
-[] takes precedence over *, so the interpretation is: names is an array of size 20 of a pointer to char.
+`[]` takes precedence over `*`, so the interpretation is: names is an array of size 20 of a pointer to char.
 
-```
+```c
 char (*place)[ 10 ];
 ```
-In case of using parentheses to override the precedence, the * is applied first: place is a pointer to an array of size
-
-10 of char.
+In case of using parentheses to override the precedence, the `*` is applied first: place is a pointer to an array of size 10 of char.
 
 ```c
 int fn(long, short);
 ```
-There is no precedence to worry about here: fn is a function taking long, short and returning int.
+There is no precedence to worry about here: `fn` is a function taking long, short and returning int.
 
 ```c
 int *fn(void);
 ```
-The () is applied first: fn is a function taking void and returning a pointer to int.
-
+The `()` is applied first: fn is a function taking void and returning a pointer to int.
 
 ```c
 int (*fp)(void);
@@ -826,67 +703,52 @@ Overriding the precedence of (): fp is a pointer to a function taking void and r
 ```c
 int arr[ 5 ][ 8 ];
 ```
-Multidimensional arrays are not an exception to the rule; the [] operators are applied in left-to-right order
-
-according to the associativity in the table: arr is an array of size 5 of an array of size 8 of int.
+Multidimensional arrays are not an exception to the rule; the `[]` operators are applied in left-to-right order according to the associativity in the table: `arr` is an array of size 5 of an array of size 8 of int.
 
 ```c
 int **ptr;
 ```
-The two dereference operators have equal precedence, so the associativity takes effect. The operators are applied
-
-in right-to-left order: ptr is a pointer to a pointer to an int.
+The two dereference operators have equal precedence, so the associativity takes effect. The operators are applied in right-to-left order: `ptr` is a pointer to a pointer to an int.
 
 **Multiple Declarations**
 
-The comma can be used as a separator (*not* acting like the comma operator) in order to delimit multiple
-
-declarations within a single statement. The following statement contains five declarations:
+The comma can be used as a separator (*not* acting like the comma operator) in order to delimit multiple declarations within a single statement. The following statement contains five declarations:
 
 ```c
 int fn(void), *ptr, (*fp)(int), arr[ 10 ][ 20 ], num;
 ```
 The declared objects in the above example are:
 
-```
-fn: a function taking void and returning int;
-ptr: a pointer to an int;
-fp: a pointer to a function taking int and returning int;
-arr: an array of size 10 of an array of size 20 of int;
-num: int.
-```
+The declared objects in the above example are:
+- fn: a function taking `void` and returning `int`;
+- ptr: a pointer to an `int`;
+- fp: a pointer to a function taking `int` and returning `int`;
+- arr: an array of size `10` of an array of size `20` of `int`;
+- num: `int`.
+
 **Alternative Interpretation**
 
-Because declarations mirror use, a declaration can also be interpreted in terms of the operators that could be
+Because declarations mirror use, a declaration can also be interpreted in terms of the operators that could be applied over the object and the final resulting type of that expression. The type that stands on the left-hand side is the final result that is yielded after applying all operators.
 
-applied over the object and the final resulting type of that expression. The type that stands on the left-hand side is
-
-the final result that is yielded after applying all operators.
-
-##### /*
-
-```
+```c
+/*
 * Subscripting "arr" and dereferencing it yields a "char" result.
 * Particularly: *arr[5] is of type "char".
 */
 char *arr[ 20 ];
-```c
-##### /*
 
-```
+/*
 * Calling "fn" yields an "int" result.
 * Particularly: fn('b') is of type "int".
 */
 int fn(char);
-```
-```c
+
 /*
 * Dereferencing "fp" and then calling it yields an "int" result.
 * Particularly: (*fp)() is of type "int".
 */
 int (*fp)(void);
-```
-```c
+
 /*
 * Subscripting "strings" twice and dereferencing it yields a "char" result.
 * Particularly: *strings[5][15] is of type "char"
@@ -896,57 +758,44 @@ char *strings[ 10 ][ 20 ];
 
 ### Section 3.2: Fixed Width Integer Types (since C99)
 
-Version ≥ C
+Version ≥ C99
 
-The header **<stdint.h>** provides several fixed-width integer type definitions. These types are _optional_ and only
-
-provided if the platform has an integer type of the corresponding width, and if the corresponding signed type has a
-
-two's complement representation of negative values.
+The header **`<stdint.h>`** provides several fixed-width integer type definitions. These types are _optional_ and only provided if the platform has an integer type of the corresponding width, and if the corresponding signed type has a two's complement representation of negative values.
 
 See the remarks section for usage hints of fixed width types.
 
 ```c
 /* commonly used types include */
 uint32_t u32 = 32 ; /* exactly 32-bits wide */
-```
-```
+
 uint8_t u8 = 255 ; /* exactly 8-bits wide */
-```
-```c
+
 int64_t i64 = - 65 /* exactly 64 bit in two's complement representation */
-```c
+```
+
 ### Section 3.3: Integer types and constants
 
 Signed integers can be of these types (the int after short, or long is optional):
 
-```
+```c
 signed char c = 127 ; /* required to be 1 byte, see remarks for further information. */
 signed short int si = 32767 ; /* required to be at least 16 bits. */
 signed int i = 32767 ; /* required to be at least 16 bits */
 signed long int li = 2147483647 ; /* required to be at least 32 bits. */
 ```
-Version ≥ C
-
-```
+Version ≥ C99
+```c
 signed long long int li = 2147483647 ; /* required to be at least 64 bits */
 ```
 Each of these signed integer types has an unsigned version.
-
-```
+```c
 unsigned int i = 65535 ;
 unsigned short = 2767 ;
 unsigned char = 255 ;
 ```
-For all types but char the signed version is assumed if the signed or unsigned part is omitted. The type char
+For all types but `char` the signed version is assumed if the signed or unsigned part is omitted. The type char constitutes a third character type, different from signed char and unsigned char and the signedness (or not) depends on the platform.
 
-constitutes a third character type, different from signed char and unsigned char and the signedness (or not)
-
-depends on the platform.
-
-Different types of integer constants (called _literals_ in C jargon) can be written in different bases, and different width,
-
-based on their prefix or suffix.
+Different types of integer constants (called _literals_ in C jargon) can be written in different bases, and different width, based on their prefix or suffix.
 
 ```c
 /* the following variables are initialized to the same value: */
@@ -955,9 +804,7 @@ int o = 052 ; /* octal constant (base8) */
 int x = 0xaf; /* hexadecimal constants (base16) */
 int X = 0XAf; /* (letters 'a' through 'f' (case insensitive) represent 10 through 15) */
 ```
-Decimal constants are always signed. Hexadecimal constants start with 0x or 0X and octal constants start just with
-
-a^0. The latter two are signed or unsigned depending on whether the value fits into the signed type or not.
+Decimal constants are always `signed`. Hexadecimal constants start with `0x` or `0X` and `octal` constants start just with a `0`. The latter two are `signed` or `unsigned` depending on whether the value fits into the signed type or not.
 
 ```c
 /* suffixes to describe width and signedness : */
@@ -965,104 +812,82 @@ long int i = 0x32; /* no suffix represent int, or long int */
 unsigned int ui = 65535u; /* u or U represent unsigned int, or long int */
 long int li = 65536l; /* l or L represent long int */
 ```
-Without a suffix the constant has the first type that fits its value, that is a decimal constant that is larger than
+Without a suffix the constant has the first type that fits its value, that is a decimal constant that is larger than `INT_MAX` is of type `long` if possible, or `long long` otherwise.
 
+The header file **`<limits.h>`** describes the limits of integers as follows. Their implementation-defined values shall be equal or greater in magnitude (absolute value) to those shown below, with the same sign.
 
-INT_MAX is of type long if possible, or long long otherwise.
-
-The header file **<limits.h>** describes the limits of integers as follows. Their implementation-defined values shall be
-
-equal or greater in magnitude (absolute value) to those shown below, with the same sign.
-
-```
-Macro Type Value
-CHAR_BIT smallest object that is not a bit-field (byte) 8
-SCHAR_MINsigned char -127 / -(27 - 1)
-SCHAR_MAXsigned char +127 / 27 - 1
-UCHAR_MAXunsigned char 255 / 28 - 1
-CHAR_MIN char see below
-CHAR_MAX char see below
-SHRT_MIN short int -32767 / -(215 - 1)
-SHRT_MAX short int +32767 / 215 - 1
-USHRT_MAXunsigned short int 65535 / 216 - 1
-INT_MIN int -32767 / -(215 - 1)
-INT_MAX int +32767 / 215 - 1
-UINT_MAX unsigned int 65535 / 216 - 1
-LONG_MIN long int -2147483647 / -(231 - 1)
-LONG_MAX long int +2147483647 / 231 - 1
-ULONG_MAXunsigned long int 4294967295 / 232 - 1
-```
-Version ≥ C99
-
-```
-Macro Type Value
-LLONG_MIN long long int -9223372036854775807 / -(263 - 1)
-LLONG_MAX long long int +9223372036854775807 / 263 - 1
-ULLONG_MAXunsigned long long int18446744073709551615 / 264 - 1
-```
-If the value of an object of type char sign-extends when used in an expression, the value of CHAR_MIN shall be the
-
-same as that of SCHAR_MIN and the value of CHAR_MAX shall be the same as that of SCHAR_MAX. If the value of an
-
-object of type char does not sign-extend when used in an expression, the value of CHAR_MIN shall be 0 and the
-
-value of CHAR_MAX shall be the same as that of UCHAR_MAX.
+| Macro | Type | Value |
+| :---  | :--- | :---  |
+| CHAR_BIT | smallest object that is not a bit-field (byte) | 8 |
+| SCHAR_MIN | signed char | -127 / -(27 - 1) |
+| SCHAR_MAX | signed char | +127 / 27 - 1 |
+| UCHAR_MAX | unsigned char | 255 / 28 - 1 |
+| CHAR_MIN | char | see below |
+| CHAR_MAX | char | see below |
+| SHRT_MIN | short int | -32767 / -(215 - 1) |
+| SHRT_MAX | short int | +32767 / 215 - 1 |
+| USHRT_MAX | unsigned short int | 65535 / 216 - 1 |
+| INT_MIN | int | -32767 / -(215 - 1) |
+| INT_MAX | int | +32767 / 215 - 1 |
+| UINT_MAX | unsigned int | 65535 / 216 - 1 |
+| LONG_MIN | long int | -2147483647 / -(231 - 1) |
+| LONG_MAX | long int | +2147483647 / 231 - 1 |
+| ULONG_MAX | unsigned long int | 4294967295 / 232 - 1 |
 
 Version ≥ C99
 
-The C99 standard added a new header, **<stdint.h>** , which contains definitions for fixed width integers. See the
+| Macro | Type | Value |
+| :---  | :--- | :---  |
+| LLONG_MIN | long long int | -9223372036854775807 / -(263 - 1) |
+| LLONG_MAX | long long int | +9223372036854775807 / 263 - 1 |
+| ULLONG_MAX | unsigned long long int | 18446744073709551615 / 264 - 1 |
 
-fixed width integer example for a more in-depth explanation.
+If the value of an object of type `char` sign-extends when used in an expression, the value of `CHAR_MIN` shall be the same as that of `SCHAR_MIN` and the value of `CHAR_MAX` shall be the same as that of `SCHAR_MAX`. If the value of an object of type `char` does not sign-extend when used in an expression, the value of `CHAR_MIN` shall be 0 and the value of `CHAR_MAX` shall be the same as that of `UCHAR_MAX`.
+
+Version ≥ C99
+
+The C99 standard added a new header, **`<stdint.h>`** , which contains definitions for fixed width integers. See the fixed width integer example for a more in-depth explanation.
 
 ### Section 3.4: Floating Point Constants
 
 The C language has three mandatory real floating point types, float, double, and long double.
 
-```
+```c
 float f = 0.314f; /* suffix f or F denotes type float */
 double d = 0.314; /* no suffix denotes double */
 long double ld = 0.314l; /* suffix l or L denotes long double */
-```
-```c
+
 /* the different parts of a floating point definition are optional */
 double x = 1 .; /* valid, fractional part is optional */
 double y = .1; /* valid, whole-number part is optional */
-```
-```c
+
 /* they can also defined in scientific notation */
 double sd = 1.2e3; /* decimal fraction 1.2 is scaled by 10^3, that is 1200.0 */
 ```
 
-The header **<float.h>** defines various limits for floating point operations.
-
-Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use
-
-IEEE 754 floating point operations.
+The header **`<float.h>`** defines various limits for floating point operations.
+Floating point arithmetic is implementation defined. However, most modern platforms (`arm`, `x86`, `x86_64`, `MIPS`) use `IEEE 754` floating point operations.
 
 C also has three optional complex floating point types that are derived from the above.
 
 ### Section 3.5: String Literals
 
-A string literal in C is a sequence of chars, terminated by a literal zero.
+A string literal in C is a sequence of `chars`, terminated by a literal zero.
 
 ```
 char* str = "hello, world"; /* string literal */
-```
-```c
+
 /* string literals can be used to initialize arrays */
 char a1[] = "abc"; /* a1 is char[4] holding {'a','b','c','\0'} */
 char a2[ 4 ] = "abc"; /* same as a1 */
 char a3[ 3 ] = "abc"; /* a1 is char[3] holding {'a','b','c'}, missing the '\0' */
 ```
-String literals are **not modifiable** (and in fact may be placed in read-only memory such as .rodata). Attempting to
-
-alter their values results in undefined behaviour.
+String literals are **not modifiable** (and in fact may be placed in read-only memory such as .rodata). Attempting to alter their values results in undefined behaviour.
 
 ```
 char* s = "foobar";
 s[ 0 ] = 'F'; /* undefined behaviour */
-```
-```c
+
 /* it's good practice to denote string literals as such, by using `const` */
 char const* s1 = "foobar";
 s1[ 0 ] = 'F'; /* compiler error! */
@@ -1081,8 +906,7 @@ Version ≥ C99
 /* since C99, more than two can be concatenated */
 /* concatenation is implementation defined */
 char* s1 = "Hello" ", " "World";
-```
-```c
+
 /* common usages are concatenations of format strings */
 char* fmt = "%" PRId16; /* PRId16 macro since C99 */
 ```
@@ -1091,8 +915,7 @@ String literals, same as character constants, support different character sets.
 ```c
 /* normal string literal, of type char[] */
 char* s1 = "abc";
-```
-```c
+
 /* wide character string literal, of type wchar_t[] */
 wchar_t* s2 = L"abc";
 ```
@@ -1101,27 +924,19 @@ Version ≥ C11
 ```c
 /* UTF-8 string literal, of type char[] */
 char* s3 = u8"abc";
-```
-```c
+
 /* 16-bit wide string literal, of type char16_t[] */
 char16_t* s4 = u"abc";
-```
-```c
+
 /* 32-bit wide string literal, of type char32_t[] */
 char32_t* s5 = U"abc";
 ```
 
 ## Chapter 4: Operators
 
-An operator in a programming language is a symbol that tells the compiler or interpreter to perform a specific
+An operator in a programming language is a symbol that tells the compiler or interpreter to perform a specific mathematical, relational or logical operation and produce a final result.
 
-mathematical, relational or logical operation and produce a final result.
-
-C has many powerful operators. Many C operators are binary operators, which means they have two operands. For
-
-example, in a / b, / is a binary operator that accepts two operands (a, b). There are some unary operators which
-
-take one operand (for example: ~, ++), and only one ternary operator? :.
+C has many powerful operators. Many C operators are binary operators, which means they have two operands. For example, in `a / b`, `/` is a binary operator that accepts two operands `(a, b)`. There are some unary operators which take one operand (for example: `~`, `++`), and only one ternary operator `? :`.
 
 ### Section 4.1: Relational Operators
 
