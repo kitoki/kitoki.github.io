@@ -104,7 +104,7 @@ main()
 
 >---
 
-**Chapter 2: Comments**
+# **Chapter 2: Comments**
 
 > Section 2.1: Commenting using the preprocessor  
 Section 2.2: /* */ delimited comments  
@@ -188,7 +188,7 @@ bar += foo;
 
 >---
 
-**Chapter 3: Data Types**
+# **Chapter 3: Data Types**
 
 > Section 3.1: Interpreting Declarations  
 Section 3.2: Fixed Width Integer Types (since C99)  
@@ -412,7 +412,7 @@ char32_t* s5 = U"abc";
 
 >---
 
-**Chapter 4: Operators**
+# **Chapter 4: Operators**
 
 > Section 4.1: Relational Operators  
 Section 4.2: Conditional Operator/Ternary Operator  
