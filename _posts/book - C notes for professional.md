@@ -8,8 +8,8 @@ stackoverflow : tag : [C language](https://stackoverflow.com/questions/tagged/c?
 * [chapter 2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments-arrow_up): comments
 * [chapter 3](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types-arrow_up): data types
 * [chapter 4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators-arrow_up): operators
-* chapter 5: boolean
-* chapter 6: strings
+* [chapter 5](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-5-boolean-arrow_up): boolean
+* [chapter 6](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-6-strings-arrow_up): strings
 * chapter 7: literals for numbers, characters and strings
 * chapter 8: compound literals
 * chapter 9: bit-fields
