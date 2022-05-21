@@ -414,3 +414,253 @@ char32_t* s5 = U"abc";
 
 **Chapter 4: Operators**
 
+> Section 4.1: Relational Operators  
+Section 4.2: Conditional Operator/Ternary Operator  
+Section 4.3: Bitwise Operators  
+Section 4.4: Short circuit behavior of logical operators  
+
+
+C has many powerful operators. Many C operators are `binary` operators, which means they have `two operands`. For example, in `a / b`, `/` is a binary operator that accepts two operands (a, b). There are some unary operators which take one operand (for example: `~, ++`), and only one ternary operator `? :`.
+
+> #### Section 4.1: Relational Operators
+
+Relational operators check if a specific relation between two operands `is true`. The result is evaluated to 1 (which means true) or 0 (which means false). This result is `often used` to affect control flow (via if, while, for), but can also be `stored in variables`.  
+
+Equals "=="  
+```c
+1 == 0; /* evaluates to 0. */
+1 == 1; /* evaluates to 1. */
+int x = 5;
+int y = 5;
+int *xptr = &x, *yptr = &y;
+xptr == yptr; /* evaluates to 0, the operands hold different location addresses. */
+*xptr == *yptr; /* evaluates to 1, the operands point at locations that hold the same value. */
+```
+
+Attention: This operator should not be confused with the assignment operator (=)!  
+
+Not equals "!="  
+```c
+1 != 0; /* evaluates to 1. */
+1 != 1; /* evaluates to 0. */
+int x = 5;
+int y = 5;
+int *xptr = &x, *yptr = &y;
+xptr != yptr; /* evaluates to 1, the operands hold different location addresses. */
+*xptr != *yptr; /* evaluates to 0, the operands point at locations that hold the same value. */
+```
+
+Not "!" `!someVal`  
+`someVal == 0`  
+
+Greater than ">"
+```c
+5 > 4 /* evaluates to 1. */
+4 > 5 /* evaluates to 0. */
+4 > 4 /* evaluates to 0. */
+```
+
+Less than "<"
+```c
+5 < 4 /* evaluates to 0. */
+4 < 5 /* evaluates to 1. */
+4 < 4 /* evaluates to 0. */
+```
+
+Greater than or equal ">="
+```c
+5 >= 4 /* evaluates to 1. */
+4 >= 5 /* evaluates to 0. */
+4 >= 4 /* evaluates to 1. */
+```
+
+Less than or equal "<="
+```c
+5 <= 4 /* evaluates to 0. */
+4 <= 5 /* evaluates to 1. */
+4 <= 4 /* evaluates to 1. */
+```
+
+> #### Section 4.2: Conditional Operator/Ternary Operator
+
+`a = b ? c : d;`  
+
+is equivalent to:
+
+```c
+if (b)
+ a = c;
+else
+ a = d;
+```
+
+This pseudo-code represents it : condition ? value_if_true : value_if_false. Each value can be the result of an evaluated expression.
+
+```c
+int x = 5;
+int y = 42;
+printf("%i, %i\n", 1 ? x : y, 0 ? x : y); /* Outputs "5, 42" */
+```
+
+The conditional operator can be nested. For example, the following code determines the bigger of three numbers:
+
+```c
+big= a > b ? (a > c ? a : c)
+ : (b > c ? b : c);
+```
+
+The following example writes even integers to one file and odd integers to another file:
+
+```c
+#include<stdio.h>
+int main()
+{
+ FILE *even, *odds;
+ int n = 10;
+ size_t k = 0;
+ even = fopen("even.txt", "w");
+ odds = fopen("odds.txt", "w");
+ for(k = 1; k < n + 1; k++)
+ {
+ k%2==0 ? fprintf(even, "\t%5d\n", k)
+ : fprintf(odds, "\t%5d\n", k);
+ }
+ fclose(even);
+ fclose(odds);
+ return 0;
+}
+```
+
+The conditional operator associates from right to left. Consider the following:  
+
+`exp1 ? exp2 : exp3 ? exp4 : exp5`  
+
+As the association is from right to left, the above expression is evaluated as  
+
+`exp1 ? exp2 : ( exp3 ? exp4 : exp5 )`
+
+> #### Section 4.3: Bitwise Operators
+
+Bitwise operators can be used to perform bit level operation on variables.  
+Below is a list of all six bitwise operators supported in C:
+
+| Symbol | Operator                       |
+| :---   | :---                           |
+| &      | bitwise AND                    |
+| |      | bitwise inclusive OR           |
+| ^      | bitwise exclusive OR (XOR)     |
+| ~      | bitwise not (one's complement) |
+| <<     | logical left shift             |
+| >>     | logical right shift            |
+
+Following program illustrates the use of all bitwise operators:
+
+```c
+#include <stdio.h>
+int main(void)
+{
+ unsigned int a = 29; /* 29 = 0001 1101 */
+ unsigned int b = 48; /* 48 = 0011 0000 */
+ int c = 0;
+ c = a & b; /* 32 = 0001 0000 */
+ printf("%d & %d = %d\n", a, b, c );
+ c = a | b; /* 61 = 0011 1101 */
+ printf("%d | %d = %d\n", a, b, c );
+ c = a ^ b; /* 45 = 0010 1101 */
+ printf("%d ^ %d = %d\n", a, b, c );
+ c = ~a; /* -30 = 1110 0010 */
+ printf("~%d = %d\n", a, c );
+ c = a << 2; /* 116 = 0111 0100 */
+ printf("%d << 2 = %d\n", a, c );
+ c = a >> 2; /* 7 = 0000 0111 */
+ printf("%d >> 2 = %d\n", a, c );
+ return 0;
+}
+```
+
+Bitwise operations with signed types should be avoided because the sign bit of such a bit representation has a particular meaning. Particular restrictions apply to the shift operators:
+
+- Left shifting a 1 bit into the signed bit is erroneous and leads to undefined behavior.
+- Right shifting a negative value (with sign bit 1) is implementation defined and therefore not portable.
+- If the value of the right operand of a shift operator is negative or is greater than or equal to the width of the promoted left operand, the behavior is undefined.
+
+> Masking
+
+Masking refers to the process of extracting the desired bits from (or transforming the desired bits in) a variable by using logical bitwise operations. The operand (a constant or variable) that is used to perform masking is called a mask.  
+
+Masking is used in many different ways:
+
+- To decide the bit pattern of an integer variable.
+- To copy a portion of a given bit pattern to a new variable, while the remainder of the new variable is filled with 0s (using bitwise AND)
+- To copy a portion of a given bit pattern to a new variable, while the remainder of the new variable is filled with 1s (using bitwise OR).
+- To copy a portion of a given bit pattern to a new variable, while the remainder of the original bit pattern is inverted within the new variable (using bitwise exclusive OR).
+
+The following function uses a mask to display the bit pattern of a variable:
+
+```c
+#include <limits.h>
+void bit_pattern(int u)
+{
+ int i, x, word;
+ unsigned mask = 1;
+ word = CHAR_BIT * sizeof(int);
+ mask = mask << (word - 1); /* shift 1 to the leftmost position */
+
+ for(i = 1; i <= word; i++)
+ {
+   x = (u & mask) ? 1 : 0; /* identify the bit */
+   printf("%d", x); /* print bit value */
+   mask >>= 1; /* shift mask to the right by 1 bit */
+ }
+}
+```
+
+> #### Section 4.4: Short circuit behavior of logical operators
+
+Short circuiting is a functionality that skips evaluating parts of a (if/while/...) condition when able. In case of a logical operation on two operands, the first operand is evaluated (to true or false) and if there is a verdict (i.e first operand is false when using &&, first operand is true when using ||) the second operand is not evaluated.
+
+```c
+#include <stdio.h>
+int main(void) {
+ int a = 20;
+ int b = -5;
+ /* here 'b == -5' is not evaluated,
+ since a 'a != 20' is false. */
+ if (a != 20 && b == -5) {
+ printf("I won't be printed!\n");
+ }
+
+ return 0;
+}
+```
+
+```c
+#include <stdio.h>
+int print(int i) {
+ printf("print function %d\n", i);
+ return i;
+}
+int main(void) {
+ int a = 20;
+ /* here 'print(a)' is not called,
+ since a 'a != 20' is false. */
+ if (a != 20 && print(a)) {
+ printf("I won't be printed!\n");
+ }
+ /* here 'print(a)' is called,
+ since a 'a == 20' is true. */
+ if (a == 20 && print(a)) {
+ printf("I will be printed!\n");
+ }
+ return 0;
+}
+```
+
+```terminal
+$ ./a.out
+print function 20
+I will be printed!
+```
+Short circuiting is important, when you want to avoid evaluating terms that are (computationally) costly. Moreover, it can heavily affect the flow of your program like in this case: [Why does this program print "forked!" 4 times?](https://stackoverflow.com/questions/26716255/why-does-this-program-print-forked-4-times)
+
+
