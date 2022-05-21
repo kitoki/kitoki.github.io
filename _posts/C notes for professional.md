@@ -414,11 +414,11 @@ int main(void)
 ```
 This line starts the definition of a function. It states the name of the function (main), the type and number of arguments it expects (`void`, meaning none), and the type of value that this function returns (`int`). Program execution starts in the main() function.
 
-##### {
-
-##### ...
-
-##### }
+```c
+{
+ ...
+}
+```
 
 The curly braces are used in pairs to indicate where a block of code begins and ends. They can be used in a lot of ways, but in this case they indicate where the function begins and ends.
 
