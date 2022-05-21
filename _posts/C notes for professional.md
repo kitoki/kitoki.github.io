@@ -1,4 +1,4 @@
-```
+
 C Notes for Professionals
 
 ## Contents
@@ -188,7 +188,7 @@ C Notes for Professionals
    - Section 28.10: Modifying any object more than once between two sequence points
    - Section 28.11: Freeing memory twice
    - Section 28.12: Bit shifting using negative counts or beyond the width of the type
-      - Section 28.13: Returning from a function that's declared with `_Noreturn` or `noreturn` function specifier
+   - Section 28.13: Returning from a function that's declared with `_Noreturn` or `noreturn` function specifier
    - Section 28.14: Accessing memory beyond allocated chunk
    - Section 28.15: Modifying a const variable using a pointer
    - Section 28.16: Reading an uninitialized object that is not backed by memory
@@ -375,7 +375,6 @@ C Notes for Professionals
    - Section 63.21: Overstepping array boundaries
    - Section 63.22: Passing unadjacent arrays to functions expecting "real" multidimensional arrays
 - Credits
-- You may also like
 
 >---
 
@@ -383,16 +382,14 @@ C Notes for Professionals
 
 ### Section 1.1: Hello World
 
-To create a simple C program which prints _"Hello, World"_ on the screen, use a text editor to create a new file (e.g.
-
-hello.c — the file extension must be .c) containing the following source code:
+To create a simple C program which prints _"Hello, World"_ on the screen, use a text editor to create a new file (e.g. hello.c — the file extension must be .c) containing the following source code:
 
 **hello.c**
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 puts("Hello, World");
@@ -403,7 +400,7 @@ Live demo on Coliru
 
 **Let's look at this simple program line by line**
 
-```
+```c
 #include <stdio.h>
 ```
 This line tells the compiler to include the contents of the standard library header file stdio.h in the program.
@@ -414,7 +411,7 @@ file before you use them. This line includes stdio.h so it can call the function
 
 See more about headers.
 
-```
+```c
 int main(void)
 ```
 This line starts the definition of a function. It states the name of the function (main), the type and number of
@@ -433,7 +430,7 @@ The curly braces are used in pairs to indicate where a block of code begins and 
 
 ways, but in this case they indicate where the function begins and ends.
 
-```
+```c
 puts("Hello, World");
 ```
 This line calls the puts() function to output text to standard output (the screen, by default), followed by a newline.
@@ -449,7 +446,7 @@ See more about strings.
 
 In C programs, every statement needs to be terminated by a semi-colon (i.e. ;).
 
-```
+```c
 return 0 ;
 ```
 When we defined main(), we declared it as a function returning an int, meaning it needs to return an integer. In
@@ -480,7 +477,7 @@ GCC (GNU Compiler Collection) is a widely used C compiler. To use it, open a ter
 
 navigate to the source file's location and then run:
 
-```
+```c
 gcc hello.c - o hello
 ```
 If no errors are found in the the source code (hello.c), the compiler will create a **binary file** , the name of which is
@@ -493,14 +490,14 @@ program to fail or produce unexpected results. They are not necessary for this s
 
 adding them:
 
-```
+```c
 gcc -Wall -Wextra -Werror -o hello hello.c
 ```
 **Using the clang compiler**
 
 To compile the program using clang you can use:
 
-```
+```c
 clang -Wall -Wextra -Werror -o hello hello.c
 ```
 By design, the clang command line options are similar to those of GCC.
@@ -516,7 +513,7 @@ hello.exe within the directory the command is executed in (There are warning opt
 
 analogous to -Wall etc for GCC or clang).
 
-```
+```c
 cl hello.c
 ```
 **Executing the program**
@@ -535,10 +532,10 @@ referred to as "K&R":
 
 Version = K&R
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 main()
 {
 printf("hello, world \n ");
@@ -610,32 +607,32 @@ Large chunks of code can also be "commented out" using the preprocessor directiv
 
 useful when the code contains multi-line comments that otherwise would not nest.
 
-```
+```c
 #if 0 /* Starts the "comment", anything from here on is removed by preprocessor */
 ```
-```
+```c
 /* A large amount of code with multi-line comments */
 int foo()
 {
 /* lots of code */
 ```
-```
+```c
 /* ... some comment describing the if statement ... */
 if (someTest) {
 /* some more comments */
 return 1 ;
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
-```
+```c
 #endif /* 0 */
 ```
-```
+```c
 /* code from here on is "uncommented" (included in compiled executable) */
-```
+```c
 ### Section 2.2: /* */ delimited comments
 
 A comment starts with a forward slash followed immediately by an asterisk (/*), and ends as soon as an asterisk
@@ -644,12 +641,12 @@ immediately followed by a forward slash (*/) is encountered. Everything in betwe
 
 is a comment and is treated as a blank (basically ignored) by the compiler.
 
-```
+```c
 /* this is a comment */
 ```
 The comment above is a single line comment. Comments of this /* type can span multiple lines, like so:
 
-```
+```c
 /* this is a
 multi-line
 comment */
@@ -674,7 +671,7 @@ slash.
 
 These /* type of comments can be used on their own line, at the end of a code line, or even within lines of code:
 
-```
+```c
 /* this comment is on its own line */
 if (x && y) { /*this comment is at the end of a line */
 if ((complexCondition1) /* this comment is within a line of code */
@@ -687,7 +684,7 @@ Comments cannot be nested. This is because any subsequent /* will be ignored (as
 
 first */ reached will be treated as ending the comment. The comment in the following example _will not work_ :
 
-```
+```c
 /* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not
 this one => */
 ```
@@ -724,7 +721,7 @@ _end of the line_ , they may _not_ be used within a code line
 if (x && y) { // this comment is at the end of a line
 // this comment is within an if, on its own line
 }
-```
+```c
 ### Section 2.4: Possible pitfall due to trigraphs
 
 Version ≥ C
@@ -734,7 +731,7 @@ While writing // delimited comments, it is possible to make a typographical erro
 operation. If one types:
 
 
-```
+```c
 int x = 20 ; // Why did I do this??/
 ```
 The / at the end was a typo but now will get interpreted into \. This is because the ??/ forms a trigraph.
@@ -745,7 +742,7 @@ compiler thinks the next line is a continuation of the current line, that is, a 
 
 not be what is intended.
 
-```
+```c
 int foo = 20 ; // Start at 20 ??/
 int bar = 0 ;
 ```
@@ -810,30 +807,30 @@ In case of using parentheses to override the precedence, the * is applied first:
 
 10 of char.
 
-```
+```c
 int fn(long, short);
 ```
 There is no precedence to worry about here: fn is a function taking long, short and returning int.
 
-```
+```c
 int *fn(void);
 ```
 The () is applied first: fn is a function taking void and returning a pointer to int.
 
 
-```
+```c
 int (*fp)(void);
 ```
 Overriding the precedence of (): fp is a pointer to a function taking void and returning int.
 
-```
+```c
 int arr[ 5 ][ 8 ];
 ```
 Multidimensional arrays are not an exception to the rule; the [] operators are applied in left-to-right order
 
 according to the associativity in the table: arr is an array of size 5 of an array of size 8 of int.
 
-```
+```c
 int **ptr;
 ```
 The two dereference operators have equal precedence, so the associativity takes effect. The operators are applied
@@ -846,7 +843,7 @@ The comma can be used as a separator (*not* acting like the comma operator) in o
 
 declarations within a single statement. The following statement contains five declarations:
 
-```
+```c
 int fn(void), *ptr, (*fp)(int), arr[ 10 ][ 20 ], num;
 ```
 The declared objects in the above example are:
@@ -873,7 +870,7 @@ the final result that is yielded after applying all operators.
 * Particularly: *arr[5] is of type "char".
 */
 char *arr[ 20 ];
-```
+```c
 ##### /*
 
 ```
@@ -882,14 +879,14 @@ char *arr[ 20 ];
 */
 int fn(char);
 ```
-```
+```c
 /*
 * Dereferencing "fp" and then calling it yields an "int" result.
 * Particularly: (*fp)() is of type "int".
 */
 int (*fp)(void);
 ```
-```
+```c
 /*
 * Subscripting "strings" twice and dereferencing it yields a "char" result.
 * Particularly: *strings[5][15] is of type "char"
@@ -909,16 +906,16 @@ two's complement representation of negative values.
 
 See the remarks section for usage hints of fixed width types.
 
-```
+```c
 /* commonly used types include */
 uint32_t u32 = 32 ; /* exactly 32-bits wide */
 ```
 ```
 uint8_t u8 = 255 ; /* exactly 8-bits wide */
 ```
-```
+```c
 int64_t i64 = - 65 /* exactly 64 bit in two's complement representation */
-```
+```c
 ### Section 3.3: Integer types and constants
 
 Signed integers can be of these types (the int after short, or long is optional):
@@ -951,7 +948,7 @@ Different types of integer constants (called _literals_ in C jargon) can be writ
 
 based on their prefix or suffix.
 
-```
+```c
 /* the following variables are initialized to the same value: */
 int d = 42 ; /* decimal constant (base10) */
 int o = 052 ; /* octal constant (base8) */
@@ -962,7 +959,7 @@ Decimal constants are always signed. Hexadecimal constants start with 0x or 0X a
 
 a^0. The latter two are signed or unsigned depending on whether the value fits into the signed type or not.
 
-```
+```c
 /* suffixes to describe width and signedness : */
 long int i = 0x32; /* no suffix represent int, or long int */
 unsigned int ui = 65535u; /* u or U represent unsigned int, or long int */
@@ -1026,12 +1023,12 @@ float f = 0.314f; /* suffix f or F denotes type float */
 double d = 0.314; /* no suffix denotes double */
 long double ld = 0.314l; /* suffix l or L denotes long double */
 ```
-```
+```c
 /* the different parts of a floating point definition are optional */
 double x = 1 .; /* valid, fractional part is optional */
 double y = .1; /* valid, whole-number part is optional */
 ```
-```
+```c
 /* they can also defined in scientific notation */
 double sd = 1.2e3; /* decimal fraction 1.2 is scaled by 10^3, that is 1200.0 */
 ```
@@ -1051,7 +1048,7 @@ A string literal in C is a sequence of chars, terminated by a literal zero.
 ```
 char* str = "hello, world"; /* string literal */
 ```
-```
+```c
 /* string literals can be used to initialize arrays */
 char a1[] = "abc"; /* a1 is char[4] holding {'a','b','c','\0'} */
 char a2[ 4 ] = "abc"; /* same as a1 */
@@ -1065,7 +1062,7 @@ alter their values results in undefined behaviour.
 char* s = "foobar";
 s[ 0 ] = 'F'; /* undefined behaviour */
 ```
-```
+```c
 /* it's good practice to denote string literals as such, by using `const` */
 char const* s1 = "foobar";
 s1[ 0 ] = 'F'; /* compiler error! */
@@ -1074,42 +1071,42 @@ Multiple string literals are concatenated at compile time, which means you can w
 
 Version < C99
 
-```
+```c
 /* only two narrow or two wide string literals may be concatenated */
 char* s = "Hello, " "World";
 ```
 Version ≥ C99
 
-```
+```c
 /* since C99, more than two can be concatenated */
 /* concatenation is implementation defined */
 char* s1 = "Hello" ", " "World";
 ```
-```
+```c
 /* common usages are concatenations of format strings */
 char* fmt = "%" PRId16; /* PRId16 macro since C99 */
 ```
 String literals, same as character constants, support different character sets.
 
-```
+```c
 /* normal string literal, of type char[] */
 char* s1 = "abc";
 ```
-```
+```c
 /* wide character string literal, of type wchar_t[] */
 wchar_t* s2 = L"abc";
 ```
 Version ≥ C11
 
-```
+```c
 /* UTF-8 string literal, of type char[] */
 char* s3 = u8"abc";
 ```
-```
+```c
 /* 16-bit wide string literal, of type char16_t[] */
 char16_t* s4 = u"abc";
 ```
-```
+```c
 /* 32-bit wide string literal, of type char32_t[] */
 char32_t* s5 = U"abc";
 ```
@@ -1142,7 +1139,7 @@ Checks whether the supplied operands are equal.
 1 == 0 ; /* evaluates to 0. */
 1 == 1 ; /* evaluates to 1. */
 ```
-```
+```c
 int x = 5 ;
 int y = 5 ;
 int *xptr = &x, *yptr = &y;
@@ -1159,7 +1156,7 @@ Checks whether the supplied operands are not equal.
 1 != 0 ; /* evaluates to 1. */
 1 != 1 ; /* evaluates to 0. */
 ```
-```
+```c
 int x = 5 ;
 int y = 5 ;
 int *xptr = &x, *yptr = &y;
@@ -1218,7 +1215,7 @@ Checks whether the left hand operand has a smaller or equal value to the right o
 5 <= 4 /* evaluates to 0. */
 4 <= 5 /* evaluates to 1. */
 4 <= 4 /* evaluates to 1. */
-```
+```c
 ### Section 4.2: Conditional Operator/Ternary Operator
 
 Evaluates its first operand, and, if the resulting value is not equal to zero, evaluates its second operand. Otherwise,
@@ -1240,7 +1237,7 @@ This pseudo-code represents it : condition? value_if_true : value_if_false. Each
 
 an evaluated expression.
 
-```
+```c
 int x = 5 ;
 int y = 42 ;
 printf("%i, %i \n ", 1? x : y, 0? x : y); /* Outputs "5, 42" */
@@ -1254,10 +1251,10 @@ big= a > b? (a > c? a : c)
 ```
 The following example writes even integers to one file and odd integers to another file:
 
-```
+```c
 #include<stdio.h>
 ```
-```
+```c
 int main()
 {
 FILE *even, *odds;
@@ -1277,7 +1274,7 @@ k% 2 == 0? fprintf(even, " \t %5d \n ", k)
 fclose(even);
 fclose(odds);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1290,7 +1287,7 @@ As the association is from right to left, the above expression is evaluated as
 
 ```
 exp1? exp2 : ( exp3? exp4 : exp5 )
-```
+```c
 ### Section 4.3: Bitwise Operators
 
 Bitwise operators can be used to perform bit level operation on variables.
@@ -1308,10 +1305,10 @@ Symbol Operator
 ```
 Following program illustrates the use of all bitwise operators:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 ```
@@ -1345,7 +1342,7 @@ printf("%d << 2 = %d \n ", a, c );
 c = a >> 2 ; /* 7 = 0000 0111 */
 printf("%d >> 2 = %d \n ", a, c );
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1384,7 +1381,7 @@ inverted within the new variable (using bitwise exclusive OR).
 ```
 The following function uses a mask to display the bit pattern of a variable:
 
-```
+```c
 #include <limits.h>
 void bit_pattern(int u)
 {
@@ -1402,7 +1399,7 @@ printf("%d", x); /* print bit value */
 mask >>= 1 ; /* shift mask to the right by 1 bit */
 }
 }
-```
+```c
 ### Section 4.4: Short circuit behavior of logical operators
 
 Short circuiting is a functionality that skips evaluating parts of a (if/while/...) condition when able. In case of a logical
@@ -1413,55 +1410,55 @@ is false when using &&, first operand is true when using ||) the second operand 
 
 Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int a = 20 ;
 int b = - 5 ;
 ```
-```
+```c
 /* here 'b == -5' is not evaluated,
 since a 'a != 20' is false. */
 if (a != 20 && b == - 5 ) {
 printf("I won't be printed! \n ");
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
 Check it out yourself:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int print(int i) {
 printf("print function %d \n ", i);
 return i;
 }
 ```
-```
+```c
 int main(void) {
 int a = 20 ;
 ```
-```
+```c
 /* here 'print(a)' is not called,
 since a 'a != 20' is false. */
 if (a != 20 && print(a)) {
 printf("I won't be printed! \n ");
 }
 ```
-```
+```c
 /* here 'print(a)' is called,
 since a 'a == 20' is true. */
 if (a == 20 && print(a)) {
 printf("I will be printed! \n ");
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1483,7 +1480,7 @@ Evaluates its left operand, discards the resulting value, and then evaluates its
 
 value of its rightmost operand.
 
-```
+```c
 int x = 42 , y = 42 ;
 printf("%i \n ", (x *= 2 , y)); /* Outputs "42". */
 ```
@@ -1507,11 +1504,11 @@ example:
 ```
 for(k = 1 ; k < 10 ; printf("\%d \\ n", k), k += 2 ); /*outputs the odd numbers below 9/*
 ```
-```
+```c
 /* outputs sum to first 9 natural numbers */
 for(sumk = 1 , k = 1 ; k < 10 ; k++, sumk += k)
 printf("\%5d\%5d \\ n", k, sumk);
-```
+```c
 ### Section 4.6: Arithmetic Operators
 
 **Basic Arithmetic**
@@ -1526,23 +1523,23 @@ commutative, subtraction, division and modulus are not).
 
 The addition operator (+) is used to add two operands together. Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 int a = 5 ;
 int b = 7 ;
 ```
 
-```
+```c
 int c = a + b; /* c now holds the value 12 */
 ```
 ```
 printf("%d + %d = %d",a,b,c); /* will output "5 + 7 = 12" */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1550,22 +1547,22 @@ return 0 ;
 
 The subtraction operator (-) is used to subtract the second operand from the first. Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 int a = 10 ;
 int b = 7 ;
 ```
-```
+```c
 int c = a - b; /* c now holds the value 3 */
 ```
 ```
 printf("%d - %d = %d",a,b,c); /* will output "10 - 7 = 3" */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1573,22 +1570,22 @@ return 0 ;
 
 The multiplication operator (*) is used to multiply both operands. Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 int a = 5 ;
 int b = 7 ;
 ```
-```
+```c
 int c = a * b; /* c now holds the value 35 */
 ```
 ```
 printf("%d * %d = %d",a,b,c); /* will output "5 * 7 = 35" */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1606,16 +1603,16 @@ If one of the operands is a floating point value, the result is an approximation
 
 Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main (void)
 ```
 
 ##### {
 
-```
+```c
 int a = 19 / 2 ; /* a holds value 9 */
 int b = 18 / 2 ; /* b holds value 9 */
 int c = 255 / 2 ; /* c holds value 127 */
@@ -1635,7 +1632,7 @@ printf("18.0 / 2 = %g \n ", f); /* Will output "18.0 / 2 = 9" */
 printf("255 / 2.0 = %g \n ", g); /* Will output "255 / 2.0 = 127.5" */
 printf("45.0 / 4 = %g \n ", h); /* Will output "45.0 / 4 = 11.25" */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1645,10 +1642,10 @@ The modulo operator (%) receives integer operands only, and is used to calculate
 
 operand is divided by the second. Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main (void) {
 int a = 25 % 2 ; /* a holds value 1 */
 int b = 24 % 2 ; /* b holds value 0 */
@@ -1661,7 +1658,7 @@ printf("24 % 2 = %d \n ", b); /* Will output "24 % 2 = 0" */
 printf("155 % 5 = %d \n ", c); /* Will output "155 % 5 = 0" */
 printf("49 % 25 = %d \n ", d); /* Will output "49 % 25 = 24" */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -1679,17 +1676,17 @@ operator changes the timing of the incrementation/decrementation of the value to
 
 the variable. Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 int a = 1 ;
 int b = 4 ;
 ```
 
-```
+```c
 int c = 1 ;
 int d = 4 ;
 ```
@@ -1784,7 +1781,7 @@ be an lvalue. Then, it evaluates into an object whose type is a pointer to the r
 
 address of the resulting object.
 
-```
+```c
 int x = 3 ;
 int *p = &x;
 printf("%p = %p \n ", （void *)&x, (void *)p); /* Outputs "A = A", for some implementation-defined A.
@@ -1796,7 +1793,7 @@ The unary * operator dereferences a pointer. It evaluates into the lvalue result
 
 that results from evaluating the given expression.
 
-```
+```c
 int x = 42 ;
 int *p = &x;
 printf("x = %d, *p = %d \n ", x, *p); /* Outputs "x = 42, *p = 42". */
@@ -1811,7 +1808,7 @@ Indexing is syntactic sugar for pointer addition followed by dereferencing. Effe
 
 a[i] is equivalent to *(a + i) — but the explicit subscript notation is preferred.
 
-```
+```c
 int arr[] = { 1 , 2 , 3 , 4 , 5 };
 printf("arr[2] = %i \n ", arr[ 2 ]); /* Outputs "arr[2] = 3". */
 ```
@@ -1856,12 +1853,12 @@ printf("%zu \n ", sizeof(ch)); /* Valid, will output the size of a char object, 
 all platforms. */
 printf("%zu \n ", sizeof ch); /* Valid, will output the size of a char object, which is always 1 for
 all platforms. */
-```
+```c
 ### Section 4.9: Cast Operator
 
 Performs an _explicit_ conversion into the given type from the value resulting from evaluating the given expression.
 
-```
+```c
 int x = 3 ;
 int y = 4 ;
 printf("%f \n ", (double)x / y); /* Outputs "0.750000". */
@@ -1880,13 +1877,13 @@ the function call's arguments. Evaluates into the return value resulting from ca
 
 the respective arguments.
 
-```
+```c
 int myFunction(int x, int y)
 {
 return x * 2 + y;
 }
 ```
-```
+```c
 int (*fn)(int, int) = &myFunction;
 int x = 42 ;
 int y = 123 ;
@@ -1901,7 +1898,7 @@ explicitly */
 
 The increment and decrement operators exist in _prefix_ and _postfix_ form.
 
-```
+```c
 int a = 1 ;
 int b = 1 ;
 int tmp = 0 ;
@@ -1922,7 +1919,7 @@ Assigns the value of the right-hand operand to the storage location named by the
 
 the value.
 
-```
+```c
 int x = 5 ; /* Variable x holds the value 5. Returns 5. */
 char y = 'c'; /* Variable y holds the value 99. Returns 99
 * (as the character 'c' is represented in the ASCII table with 99).
@@ -1982,7 +1979,7 @@ else
 ```
 Because of this, care must be taken to avoid a common typo which can lead to mysterious bugs.
 
-```
+```c
 int a = 2 ;
 /* ... */
 if (a = 1 )
@@ -1994,7 +1991,7 @@ statement will always be true (read more about this common pitfall here). The au
 
 the equality operator (==) as shown below:
 
-```
+```c
 int a = 2 ;
 /* ... */
 if (a == 1 )
@@ -2002,7 +1999,7 @@ if (a == 1 )
 ```
 **Operator Associativity**
 
-```
+```c
 int a, b = 1 , c = 2 ;
 a = b = c;
 ```
@@ -2092,7 +2089,7 @@ Given a pointer and a scalar type N, evaluates into a pointer to the Nth element
 
 succeeds the pointed-to object in memory.
 
-```
+```c
 int arr[] = { 1 , 2 , 3 , 4 , 5 };
 printf("*(arr + 3) = %i \n ", *(arr + 3 )); /* Outputs "4", arr's fourth element. */
 ```
@@ -2111,11 +2108,11 @@ notation using the array name. However, by defining a pointer to an array, we ca
 
 data in an array. For example, we can print the members of an array as follows:
 
-```
+```c
 #include<stdio.h>
 static const size_t N = 5
 ```
-```
+```c
 int main()
 {
 size_t k = 0 ;
@@ -2129,11 +2126,11 @@ return 0 ;
 ```
 By defining a pointer to the array, the above program is equivalent to the following:
 
-```
+```c
 #include<stdio.h>
 static const size_t N = 5
 ```
-```
+```c
 int main()
 {
 size_t k = 0 ;
@@ -2158,7 +2155,7 @@ Given two pointers to the same type, evaluates into an object of type ptrdiff_t 
 
 must be added to the second pointer in order to obtain the value of the first pointer.
 
-```
+```c
 int arr[] = { 1 , 2 , 3 , 4 , 5 };
 int *p = &arr[ 2 ];
 int *q = &arr[ 3 ];
@@ -2167,7 +2164,7 @@ ptrdiff_t diff = q - p;
 ```
 printf("q - p = %ti \n ", diff); /* Outputs "1". */
 printf("*(p + (q - p)) = %d \n ", *(p + diff)); /* Outputs "4". */
-```
+```c
 ### Section 4.15: _Alignof
 
 Version ≥ C11
@@ -2185,7 +2182,7 @@ array element is used.
 
 This operator is often accessed through the convenience macro alignof from **<stdalign.h>**.
 
-```
+```c
 int main(void)
 {
 printf("Alignment of char = %zu \n ", alignof(char));
@@ -2216,11 +2213,11 @@ Using the system header file stdbool.h allows you to use bool as a Boolean data 
 
 **false** evaluates to^0.
 
-```
+```c
 #include <stdio.h>
 #include <stdbool.h>
 ```
-```
+```c
 int main(void) {
 bool x = true; /* equivalent to bool x = 1; */
 bool y = false; /* equivalent to bool y = 0; */
@@ -2244,15 +2241,15 @@ integer value 0 as **false**. If you don't have _Bool or bool as of C99 availabl
 
 in C using #define macros, and you might still find such things in legacy code.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define bool int
 #define true 1
 #define false 0
 ```
-```
+```c
 int main(void) {
 bool x = true; /* Equivalent to int x = 1; */
 bool y = false; /* Equivalent to int y = 0; */
@@ -2279,10 +2276,10 @@ Added in the C standard version C99, _Bool is also a native C data type. It is c
 
 _false_ ) and 1 (for _true_ ).
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 _Bool x = 1 ;
 _Bool y = 0 ;
@@ -2313,7 +2310,7 @@ To use nicer spellings bool, **false** and **true** you need to use **<stdbool.h
 
 All integers or pointers can be used in an expression that is interpreted as "truth value".
 
-```
+```c
 int main(int argc, char* argv[]) {
 if (argc % 4 ) {
 puts("arguments number is not divisible by 4");
@@ -2364,7 +2361,7 @@ Considering that most debuggers are not aware of #define macros, but can check *
 
 desirable to do something like this:
 
-```
+```c
 #if __STDC_VERSION__ < 199900L
 typedef enum { false , true } bool;
 /* Modern C code might expect these to be macros. */
@@ -2381,7 +2378,7 @@ typedef enum { false , true } bool;
 # include <stdbool.h>
 #endif
 ```
-```
+```c
 /* Somewhere later in the code ... */
 bool b = true ;
 ```
@@ -2406,11 +2403,11 @@ See the basic introduction to strings example.
 
 The function strtok breaks a string into a smaller strings, or tokens, using a set of delimiters.
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void)
 {
 int toknum = 0 ;
@@ -2524,12 +2521,12 @@ strtok_r behave the same.
 
 Using strtok_s with the example now yields the correct response, like so:
 
-```
+```c
 /* you have to announce that you want to use Annex K */
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <string.h>
 ```
-```
+```c
 #ifndef __STDC_LIB_EXT1__
 # error "we need strtok_s from Annex K"
 #endif
@@ -2626,15 +2623,15 @@ length and initial contents of the array. In particular, the elements are modifi
 ```
 char foo[] = "hello";
 foo[ 0 ] = 'y'; /* OK! */
-```
+```c
 ### Section 6.3: Calculate the Length: strlen()
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 /* Exit if no second argument is found. */
@@ -2648,7 +2645,7 @@ return EXIT_FAILURE;
 size_t len = strlen(argv[ 1 ]);
 printf("The length of the second argument is %zu. \\ n", len);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -2668,12 +2665,12 @@ are in the string (since some characters may be multiple bytes long). In such ca
 
 characters ( _i.e._ , code units) yourself. Consider the output of the following example:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 ```
-```
+```c
 int main(void)
 {
 char asciiString[ 50 ] = "Hello world!";
@@ -2694,7 +2691,7 @@ asciiString has 50 bytes in the array
 utf8String has 50 bytes in the array
 "Hello world!" is 12 bytes
 "Γειά σου Κόσμε!" is 27 bytes
-```
+```c
 ### Section 6.4: Basic introduction to strings
 
 In C, a **string** is a sequence of characters that is terminated by a null character ('\0').
@@ -2763,10 +2760,10 @@ represented as arrays of characters with a terminating null-character, so using 
 
 address (pointer) of a string.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int a = 10 , b;
 char c[] = "abc", *d;
@@ -2788,7 +2785,7 @@ c[ 1 ] = 'x';
 ```
 printf("%s %s \n ", c, d); /* "axc axc" will be printed */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -2796,10 +2793,10 @@ The above example compiled because we used char *d rather than char d[ 3 ]. Usin
 
 compiler error. You cannot assign to arrays in C.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 char a[] = "abc";
 char b[ 8 ];
@@ -2808,7 +2805,7 @@ char b[ 8 ];
 b = a; /* compile error */
 printf("%s \n ", b);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -2819,11 +2816,11 @@ To actually copy strings, strcpy() function is available in string.h. Enough spa
 
 destination before copying.
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void) {
 char a[] = "abc";
 char b[ 8 ];
@@ -2832,7 +2829,7 @@ char b[ 8 ];
 strcpy(b, a); /* think "b special equals a" */
 printf("%s \n ", b); /* "abc" will be printed */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -2847,16 +2844,16 @@ the template string, but it is the only buffer limit-safe function for copying s
 
 library, that can be used without any extra steps.
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void) {
 char a[] = "012345678901234567890";
 char b[ 8 ];
 ```
-```
+```c
 #if 0
 strcpy(b, a); /* causes buffer overrun (undefined behavior), so do not execute this here! */
 #endif
@@ -2865,7 +2862,7 @@ strcpy(b, a); /* causes buffer overrun (undefined behavior), so do not execute t
 snprintf(b, sizeof(b), "%s", a); /* does not cause buffer overrun */
 printf("%s \n ", b); /* "0123456" will be printed */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -3037,11 +3034,11 @@ Warning: The functions atoi, atol, atoll and atof are inherently unsafe, because
 
 _represented, the behavior is undefined._ (7.20.1p1)
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 int main(int argc, char** argv)
 {
 int val;
@@ -3060,7 +3057,7 @@ val = atoi(argv[ 1 ]);
 ```
 printf("String value = %s, Int value = %d \n ", argv[ 1 ], val);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -3096,17 +3093,17 @@ Version ≥ C99
 
 ```
 To convert to long long int, use strtoll() instead of atoll().
-```
+```c
 ### Section 6.9: string formatted data read/write
 
 Write formatted data to string
 
-```
+```c
 int sprintf ( char * str, const char * format, ... );
 ```
 use sprintf function to write float data to string.
 
-```
+```c
 #include <stdio.h>
 int main ()
 {
@@ -3120,12 +3117,12 @@ return 0 ;
 
 Read formatted data from string
 
-```
+```c
 int sscanf ( const char * s, const char * format, ...);
 ```
 use sscanffunction to parse formatted data.
 
-```
+```c
 #include <stdio.h>
 int main ()
 {
@@ -3138,31 +3135,31 @@ sscanf (sentence,"%s : %2d-%2d-%4d", str, &day, &month, &year);
 printf ("%s -> %02d-%02d-%4d \n ",str, day, month, year);
 return 0 ;
 }
-```
+```c
 ### Section 6.10: Find first/last occurrence of a specific character: strchr(), strrchr()
 
 The strchr and strrchr functions find a character in a string, that is in a NUL-terminated character array. strchr
 
 return a pointer to the first occurrence and strrchr to the last one.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 ```
-```
+```c
 int main(void)
 {
 char toSearchFor = 'A';
 ```
-```
+```c
 /* Exit if no second argument is found. */
 if (argc != 2 )
 {
 printf("Argument missing. \n ");
 return EXIT_FAILURE;
 }
-```
+```c
 ##### {
 
 ```
@@ -3178,7 +3175,7 @@ else
 printf("%c is not in %s. \n ", toSearchFor, argv[ 1 ]);
 }
 }
-```
+```c
 ##### {
 
 ```
@@ -3193,7 +3190,7 @@ toSearchFor, argv[ 1 ], lastOcc-argv[ 1 ]);
 }
 }
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -3222,17 +3219,17 @@ char *pend;
 if ((pend = strrchr(path, ' \' )) != NULL)
 return pend + 1;
 ```
-```
+```c
 return NULL;
 }
-```
+```c
 ### Section 6.11: Copy and Concatenation: strcpy(), strcat()
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void)
 {
 /* Always ensure that your string is large enough to contain the characters
@@ -3240,33 +3237,33 @@ int main(void)
 */
 char mystring[ 10 ];
 ```
-```
+```c
 /* Copy "foo" into `mystring`, until a NUL character is encountered. */
 strcpy(mystring, "foo");
 printf("%s \n ", mystring);
 ```
-```
+```c
 /* At this point, we used 4 chars of `mystring`, the 3 characters of "foo",
 * and the NUL terminating byte.
 */
 ```
-```
+```c
 /* Append "bar" to `mystring`. */
 strcat(mystring, "bar");
 printf("%s \n ", mystring);
 ```
-```
+```c
 /* We now use 7 characters of `mystring`: "foo" requires 3, "bar" requires 3
 * and there is a terminating NUL character ('\0') at the end.
 */
 ```
 
-```
+```c
 /* Copy "bar" into `mystring`, overwriting the former contents. */
 strcpy(mystring, "bar");
 printf("%s \n ", mystring);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -3291,7 +3288,7 @@ negative value if the first argument appears before the second in lexicographica
 
 or positive if the first argument appears after the second in lexicographical order.
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
@@ -3308,7 +3305,7 @@ printf("%s comes after %s \n ", lhs, rhs);
 }
 }
 ```
-```
+```c
 int main(void)
 {
 compare("BBB", "BBB");
@@ -3329,7 +3326,7 @@ As strcmp, strcasecmp function also compares lexicographically its arguments aft
 lowercase correspondent:
 
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
@@ -3346,7 +3343,7 @@ printf("%s comes after %s \n ", lhs, rhs);
 }
 }
 ```
-```
+```c
 int main(void)
 {
 compare("BBB", "bBB");
@@ -3364,7 +3361,7 @@ BBB comes after aaaaaa
 ```
 strncmp and strncasecmp compare at most n characters:
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
@@ -3381,7 +3378,7 @@ printf("%s comes after %s \n ", lhs, rhs);
 }
 }
 ```
-```
+```c
 int main(void)
 {
 compare("BBB", "Bb", 1 );
@@ -3415,14 +3412,14 @@ They provide checking that a conversion had an over- or underflow:
 ```
 double ret = strtod(argv[ 1 ], 0 ); /* attempt conversion */
 ```
-```
+```c
 /* check the conversion result. */
 if ((ret == HUGE_VAL || ret == - HUGE_VAL) && errno == ERANGE)
 return; /* numeric overflow in in string */
 else if (ret == HUGE_VAL && errno == ERANGE)
 return; /* numeric underflow in in string */
 ```
-```
+```c
 /* At this point we know that everything went fine so ret may be used */
 ```
 If the string in fact contains no number at all, this usage of strtod returns 0.0.
@@ -3439,7 +3436,7 @@ ended:
 char *check = 0 ;
 double ret = strtod(argv[ 1 ], &check); /* attempt conversion */
 ```
-```
+```c
 /* check the conversion result. */
 if (argv[ 1 ] == check)
 return; /* No number was detected in string */
@@ -3448,7 +3445,7 @@ return; /* numeric overflow in in string */
 else if (ret == HUGE_VAL && errno == ERANGE)
 return; /* numeric underflow in in string */
 ```
-```
+```c
 /* At this point we know that everything went fine so ret may be used */
 ```
 There are analogous functions to convert to the wider integer types:
@@ -3481,19 +3478,19 @@ numbers are seen as decimal.
 
 Thus the most practical way to interpret a command-line argument as a number would be
 
-```
+```c
 int main(int argc, char* argv[] {
 if (argc < 1 )
 return EXIT_FAILURE; /* No number given. */
 ```
-```
+```c
 /* use strtoull because size_t may be wide */
 size_t mySize = strtoull(argv[ 1 ], 0 , 0 );
 ```
-```
+```c
 /* then check conversion results. */
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -3516,7 +3513,7 @@ with the token separators that get skipped.
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void)
 {
 const char sepchars[] = ",.;!?";
@@ -3533,11 +3530,11 @@ n = (int)strspn(s, sepchars);
 if (n > 0 )
 printf("skipping separators: << %.*s >> (length=%d) \n ", n, s, n);
 ```
-```
+```c
 /* Actually skip the separators now. */
 s += n;
 ```
-```
+```c
 /* Get the number of token (non-separator) characters. */
 n = (int)strcspn(s, sepchars);
 ```
@@ -3546,7 +3543,7 @@ n = (int)strcspn(s, sepchars);
 if (n > 0 )
 printf("token found: << %.*s >> (length=%d) \n ", n, s, n);
 ```
-```
+```c
 /* Skip the token now. */
 s += n;
 }
@@ -3554,7 +3551,7 @@ s += n;
 ```
 printf("== token list exhausted == \n ");
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -3714,7 +3711,7 @@ introduced in C99 standard. An example for compound literal is
 
 **Examples from C standard, C11-** § **6.5.2.5/9:**
 
-```
+```c
 int *p = (int [ 2 ]){ 2 , 4 };
 ```
 p is initialized to the address of the first element of an unnamed array of two ints.
@@ -3763,14 +3760,14 @@ and y == 1 , whereas the second has x == 3 and y == 4
 
 **Compound literal without specifying array length**
 
-```
+```c
 int *p = (int []){ 1 , 2 , 3 };
 ```
 In this case the size of the array is no specified then it will be determined by the length of the initializer.
 
 **Compound literal having length of initializer less than array size specified**
 
-```
+```c
 int *p = (int [ 10 ]){ 1 , 2 , 3 };
 ```
 
@@ -3883,13 +3880,13 @@ uint8_t commFailure : 1 ;
 };
 uint8_t data;
 } hardwareStatus;
-```
+```c
 ### Section 9.2: Using bit-fields as small integers
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 /* define a small bit-field that can hold values from 0 .. 7 */
@@ -3898,23 +3895,23 @@ struct
 unsigned int uint3: 3 ;
 } small;
 ```
-```
+```c
 /* extract the right 3 bits from a value */
 unsigned int value = 255 - 2 ; /* Binary 11111101 */
 small.uint3 = value; /* Binary 101 */
 printf("%d", small.uint3);
 ```
-```
+```c
 /* This is in effect an infinite loop */
 for (small.uint3 = 0 ; small.uint3 < 8 ; small.uint3++)
 {
 printf("%d \n ", small.uint3);
 }
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 9.3: Bit-field alignment
 
 Bit-fields give an ability to declare structure fields that are smaller than the character width. Bit-fields are
@@ -3968,7 +3965,7 @@ unsigned char : 0 ; /* Causes padding up to next container boundary */
 unsigned char c3 : 4 ;
 unsigned char c4 : 1 ;
 };
-```
+```c
 ### Section 9.4: Don'ts for bit-fields
 
 1. Arrays of bit-fields, pointers to bit-fields and functions returning bit-fields are not allowed.
@@ -3987,7 +3984,7 @@ unsigned char c3 : 1 ;
 unsigned int x[ 10 ]: 5 ; /* incorrect, see point 1 */
 } A;
 ```
-```
+```c
 int SomeFunction(void)
 {
 // Somewhere in the code
@@ -4030,7 +4027,7 @@ The bit-fields in the structure are accessed the same as any other structure. Th
 
 that the variables are written in range. If out of range the behaviour is undefined.
 
-```
+```c
 int main(void)
 {
 bit_a bita_var;
@@ -4059,7 +4056,7 @@ uint8_t data;
 ```
 Usage is as follows
 
-```
+```c
 int main(void)
 {
 union_bit un_bit;
@@ -4104,19 +4101,19 @@ and size is an integer constant.
 
 Declaring an array (an array of 10 int variables in this case) is done like this:
 
-```
+```c
 int array[ 10 ];
 ```
 it now holds indeterminate values. To ensure it holds zero values while declaring, you can do this:
 
-```
+```c
 int array[ 10 ] = { 0 };
 ```
 Arrays can also have initializers, this example declares an array of 10 int's, where the first 3 int's will contain the
 
 values 1 , 2 , 3 , all other values will be zero:
 
-```
+```c
 int array[ 10 ] = { 1 , 2 , 3 };
 ```
 In the above method of initialization, the first value in the list will be assigned to the first member of the array, the
@@ -4127,14 +4124,14 @@ size, then as in the above example, the remaining members of the array will be i
 
 list initialization (ISO C99), explicit initialization of the array members is possible. For example,
 
-```
+```c
 int array[ 5 ] = {[ 2 ] = 5 , [ 1 ] = 2 , [ 4 ] = 9 }; /* array is {0, 2, 5, 0, 9} */
 ```
 In most cases, the compiler can deduce the length of the array for you, this can be achieved by leaving the square
 
 brackets empty:
 
-```
+```c
 int array[] = { 1 , 2 , 3 }; /* an array of 3 int's */
 int array[] = {[ 3 ] = 8 , [ 0 ] = 9 }; /* size is 4 */
 ```
@@ -4177,7 +4174,7 @@ away from array[ 0 ][ 0 ], and therefore certainly not on the same cache line. W
 
 inefficient:
 
-```
+```c
 #define ARRLEN 10000
 int array[ARRLEN][ARRLEN];
 ```
@@ -4193,7 +4190,7 @@ array[j][i] = 0 ;
 ```
 And iterating like this is more efficient:
 
-```
+```c
 #define ARRLEN 10000
 int array[ARRLEN][ARRLEN];
 ```
@@ -4211,11 +4208,11 @@ In the same vein, this is why when dealing with an array with one dimension and 
 
 dimensions here for simplicity with indexes i and j) it is important to iterate through the array like this:
 
-```
+```c
 #define DIM_X 10
 #define DIM_Y 20
 ```
-```
+```c
 int array[DIM_X*DIM_Y];
 ```
 ```
@@ -4234,12 +4231,12 @@ array[i*DIM_Y+j] = 0 ;
 ```
 Or with 3 dimensions and indexes i,j and k:
 
-```
+```c
 #define DIM_X 10
 #define DIM_Y 20
 #define DIM_Z 30
 ```
-```
+```c
 int array[DIM_X*DIM_Y*DIM_Z];
 ```
 ```
@@ -4269,14 +4266,14 @@ sometimes convenient to calculate array lengths. In particular, this can make co
 
 length is determined automatically from an initializer:
 
-```
+```c
 int array[] = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 };
 ```
-```
+```c
 /* size of `array` in bytes */
 size_t size = sizeof(array);
 ```
-```
+```c
 /* number of elements in `array` */
 size_t length = sizeof(array) / sizeof(array[ 0 ]);
 ```
@@ -4295,13 +4292,13 @@ For example, suppose we want to write a function to return the last element of a
 
 above, we might call it like so:
 
-```
+```c
 /* array will decay to a pointer, so the length must be passed separately */
 int last = get_last(array, length);
 ```
 The function could be implemented like this:
 
-```
+```c
 int get_last(int input[], size_t length) {
 return input[length - 1 ];
 }
@@ -4316,12 +4313,12 @@ to pointers when they appear in function call expressions), and it can be viewed
 
 It is a very common error to attempt to determine array size from a pointer, which cannot work. DO NOT DO THIS:
 
-```
+```c
 int BAD_get_last(int input[]) {
 /* INCORRECTLY COMPUTES THE LENGTH OF THE ARRAY INTO WHICH input POINTS: */
 size_t length = sizeof(input) / sizeof(input[ 0 ]));
 ```
-```
+```c
 return input[length - 1 ]; /* Oops -- not the droid we are looking for */
 }
 ```
@@ -4337,7 +4334,7 @@ int length = sizeof(input) / sizeof(input[ 0 ]);
 note: declared here
 int BAD_get_last(int input[])
 ^
-```
+```c
 ### Section 10.4: Passing multidimensional arrays to a function
 
 Multidimensional arrays follow the same rules as single-dimensional arrays when passing them to a function.
@@ -4348,11 +4345,11 @@ multidimensional array (array of arrays vs array of pointers) may make the decla
 
 intuitive. The following example shows the correct ways to pass multidimensional arrays.
 
-```
+```c
 #include <assert.h>
 #include <stdlib.h>
 ```
-```
+```c
 /* When passing a multidimensional array (i.e. an array of arrays) to a
 function, it decays into a pointer to the first element as usual. But only
 the top level decays, so what is passed is a pointer to an array of some fixed
@@ -4361,7 +4358,7 @@ void f(int x[][ 4 ]) {
 assert(sizeof(*x) == sizeof(int) * 4 );
 }
 ```
-```
+```c
 /* This prototype is equivalent to f(int x[][4]).
 The parentheses around *x are required because [index] has a higher
 precedence than *expr, thus int *x[4] would normally be equivalent to int
@@ -4375,20 +4372,20 @@ void g(int (*x)[ 4 ]) {
 assert(sizeof(*x) == sizeof(int) * 4 );
 }
 ```
-```
+```c
 /* An array of pointers may be passed to this, since it'll decay into a pointer
 to pointer, but an array of arrays may not. */
 void h(int **x) {
 assert(sizeof(*x) == sizeof(int*));
 }
 ```
-```
+```c
 int main(void) {
 int foo[ 2 ][ 4 ];
 f(foo);
 g(foo);
 ```
-```
+```c
 /* Here we're dynamically creating an array of pointers. Note that the
 size of each dimension is not part of the datatype, and so the type
 system just treats it as a pointer to pointer, not a pointer to array
@@ -4425,7 +4422,7 @@ type name[size1][size2]...[sizeN];
 ```
 For example, the following declaration creates a three dimensional (5 x 10 x 4) integer array:
 
-```
+```c
 int arr[ 5 ][ 10 ][ 4 ];
 ```
 **Two-dimensional Arrays**
@@ -4462,7 +4459,7 @@ Multidimensional arrays may be initialized by specifying bracketed values for ea
 
 array with 3 rows where each row has 4 columns.
 
-```
+```c
 int a[ 3 ][ 4 ] = {
 { 0 , 1 , 2 , 3 } , /* initializers for row indexed by 0 */
 { 4 , 5 , 6 , 7 } , /* initializers for row indexed by 1 */
@@ -4473,7 +4470,7 @@ The nested braces, which indicate the intended row, are optional. The following 
 
 previous example:
 
-```
+```c
 int a[ 3 ][ 4 ] = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11 };
 ```
 While the method of creating arrays with nested braces is optional, it is strongly encouraged as it is more readable
@@ -4486,28 +4483,28 @@ An element in a two-dimensional array is accessed by using the subscripts, i.e.,
 
 array. For example −
 
-```
+```c
 int val = a[ 2 ][ 3 ];
 ```
 The above statement will take the 4th element from the 3rd row of the array. Let us check the following program
 
 where we have used a nested loop to handle a two-dimensional array:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main () {
 ```
-```
+```c
 /* an array with 5 rows and 2 columns*/
 int a[ 5 ][ 2 ] = { { 0 , 0 }, { 1 , 2 }, { 2 , 4 }, { 3 , 6 },{ 4 , 8 }};
 ```
 
-```
+```c
 int i, j;
 ```
-```
+```c
 /* output each array element's value */
 for ( i = 0 ; i < 5 ; i++ ) {
 ```
@@ -4517,7 +4514,7 @@ printf("a[%d][%d] = %d \n ", i,j, a[i][j] );
 }
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -4559,17 +4556,17 @@ be of one or two dimensions.
 
 ### Section 10.6: Define array and access array element
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define ARRLEN (10)
 ```
-```
+```c
 int main (void)
 {
 ```
-```
+```c
 int n[ ARRLEN ]; /* n is an array of 10 integers */
 size_t i, j; /* Use size_t to address memory, that is to index arrays, as its guaranteed to
 be wide enough to address all of the possible available memory.
@@ -4577,35 +4574,35 @@ Using signed integers to do so should be considered a special use case,
 and should be restricted to the uncommon case of being in the need of
 negative indexes. */
 ```
-```
+```c
 /* Initialize elements of array n. */
 for ( i = 0 ; i < ARRLEN ; i++ )
 {
 n[ i ] = i + 100 ; /* Set element at location i to i + 100. */
 }
 ```
-```
+```c
 /* Output each array element's value. */
 for (j = 0 ; j < ARRLEN ; j++ )
 {
 printf("Element[%zu] = %d \n ", j, n[j] );
 }
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 10.7: Clearing array contents (zeroing)
 
 Sometimes it's necessary to set an array to zero, after the initialization has been done.
 
-```
+```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 ```
-```
+```c
 #define ARRLEN (10)
 ```
-```
+```c
 int main(void)
 {
 int array[ARRLEN]; /* Allocated but not initialised, as not defined static or global. */
@@ -4617,7 +4614,7 @@ for(i = 0 ; i < ARRLEN; ++i)
 array[i] = 0 ;
 }
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -4640,24 +4637,24 @@ important) a third option to 0-out the array is possible:
 
 ```
 memset(array, 0 , sizeof array); /* Use size of the array itself. */
-```
+```c
 ### Section 10.8: Setting values in arrays
 
 Accessing array values is generally done through square brackets:
 
-```
+```c
 int val;
 int array[ 10 ];
 ```
-```
+```c
 /* Setting the value of the fifth element to 5: */
 array[ 4 ] = 5 ;
 ```
-```
+```c
 /* The above is equal to: */
 *(array + 4 ) = 5 ;
 ```
-```
+```c
 /* Reading the value of the fifth element: */
 val = array[ 4 ];
 ```
@@ -4685,7 +4682,7 @@ C doesn't perform any boundary checks, accessing contents outside of the declare
 
 memory beyond allocated chunk ):
 
-```
+```c
 int val;
 int array[ 10 ];
 ```
@@ -4694,15 +4691,15 @@ array[ 4 ] = 5 ; /* ok */
 val = array[ 4 ]; /* ok */
 array[ 19 ] = 20 ; /* undefined behavior */
 val = array[ 15 ]; /* undefined behavior */
-```
+```c
 ### Section 10.9: Allocate and zero-initialize an array with user defined size
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
 
-```
+```c
 int main (void)
 {
 int * pdata;
@@ -4730,7 +4727,7 @@ exit(EXIT_FAILURE);
 ```
 free(pdata); /* Clean up. */
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -4742,7 +4739,7 @@ In case of success the memory is releases by the call to free().
 
 ### Section 10.10: Iterating through an array using pointers
 
-```
+```c
 #include <stdio.h>
 #define SIZE (10)
 int main()
@@ -4751,21 +4748,21 @@ size_t i = 0 ;
 int *p = NULL;
 int a[SIZE];
 ```
-```
+```c
 /* Setting up the values to be i*i */
 for(i = 0 ; i < SIZE; ++i)
 {
 a[i] = i * i;
 }
 ```
-```
+```c
 /* Reading the values using pointers */
 for(p = a; p < a + SIZE; ++p)
 {
 printf("%d \n ", *p);
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -4787,11 +4784,11 @@ An example of code showing how nodes can be inserted at a doubly linked list, ho
 
 and how it can be printed in reverse.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 /* This data is not always stored in a structure, but it is sometimes for ease of use */
 struct Node {
 /* Sometimes a key is also stored and used in the functions */
@@ -4811,7 +4808,7 @@ void print_list_backwards(struct Node *headNode);
 ```
 void free_list(struct Node *headNode);
 ```
-```
+```c
 int main(void) {
 /* Sometimes in a doubly linked list the last node is also stored */
 struct Node *head = NULL;
@@ -4836,7 +4833,7 @@ print_list(head);
 ```
 free_list(head);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -4976,11 +4973,11 @@ You can also perform this task recursively, but I have chosen in this example to
 
 is useful if you are inserting all of your nodes at the beginning of a linked list. Here is an example:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 #define NUM_ITEMS 10
 ```
 ```
@@ -5099,7 +5096,7 @@ will want to be able to insert nodes elsewhere as well. The code written below s
 
 insert() function to insert nodes _anywhere_ in the linked lists.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
@@ -5113,11 +5110,11 @@ struct Node* next;
 struct Node* insert(struct Node* head, int value, size_t position);
 void print_list (struct Node* head);
 ```
-```
+```c
 int main(int argc, char *argv[]) {
 struct Node *head = NULL; /* Initialize the list to be empty */
 ```
-```
+```c
 /* Insert nodes at positions with values: */
 head = insert(head, 1 , 0 );
 head = insert(head, 100 , 1 );
@@ -5138,16 +5135,16 @@ struct Node* insert(struct Node* head, int value, size_t position) {
 size_t i = 0 ;
 struct Node *currentNode;
 ```
-```
+```c
 /* Create our node */
 currentNode = malloc(sizeof *currentNode);
 /* Check for success of malloc() here! */
 ```
-```
+```c
 /* Assign data */
 currentNode->data = value;
 ```
-```
+```c
 /* Holds a pointer to the 'next' field that we have to link to the new node.
 By initializing it to &head we handle the case of insertion at the beginning. */
 struct Node **nextForPosition = &head;
@@ -5160,19 +5157,19 @@ Update it with a pointer to the 'next' field of the next node. */
 nextForPosition = &(*nextForPosition)->next;
 }
 ```
-```
+```c
 /* Here, we are taking the link to the next node (the one our newly inserted node should
 point to) by dereferencing nextForPosition, which points to the 'next' field of the node
 that is in the position we want to insert our node at.
 We assign this link to our next value. */
 currentNode->next = *nextForPosition;
 ```
-```
+```c
 /* Now, we want to correct the link of the node before the position of our
 new node: it will be changed to be a pointer to our new node. */
 *nextForPosition = currentNode;
 ```
-```
+```c
 return head;
 }
 ```
@@ -5185,15 +5182,15 @@ printf("%d \n ", i->data);
 i = i->next;
 }
 }
-```
+```c
 ### Section 11.4: Inserting a node at the beginning of a singly linked list
 
 The code below will prompt for numbers and continue to add them to the beginning of a linked list.
 
-```
+```c
 /* This program will demonstrate inserting a node at the beginning of a linked list */
 ```
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
@@ -5208,7 +5205,7 @@ struct Node* next;
 void insert_node (struct Node **head, int nodeValue);
 void print_list (struct Node *head);
 ```
-```
+```c
 int main(int argc, char *argv[]) {
 struct Node* headNode;
 headNode = NULL; /* Initialize our first node pointer to be NULL. */
@@ -5230,7 +5227,7 @@ printf("Current list after your inserted node: \n ");
 print_list(headNode);
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -5238,7 +5235,7 @@ return 0 ;
 void print_list (struct Node *head) {
 struct node* currentNode = head;
 ```
-```
+```c
 /* Iterate through each link. */
 while (currentNode != NULL) {
 printf("Value: %d \n ", currentNode->data);
@@ -5351,7 +5348,7 @@ printf("%s \n ", color_name);
 ```
 With a main function defined as follows (for example):
 
-```
+```c
 int main(){
 enum color chosenColor;
 printf("Enter a number between 0 and 2");
@@ -5399,7 +5396,7 @@ void printDayOfWeek( enum week day)
 assert(day > DOW_INVALID && day < DOW_MAX);
 printf("%s \n ", dow[day]);
 }
-```
+```c
 ### Section 12.2: enumeration constant without typename
 
 Enumeration types can also be declared without giving them a name:
@@ -5414,7 +5411,7 @@ This enables us to define compile time constants of type int that can as in this
 
 An enumerations value in no way needs to be unique:
 
-```
+```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h> /* for printf() */
 ```
@@ -5428,7 +5425,7 @@ Negative = - 1 ,
 AnotherZero /* Takes Negative + 1 == 0, sigh */
 };
 ```
-```
+```c
 int main(void)
 {
 printf("Base = %d \n ", Base);
@@ -5437,7 +5434,7 @@ printf("Two = %d \n ", Two);
 printf("Negative = %d \n ", Negative);
 printf("AnotherZero = %d \n ", AnotherZero);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -5452,7 +5449,7 @@ Two = 2
 ```
 Negative = -1
 AnotherZero = 0
-```
+```c
 ### Section 12.4: Typedef enum
 
 There are several possibilities and conventions to name an enumeration. The first is to use a _tag name_ just after the
@@ -5573,7 +5570,7 @@ struct ex2_header hdr;
 int flex[];
 };
 ```
-```
+```c
 /* Merged ex2_header and ex2 structures. */
 struct ex3
 {
@@ -5588,15 +5585,15 @@ A flexible array member is treated as having no size when calculating the size o
 
 between that member and the previous member of the structure may still exist:
 
-```
+```c
 /* Prints "8,8" on my machine, so there is no padding. */
 printf("%zu,%zu \n ", sizeof(size_t), sizeof(struct ex1));
 ```
-```
+```c
 /* Also prints "8,8" on my machine, so there is no padding in the ex2 structure itself. */
 printf("%zu,%zu \n ", sizeof(struct ex2_header), sizeof(struct ex2));
 ```
-```
+```c
 /* Prints "5,8" on my machine, so there are 3 bytes of padding. */
 printf("%zu,%zu \n ", sizeof(int) + sizeof(char), sizeof(struct ex3));
 ```
@@ -5621,7 +5618,7 @@ required by the flexible array member. The compiler will not necessarily prevent
 
 this can lead to undefined behavior.
 
-```
+```c
 /* invalid: cannot initialize flexible array member */
 struct ex1 e1 = { 1 , { 2 , 3 }};
 /* invalid: hdr={foo=1, bar=2} OK, but cannot initialize flexible array member */
@@ -5638,15 +5635,15 @@ You may instead choose to use malloc, calloc, or realloc to allocate the structu
 
 free it, which allows you to use the flexible array member as you wish:
 
-```
+```c
 /* valid: allocate an object of structure type `ex1` along with an array of 2 ints */
 struct ex1 *pe1 = malloc(sizeof(*pe1) + 2 * sizeof(pe1->flex[ 0 ]));
 ```
-```
+```c
 /* valid: allocate an object of structure type ex2 along with an array of 4 ints */
 struct ex2 *pe2 = malloc(sizeof(struct ex2) + sizeof(int[ 4 ]));
 ```
-```
+```c
 /* valid: allocate 5 structure type ex3 objects along with an array of 3 ints per object */
 struct ex3 *pe3 = malloc( 5 * (sizeof(*pe3) + sizeof(int[ 3 ])));
 ```
@@ -5671,7 +5668,7 @@ int flex[ 1 ];
 ```
 This will affect the size of the structure, however, unlike a true flexible array member:
 
-```
+```c
 /* Prints "8,4,16" on my machine, signifying that there are 4 bytes of padding. */
 printf("%d,%d,%d \n ", (int)sizeof(size_t), (int)sizeof(int[ 1 ]), (int)sizeof(struct ex1));
 ```
@@ -5692,7 +5689,7 @@ If compatibility with compilers that do not support flexible array members is de
 
 like FLEXMEMB_SIZE below:
 
-```
+```c
 #if __STDC_VERSION__ < 199901L
 #define FLEXMEMB_SIZE 1
 #else
@@ -5730,10 +5727,10 @@ n--;
 return malloc(sizeof(tmp) + n * sizeof(tmp.flex[ 0 ]));
 }
 ```
-```
+```c
 /* allocate an ex1 object with "flex" array of length 3 */
 struct ex1 *pe1 = ex1_alloc( 3 );
-```
+```c
 ### Section 13.2: Typedef Structs
 
 Combining typedef with struct can make code clearer. For example:
@@ -5784,7 +5781,7 @@ this a disadvantage, but for most people having a struct and another identifier 
 
 Notorious is e.g POSIX' stat
 
-```
+```c
 int stat(const char *pathname, struct stat *buf);
 ```
 where you see a function stat that has one argument that is struct stat.
@@ -5795,7 +5792,7 @@ it. The entire struct declaration must then be placed in a header file.
 
 Consider:
 
-```
+```c
 #include "bar.h"
 ```
 ```
@@ -5894,22 +5891,22 @@ printf("Popped: %i **\n** ", pop(stack));
 
 ##### }
 
-```
+```c
 /* destroy stack */
 destroy(stack);
 ```
-```
+```c
 return result;
 }
 ```
-```
+```c
 /* Push a value onto the stack. */
 /* Returns 0 on success and -1 on failure. */
 int push(int data, struct stack *stack)
 {
 int result = 0 ;
 ```
-```
+```c
 /* allocate memory for new node */
 struct node *new_node = malloc(sizeof *new_node);
 if (NULL == new_node)
@@ -5924,11 +5921,11 @@ stack->top = new_node;
 stack->size++;
 }
 ```
-```
+```c
 return result;
 }
 ```
-```
+```c
 /* Pop a value off of the stack. */
 /* Returns the value popped off the stack */
 int pop(struct stack *stack)
@@ -5941,7 +5938,7 @@ free(top);
 return data;
 }
 ```
-```
+```c
 /* destroy the stack */
 void destroy(struct stack *stack)
 {
@@ -5951,7 +5948,7 @@ while(stack->top != NULL)
 pop(stack);
 }
 }
-```
+```c
 ### Section 13.4: Passing structs to functions
 
 In C, all arguments are passed to functions by value, including structs. For small structs, this is a good thing as it
@@ -6004,7 +6001,7 @@ void doubleParam1ByPtr(struct lotsOfData *value)
 {
 value->param1 *= 2 ;
 }
-```
+```c
 ### Section 13.5: Object-based programming using structs
 
 Structs may be used to implement code in an object oriented manner. A struct is similar to a class, but is missing
@@ -6013,7 +6010,7 @@ the functions which normally also form part of a class, we can add these as func
 
 stay with our coordinates example:
 
-```
+```c
 /* coordinates.h */
 ```
 ```
@@ -6028,7 +6025,7 @@ int x;
 int y;
 } coordinate;
 ```
-```
+```c
 /* Constructor */
 coordinate *coordinate_create(void);
 /* Destructor */
@@ -6037,15 +6034,15 @@ void coordinate_destroy(coordinate *this);
 
 And now the implementing C file:
 
-```
+```c
 /* coordinates.c */
 ```
-```
+```c
 #include "coordinates.h"
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 /* Constructor */
 coordinate *coordinate_create(void)
 {
@@ -6061,7 +6058,7 @@ c->y = 0 ;
 return c;
 }
 ```
-```
+```c
 /* Destructor */
 void coordinate_destroy(coordinate *this)
 {
@@ -6071,7 +6068,7 @@ free(this);
 }
 }
 ```
-```
+```c
 /* Methods */
 static void coordinate_setx(coordinate *this, int x)
 {
@@ -6106,21 +6103,21 @@ printf("NULL pointer exception! \n ");
 
 An example usage of our coordinate class would be:
 
-```
+```c
 /* main.c */
 ```
-```
+```c
 #include "coordinates.h"
 #include <stddef.h>
 ```
-```
+```c
 int main(void)
 {
 /* Create and initialize pointers to coordinate objects */
 coordinate *c1 = coordinate_create();
 coordinate *c2 = coordinate_create();
 ```
-```
+```c
 /* Now we can use our objects using our methods and passing the object as parameter */
 c1->setx(c1, 1 );
 c1->sety(c1, 2 );
@@ -6133,17 +6130,17 @@ c2->sety(c2, 4 );
 c1->print(c1);
 c2->print(c2);
 ```
-```
+```c
 /* After using our objects we destroy them using our "destructor" function */
 coordinate_destroy(c1);
 c1 = NULL;
 coordinate_destroy(c2);
 c2 = NULL;
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 13.6: Simple data structures
 
 Structure data types are useful way to package related data and have them behave like a single variable.
@@ -6188,13 +6185,13 @@ The following example code computes the sum of _1+4(3+3^2+3^3+3^4+...+3^N)_ seri
 
 math library.
 
-```
+```c
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
 #include <fenv.h>
 ```
-```
+```c
 int main()
 {
 double pwr, sum= 0 ;
@@ -6221,7 +6218,7 @@ sum += i? pwr : 0 ;
 printf("N= %d \t S= %g \n ", i, 1 + 4 *sum);
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -6248,11 +6245,11 @@ N= 10 S= 354289
 
 This function returns the floating-point remainder of the division of x/y. The returned value has the same sign as x.
 
-```
+```c
 #include <math.h> /* for fmod() */
 #include <stdio.h> /* for printf() */
 ```
-```
+```c
 int main(void)
 {
 double x = 10.0;
@@ -6264,7 +6261,7 @@ double modulus = fmod(x, y);
 ```
 printf("%lf \n ", modulus); /* f is the same as lf. */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -6276,11 +6273,11 @@ Output:
 
 values.
 
-```
+```c
 #include <math.h>
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 printf("%f \n ", fmod( 1 , 0.1));
@@ -6304,12 +6301,12 @@ x.
 
 Single Precision:
 
-```
+```c
 #include <math.h> /* for fmodf() */
 #include <stdio.h> /* for printf() */
 ```
 
-```
+```c
 int main(void)
 {
 float x = 10.0;
@@ -6328,11 +6325,11 @@ Output:
 
 Double Double Precision:
 
-```
+```c
 #include <math.h> /* for fmodl() */
 #include <stdio.h> /* for printf() */
 ```
-```
+```c
 int main(void)
 {
 long double x = 10.0;
@@ -6362,10 +6359,10 @@ user inputs, we need to execute scanf() for n times.
 
 Version ≥ C99
 
-```
+```c
 #include <stddef.h> // for size_t
 ```
-```
+```c
 int array[ 10 ]; // array of 10 int
 ```
 ```
@@ -6388,7 +6385,7 @@ for loop:
 
 Version < C99
 
-```
+```c
 #include <stddef.h> /* for size_t */
 size_t i;
 int array[ 10 ]; /* array of 10 int */
@@ -6398,7 +6395,7 @@ for (i = 0 ; i < 10 ; i++) /* i starts at 0 and finishes at 9 */
 {
 scanf("%d", &array[i]);
 }
-```
+```c
 ### Section 15.2: Loop Unrolling and Du's Device
 
 Sometimes, the straight forward loop cannot be entirely contained within the loop body. This is because, the loop
@@ -6472,7 +6469,7 @@ the user inserts numbers which are not 0. If the user inserts 0 , the while cond
 
 will exit the loop and continue on to any subsequent code:
 
-```
+```c
 int num = 1 ;
 ```
 ```
@@ -6480,7 +6477,7 @@ while (num != 0 )
 {
 scanf("%d", &num);
 }
-```
+```c
 ### Section 15.4: Do-While loop
 
 Unlike for and while loops, do-while loops check the truth of the condition at the end of the loop, which means
@@ -6494,7 +6491,7 @@ For example this do-while loop will get numbers from user, until the sum of thes
 50 :
 
 
-```
+```c
 int num, sum;
 num = sum = 0 ;
 ```
@@ -6694,11 +6691,11 @@ if() or the else if() conditional statements are true.
 
 An if()...else ladder:
 
-```
+```c
 #include <stdio.h>
 ```
 
-```
+```c
 int main(int argc, char *argv[])
 {
 int a, b, c;
@@ -6725,10 +6722,10 @@ return 0 ;
 ```
 Is, in the general case, considered to be better than the equivalent nested if()...else:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(int argc, char *argv[])
 {
 int a, b, c;
@@ -6768,7 +6765,7 @@ of a particular test variable.
 
 An example usage of switch statement is like this:
 
-```
+```c
 int a = 1 ;
 ```
 ```
@@ -6786,7 +6783,7 @@ break ;
 ```
 This example is equivalent to
 
-```
+```c
 int a = 1 ;
 ```
 ```
@@ -6824,7 +6821,7 @@ specification.
 
 Below is an example that shows effects of the absence of **break** ;:
 
-```
+```c
 int a = 1 ;
 ```
 ```
@@ -6833,7 +6830,7 @@ case 1 :
 case 2 :
 ```
 
-```
+```c
 puts("a is 1 or 2");
 case 3 :
 puts("a is 1, 2 or 3");
@@ -6904,7 +6901,7 @@ switch(t) {
 // Same code than before
 }
 }
-```
+```c
 ### Section 16.4: if () else statements and syntax
 
 While if performs an action only when its condition evaluate to **true** , if / else allows you to specify the different
@@ -6936,7 +6933,7 @@ else
 puts("a is not larger than 1");
 a++;
 }
-```
+```c
 ### Section 16.5: if()...else Ladder Chaining two or more if () else statements
 
 While the if ()... else statement allows to define only one (default) behaviour which occurs when the condition
@@ -6947,7 +6944,7 @@ behaviours before going to the last else branch acting as a "default", if any.
 
 Example:
 
-```
+```c
 int a = ... /* initialise to some value. */
 ```
 ```
@@ -6977,7 +6974,7 @@ Scalar variables may be initialized when they are defined by following the name 
 
 expression:
 
-```
+```c
 int x = 1 ;
 char squota = ' \' ';
 long day = 1000L * 60L * 60L * 24L; /* milliseconds/day */
@@ -6992,7 +6989,7 @@ involving previously defined values, even function calls.
 
 For example, see the code snippet below
 
-```
+```c
 int binsearch(int x, int v[], int n)
 {
 int low = 0 ;
@@ -7003,7 +7000,7 @@ int mid;
 ```
 instead of
 
-```
+```c
 int low, high, mid;
 ```
 ```
@@ -7026,7 +7023,7 @@ commas.
 
 For example, to initialize an array days with the number of days in each month:
 
-```
+```c
 int days_of_month[] = { 31 , 28 , 31 , 30 , 31 , 30 , 31 , 31 , 30 , 31 , 30 , 31 }
 ```
 (Note that January is encoded as month zero in this structure.)
@@ -7092,7 +7089,7 @@ structure or union are to be initialized by the values following.
 
 For a simple type like plain int:
 
-```
+```c
 int array[] = { [ 4 ] = 29 , [ 5 ] = 31 , [ 17 ] = 101 , [ 18 ] = 103 , [ 19 ] = 107 , [ 20 ] = 109 };
 ```
 The term in square brackets, which can be any constant integer expression, specifies which element of the array is
@@ -7216,7 +7213,7 @@ GCC provides an extension that allows you to specify a range of elements in an a
 
 initializer:
 
-```
+```c
 int array[] = { [ 3 ... 7 ] = 29 , 19 = 107 };
 ```
 The triple dots need to be separate from the numbers lest one of the dots be interpreted as part of a floating point
@@ -7287,7 +7284,7 @@ A definition actually instantiates/implements this identifier. It's what the lin
 
 those entities. These are definitions corresponding to the above declarations:
 
-```
+```c
 int bar;
 int g(int lhs, int rhs) {return lhs*rhs;}
 double f(int i, double d) {return i+d;}
@@ -7314,7 +7311,7 @@ This exception can be explained using concepts of "Strong symbols vs Weak symbol
 
 Please look here ( Slide 22 ) for more explanation.
 
-```
+```c
 /* All are definitions. */
 struct S { int a; int b; }; /* defines S */
 struct X { /* defines X */
@@ -7337,20 +7334,20 @@ the command-line as well as the program name itself.
 argv
 argument vector - initialized to an array of char-pointers (strings) containing the arguments (and the
 program name) that was given on the command-line.
-```
+```c
 ### Section 19.1: Print the arguments to a program and convert to integer values
 
 The following code will print the arguments to the program, and the code will attempt to convert each argument
 
 into a number (to a long):
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <limits.h>
 ```
-```
+```c
 int main(int argc, char* argv[]) {
 ```
 ```
@@ -7383,12 +7380,12 @@ References:
 ```
 strtol() returns an incorrect value
 Correct usage of strtol
-```
+```c
 ### Section 19.2: Printing the command line arguments
 
 After receiving the arguments, you can print them as follows:
 
-```
+```c
 int main(int argc, char **argv)
 {
 for (int i = 1 ; i < argc; i++)
@@ -7428,12 +7425,12 @@ what POSIX specifies for the format of command-line options.
 
 The example below demonstrates handling command-line options with the GNU getopt tools.
 
-```
+```c
 #include <stdio.h>
 #include <getopt.h>
 #include <string.h>
 ```
-```
+```c
 /* print a description of all supported options */
 void usage (FILE *fp, const char *path)
 {
@@ -7451,7 +7448,7 @@ fprintf (fp, " -m, --msg=STRING \t "
 "Output a particular message rather than 'Hello world'. \n ");
 }
 ```
-```
+```c
 /* parse command-line options and print message */
 int main(int argc, char *argv[])
 {
@@ -7570,7 +7567,7 @@ return 0 ;
 ```
 It can be compiled with gcc:
 
-```
+```c
 gcc example.c - o example
 ```
 It supports three command-line options (--help, --file, and --msg). All have a "short form" as well (-h, -f, and -m).
@@ -7591,31 +7588,31 @@ Arguments for options are formatted as:
 Parameter Details
 const char *modeA string describing the opening mode of the file-backed stream. See remarks for possible values.
 ```
-```
+```c
 int whence
 Can be SEEK_SET to set from the beginning of the file, SEEK_END to set from its end, or SEEK_CUR
 to set relative to the current cursor value. Note: SEEK_END is non-portable.
-```
+```c
 ### Section 20.1: Open and write to file
 
-```
+```c
 #include <stdio.h> /* for perror(), fopen(), fputs() and fclose() */
 #include <stdlib.h> /* for the EXIT_* macros */
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int e = EXIT_SUCCESS;
 ```
-```
+```c
 /* Get path from argument to main else default to output.txt */
 char *path = (argc > 1 )? argv[ 1 ] : "output.txt";
 ```
-```
+```c
 /* Open file for writing and obtain file pointer */
 FILE *file = fopen(path, "w");
 ```
-```
+```c
 /* Print error message and exit if fopen() failed */
 if (!file)
 {
@@ -7623,7 +7620,7 @@ perror(path);
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Writes text to file. Unlike puts(), fputs() does not add a new-line. */
 if (fputs("Output in file. \n ", file) == EOF)
 {
@@ -7631,7 +7628,7 @@ perror(path);
 e = EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Close file */
 if (fclose(file))
 {
@@ -7670,7 +7667,7 @@ value in the case of a fail.
 
 ### Section 20.2: Run process
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -7684,7 +7681,7 @@ int main(void)
 {
 FILE *stream;
 ```
-```
+```c
 /* call netstat command. netstat is available for Windows and Linux */
 if ((stream = popen("netstat", "r")) == NULL)
 return 1 ;
@@ -7707,7 +7704,7 @@ You can use fprintf on a file just like you might on a console with printf. For 
 
 losses and ties you might write
 
-```
+```c
 /* saves wins, losses and, ties */
 void savewlt(FILE *fout, int wins, int losses, int ties)
 {
@@ -7735,14 +7732,14 @@ returns the new line, the number of characters in the line, and the size of the 
 
 Example program that gets each line from example.txt:
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
-```
+```c
 #define FILENAME "example.txt"
 ```
-```
+```c
 int main(void)
 {
 /* Open the file for reading */
@@ -7757,37 +7754,37 @@ fprintf(stderr, "Error opening file '%s' \n ", FILENAME);
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Get the first line of the file. */
 line_size = getline(&line_buf, &line_buf_size, fp);
 ```
-```
+```c
 /* Loop through until we are done with the file. */
 while (line_size >= 0 )
 {
 /* Increment our line count */
 line_count++;
 ```
-```
+```c
 /* Show the line details */
 printf("line[%06d]: chars=%06zd, buf size=%06zu, contents: %s", line_count,
 line_size, line_buf_size, line_buf);
 ```
-```
+```c
 /* Get the next line */
 line_size = getline(&line_buf, &line_buf_size, fp);
 }
 ```
-```
+```c
 /* Free the allocated line buffer */
 free(line_buf);
 line_buf = NULL;
 ```
-```
+```c
 /* Close the file now that we are done with it */
 fclose(fp);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -7839,24 +7836,24 @@ files because with the multibyte line ending (" **\r\n** ")'\n'` is still the la
 
 **Example implementation of getline()**
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <stdint.h>
 ```
-```
+```c
 #if !(defined _POSIX_C_SOURCE)
 typedef long int ssize_t;
 #endif
 ```
-```
+```c
 /* Only include our version of getline() if the POSIX version isn't available. */
 ```
-```
+```c
 #if !(defined _POSIX_C_SOURCE) || _POSIX_C_SOURCE < 200809L
 ```
-```
+```c
 #if !(defined SSIZE_MAX)
 #define SSIZE_MAX (SIZE_MAX >> 1)
 #endif
@@ -7868,7 +7865,7 @@ const size_t INITALLOC = 16 ;
 const size_t ALLOCSTEP = 16 ;
 size_t num_read = 0 ;
 ```
-```
+```c
 /* First check that none of our input pointers are NULL. */
 if ((NULL == pline_buf) || (NULL == pn) || (NULL == fin))
 {
@@ -7876,7 +7873,7 @@ errno = EINVAL;
 return - 1 ;
 }
 ```
-```
+```c
 /* If output buffer is NULL, then allocate a buffer. */
 if (NULL == *pline_buf)
 ```
@@ -7947,22 +7944,22 @@ if (EOF == c)
 errno = 0 ;
 
 
-```
+```c
 return - 1 ;
 }
 }
 ```
-```
+```c
 /* Terminate the string by suffixing NUL. */
 (*pline_buf)[num_read] = ' \0 ';
 ```
-```
+```c
 return (ssize_t) num_read;
 }
 ```
-```
+```c
 #endif
-```
+```c
 ### Section 20.5: fscanf()
 
 Let's say we have a text file and we want to read all words in that file, in order to do some requirements.
@@ -7976,14 +7973,14 @@ to be used by fscanf()
 ```
 This is the main function:
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
 ```
 void printAllWords(FILE *);
 ```
-```
+```c
 int main(void)
 {
 FILE *fp;
@@ -8000,7 +7997,7 @@ printAllWords(fp);
 ```
 fclose(fp);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -8032,7 +8029,7 @@ Word 8: be
 Word 9: used
 Word 10: by
 Word 11: fscanf()
-```
+```c
 ### Section 20.6: Read lines from a file
 
 The stdio.h header defines the fgets() function. This function reads a line from a stream and stores it in a
@@ -8041,15 +8038,15 @@ specified string. The function stops reading text from the stream when either n 
 
 newline character (' **\n** ') is read or the end of file (EOF) is reached.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 ```
-```
+```c
 #define MAX_LINE_LENGTH 80
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 char *path;
@@ -8061,7 +8058,7 @@ if (argc < 1 )
 return EXIT_FAILURE;
 path = argv[ 1 ];
 ```
-```
+```c
 /* Open file */
 FILE *file = fopen(path, "r");
 ```
@@ -8072,20 +8069,20 @@ perror(path);
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Get each line until there are none left */
 while (fgets(line, MAX_LINE_LENGTH, file))
 {
 /* Print each line */
 printf("line[%06d]: %s", ++line_count, line);
 ```
-```
+```c
 /* Add a trailing newline to lines that don't already have one */
 if (line[strlen(line) - 1 ] != ' \n ')
 printf(" \n ");
 }
 ```
-```
+```c
 /* Close file */
 if (fclose(file))
 {
@@ -8139,11 +8136,11 @@ necessary for a line of any length (as long as there is sufficient memory).
 
 ### Section 20.7: Open and write to a binary file
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 result = EXIT_SUCCESS;
@@ -8168,7 +8165,7 @@ else
 size_t element_size = sizeof *str;
 size_t elements_to_write = sizeof str;
 ```
-```
+```c
 /* Writes str (_including_ the NUL-terminator) to the binary file. */
 size_t elements_written = fwrite(str, element_size, elements_to_write, fp);
 if (elements_written != elements_to_write)
@@ -8187,7 +8184,7 @@ fprintf(stderr, "fwrite() failed: wrote only %lu out of %lu elements.\n",
 fclose(fp);
 }
 ```
-```
+```c
 return result;
 }
 ```
@@ -8209,7 +8206,7 @@ implementations do). Fortunately a conversion to unsigned _is_ guaranteed to use
 
 writing a signed integer to a binary file is therefore a little surprising.
 
-```
+```c
 /* write a 16-bit little endian integer */
 int fput16le(int x, FILE *fp)
 {
@@ -8307,7 +8304,7 @@ Otherwise, the conversion shall be with style e (or E) and precision P - 1.
 ```
 Finally, unless the '#' flag is used, any trailing zeros shall be removed from the fractional portion of the
 result and the decimal-point character shall be removed if there is no fractional portion remaining.
-```
+```c
 ### Section 21.2: The printf() Function
 
 Accessed through including **<stdio.h>** , the function printf() is the primary tool used for printing text to the
@@ -8326,7 +8323,7 @@ parentheses.
 printf("%d is the answer to life, the universe, and everything.", 42 );
 // 42 is the answer to life, the universe, and everything.
 ```
-```
+```c
 int x = 3 ;
 char y = 'Z';
 char* z = "Example";
@@ -8374,7 +8371,7 @@ If the first character of a signed conversion is not a sign or if a signed conve
 no characters, a <space> shall be prefixed to the result. This means that if the <space>
 and '+' flags both appear, the <space> flag shall be ignored.
 ```
-```
+```c
 # all
 ```
 ```
@@ -8413,11 +8410,11 @@ defined to print void-pointers only, so to print out the value of a non void-poi
 
 converted ("casted*") to void*.
 
-```
+```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h> /* for printf() */
 ```
-```
+```c
 int main(void)
 {
 int i;
@@ -8426,7 +8423,7 @@ int * p = &i;
 ```
 printf("The address of i is %p. \n ", (void*) p);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -8436,11 +8433,11 @@ Version ≥ C99
 
 Another way to print pointers in C99 or later uses the uintptr_t type and the macros from **<inttypes.h>** :
 
-```
+```c
 #include <inttypes.h> /* for uintptr_t and PRIXPTR */
 #include <stdio.h> /* for printf() */
 ```
-```
+```c
 int main(void)
 {
 int i;
@@ -8449,7 +8446,7 @@ int *p = &i;
 ```
 printf("The address of i is 0x%" PRIXPTR ". \n ", (uintptr_t)p);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -8478,10 +8475,10 @@ modifier/conversion specifier.
 
 **provoke the infamous Undefined Behaviour.**
 
-```
+```c
 #include <stdio.h> /* optional in pre-standard C - for printf() */
 ```
-```
+```c
 int main()
 {
 int i;
@@ -8490,10 +8487,10 @@ int *p = &i;
 ```
 printf("The address of i is 0x%lx. \n ", (long unsigned) p);
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 21.5: Printing the Dierence of the Values of two Pointers to an Object
 
 Subtracting the values of two pointers to an object results in a signed integer *1. So it would be printed using _at_
@@ -8506,12 +8503,12 @@ the type ptrdiff_t. To print a ptrdiff_t use the t length modifier.
 
 Version ≥ C99
 
-```
+```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h> /* for printf() */
 #include <stddef.h> /* for ptrdiff_t */
 ```
-```
+```c
 int main(void)
 {
 int a[ 2 ];
@@ -8523,7 +8520,7 @@ printf("p1 = %p \n ", (void*) p1);
 printf("p2 = %p \n ", (void*) p2);
 printf("p2 - p1 = %td \n ", pd);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -8606,7 +8603,7 @@ A pointer is declared much like any other variable, except an asterisk (*) is pl
 
 of the variable to denote it is a pointer.
 
-```
+```c
 int *pointer; /* inside a function, pointer is uninitialized and doesn't point to any valid object
 yet */
 ```
@@ -8614,7 +8611,7 @@ To declare two pointer variables of the same type, in the same declaration, use 
 
 identifier. For example,
 
-```
+```c
 int *iptr1, *iptr2;
 int *iptr3, iptr4; /* iptr3 is a pointer variable, whereas iptr4 is misnamed and is an int */
 ```
@@ -8622,7 +8619,7 @@ The address-of or reference operator denoted by an ampersand (&) gives the addre
 
 be placed in a pointer of appropriate type.
 
-```
+```c
 int value = 1 ;
 pointer = &value;
 ```
@@ -8684,7 +8681,7 @@ Pointers are also re-assignable. This means that a pointer pointing to an object
 
 another object of the same type.
 
-```
+```c
 int value2 = 10 ;
 pointer = &value2;
 printf("Value from pointer: %d \n ", *pointer);
@@ -8700,10 +8697,10 @@ Although pointer must be of a specific type, the memory allocated for each type 
 
 used by the environment to store addresses, rather than the size of the type that is pointed to.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 printf("Size of int pointer: %zu \n ", sizeof (int*)); /* size 4 bytes */
 printf("Size of int variable: %zu \n ", sizeof (int)); /* size 4 bytes */
@@ -8739,7 +8736,7 @@ double point[ 3 ] = {0.0, 1.0, 2.0};
 double *ptr = point;
 ```
 
-```
+```c
 /* prints x 0.0, y 1.0 z 2.0 */
 printf("x %f y %f z %f \n ", ptr[ 0 ], ptr[ 1 ], ptr[ 2 ]);
 ```
@@ -8753,7 +8750,7 @@ double point[ 3 ] = {0.0, 1.0, 2.0};
 ```
 printf("length of point is %s \n ", length(point));
 ```
-```
+```c
 /* get the distance of a 3D point from the origin */
 double length(double *pt)
 {
@@ -8814,19 +8811,19 @@ sizeof(that_type) or sizeof(*var_ptr_to_that_type).
 
 Non-portable allocation:
 
-```
+```c
 int *intPtr = malloc( 4 * 1000 ); /* allocating storage for 1000 int */
 long *longPtr = malloc( 8 * 1000 ); /* allocating storage for 1000 long */
 ```
 Portable allocation:
 
-```
+```c
 int *intPtr = malloc(sizeof(int)* 1000 ); /* allocating storage for 1000 int */
 long *longPtr = malloc(sizeof(long)* 1000 ); /* allocating storage for 1000 long */
 ```
 Or, better still:
 
-```
+```c
 int *intPtr = malloc(sizeof(*intPtr)* 1000 ); /* allocating storage for 1000 int */
 long *longPtr = malloc(sizeof(*longPtr)* 1000 ); /* allocating storage for 1000 long */
 ```
@@ -8864,7 +8861,7 @@ originally allocated.
 
 Creating a pointer does not extend the life of the variable being pointed to. For example:
 
-```
+```c
 int* myFunction()
 {
 int x = 10 ;
@@ -8890,11 +8887,11 @@ To resolve this, either malloc the storage for the variable to be returned, and 
 
 storage, or require that a valid pointer is passed in to the function instead of returning one, for example:
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
-```
+```c
 int *solution1(void)
 {
 int *x = malloc(sizeof *x);
@@ -8907,7 +8904,7 @@ return NULL;
 ```
 *x = 10 ;
 ```
-```
+```c
 return x;
 }
 ```
@@ -8921,13 +8918,13 @@ causes undefined behaviour. */
 *x = 10 ;
 }
 ```
-```
+```c
 int main(void)
 {
 {
 /* Use solution1() */
 ```
-```
+```c
 int *foo = solution1();
 if (foo == NULL)
 {
@@ -8942,13 +8939,13 @@ printf("The value set by solution1() is %i \n ", *foo);
 ```
 free(foo); /* Tidy up */
 }
-```
+```c
 ##### {
 
-```
+```c
 /* Use solution2() */
 ```
-```
+```c
 int bar;
 solution2(&bar);
 ```
@@ -8957,7 +8954,7 @@ printf("The value set by solution2() is %i \n ", bar);
 /* Will output: "The value set by solution2() is 10" */
 }
 ```
-```
+```c
 return 0 ;
 ```
 
@@ -8977,7 +8974,7 @@ This rule also applies to post decrementing: *p-- will decrement the pointer p i
 
 ### Section 22.3: Dereferencing a Pointer
 
-```
+```c
 int a = 1 ;
 int *a_pointer = &a;
 ```
@@ -8994,7 +8991,7 @@ printf("%d \n ", *a_pointer); /* Also prints 2 */
 ```
 However, one would be mistaken to dereference a NULL or otherwise invalid pointer. This
 
-```
+```c
 int *p1, *p2;
 ```
 ```
@@ -9049,7 +9046,7 @@ MY_STRUCT *instance = &info;
 ```
 When the pointer is valid, we can dereference it to access its members using one of two different notations:
 
-```
+```c
 int a = (*instance).my_int;
 float b = instance->my_float;
 ```
@@ -9094,7 +9091,7 @@ Pointer to an int
 The pointer can point to different integers and the int's can be changed through the pointer. This sample of
 code assigns b to point to int b then changes b's value to 100.
 ```
-```
+```c
 int b;
 int* p;
 p = &b; /* OK */
@@ -9107,7 +9104,7 @@ Pointer to a const int
 ```
 The pointer can point to different integers but the int's value can't be changed through the pointer.
 ```
-```
+```c
 int b;
 const int* p;
 p = &b; /* OK */
@@ -9119,7 +9116,7 @@ const pointer to int
 ```
 The pointer can only point to one int but the int's value can be changed through the pointer.
 ```
-```
+```c
 int a, b;
 int* const p = &b; /* OK as initialisation, no assignment */
 *p = 100 ; /* OK */
@@ -9131,7 +9128,7 @@ const pointer to const int
 ```
 The pointer can only point to one int and the int can not be changed through the pointer.
 ```
-```
+```c
 int a, b;
 const int* const p = &b; /* OK as initialisation, no assignment */
 p = &a; /* Compiler Error */
@@ -9237,7 +9234,7 @@ void f7(void)
 {
 ```
 
-```
+```c
 int b;
 int *p1;
 int * const * const p = &p1; /* OK as initialisation, not assignment */
@@ -9245,14 +9242,14 @@ p = &p1; /* error: assignment of read-only variable ‘ p ’ */
 *p = &b; /* error: assignment of read-only location ‘ *p ’ */
 **p = 100 ; /* OK */
 }
-```
+```c
 ### Section 22.6: Function pointers
 
 Pointers can also be used to point at functions.
 
 Let's take a basic function:
 
-```
+```c
 int my_function(int a, int b)
 {
 return 2 * a + 3 * b;
@@ -9260,12 +9257,12 @@ return 2 * a + 3 * b;
 ```
 Now, let's define a pointer of that function's type:
 
-```
+```c
 int (*my_pointer)(int, int);
 ```
 To create one, just use this template:
 
-```
+```c
 return_type_of_func (*my_func_pointer)(type_arg1, type_arg2, ...)
 ```
 We then must assign this pointer to the function:
@@ -9275,14 +9272,14 @@ my_pointer = &my_function;
 ```
 This pointer can now be used to call the function:
 
-```
+```c
 /* Calling the pointed function */
 int result = (*my_pointer)( 4 , 2 );
 ```
 ```
 ...
 ```
-```
+```c
 /* Using the function pointer as an argument to another function */
 void another_function(int (*another_pointer)(int, int))
 {
@@ -9298,11 +9295,11 @@ Although this syntax seems more natural and coherent with basic types, attributi
 
 pointers don't require the usage of & and * operators. So the following snippet is equally valid:
 
-```
+```c
 /* Attribution without the & operator */
 my_pointer = my_function;
 ```
-```
+```c
 /* Dereferencing without the * operator */
 int result = my_pointer( 4 , 2 );
 ```
@@ -9365,7 +9362,7 @@ to qsort() needs to have this type signature. The way it is made polymorphic is 
 
 arguments to pointers of the type of element we wish to compare.
 
-```
+```c
 int compare_floats(const void *a, const void *b)
 {
 float fa = *((float *)a);
@@ -9386,7 +9383,7 @@ Now, the usage of the polymorphic function qsort on an array "array" with length
 
 ```
 qsort(array, len, sizeof(array[ 0 ]), compare_floats);
-```
+```c
 ### Section 22.8: Address-of Operator ( & )
 
 For any object (i.e, variable, array, union, struct, pointer or function) the unary address operator can be used to
@@ -9395,7 +9392,7 @@ access the address of that object.
 
 Suppose that
 
-```
+```c
 int i = 1 ;
 int *p = NULL;
 ```
@@ -9411,17 +9408,17 @@ Pointer initialization is a good way to avoid wild pointers. The initialization 
 
 initialization of a variable.
 
-```
+```c
 #include <stddef.h>
 ```
-```
+```c
 int main()
 {
 int *p1 = NULL;
 char *p2 = NULL;
 float *p3 = NULL;
 ```
-```
+```c
 /* NULL is a macro defined in stddef.h, stdio.h, stdlib.h, and string.h */
 ```
 ```
@@ -9459,26 +9456,26 @@ clarification refer to C-faq for NULL pointers
 
 Note that you can also initialize pointers to contain values other than NULL.
 
-```
+```c
 int i1;
 ```
-```
+```c
 int main()
 {
 int *p1 = &i1;
 const char *p2 = "A constant string to point to";
 float *p3 = malloc( 10 * sizeof(float));
 }
-```
+```c
 ### Section 22.10: Pointer to Pointer
 
 In C, a pointer can refer to another pointer.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 int main(void) {
 int A = 42 ;
 int* pA = &A;
@@ -9488,23 +9485,23 @@ int*** pppA = &ppA;
 ```
 printf("%d", ***pppA); /* prints 42 */
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
 But, reference-and-reference directly is not allowed.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 int main(void) {
 int A = 42 ;
 int* pA = &A;
 int** ppA = &&A; /* Compilation error here! */
 int*** pppA = &&&A; /* Compilation error here! */
-```
+```c
 ### Section 22.11: void* pointers as arguments and return values to standard functions
 
 Version > K&R
@@ -9521,7 +9518,7 @@ The pointer-to-void return type means that it is possible to assign the return v
 
 other type of object:
 
-```
+```c
 int* vector = malloc( 10 * sizeof *vector);
 ```
 It is generally considered good practice to _not_ explicitly cast the values into and out of void pointers. In specific case
@@ -9534,7 +9531,7 @@ void pointers to better conform to the DRY (don't repeat yourself) principle; co
 
 wherein the following code contains several needless additional places where a typo could cause issues:
 
-```
+```c
 int* vector = (int*)malloc( 10 * sizeof int*);
 ```
 Similarly, functions such as
@@ -9550,7 +9547,7 @@ in. Here also, a call should not use a cast
 unsigned char buffer[sizeof(int)];
 int b = 67 ;
 memcpy(buffer, &b, sizeof buffer);
-```
+```c
 ### Section 22.12: Same Asterisk, Dierent Meanings
 
 **Premise**
@@ -9563,7 +9560,7 @@ that apply when the pointer symbol, the asterisk (*), is used with a variable.
 
 Firstly, you use * to **declare** a pointer variable.
 
-```
+```c
 int i = 5 ;
 /* 'p' is a pointer to an integer, initialized as NULL */
 int *p = NULL;
@@ -9587,7 +9584,7 @@ A common confusion among C-programming newbies arises when they declare and init
 the same time.
 
 
-```
+```c
 int *p = &i;
 ```
 Since int i = 5 ; and int i; i = 5 ; give the same result, some of them might thought int *p = &i; and int *p;
@@ -9722,7 +9719,7 @@ unsingned account(void) {
 return counter++;
 }
 ```
-```
+```c
 int main(void) {
 printf("the order is %u %u \n ", account(), account());
 }
@@ -9815,7 +9812,7 @@ understand) can be achieved.
 
 ### Section 24.2: Returning Function Pointers from a Function
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -9829,21 +9826,21 @@ enum Op
 
 ##### };
 
-```
+```c
 /* add: add a and b, return result */
 int add(int a, int b)
 {
 return a + b;
 }
 ```
-```
+```c
 /* sub: subtract b from a, return result */
 int sub(int a, int b)
 {
 return a - b;
 }
 ```
-```
+```c
 /* getmath: return the appropriate math function */
 int (*getmath(enum Op op))(int,int)
 {
@@ -9858,7 +9855,7 @@ return NULL;
 }
 }
 ```
-```
+```c
 int main(void)
 {
 int a, b, c;
@@ -9873,7 +9870,7 @@ c = (*fp)(a, b);
 printf("%d + %d = %d \n ", a, b, c);
 return 0 ;
 }
-```
+```c
 ### Section 24.3: Best Practices
 
 **Using typedef**
@@ -9919,7 +9916,7 @@ void sort(compare_func func) {
 ```
 both definitions of sort would accept any function of the form
 
-```
+```c
 int compare(const void *arg1, const void *arg2) {
 /* Note that the variable names do not have to be "elem1" and "elem2" */
 }
@@ -9938,7 +9935,7 @@ A function pointer should almost always take a user-supplied void * as a context
 
 **Example**
 
-```
+```c
 /* function minimiser, details unimportant */
 double findminimum( double (*fptr)(double x, double y, void *ctx), void *ctx)
 {
@@ -9947,17 +9944,17 @@ double findminimum( double (*fptr)(double x, double y, void *ctx), void *ctx)
 temp = (*fptr)(testx, testy, ctx);
 }
 ```
-```
+```c
 /* the function we are minimising, sums two cubics */
 double *cubics(double x, double y, void *ctx)
 {
 double *coeffsx = ctx;
 double *coeffsy = coeffx + 4 ;
 ```
-```
+```c
 return coeffsx[ 0 ] * x * x * x + coeffsx[ 1 ] * x * x + coeffsx[ 2 ] * x + coeffsx[ 3 ] +
 coeffsy[ 0 ] * y * y * y + coeffsy[ 1 ] * y * y + coeffsy[ 2 ] * y + coeffsy[ 3 ];
-```
+```c
 ##### }
 
 ```
@@ -9966,7 +9963,7 @@ void caller()
 
 ##### {
 
-```
+```c
 /* context, the coefficients of the cubics */
 double coeffs[ 8 ] = { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 };
 double min;
@@ -9989,10 +9986,10 @@ Functions pointers
 
 ### Section 24.4: Assigning a Function Pointer
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 /* increment: take number, increment it by one, and return it */
 int increment(int i)
 {
@@ -10000,7 +9997,7 @@ printf("increment %d by 1 \n ", i);
 return i + 1 ;
 }
 ```
-```
+```c
 /* decrement: take number, decrement it by one, and return it */
 int decrement(int i)
 {
@@ -10008,7 +10005,7 @@ printf("decrement %d by 1 \n ", i);
 return i - 1 ;
 }
 ```
-```
+```c
 int main(void)
 {
 int num = 0 ; /* declare number to increment */
@@ -10025,7 +10022,7 @@ num = (*fp)(num); /* decrement num */
 printf("num is now: %d \n ", num);
 return 0 ;
 }
-```
+```c
 ### Section 24.5: Mnemonic for writing function pointers
 
 All C functions are in actuality pointers to a spot in the program memory where some code exists. The main use of
@@ -10054,14 +10051,14 @@ _arguments/parameters it receives_.
 
 Say you have the following function declared and initialized:
 
-```
+```c
 int addInt(int n, int m){
 return n+m;
 }
 ```
 You can declare and initialize a pointer to this function:
 
-```
+```c
 int (*functionPtrAdd)(int, int) = addInt; // or &addInt - the & is optional
 ```
 If you have a void function it could look like this:
@@ -10093,17 +10090,17 @@ you some typing, and to make the code more clear:
 ```
 typedef int (*ptrInt)(int, int);
 ```
-```
+```c
 int Add(int i, int j){
 return i+j;
 }
 ```
-```
+```c
 int Multiply(int i, int j){
 return i*j;
 }
 ```
-```
+```c
 int main()
 ```
 
@@ -10121,7 +10118,7 @@ return 0 ;
 ```
 You can also create an **Array of function-pointers**. If all the pointers are of the same "structure":
 
-```
+```c
 int (*array[ 2 ]) (int x, int y); // can hold 2 function pointers
 array[ 0 ] = Add;
 array[ 1 ] = Multiply;
@@ -10141,7 +10138,7 @@ In C, all function parameters are passed by value, so modifying what is passed i
 
 functions' local variables.
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -10151,7 +10148,7 @@ v = 42 ;
 printf("modify 2: %d \n ", v); /* 42 is printed */
 }
 ```
-```
+```c
 int main(void) {
 int v = 0 ;
 printf("main 1: %d \n ", v); /* 0 is printed */
@@ -10164,7 +10161,7 @@ You can use pointers to let callee functions modify caller functions' local vari
 
 _reference_ but the pointer _values_ pointing at the local variables are passed.
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -10174,7 +10171,7 @@ printf("modify 1: %d \n ", *v); /* 0 is printed */
 printf("modify 2: %d \n ", *v); /* 42 is printed */
 }
 ```
-```
+```c
 int main(void) {
 int v = 0 ;
 printf("main 1: %d \n ", v); /* 0 is printed */
@@ -10189,7 +10186,7 @@ pointer to variable beyond its lifetime.
 
 ### Section 25.2: Passing in Arrays to Functions
 
-```
+```c
 int getListOfFriends(size_t size, int friend_indexes[]) {
 size_t i = 0 ;
 for (; i < size; i++) {
@@ -10199,7 +10196,7 @@ friend_indexes[i] = i;
 ```
 Version ≥ C99 Version < C11
 
-```
+```c
 /* Type "void" and VLAs ("int friend_indexes[static size]") require C99 at least.
 In C11 VLAs are optional. */
 void getListOfFriends(size_t size, int friend_indexes[static size]) {
@@ -10220,10 +10217,10 @@ parameter comes before the array parameter in the list.
 
 Use getListOfFriends() like this:
 
-```
+```c
 #define LIST_SIZE (50)
 ```
-```
+```c
 int main(void) {
 size_t size_of_list = LIST_SIZE;
 int friends_indexes[size_of_list];
@@ -10233,10 +10230,10 @@ getListOfFriends(size_of_list, friend_indexes); /* friend_indexes decays to a po
 address of its 1st element:
 &friend_indexes[0] */
 ```
-```
+```c
 /* Here friend_indexes carries: {0, 1, 2, ..., 49}; */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -10250,7 +10247,7 @@ The order of execution of parameters is undefined in C programming. Here it may 
 
 right to left. The order depends on the implementation.
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -10259,19 +10256,19 @@ void function(int a, int b)
 printf("%d %d \n ", a, b);
 }
 ```
-```
+```c
 int main(void)
 {
 int a = 1 ;
 function(a++, ++a);
 return 0 ;
 }
-```
+```c
 ### Section 25.4: Using pointer parameters to return multiple values
 
 A common pattern in C, to easily imitate returning multiple values from a function, is to use pointers.
 
-```
+```c
 #include <stdio.h>
 ```
 
@@ -10282,7 +10279,7 @@ void Get( int* c , double* d )
 *d = 175.0;
 }
 ```
-```
+```c
 int main(void)
 {
 int a = 0 ;
@@ -10294,10 +10291,10 @@ Get( &a , &b );
 ```
 printf("a: %d, b: %f \n ", a , b );
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 25.5: Example of function returning struct containing values with error codes
 
 Most examples of a function returning a value involve providing a pointer as one of the arguments to allow the
@@ -10306,7 +10303,7 @@ function to modify the value pointed to, similar to the following. The actual re
 
 some type such as an int to indicate the status of the result, whether it worked or not.
 
-```
+```c
 int func (int *pIvalue)
 {
 int iRetStatus = 0 ; /* Default status is no change */
@@ -10317,7 +10314,7 @@ if (*pIvalue > 10 ) {
 iRetStatus = 1 ; /* indicate value was changed */
 }
 ```
-```
+```c
 return iRetStatus; /* Return an error code */
 }
 ```
@@ -10342,14 +10339,14 @@ iRetStatus.iValue = iValue * 45 ;
 iRetStatus.iStat = 1 ;
 }
 ```
-```
+```c
 return iRetStatus;
 }
 ```
 This function could then be used like the following sample.
 
 
-```
+```c
 int usingFunc (int iValue)
 {
 RetValue iRet = func (iValue);
@@ -10363,7 +10360,7 @@ return 0 ;
 ```
 Or it could be used like the following.
 
-```
+```c
 int usingFunc (int iValue)
 {
 RetValue iRet;
@@ -10382,18 +10379,18 @@ return 0 ;
 
 Passing a 2d array to a functions seems simple and obvious and we happily write:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 #define ROWS 3
 #define COLS 2
 ```
 ```
 void fun1(int **, int, int);
 ```
-```
+```c
 int main()
 {
 int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
@@ -10403,7 +10400,7 @@ int m = COLS;
 ```
 fun1(array_2D, n, m);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -10435,11 +10432,11 @@ the so called _pointer decay_. Passing an array to a function will decay the arr
 
 array--in the case of a 2d array it decays to a pointer to the first row because in C arrays are sorted row-first.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 #define ROWS 3
 #define COLS 2
 ```
@@ -10447,7 +10444,7 @@ array--in the case of a 2d array it decays to a pointer to the first row because
 void fun1(int (*)[COLS], int, int);
 ```
 
-```
+```c
 int main()
 {
 int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
@@ -10457,7 +10454,7 @@ int m = COLS;
 ```
 fun1(array_2D, n, m);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -10474,31 +10471,31 @@ printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
 ```
 It _is_ necessary to pass the number of rows, they cannot be computed.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 #define ROWS 3
 #define COLS 2
 ```
 ```
 void fun1(int (*)[COLS], int);
 ```
-```
+```c
 int main()
 {
 int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
 int rows = ROWS;
 ```
-```
+```c
 /* works here because array_2d is still in scope and still an array */
 printf("MAIN: %zu \n ",sizeof(array_2D)/sizeof(array_2D[ 0 ]));
 ```
 ```
 fun1(array_2D, rows);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -10514,7 +10511,7 @@ n = rows;
 It is also redundant because that value is known at compile time (in "COLS"). */
 m = (int) (sizeof(a[ 0 ])/sizeof(a[ 0 ][ 0 ]));
 ```
-```
+```c
 /* Does not work here because the "decay" in "pointer decay" is meant
 literally--information is lost. */
 printf("FUN1: %zu \n ",sizeof(a)/sizeof(a[ 0 ]));
@@ -10541,17 +10538,17 @@ the current standard made it optional, almost all modern C-compilers support it 
 
 supports it now).
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 /* ALL CHECKS OMMITTED!*/
 ```
 ```
 void fun1(int (*)[], int rows, int cols);
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int rows, cols, i, j;
@@ -10566,7 +10563,7 @@ exit(EXIT_FAILURE);
 rows = atoi(argv[ 1 ]);
 cols = atoi(argv[ 2 ]);
 ```
-```
+```c
 int array_2D[rows][cols];
 ```
 ```
@@ -10630,16 +10627,16 @@ void fun1(int **, int rows, int cols);
 ```
 We can react in several ways, one of it is to ignore all of it and do some illegible pointer juggling:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
-```
+```c
 ##### /* ALL CHECKS OMMITTED!*/
 
 ```
 void fun1(int (*)[], int rows, int cols);
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int rows, cols, i, j;
@@ -10654,7 +10651,7 @@ exit(EXIT_FAILURE);
 rows = atoi(argv[ 1 ]);
 cols = atoi(argv[ 2 ]);
 ```
-```
+```c
 int array_2D[rows][cols];
 printf("Make array with %d rows and %d columns \n ", rows, cols);
 for (i = 0 ; i < rows; i++) {
@@ -10697,16 +10694,16 @@ the size of the column must come before the declaration of the array. To keep it
 
 the number of rows has changed its place, too, and is first now.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
-```
+```c
 ##### /* ALL CHECKS OMMITTED!*/
 
 ```
 void fun1(int rows, int cols, int (*)[]);
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int rows, cols, i, j;
@@ -10721,7 +10718,7 @@ exit(EXIT_FAILURE);
 rows = atoi(argv[ 1 ]);
 cols = atoi(argv[ 2 ]);
 ```
-```
+```c
 int array_2D[rows][cols];
 printf("Make array with %d rows and %d columns \n ", rows, cols);
 for (i = 0 ; i < rows; i++) {
@@ -10764,17 +10761,17 @@ This looks awkward to some people, who hold the opinion that the order of variab
 
 much of a problem, just declare a pointer and let it point to the array.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 /* ALL CHECKS OMMITTED!*/
 ```
 ```
 void fun1(int rows, int cols, int **);
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int rows, cols, i, j;
@@ -10789,7 +10786,7 @@ exit(EXIT_FAILURE);
 rows = atoi(argv[ 1 ]);
 cols = atoi(argv[ 2 ]);
 ```
-```
+```c
 int array_2D[rows][cols];
 printf("Make array with %d rows and %d columns \n ", rows, cols);
 for (i = 0 ; i < rows; i++) {
@@ -10836,11 +10833,11 @@ printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
 
 Often the easiest solution is simply to pass 2D and higher arrays around as flat memory.
 
-```
+```c
 /* create 2D array with dimensions determined at runtime */
 double *matrix = malloc(width * height * sizeof(double));
 ```
-```
+```c
 /* initialise it (for the sake of illustration we want 1.0 on the diagonal) */
 int x, y;
 for (y = 0 ; y < height; y++)
@@ -10854,11 +10851,11 @@ matrix[y * width + x] = 0.0;
 }
 }
 ```
-```
+```c
 /* pass it to a subroutine */
 manipulate_matrix(matrix, width, height);
 ```
-```
+```c
 /* do something with the matrix, e.g. scale by 2 */
 void manipulate_matrix(double *matrix, int width, int height)
 {
@@ -10888,14 +10885,14 @@ Value Meaning
 EDOM Domain error
 ERANGERange error
 EILSEQ Illegal multi-byte character sequence
-```
+```c
 ### Section 27.2: strerror
 
 If perror is not flexible enough, you may obtain a user-readable error description by calling strerror from
 
 **<string.h>**.
 
-```
+```c
 int main(int argc, char *argv[])
 {
 FILE *fout;
@@ -10908,7 +10905,7 @@ last_error = errno;
 errno = 0 ;
 }
 ```
-```
+```c
 /* do some processing and try opening the file differently, then */
 ```
 ```
@@ -10918,18 +10915,18 @@ argv[ 1 ], strerror(last_error));
 fputs("Cross fingers and continue", stderr);
 }
 ```
-```
+```c
 /* do some other processing */
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
-```
+```c
 ### Section 27.3: perror
 
 To print a user-readable error message to stderr, call perror from <stdio.h>.
 
-```
+```c
 int main(int argc, char *argv[])
 {
 FILE *fout;
@@ -10960,7 +10957,7 @@ another system, or with a different compiler, compiler version or compiler setti
 
 ### Section 28.1: Dereferencing a pointer to variable beyond its lifetime
 
-```
+```c
 int* foo(int bar)
 {
 int baz = 6 ;
@@ -10969,7 +10966,7 @@ return &baz; /* (&baz) copied to new memory location outside of foo. */
 } /* (1) The lifetime of baz and bar end here as they have automatic storage
 * duration (local variables), thus the returned pointer is not valid! */
 ```
-```
+```c
 int main (void)
 {
 int* p;
@@ -10978,7 +10975,7 @@ int* p;
 p = foo( 5 ); /* (2) this expression's behavior is undefined */
 *p = *p - 6 ; /* (3) Undefined behaviour here */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -11018,7 +11015,7 @@ overlap.
 
 For example, this ...
 
-```
+```c
 #include <string.h> /* for memcpy() */
 ```
 ```
@@ -11083,11 +11080,11 @@ be out of range to be reduced to an in-range value. There is no analogous provis
 
 however; these can and do overflow, producing undefined behavior. For example,
 
-```
+```c
 #include <limits.h> /* to get INT_MAX */
 ```
 
-```
+```c
 int main(void) {
 int i = INT_MAX + 1 ; /* Overflow happens here */
 return 0 ;
@@ -11101,7 +11098,7 @@ arithmetic conversions) where there are not effective bounds on or a relationshi
 
 it. For example, this function:
 
-```
+```c
 int square(int x) {
 return x * x; /* overflows for some values of x */
 }
@@ -11114,7 +11111,7 @@ behavior as a result. It depends on what arguments they pass to it.
 
 On the other hand, consider this trivial example of overflow-safe signed integer arithmetic:
 
-```
+```c
 int zero(int x) {
 return x - x; /* Cannot overflow */
 }
@@ -11123,14 +11120,14 @@ The relationship between the operands of the subtraction operator ensures that t
 
 Or consider this somewhat more practical example:
 
-```
+```c
 int sizeDelta(FILE *f1, FILE *f2) {
 int count1 = 0 ;
 int count2 = 0 ;
 while (fgetc(f1) != EOF) count1++; /* might overflow */
 while (fgetc(f2) != EOF) count2++; /* might overflow */
 ```
-```
+```c
 return count1 - count2; /* provided no UB to this point, will not overflow */
 }
 ```
@@ -11140,7 +11137,7 @@ negative. All differences between any two such values are representable as int.
 
 ### Section 28.4: Use of an uninitialized variable
 
-```
+```c
 int a;
 printf("%d", a);
 ```
@@ -11167,10 +11164,10 @@ terminal gives off pointer warning and strange symbols.
 
 Example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int i, counter;
 for(i = 0 ; i < 10 ; ++i)
@@ -11196,7 +11193,7 @@ C02QT2UBFVH6-lm:~ gsamaras$ ./main
 ```
 The above rules are applicable for pointers as well. For example, the following results in undefined behavior
 
-```
+```c
 int main(void)
 {
 int *p;
@@ -11225,29 +11222,29 @@ memory.
 
 Consider this example:
 
-```
+```c
 #include <threads.h>
 ```
-```
+```c
 int a = 0 ;
 ```
 
-```
+```c
 int Function( void* ignore )
 {
 a = 1 ;
 ```
-```
+```c
 return 0 ;
 }
 ```
-```
+```c
 int main( void )
 {
 thrd_t id;
 thrd_create( &id , Function , NULL );
 ```
-```
+```c
 int b = a;
 ```
 ```
@@ -11295,7 +11292,7 @@ char *p = malloc( 5 );
 free(p);
 if (p == NULL) /* NOTE: even without dereferencing, this may have UB */
 {
-```
+```c
 ##### }
 
 Quoting **ISO/IEC 9899:2011** , section 6.2.4 §2:
@@ -11336,7 +11333,7 @@ warning: format specifies type 'double' but the argument has type
 printf("%f \n ", 0 );
 ~~ ^
 %d
-```
+```c
 ### Section 28.8: Modify string literal
 
 In this code example, the char pointer p is initialized to the address of a string literal. Attempting to modify the
@@ -11404,10 +11401,10 @@ just print a _newline_ :
 ```
 char *foo = "";
 printf("%s \n ", foo);
-```
+```c
 ### Section 28.10: Modifying any object more than once between two sequence points
 
-```
+```c
 int i = 42 ;
 i = i++; /* Assignment changes variable, post-increment as well */
 int a = i++ + i--;
@@ -11450,13 +11447,13 @@ one before the sequence point is "sequenced before" the one after.
 
 The following example has well-defined behaviour:
 
-```
+```c
 int i = 42 ;
 i = (i++, i+ 42 ); /* The comma-operator creates a sequence point */
 ```
 The following example has undefined behaviour:
 
-```
+```c
 int i = 42 ;
 printf("%d %d \n ", i++, i++); /* commas as separator of function arguments are not comma-operators */
 ```
@@ -11470,7 +11467,7 @@ expecting such observations to be predictive even of the future behavior of the 
 
 Freeing memory twice is undefined behavior, e.g.
 
-```
+```c
 int * x = malloc(sizeof(int));
 *x = 9 ;
 free(x);
@@ -11481,29 +11478,29 @@ Quote from standard(7.20.3.2. The free function of C99 ):
 ```
 Otherwise, if the argument does not match a pointer earlier returned by the calloc, malloc, or realloc
 function, or if the space has been deallocated by a call to free or realloc, the behavior is undefined.
-```
+```c
 ### Section 28.12: Bit shifting using negative counts or beyond the width of the type
 
 If the _shift count_ value is a **negative value** then both _left shift_ and _right shift_ operations are undefined1:
 
-```
+```c
 int x = 5 << - 3 ; /* undefined */
 int x = 5 >> - 3 ; /* undefined */
 ```
 If _left shift_ is performed on a **negative value** , it's undefined:
 
-```
+```c
 int x = - 5 << 3 ; /* undefined */
 ```
 If _left shift_ is performed on a **positive value** and result of the mathematical value is **not** representable in the type,
 
 it's undefined1:
 
-```
+```c
 /* Assuming an int is 32-bits wide, the value '5 * 2^72' doesn't fit
 * in an int. So, this is undefined. */
 ```
-```
+```c
 int x = 5 << 72 ;
 ```
 Note that _right shift_ on a **negative value** (.e.g - 5 >> 3 ) is _not_ undefined but _implementation-defined_.
@@ -11514,7 +11511,7 @@ Note that _right shift_ on a **negative value** (.e.g - 5 >> 3 ) is _not_ undefi
 ```
 If the value of the right operand is negative or is greater than or equal to the width of the promoted left
 operand, the behavior is undefined.
-```
+```c
 #### Section 28.13: Returning from a function that's declared with `_Noreturn` or `noreturn` function specifier
 
 Version ≥ C11
@@ -11529,7 +11526,7 @@ return to its caller, the behavior is undefined.
 
 In the following example, func() is declared with noreturn specifier but it returns to its caller.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
@@ -11543,13 +11540,13 @@ void func(void)
 printf("In func()... \n ");
 } /* Undefined behavior as func() returns */
 ```
-```
+```c
 int main(void)
 {
 func();
 return 0 ;
 }
-```
+```c
 gcc and clang produce warnings for the above program:
 
 ```
@@ -11565,7 +11562,7 @@ test.c:9:1: warning: function declared 'noreturn' should not return [-Winvalid-n
 ```
 An example using noreturn that has well-defined behavior:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
@@ -11574,7 +11571,7 @@ An example using noreturn that has well-defined behavior:
 noreturn void my_exit(void);
 ```
 
-```
+```c
 /* calls exit() and doesn't return to its caller. */
 void my_exit(void)
 {
@@ -11582,13 +11579,13 @@ printf("Exiting... \n ");
 exit( 0 );
 }
 ```
-```
+```c
 int main(void)
 {
 my_exit();
 return 0 ;
 }
-```
+```c
 ### Section 28.14: Accessing memory beyond allocated chunk
 
 A a pointer to a piece of memory containing n elements may only be dereferenced if it is in the range memory and
@@ -11597,7 +11594,7 @@ memory + (n - 1 ). Dereferencing a pointer outside of that range results in unde
 
 consider the following code:
 
-```
+```c
 int array[ 3 ];
 int *beyond_array = array + 3 ;
 *beyond_array = 0 ; /* Accesses memory that has not been allocated. */
@@ -11606,7 +11603,7 @@ The third line accesses the 4th element in an array that is only 3 elements long
 
 Similarly, the behavior of the second line in the following code fragment is also not well defined:
 
-```
+```c
 int array[ 3 ];
 array[ 3 ] = 0 ;
 ```
@@ -11618,7 +11615,7 @@ allocated memory (such as buffers created through malloc).
 
 ### Section 28.15: Modifying a const variable using a pointer
 
-```
+```c
 int main (void)
 {
 const int foo_readonly = 10 ;
@@ -11628,7 +11625,7 @@ int *foo_ptr;
 foo_ptr = (int *)&foo_readonly; /* (1) This casts away the const qualifier */
 *foo_ptr = 20 ; /* This is undefined behavior */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -11691,12 +11688,12 @@ Additionally it is naturally undefined behavior to _dereference_ a pointer that 
 char buffer[ 6 ] = "hello";
 char *ptr3 = buffer + 6 ; /* OK, pointing to just beyond */
 char value = *ptr3; /* undefined behavior */
-```
+```c
 ### Section 28.18: Dereferencing a null pointer
 
 This is an example of dereferencing a NULL pointer, causing undefined behavior.
 
-```
+```c
 int * pointer = NULL;
 int value = *pointer; /* Dereferencing happens here */
 ```
@@ -11711,10 +11708,10 @@ The POSIX and C standards explicitly state that using fflush on an input stream 
 
 is defined only for output streams.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main()
 {
 int i;
@@ -11725,7 +11722,7 @@ scanf("%i", &i);
 fflush(stdin); // <-- undefined behavior
 gets(input);
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -11762,31 +11759,31 @@ identifier at the later declaration is the same as the linkage specified at the 
 declaration is visible, or if the prior declaration specifies no linkage, then the identifier has external
 linkage.
 ```
-```
+```c
 /* 1. This is NOT undefined */
 static int var;
 extern int var;
 ```
-```
+```c
 /* 2. This is NOT undefined */
 static int var;
 static int var;
 ```
 
-```
+```c
 /* 3. This is NOT undefined */
 extern int var;
 extern int var;
-```
+```c
 ### Section 28.21: Missing return statement in value returning function
 
-```
+```c
 int foo(void) {
 /* do stuff */
 /* no return here */
 }
 ```
-```
+```c
 int main(void) {
 /* Trying to use the (not) returned value causes UB */
 int value = foo();
@@ -11801,13 +11798,13 @@ Note that the undefined behaviour happens _only if_ the caller attempts to use/a
 
 For example,
 
-```
+```c
 int foo(void) {
 /* do stuff */
 /* no return here */
 }
 ```
-```
+```c
 int main(void) {
 /* The value (not) returned from foo() is unused. So, this program
 * doesn't cause *undefined behaviour*. */
@@ -11831,14 +11828,14 @@ behavior is undefined.
 
 ```
 reaching the } that terminates the main function returns a value of 0.
-```
+```c
 ### Section 28.22: Division by zero
 
-```
+```c
 int x = 0 ;
 ```
 
-```
+```c
 int y = 5 / x; /* integer division */
 ```
 or
@@ -11849,7 +11846,7 @@ double y = 5.0 / x; /* floating point division */
 ```
 or
 
-```
+```c
 int x = 0 ;
 int y = 5 % x; /* modulo operation */
 ```
@@ -11967,12 +11964,12 @@ not required for release code, but is useful in debug runs to make bugs reproduc
 
 It is advised to always seed the generator, if not seeded, it behaves as if it was seeded with srand( 1 ).
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 ```
-```
+```c
 int main(void) {
 int i;
 srand(time(NULL));
@@ -12008,10 +12005,10 @@ This code is PCG32 from pcg-random.org, a modern, fast, general-purpose RNG with
 
 It's not cryptographically secure, so don't use it for cryptography.
 
-```
+```c
 #include <stdint.h>
 ```
-```
+```c
 /* *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
 * Licensed under Apache License 2.0 (NO WARRANTY, etc. see website) */
 ```
@@ -12041,25 +12038,25 @@ pcg32_random_r(rng);
 ```
 And here's how to call it:
 
-```
+```c
 #include <stdio.h>
 int main(void) {
 pcg32_random_t rng; /* RNG state */
 int i;
 ```
-```
+```c
 /* Seed the RNG */
 pcg32_srandom_r(&rng, 42u, 54u);
 ```
-```
+```c
 /* Print some random 32-bit integers */
 for (i = 0 ; i < 6 ; i++)
 printf("0x%08x \n ", pcg32_random_r(&rng));
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 29.3: Xorshift Generation
 
 A good and easy alternative to the flawed rand() procedures, is _xorshift_ , a class of pseudo-random number
@@ -12072,10 +12069,10 @@ xorshift Wikipedia page
 
 **Example implementation**
 
-```
+```c
 #include <stdint.h>
 ```
-```
+```c
 /* These state variables must be initialised so that they are not all zero. */
 uint32_t w, x, y, z;
 ```
@@ -12090,10 +12087,10 @@ w ^= w >> 19U;
 w ^= t;
 ```
 
-```
+```c
 return w;
 }
-```
+```c
 ### Section 29.4: Restrict generation to a given range
 
 Usually when generating random numbers it is useful to generate integers within a range, or a p value between 0.0
@@ -12104,7 +12101,7 @@ often go through a short cycle, resulting in a slight skewing of distribution if
 
 The macro
 
-```
+```c
 #define uniform() (rand() / (RAND_MAX + 1.0))
 ```
 produces a p value on 0.0 to 1.0 - epsilon, so
@@ -12135,14 +12132,14 @@ Pretty much every header file should follow the include guard idiom:
 
 **my-header-file.h**
 
-```
+```c
 #ifndef MY_HEADER_FILE_H
 #define MY_HEADER_FILE_H
 ```
 ```
 // Code body for header file
 ```
-```
+```c
 #endif
 ```
 This ensures that when you #include "my-header-file.h" in multiple places, you don't get duplicate declarations
@@ -12156,24 +12153,24 @@ typedef struct {
 ...
 } MyStruct;
 ```
-```
+```c
 int myFunction(MyStruct *value);
 ```
 **header-2.h**
 
-```
+```c
 #include "header-1.h"
 ```
-```
+```c
 int myFunction2(MyStruct *value);
 ```
 **main.c**
 
-```
+```c
 #include "header-1.h"
 #include "header-2.h"
 ```
-```
+```c
 int main() {
 // do something
 }
@@ -12186,7 +12183,7 @@ instead did it with header guards:
 
 **header-1.h**
 
-```
+```c
 #ifndef HEADER_1_H
 #define HEADER_1_H
 ```
@@ -12199,41 +12196,41 @@ typedef struct {
 ```
 } MyStruct;
 ```
-```
+```c
 int myFunction(MyStruct *value);
 ```
-```
+```c
 #endif
 ```
 **header-2.h**
 
-```
+```c
 #ifndef HEADER_2_H
 #define HEADER_2_H
 ```
-```
+```c
 #include "header-1.h"
 ```
-```
+```c
 int myFunction2(MyStruct *value);
 ```
-```
+```c
 #endif
 ```
 **main.c**
 
-```
+```c
 #include "header-1.h"
 #include "header-2.h"
 ```
-```
+```c
 int main() {
 // do something
 }
 ```
 This would then expand to:
 
-```
+```c
 #ifndef HEADER_1_H
 #define HEADER_1_H
 ```
@@ -12242,17 +12239,17 @@ typedef struct {
 ...
 } MyStruct;
 ```
-```
+```c
 int myFunction(MyStruct *value);
 ```
-```
+```c
 #endif
 ```
-```
+```c
 #ifndef HEADER_2_H
 #define HEADER_2_H
 ```
-```
+```c
 #ifndef HEADER_1_H // Safe, since HEADER_1_H was #define'd before.
 #define HEADER_1_H
 ```
@@ -12261,19 +12258,19 @@ typedef struct {
 ...
 } MyStruct;
 ```
-```
+```c
 int myFunction(MyStruct *value);
 ```
-```
+```c
 #endif
 ```
-```
+```c
 int myFunction2(MyStruct *value);
 ```
-```
+```c
 #endif
 ```
-```
+```c
 int main() {
 // do something
 ```
@@ -12284,7 +12281,7 @@ When the compiler reaches the second inclusion of **header-1.h** , HEADER_1_H wa
 
 inclusion. Ergo, it boils down to the following:
 
-```
+```c
 #define HEADER_1_H
 ```
 ```
@@ -12292,16 +12289,16 @@ typedef struct {
 ...
 } MyStruct;
 ```
-```
+```c
 int myFunction(MyStruct *value);
 ```
-```
+```c
 #define HEADER_2_H
 ```
-```
+```c
 int myFunction2(MyStruct *value);
 ```
-```
+```c
 int main() {
 // do something
 }
@@ -12324,17 +12321,17 @@ implementations of the standard I/O functions can make use of the internals of t
 
 header- 1 .h could contain:
 
-```
+```c
 #ifndef HEADER_1_H
 #define HEADER_1_H
 ```
 ```
 typedef struct MyStruct MyStruct;
 ```
-```
+```c
 int myFunction(MyStruct *value);
 ```
-```
+```c
 #endif
 ```
 Note that the structure must have a tag name (here MyStruct — that's in the tags namespace, separate from the
@@ -12363,7 +12360,7 @@ Many compilers support the #pragma once directive, which has the same results:
 
 **my-header-file.h**
 
-```
+```c
 #pragma once
 ```
 ```
@@ -12385,7 +12382,7 @@ If there are sections of code that you are considering removing or want to tempo
 
 out with a block comment.
 
-```
+```c
 /* Block comment around whole function to keep it from getting used.
 * What's even the purpose of this function?
 int myUnusedFunction(void)
@@ -12401,14 +12398,14 @@ the ending */ of the existing block comments can cause your new block comment to
 
 compilation problems.
 
-```
+```c
 /* Block comment around whole function to keep it from getting used.
 * What's even the purpose of this function?
 int myUnusedFunction(void)
 {
 int i = 5;
 ```
-```
+```c
 /* Return 5 */
 return i;
 }
@@ -12418,7 +12415,7 @@ In the previous example, the last two lines of the function and the last '*/' ar
 
 compile with errors. A safer method is to use an #if 0 directive around the code you want to block out.
 
-```
+```c
 #if 0
 /* #if 0 evaluates to false, so everything between here and the #endif are
 * removed by the preprocessor. */
@@ -12426,7 +12423,7 @@ int myUnusedFunction(void)
 {
 ```
 
-```
+```c
 int i = 5 ;
 return i;
 }
@@ -12454,11 +12451,11 @@ sections of source are easy to find.
 
 Function-like macros are similar to **inline** functions, these are useful in some cases, such as temporary debug log:
 
-```
+```c
 #ifdef DEBUG
 # define LOGFILENAME "/tmp/logfile.log"
 ```
-```
+```c
 # define LOG(str) do { \
 FILE *fp = fopen(LOGFILENAME, "a"); \
 if (fp) { \
@@ -12476,10 +12473,10 @@ perror("Opening '" LOGFILENAME "' failed"); \
 # define LOG(LINE) (void)0
 #endif
 ```
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(int argc, char* argv[])
 {
 if (argc > 1 )
@@ -12500,7 +12497,7 @@ statement with no side effect that is just ignored.
 
 An alternative for the latter would be
 
-```
+```c
 #define LOG(LINE) do { /* empty */ } while (0)
 ```
 such that it is in all cases syntactically equivalent to the first.
@@ -12509,10 +12506,10 @@ If you use GCC, you can also implement a function-like macro that returns result
 
 extension — statement expressions. For example:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define POW(X, Y) \
 ({ \
 int i, r = 1; \
@@ -12521,7 +12518,7 @@ r *= X; \
 r; \ // returned value is result of last operation
 })
 ```
-```
+```c
 int main(void)
 {
 int result;
@@ -12530,22 +12527,22 @@ int result;
 result = POW( 2 , 3 );
 printf("Result: %d \n ", result);
 }
-```
+```c
 ### Section 30.4: Source file inclusion
 
 The most common uses of #include preprocessing directives are as in the following:
 
-```
+```c
 #include <stdio.h>
 #include "myheader.h"
-```
+```c
 #include replaces the statement with the contents of the file referred to. Angle brackets (<>) refer to header files
 
 installed on the system, while quotation marks ("") are for user-supplied files.
 
 Macros themselves can expand other macros once, as this example illustrates:
 
-```
+```c
 #if VERSION == 1
 #define INCFILE "vers1.h"
 #elif VERSION == 2
@@ -12556,14 +12553,14 @@ Macros themselves can expand other macros once, as this example illustrates:
 #endif
 /* ... */
 #include INCFILE
-```
+```c
 ### Section 30.5: Conditional inclusion and conditional function signature modification
 
 To conditionally include a block of code, the preprocessor has several directives (e.g #if, #ifdef, #else, #endif,
 
 etc).
 
-```
+```c
 /* Defines a conditional `printf` macro, which only prints if `DEBUG`
 ```
 
@@ -12578,7 +12575,7 @@ etc).
 ```
 Normal C relational operators may be used for the #if condition
 
-```
+```c
 #if __STDC_VERSION__ >= 201112L
 /* Do stuff for C11 or higher */
 #elif __STDC_VERSION__ >= 199901L
@@ -12593,7 +12590,7 @@ casts. It supports one additional unary operator, defined( identifier ), which r
 
 defined, and^0 otherwise.
 
-```
+```c
 #if defined(DEBUG) && !defined(QUIET)
 #define DLOG(x) (printf(x))
 #else
@@ -12624,7 +12621,7 @@ additional arguments, the name of the file and the line number of where the func
 
 Conditional compilation is used to choose whether to override the standard function with a debug version or not.
 
-```
+```c
 #if 0
 // function declaration and prototype for our debug version of the function.
 SHORT SerOpPluAllRead_Debug(PLUIF *pPif, USHORT usLockHnd, char *aszFilePath, int nLineNo);
@@ -12655,7 +12652,7 @@ argument list to include two additional arguments, a pointer to the name of the 
 
 and the line number in the file at which the function is used.
 
-```
+```c
 #if defined(SerOpPluAllRead)
 // forward declare the replacement function which we will call once we create our log.
 SHORT SerOpPluAllRead_Special(PLUIF *pPif, USHORT usLockHnd);
@@ -12699,7 +12696,7 @@ return OpPluAllRead(pPif, usLockHnd);
 }
 return OP_NOT_MASTER;
 }
-```
+```c
 ### Section 30.6: __cplusplus for using C externals in C++ code compiled with C++ - name mangling
 
 There are times when an include file has to generate different output from the preprocessor depending on whether
@@ -12731,7 +12728,7 @@ can be used with the conditional preprocessor #ifdef directive or #if with the d
 
 a source code or include file is being compiled as C++ or C.
 
-```
+```c
 #ifdef __cplusplus
 printf("C++ \n ");
 #else
@@ -12740,7 +12737,7 @@ printf("C \n ");
 ```
 Or you could use
 
-```
+```c
 #if defined(__cplusplus)
 printf("C++ \n ");
 #else
@@ -12757,7 +12754,7 @@ However when compiled with a C compiler, the **extern** "C" { */ ... */ }; is no
 
 compilation is needed because **extern** "C" { _/* ... */_ }; is valid in C++ but not in C.
 
-```
+```c
 #ifdef __cplusplus
 // if we are being compiled with a C++ compiler then declare the
 // following functions as C functions to prevent name mangling.
@@ -12768,12 +12765,12 @@ extern "C" {
 // exported C function list.
 int foo (void);
 ```
-```
+```c
 #ifdef __cplusplus
 // if this is a C++ compiler, we need to close off the extern declaration.
 };
 #endif
-```
+```c
 ### Section 30.7: Token pasting
 
 Token pasting allows one to glue together two macro arguments. For example, front##back yields frontback. A
@@ -12784,12 +12781,12 @@ string. However, Windows API allows one to convert between wide character string
 
 simply by #defineing UNICODE. In order to implement the string literals, TCHAR.H uses this
 
-```
+```c
 #ifdef UNICODE
 #define TEXT(x) L##x
 ```
 
-```
+```c
 #endif
 ```
 Whenever a user writes TEXT("hello, world"), and UNICODE is defined, the C preprocessor concatenates L and
@@ -12888,7 +12885,7 @@ __STDC_NO_THREADS__ The integer constant 1, intended to indicate that the implem
 not support the <threads.h> header.
 __STDC_NO_VLA__ The integer constant 1, intended to indicate that the implementation does not
 support variable length arrays or variably modified types.
-```
+```c
 ### Section 30.9: Variadic arguments macro
 
 Version ≥ C99
@@ -12897,7 +12894,7 @@ Macros with variadic args:
 
 Let's say you want to create some print-macro for debugging your code, let's take this macro as an example:
 
-```
+```c
 #define debug_print(msg) printf("%s:%d %s", __FILE__, __LINE__, msg)
 ```
 Some examples of usage:
@@ -12906,7 +12903,7 @@ The function somefunc() returns -1 if failed and 0 if succeeded, and it is calle
 
 the code:
 
-```
+```c
 int retVal = somefunc();
 ```
 ```
@@ -12915,7 +12912,7 @@ if(retVal == - 1 )
 debug_printf("somefunc() has failed");
 }
 ```
-```
+```c
 /* some other code */
 ```
 
@@ -12940,13 +12937,13 @@ To solve this problem the __VA_ARGS__ macro was introduced. This macro allows mu
 
 Example:
 
-```
+```c
 #define debug_print(msg, ...) printf(msg, __VA_ARGS__) \
 printf("\nError occurred in file:line (%s:%d)\n", __FILE__, __LINE)
 ```
 Usage:
 
-```
+```c
 int retVal = somefunc();
 ```
 ```
@@ -12971,7 +12968,7 @@ comma is deleted by the pre-processor from code.
 
 Example:
 
-```
+```c
 #define debug_print(msg, ...) printf(msg, ##__VA_ARGS__) \
 printf("\nError occurred in file:line (%s:%d)\n", __FILE__, __LINE)
 ```
@@ -12980,19 +12977,19 @@ Usage:
 ```
 debug_print("Ret val of somefunc()?");
 debug_print("%d",somefunc());
-```
+```c
 ### Section 30.10: Macro Replacement
 
 The simplest form of macro replacement is to define a manifest constant, as in
 
-```
+```c
 #define ARRSIZE 100
 int array[ARRSIZE];
 ```
 
 This defines a _function-like_ macro that multiplies a variable by 10 and stores the new value:
 
-```
+```c
 #define TIMES10(A) ((A) *= 10)
 ```
 ```
@@ -13010,7 +13007,7 @@ from the definition is replaced by b and the so expanded text is then put in pla
 
 definition of TIMES10 is not equivalent to
 
-```
+```c
 #define TIMES10(A) ((A) = (A) * 10)
 ```
 because this could evaluate the replacement of A, twice, which can have unwanted side effects.
@@ -13023,14 +13020,14 @@ calling. It has the disadvantages of evaluating one or the other of its argument
 
 effects) and of generating more code than a function if invoked several times.
 
-```
+```c
 #define max(a, b) ((a) > (b)? (a) : (b))
 ```
-```
+```c
 int maxVal = max( 11 , 43 ); /* 43 */
 int maxValExpr = max( 11 + 36 , 51 - 7 ); /* 47 */
 ```
-```
+```c
 /* Should not be done, due to expression being evaluated twice */
 int j = 0 , i = 0 ;
 int sideEffect = max(++i, ++j); /* i == 4 */
@@ -13049,15 +13046,15 @@ If the preprocessor encounters an #error directive, compilation is halted and th
 
 printed.
 
-```
+```c
 #define DEBUG
 ```
-```
+```c
 #ifdef DEBUG
 #error "Debug Builds Not Supported"
 #endif
 ```
-```
+```c
 int main(void) {
 return 0 ;
 }
@@ -13068,7 +13065,7 @@ Possible output:
 ```
 $ gcc error.c
 error.c: error: #error "Debug Builds Not Supported"
-```
+```c
 ### Section 30.12: FOREACH implementation
 
 We can also use macros for making code easier to read and write. For example we can implement macros for
@@ -13077,7 +13074,7 @@ implementing the foreach construct in C for some data structures like singly- an
 
 Here is a small example.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
@@ -13088,11 +13085,11 @@ int data;
 struct LinkedListNode *next;
 };
 ```
-```
+```c
 #define FOREACH_LIST(node, list) \
 for (node=list; node; node=node->next)
 ```
-```
+```c
 /* Usage */
 int main(void)
 {
@@ -13108,7 +13105,7 @@ for (i= 0 ; i< 10 ; i++)
 plist = &(*plist)->next;
 }
 ```
-```
+```c
 /* printing the elements here */
 FOREACH_LIST(node, list)
 {
@@ -13118,7 +13115,7 @@ printf("%d \n ", node->data);
 ```
 You can make a standard interface for such data-structures and write a generic implementation of FOREACH as:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
@@ -13204,7 +13201,7 @@ Add_Collection(coll, i);
 
 ##### }
 
-```
+```c
 /* printing the elements here */
 FOREACH(node, coll)
 {
@@ -13234,7 +13231,7 @@ some implementation defined value
 func
 The signal handler, which is either of the following: SIG_DFL, for the default handler, SIG_IGN to ignore
 the signal, or a function pointer with the signature void foo(int sig);.
-```
+```c
 ### Section 31.1: Signal Handling with “signal()”
 
 Signal numbers can be synchronous (like SIGSEGV – segmentation fault) when they are triggered by a
@@ -13245,7 +13242,7 @@ from outside the program, e.g by a keypress as Cntrl-C.
 
 The signal() function is part of the ISO C standard and can be used to assign a function to handle a specific signal
 
-```
+```c
 #include <stdio.h> /* printf() */
 #include <stdlib.h> /* abort() */
 #include <signal.h> /* signal() */
@@ -13256,7 +13253,7 @@ void handler_nonportable(int sig)
 /* undefined behavior, maybe fine on specific platform */
 printf("Catched: %d \n ", sig);
 ```
-```
+```c
 /* abort is safe to call */
 abort();
 }
@@ -13275,13 +13272,13 @@ case SIGILL:
 ```
 Version ≥ C11
 
-```
+```c
 /* quick_exit is safe to call */
 quick_exit(EXIT_FAILURE);
 ```
 Version < C11
 
-```
+```c
 /* use _Exit in pre-C11 */
 _Exit(EXIT_FAILURE);
 ```
@@ -13297,34 +13294,34 @@ return;
 }
 }
 ```
-```
+```c
 int main(void)
 {
 ```
 
-```
+```c
 /* Catch the SIGSEGV signal, raised on segmentation faults (i.e NULL ptr access */
 if (signal(SIGSEGV, &handler) == SIG_ERR) {
 perror("could not establish handler for SIGSEGV");
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Catch the SIGTERM signal, termination request */
 if (signal(SIGTERM, &handler) == SIG_ERR) {
 perror("could not establish handler for SIGTERM");
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Ignore the SIGINT signal, by setting the handler to `SIG_IGN`. */
 signal(SIGINT, SIG_IGN);
 ```
-```
+```c
 /* Do something that takes some time here, and leaves
 the time to terminate the program from the keyboard. */
 ```
-```
+```c
 /* Then: */
 ```
 ```
@@ -13333,14 +13330,14 @@ fprintf(stderr, "we have been terminated by signal %d \n ", (int)finished);
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Try to force a segmentation fault, and raise a SIGSEGV */
 {
 char* ptr = 0 ;
 *ptr = 0 ;
 }
 ```
-```
+```c
 /* This should never be executed */
 return EXIT_SUCCESS;
 }
@@ -13397,11 +13394,11 @@ where there may be any number of integers but that count is specified as an argu
 
 argument list.
 
-```
+```c
 #include <stdio.h>
 #include <stdarg.h>
 ```
-```
+```c
 /* first arg is the number of following int args to sum. */
 int sum(int n, ...) {
 int sum = 0 ;
@@ -13413,11 +13410,11 @@ while (n--)
 sum += va_arg(it, int); /* get and sum the next variadic argument */
 va_end(it); /* end variadic argument processing */
 ```
-```
+```c
 return sum;
 }
 ```
-```
+```c
 int main(void)
 {
 printf("%d \n ", sum( 5 , 1 , 2 , 3 , 4 , 5 )); /* prints 15 */
@@ -13434,15 +13431,15 @@ approach (exemplified by printf) is to specify number of arguments up front. How
 
 idea:
 
-```
+```c
 /* First argument specifies the number of parameters; the remainder are also int */
 extern int sum(int n, ...);
 ```
-```
+```c
 /* But it's far from obvious from the code. */
 sum( 5 , 2 , 1 , 4 , 3 , 6 )
 ```
-```
+```c
 /* What happens if i.e. one argument is removed later on? */
 sum( 5 , 2 , 1 , 3 , 6 ) /* Disaster */
 ```
@@ -13450,12 +13447,12 @@ Sometimes it's more robust to add an explicit terminator, exemplified by the POS
 
 another function to calculate the sum of a series of double numbers:
 
-```
+```c
 #include <stdarg.h>
 #include <stdio.h>
 #include <math.h>
 ```
-```
+```c
 /* Sums args up until the terminator NAN */
 double sum (double x, ...) {
 double sum = 0 ;
@@ -13468,11 +13465,11 @@ sum += x;
 }
 va_end(va);
 ```
-```
+```c
 return sum;
 }
 ```
-```
+```c
 int main (void) {
 printf("%g \n ", sum( 5 ., 2 ., 1 ., 4 ., 3 ., 6 ., NAN));
 printf("%g \n ", sum( 1 , 0.5, 0.25, 0.125, 0.0625, 0.03125, NAN));
@@ -13480,12 +13477,12 @@ printf("%g \n ", sum( 1 , 0.5, 0.25, 0.125, 0.0625, 0.03125, NAN));
 ```
 Good terminator values:
 
-```
+```c
 integer (supposed to be all positive or non-negative) — 0 or -1
 floating point types — NAN
 pointer types — NULL
 enumerator types — some special value
-```
+```c
 ### Section 32.3: Implementing functions with a `printf()`-like interface
 
 One common use of variable-length argument lists is to implement functions that are a thin wrapper around the
@@ -13495,11 +13492,11 @@ printf() family of functions. One such example is a set of error reporting funct
 **errmsg.h**
 
 
-```
+```c
 #ifndef ERRMSG_H_INCLUDED
 #define ERRMSG_H_INCLUDED
 ```
-```
+```c
 #include <stdarg.h>
 #include <stdnoreturn.h> // C11
 ```
@@ -13508,7 +13505,7 @@ void verrmsg(int errnum, const char *fmt, va_list ap);
 noreturn void errmsg(int exitcode, int errnum, const char *fmt, ...);
 void warnmsg(int errnum, const char *fmt, ...);
 ```
-```
+```c
 #endif
 ```
 This is a bare-bones example; such packages can be much elaborate. Normally, programmers will use either
@@ -13527,7 +13524,7 @@ error. It also reports the system error message corresponding to the system erro
 
 functions.
 
-```
+```c
 #include "errmsg.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -13570,7 +13567,7 @@ va_end(ap);
 
 Now you can use those functions as follows:
 
-```
+```c
 #include "errmsg.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -13578,7 +13575,7 @@ Now you can use those functions as follows:
 #include <stdlib.h>
 #include <unistd.h>
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 char buffer[BUFSIZ];
@@ -13625,15 +13622,15 @@ See common function attributes for information about the attributes — specific
 
 **Rewritten errmsg.h**
 
-```
+```c
 #ifndef ERRMSG_H_INCLUDED
 #define ERRMSG_H_INCLUDED
 ```
-```
+```c
 #include <stdarg.h>
 #include <stdnoreturn.h> // C11
 ```
-```
+```c
 #if !defined(PRINTFLIKE)
 #if defined(__GNUC__)
 #define PRINTFLIKE(n,m) __attribute__((format(printf,n,m)))
@@ -13641,7 +13638,7 @@ See common function attributes for information about the attributes — specific
 #define PRINTFLIKE(n,m) /* If only */
 ```
 
-```
+```c
 #endif /* __GNUC__ */
 #endif /* PRINTFLIKE */
 ```
@@ -13652,7 +13649,7 @@ PRINTFLIKE( 3 , 4 );
 void warnmsg(int errnum, const char *fmt, ...)
 PRINTFLIKE( 2 , 3 );
 ```
-```
+```c
 #endif
 ```
 Now, if you make a mistake like:
@@ -13673,7 +13670,7 @@ errmsg(EXIT_FAILURE, errno, "Failed to open file '%d' for reading", filename);
 %s
 cc1: all warnings being treated as errors
 $
-```
+```c
 ### Section 32.4: Using a format string
 
 Using a format string provides information about the expected number and type of the subsequent variadic
@@ -13688,11 +13685,11 @@ first argument to the wrapping function is the format string. As the format stri
 
 determine if there is another variadic argument expected and what it's type should be.
 
-```
+```c
 #include <stdio.h>
 #include <stdarg.h>
 ```
-```
+```c
 int simple_printf(const char *format, ...)
 {
 va_list ap; /* hold information about the variadic argument list. */
@@ -13791,13 +13788,13 @@ release. (Whether termination is better or worse than errors depends on the prog
 
 only to catch internal programming errors, which usually means being passed bad parameters.
 
-```
+```c
 #include <stdio.h>
 /* Uncomment to disable `assert()` */
 /* #define NDEBUG */
 #include <assert.h>
 ```
-```
+```c
 int main(void)
 {
 int x = - 1 ;
@@ -13841,7 +13838,7 @@ expression, and the second a string literal.
 
 Unlike assert, _Static_assert is a keyword. A convenience macro static_assert is defined in **<assert.h>**.
 
-```
+```c
 #include <assert.h>
 ```
 ```
@@ -13861,7 +13858,7 @@ assertion fails, the variable name is seen in the compiler error, since that var
 
 incorrect array declaration.
 
-```
+```c
 #define STATIC_MSG(msg, l) STATIC_MSG2(msg, l)
 #define STATIC_MSG2(msg,l) on_line_##l##__##msg
 #define STATIC_ASSERT(x, msg) extern char STATIC_MSG(msg, __LINE__) [(x)?1:-1]
@@ -13984,42 +13981,42 @@ design by contract. For a example a length is always zero or positive so this fu
 
 value.
 
-```
+```c
 #include <stdio.h>
 /* Uncomment to disable `assert()` */
 /* #define NDEBUG */
 #include <assert.h>
 ```
-```
+```c
 int length2 (int *a, int count)
 {
 int i, result = 0 ;
 ```
-```
+```c
 /* Precondition: */
 /* NULL is an invalid vector */
 assert (a != NULL);
 /* Number of dimensions can not be negative.*/
 assert (count >= 0 );
 ```
-```
+```c
 /* Calculation */
 for (i = 0 ; i < count; ++i)
 {
 result = result + (a[i] * a[i]);
 }
 ```
-```
+```c
 /* Postcondition: */
 /* Resulting length can not be negative. */
 assert (result >= 0 );
 return result;
 }
 ```
-```
+```c
 #define COUNT 3
 ```
-```
+```c
 int main (void)
 {
 int a[COUNT] = { 1 , 2 , 3 };
@@ -14039,19 +14036,19 @@ return 0 ;
 Parameter Details
 generic-assoc-list generic-association OR generic-assoc-list , generic-association
 generic-associationtype-name : assignment-expression OR default : assignment-expression
-```
+```c
 ### Section 34.1: Check whether a variable is of a certain qualified type
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define is_const_int(x) _Generic((&x), \
 const int *: "a const int", \
 int *: "a non-const int", \
 default: "of other type")
 ```
-```
+```c
 int main(void)
 {
 const int i = 1 ;
@@ -14071,7 +14068,7 @@ k is of other type
 ```
 However, if the type generic macro is implemented like this:
 
-```
+```c
 #define is_const_int(x) _Generic((x), \
 const int: "a const int", \
 int: "a non-const int", \
@@ -14097,12 +14094,12 @@ arithmetic types, an easy way to avoid nested _Generic expressions is to use add
 controlling expression:
 
 
-```
+```c
 int max_int(int, int);
 unsigned max_unsigned(unsigned, unsigned);
 double max_double(double, double);
 ```
-```
+```c
 #define MAX(X, Y) _Generic((X)+(Y), \
 int: max_int, \
 unsigned: max_unsigned, \
@@ -14121,32 +14118,32 @@ This example selects between four externally implemented functions, that take co
 
 string arguments, and return their sum.
 
-```
+```c
 int AddIntInt(int a, int b);
 int AddIntStr(int a, const char* b);
 int AddStrInt(const char* a, int b );
 int AddStrStr(const char* a, const char* b);
 ```
-```
+```c
 #define AddStr(y) \
 _Generic((y), int: AddStrInt, \
 char*: AddStrStr, \
 const char*: AddStrStr )
 ```
-```
+```c
 #define AddInt(y) \
 _Generic((y), int: AddIntInt, \
 char*: AddIntStr, \
 const char*: AddIntStr )
 ```
-```
+```c
 #define Add(x, y) \
 _Generic((x) , int: AddInt(y) , \
 char*: AddStr(y) , \
 const char*: AddStr(y)) \
 ((x), (y))
 ```
-```
+```c
 int main( void )
 {
 int result = 0 ;
@@ -14160,7 +14157,7 @@ const int a = - 123 ;
 char b[] = "4321";
 result = Add( a , b );
 ```
-```
+```c
 int c = 1 ;
 const char d[] = "0";
 result = Add( d , ++c );
@@ -14177,7 +14174,7 @@ The controlling expression of a generic selection is not evaluated.
 
 ### Section 34.3: Type-generic printing macro
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -14185,13 +14182,13 @@ void print_int(int x) { printf("int: %d \n ", x); }
 void print_dbl(double x) { printf("double: %g \n ", x); }
 void print_default() { puts("unknown argument"); }
 ```
-```
+```c
 #define print(X) _Generic((X), \
 int: print_int, \
 double: print_dbl, \
 default: print_default)(X)
 ```
-```
+```c
 int main(void) {
 print( 42 );
 print(3.14);
@@ -14200,7 +14197,7 @@ print("hello, world");
 ```
 Output:
 
-```
+```c
 int: 42
 double: 3.14
 unknown argument
@@ -14224,11 +14221,11 @@ named X(), hence the name of the technique.
 
 ### Section 35.1: Trivial use of X-macros for printfs
 
-```
+```c
 /* define a list of preprocessor tokens on which to call X */
 #define X_123 X(1) X(2) X(3)
 ```
-```
+```c
 /* define X to use */
 #define X(val) printf("X(%d) made this print\n", val);
 X_123
@@ -14241,7 +14238,7 @@ This example will result in the preprocessor generating the following code:
 printf("X(%d) made this print \n ", 1 );
 printf("X(%d) made this print \n ", 2 );
 printf("X(%d) made this print \n ", 3 );
-```
+```c
 ### Section 35.2: Extension: Give the X macro as an argument
 
 The X-macro approach can be generalized a bit by making the name of the "X" macro an argument of the master
@@ -14254,7 +14251,7 @@ As always with X macros, the master macro represents a list of items whose signi
 
 this variation, such a macro might be defined like so:
 
-```
+```c
 /* declare list of items */
 #define ITEM_LIST(X) \
 X(item1) \
@@ -14264,11 +14261,11 @@ X(item3) \
 ```
 One might then generate code to print the item names like so:
 
-```
+```c
 /* define macro to apply */
 #define PRINTSTRING(value) printf( #value "\n");
 ```
-```
+```c
 /* apply macro to the list of items */
 ITEM_LIST(PRINTSTRING)
 ```
@@ -14286,7 +14283,7 @@ this example).
 
 ### Section 35.3: Enum Value and Identifier
 
-```
+```c
 /* declare items of the enum */
 #define FOREACH \
 X(item1) \
@@ -14294,13 +14291,13 @@ X(item2) \
 X(item3) \
 /* end of list */
 ```
-```
+```c
 /* define the enum values */
 #define X(id) MyEnum_ ## id,
 enum MyEnum { FOREACH };
 #undef X
 ```
-```
+```c
 /* convert an enum value to its identifier */
 const char * enum2string(int enumValue)
 {
@@ -14315,7 +14312,7 @@ Next you can use the enumerated value in your code and easily print its identifi
 
 ```
 printf("%s \n ", enum2string(MyEnum_item2));
-```
+```c
 ### Section 35.4: Code generation
 
 X-Macros can be used for code generation, by writing repetitive code: iterate over a list to do some tasks, or to
@@ -14326,11 +14323,11 @@ declare a set of constants, objects or functions.
 
 Then we can print the string values of the enum.
 
-```
+```c
 /* All our commands */
 #define COMMANDS(OP) OP(Open) OP(Close) OP(Save) OP(Quit)
 ```
-```
+```c
 /* generate the enum Commands: {cmdOpen, cmdClose, cmdSave, cmdQuit, }; */
 #define ENUM_NAME(name) cmd##name,
 enum Commands {
@@ -14338,7 +14335,7 @@ COMMANDS(ENUM_NAME)
 };
 #undef ENUM_NAME
 ```
-```
+```c
 /* generate the string table */
 #define COMMAND_OP(name) #name,
 const char* const commandNames[] = {
@@ -14346,7 +14343,7 @@ COMMANDS(COMMAND_OP)
 };
 #undef COMMAND_OP
 ```
-```
+```c
 /* the following prints "Quit\n": */
 ```
 
@@ -14359,20 +14356,20 @@ This requires all functions to have the same signature. If they take no argument
 
 this in a header with the enum definition:
 
-```
+```c
 /* declare all functions as extern */
 #define EXTERN_FUNC(name) extern int doCmd##name(void);
 COMMANDS(EXTERN_FUNC)
 #undef EXTERN_FUNC
 ```
-```
+```c
 /* declare the function pointer type and the jump table */
 typedef int (*CommandFunc)(void);
 extern CommandFunc commandJumpTable[];
 ```
 All of the following can be in different compilation units assuming the part above is included as a header:
 
-```
+```c
 /* generate the jump table */
 #define FUNC_NAME(name) doCmd##name,
 CommandFunc commandJumpTable[] = {
@@ -14380,11 +14377,11 @@ COMMANDS(FUNC_NAME)
 };
 #undef FUNC_NAME
 ```
-```
+```c
 /* call the save command like this: */
 int result = commandJumpTable[cmdSave]();
 ```
-```
+```c
 /* somewhere else, we need the implementations of the commands */
 int doCmdOpen(void) { /* code performing open command */ }
 int doCmdClose(void) { /* code performing close command */ }
@@ -14492,11 +14489,11 @@ Once an object has an effective type, you should not attempt to modify it throug
 
 that other type is a character type, char, signed char or unsigned char.
 
-```
+```c
 #include <inttypes.h>
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 uint32_t a = 57 ;
 // conversion from incompatible types needs a cast!
@@ -14527,7 +14524,7 @@ The type of a, uint32_t has no padding bits. All its bits of the representation 
 
 ```
 707406378 , and there can be no trap representation.
-```
+```c
 ### Section 36.4: Character types cannot be accessed through non-character types
 
 If an object is defined with static, thread, or automatic storage duration, and it has a character type, either: char,
@@ -14536,7 +14533,7 @@ unsigned char, or signed char, it may not be accessed by a non-character type. I
 
 is reinterpreted as the type int, and the behavior is undefined on every dereference of the int pointer b.
 
-```
+```c
 int main( void )
 {
 char a[ 100 ];
@@ -14577,7 +14574,7 @@ char c[sizeof(int[ 25 ])];
 int i[ 25 ];
 };
 ```
-```
+```c
 int main( void )
 {
 bufType a = { .c = { 0 } }; // reserve a buffer and initialize
@@ -14767,7 +14764,7 @@ as shared libraries because one library image can be shared by many programs. Dy
 have the advantage of taking up less disk space if more than one application is using the library. Also,
 they allow library updates (bug fixes) without having to rebuild executables.
 e.g., foo.so foo.dylib foo.dll
-```
+```c
 ### Section 37.3: The Linker
 
 The job of the linker is to link together a bunch of object files (.o files) into a binary executable. The process of
@@ -14898,20 +14895,20 @@ most important are:
 
 1. **Defines** :
 
-```
+```c
 #define is mainly used to define constants. For instance,
 ```
-```
+```c
 #define BIGNUM 1000000
 int a = BIGNUM;
 ```
 ```
 becomes
 ```
-```
+```c
 int a = 1000000 ;
 ```
-```
+```c
 #define is used in this way so as to avoid having to explicitly write out some constant value in many different
 places in a source code file. This is important in case you need to change the constant value later on; it's
 much less bug-prone to change it once, in the #define, than to have to change it in multiple places scattered
@@ -14920,7 +14917,7 @@ all over the code.
 ```
 Because #define just does advanced search and replace, you can also declare macros. For instance:
 ```
-```
+```c
 #define ISTRUE(stm) do{stm = stm? 1 : 0;}while(0)
 // in the function:
 a = x;
@@ -14947,10 +14944,10 @@ Also note here, that the preprocessor would also replace comments with a blanks 
 ```
 2. **Includes** :
 
-```
+```c
 #include is used to access function definitions defined outside of a source code file. For instance:
 ```
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -14963,7 +14960,7 @@ that file; #include statements are thus the way to re-use previously-written cod
 ```
 3. **Logic operations** :
 
-```
+```c
 #if defined A || defined B
 variable = another_variable + 1 ;
 #else
@@ -14993,7 +14990,7 @@ just use the code he will compile for sure.
 ```
 The Preprocessor replaces all comments in the source file by single spaces. Comments are indicated by // up
 to the end of the line, or a combination of opening /* and closing */ comment brackets.
-```
+```c
 ### Section 37.5: The Translation Phases
 
 As of the C 2011 Standard, listed in § _5.1.1.2 Translation Phases_ , the translation of source code to program image
@@ -15024,7 +15021,7 @@ as if the above steps had occurred separately in the order listed above.
 
 We can put assembly instructions inside a macro and use the macro like you would call a function.
 
-```
+```c
 #define mov(x,y) \
 { \
 __asm__ ("l.cmov %0,%1,%2" : "=r" (x) : "r" (y), "r" (0x0000000F)); \
@@ -15084,7 +15081,7 @@ multiple assembly instructions. A basic asm statement is used if you have an asm
 
 a C function. The following example is from the GCC manual:
 
-```
+```c
 /* Note that this code will not compile with -masm=intel */
 #define DebugBreak() asm("int $3")
 ```
@@ -15126,7 +15123,7 @@ The extended format is used within C functions and is the more typical usage of 
 
 example from the Linux kernel for byte swapping 16-bit and 32-bit numbers for an ARM processor:
 
-```
+```c
 /* From arch/arm/include/asm/swab.h in Linux kernel version 4.6.4 */
 #if __LINUX_ARM_ARCH__ >= 6
 ```
@@ -15147,7 +15144,7 @@ return x;
 }
 #define __arch_swab32 __arch_swab32
 ```
-```
+```c
 #endif
 ```
 Each asm section uses the variable x as its input and output parameter. The C function then returns the
@@ -15165,18 +15162,18 @@ for the asm section.
 
 ### Section 39.1: Function Prototype Scope
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 /* The parameter name, apple, has function prototype scope. These names
 are not significant outside the prototype itself. This is demonstrated
 below. */
 ```
-```
+```c
 int test_function(int apple);
 ```
-```
+```c
 int main(void)
 {
 int orange = 5 ;
@@ -15185,11 +15182,11 @@ int orange = 5 ;
 orange = test_function(orange);
 printf("%d \r\n ", orange); //orange = 6
 ```
-```
+```c
 return 0 ;
 }
 ```
-```
+```c
 int test_function(int fruit)
 {
 fruit += 1 ;
@@ -15198,7 +15195,7 @@ return fruit;
 ```
 Note that you get puzzling error messages if you introduce a type name in a prototype:
 
-```
+```c
 int function (struct whatever *arg);
 ```
 ```
@@ -15208,7 +15205,7 @@ int a;
 // ...
 };
 ```
-```
+```c
 int function (struct whatever *arg)
 {
 return arg->a;
@@ -15248,7 +15245,7 @@ No different entities with the same identifier can have the same scope, but scop
 
 overlapping scopes the only visible one is the one declared in the innermost scope.
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -15263,7 +15260,7 @@ printf("%d %d \n ", foo, bar); // 5 10
 printf("%d %d \n ", foo, bar); // 5 5, here bar is test:bar
 } // end of scope for test:foo and test:bar
 ```
-```
+```c
 int main(void)
 {
 int foo = 3 ; // foo has scope main function block
@@ -15274,13 +15271,13 @@ test( 5 );
 printf("%d \n ", foo); // 3
 return 0 ;
 } // end of scope for main:foo
-```
+```c
 ### Section 39.3: File Scope
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 /* The identifier, foo, is declared outside all blocks.
 It can be used anywhere after the declaration until the end of
 the translation unit. */
@@ -15292,7 +15289,7 @@ void test_function(void)
 foo += 2 ;
 }
 ```
-```
+```c
 int main(void)
 {
 foo = 1 ;
@@ -15301,7 +15298,7 @@ foo = 1 ;
 test_function();
 printf("%d \r\n ", foo); //foo = 3;
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -15314,10 +15311,10 @@ entire function it is defined and one can jump (using instruction goto _label_ )
 
 function. While not useful, the following example illustrate the point:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(int argc,char *argv[]) {
 int a = 0 ;
 goto INSIDE;
@@ -15338,7 +15335,7 @@ identifier in a single function.
 
 A possible usage is the following pattern to realize correct complex cleanups of allocated ressources:
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
@@ -15405,7 +15402,7 @@ and there is no clear meaning that this should have. The C standard cited above 
 
 The following example supposes that int is 32 bit wide.
 
-```
+```c
 #include <stdio.h>
 #include <stdint.h>
 ```
@@ -15450,15 +15447,15 @@ void param_s64(int64_t val) {
 printf("%s val is " PRI64d " \n ", __func__, val); /* Fixed with format string */
 }
 ```
-```
+```c
 int main(void) {
 ```
-```
+```c
 /* Declare integers of various widths */
 uint8_t u8 = 127 ;
 uint8_t s64 = INT64_MAX;
 ```
-```
+```c
 /* Integer argument is widened when function parameter is wider */
 param_u8(u8); /* param_u8 val is 127 */
 param_u16(u8); /* param_u16 val is 127 */
@@ -15469,7 +15466,7 @@ param_s16(u8); /* param_s16 val is 127 */
 param_s32(u8); /* param_s32 val is 127 */
 param_s64(u8); /* param_s64 val is 127 */
 ```
-```
+```c
 /* Integer argument is truncated when function parameter is narrower */
 param_u8(s64); /* param_u8 val is 255 */
 param_u16(s64); /* param_u16 val is 65535 */
@@ -15480,10 +15477,10 @@ param_s16(s64); /* param_s16 val is implementation defined */
 param_s32(s64); /* param_s32 val is implementation defined */
 param_s64(s64); /* param_s64 val is 9223372036854775807 */
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 40.2: Pointer Conversions in Function Calls
 
 Pointer conversions to void* are implicit, but any other pointer conversion must be explicit. While the compiler
@@ -15494,7 +15491,7 @@ through a wrongly typed pointer is erroneous and leads to undefined behavior. Th
 
 allowed are if the types are compatible or if the pointer with which your are looking at the object is a character type.
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -15502,7 +15499,7 @@ void func_voidp(void* voidp) {
 printf("%s Address of ptr is %p \n ", __func__, voidp);
 }
 ```
-```
+```c
 /* Structures have same shape, but not same type */
 struct struct_a {
 int a;
@@ -15571,7 +15568,7 @@ When using variables that are modified outside the program control flow (e.g., i
 ```
 Let's see this example:
 
-```
+```c
 int quit = false ;
 ```
 ```
@@ -15637,7 +15634,7 @@ _Bool doIt(double const* a) {
 double rememberA = *a;
 // do something long and complicated that calls other functions
 ```
-```
+```c
 return rememberA == *a;
 }
 ```
@@ -15652,7 +15649,7 @@ Variables with const qualification could still be changed using pointers:
 ```
 const int a = 0 ;
 ```
-```
+```c
 int *a_ptr = (int*)&a; /* This conversion must be explicitly done with a cast */
 *a_ptr += 10 ; /* This has undefined behavior */
 ```
@@ -15737,7 +15734,7 @@ We can use typedef to simplify the usage of function pointers. Imagine we have s
 
 same signature, that use their argument to print out something in different ways:
 
-```
+```c
 #include<stdio.h>
 ```
 ```
@@ -15846,12 +15843,12 @@ struct mystructure object;
 ```
 one can use
 
-```
+```c
 /* write once */
 typedef long long ll;
 typedef struct mystructure mystruct;
 ```
-```
+```c
 /* use whenever needed */
 ll foo;
 mystruct object;
@@ -15868,7 +15865,7 @@ In one implementation, let the size of int be 2 bytes and that of long be 4 byte
 
 bytes and that of long be 8 bytes. If the program is written using the second implementation,
 
-```
+```c
 /* program expecting a 4 byte integer */
 int foo; /* need to hold 4 bytes to work */
 /* some code involving many more ints */
@@ -15876,14 +15873,14 @@ int foo; /* need to hold 4 bytes to work */
 
 For the program to run in the first implementation, all the int declarations will have to be changed to long.
 
-```
+```c
 /* program now needs long */
 long foo; /*need to hold 4 bytes to work */
 /* some code involving many more longs - lot to be changed */
 ```
 To avoid this, one can use typedef
 
-```
+```c
 /* program expecting a 4 byte integer */
 typedef int myint; /* need to declare once - only one line to modify if needed */
 myint foo; /* need to hold 4 bytes to work */
@@ -15932,20 +15929,20 @@ Since all objects, not living in global scope or being declared static, have aut
 
 when defined, this keyword is mostly of historical interest and should not be used:
 
-```
+```c
 int foo(void)
 {
 /* An integer with automatic storage duration. */
 auto int i = 3 ;
 ```
-```
+```c
 /* Same */
 int j = 5 ;
 ```
-```
+```c
 return 0 ;
 } /* The values of i and j are no longer able to be used. */
-```
+```c
 ### Section 43.2: register
 
 Hints to the compiler that access to an object should be as fast as possible. Whether the compiler actually uses the
@@ -15984,7 +15981,7 @@ The register storage class is more appropriate for variables that are defined in
 
 high frequency. For example,
 
-```
+```c
 /* prints the sum of the first 5 integers*/
 /* code assumed to be part of a function body*/
 ```
@@ -16007,11 +16004,11 @@ The static storage class serves different purposes, depending on the location of
 
 1. To confine the identifier to that translation unit only (scope=file).
 
-```
+```c
 /* No other translation unit can use this variable. */
 static int i;
 ```
-```
+```c
 /* Same; static is attached to the function type of f, not the return type int. */
 static int f(int n);
 ```
@@ -16034,7 +16031,7 @@ b += 10 ;
 printf("static int a = %d, int b = %d \n ", a, b);
 }
 ```
-```
+```c
 int main(void)
 {
 int i;
@@ -16043,7 +16040,7 @@ for (i = 0 ; i < 5 ; i++)
 foo();
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -16065,7 +16062,7 @@ Version ≥ C99
 3. Used in function parameters to denote an array is expected to have a constant minimum number of
     elements and a non-null parameter:
 
-```
+```c
 /* a is expected to have at least 512 elements. */
 void printInts(int a[static 512 ])
 {
@@ -16079,24 +16076,24 @@ The required number of items (or even a non-null pointer) is not necessarily che
 compilers are not required to notify you in any way if you don't have enough elements. If a programmer
 passes fewer than 512 elements or a null pointer, undefined behavior is the result. Since it is impossible to
 enforce this, extra care must be used when passing a value for that parameter to such a function.
-```
+```c
 ### Section 43.4: typedef
 
 Defines a new type based on an existing type. Its syntax mirrors that of a variable declaration.
 
-```
+```c
 /* Byte can be used wherever `unsigned char` is needed */
 typedef unsigned char Byte;
 ```
-```
+```c
 /* Integer is the type used to declare an array consisting of a single int */
 typedef int Integer[ 1 ];
 ```
-```
+```c
 /* NodeRef is a type used for pointers to a structure type with the tag "node" */
 typedef struct node *NodeRef;
 ```
-```
+```c
 /* SigHandler is the function pointer type that gets passed to the signal function. */
 typedef void (*SigHandler)(int);
 ```
@@ -16112,11 +16109,11 @@ newType *ptr; // ptr is pointer to variable of type 'newType' aka int
 ```
 However,
 
-```
+```c
 #define int newType
 newType *ptr; // Even though macros are exact replacements to words, this doesn't result to
 a pointer to variable of type 'newType' aka int
-```
+```c
 ### Section 43.5: extern
 
 Used to **declare an object or function** that is defined elsewhere (and that has _external linkage_ ). In general, it is
@@ -16126,11 +16123,11 @@ used to declare an object or function to be used in a module that is not the one
 or function is defined:
 
 
-```
+```c
 /* file1.c */
 int foo = 2 ; /* Has external linkage since it is declared at file scope. */
 ```
-```
+```c
 /* file2.c */
 #include <stdio.h>
 int main(void)
@@ -16145,7 +16142,7 @@ Version ≥ C99
 
 Things get slightly more interesting with the introduction of the **inline** keyword in C99:
 
-```
+```c
 /* Should usually be place in a header file such that all users see the definition */
 /* Hints to the compiler that the function `bar` might be inlined */
 /* and suppresses the generation of an external symbol, unless stated otherwise. */
@@ -16154,14 +16151,14 @@ inline void bar(int drink)
 printf("You ordered drink no.%d \n ", drink);
 }
 ```
-```
+```c
 /* To be found in just one .c file.
 Creates an external function definition of `bar` for use by other files.
 The compiler is allowed to choose between the inline version and the external
 definition when `bar` is called. Without this line, `bar` would only be an inline
 function, and other files would not be able to call it. */
 extern void bar(int);
-```
+```c
 ### Section 43.6: _Thread_local
 
 Version ≥ C11
@@ -16176,28 +16173,28 @@ _local to that thread_ and its lifetime is the entire execution of the thread in
 
 with static or **extern**.
 
-```
+```c
 #include <threads.h>
 #include <stdio.h>
 #define SIZE 5
 ```
-```
+```c
 int thread_func(void *id)
 {
 /* thread local variable i. */
 static _Thread_local int i;
 ```
-```
+```c
 /* Prints the ID passed from main() and the address of the i.
 * Running this program will print different addresses for i, showing
 * that they are all distinct objects. */
 printf("From thread:[%d], Address of i (thread local): %p \n ", *(int*)id, (void*)&i);
 ```
-```
+```c
 return 0 ;
 }
 ```
-```
+```c
 int main(void)
 ```
 
@@ -16224,32 +16221,32 @@ thrd_join(id[i], NULL);
 
 **foo.h**
 
-```
+```c
 #ifndef FOO_DOT_H /* This is an "include guard" */
 #define FOO_DOT_H /* prevents the file from being included twice. */
 /* Including a header file twice causes all kinds */
 /* of interesting problems.*/
 ```
-```
+```c
 /**
 * This is a function declaration.
 * It tells the compiler that the function exists somewhere.
 */
 void foo(int id, char *name);
 ```
-```
+```c
 #endif /* FOO_DOT_H */
 ```
 **foo.c**
 
-```
+```c
 #include "foo.h" /* Always include the header file that declares something
 * in the C file that defines it. This makes sure that the
 * declaration and definition are always in-sync. Put this
 * header first in foo.c to ensure the header is self-contained.
 */
 #include <stdio.h>
-```
+```c
 ##### /**
 
 ```
@@ -16266,10 +16263,10 @@ fprintf(stderr, "foo(%d, \" %s \" ); \n ", id, name);
 ```
 **main.c**
 
-```
+```c
 #include "foo.h"
 ```
-```
+```c
 int main(void)
 {
 foo( 42 , "bar");
@@ -16291,7 +16288,7 @@ Now we link them together to produce our final executable:
 
 ```
 $ gcc -o testprogram foo.o main.o
-```
+```c
 ### Section 44.2: Using a Global Variable
 
 Use of global variables is generally discouraged. It makes your program more difficult to understand, and harder to
@@ -16300,10 +16297,10 @@ debug. But sometimes using a global variable is acceptable.
 
 **global.h**
 
-```
+```c
 #ifndef GLOBAL_DOT_H /* This is an "include guard" */
 #define GLOBAL_DOT_H
-```
+```c
 ##### /**
 
 ```
@@ -16314,27 +16311,27 @@ debug. But sometimes using a global variable is acceptable.
 extern int g_myglobal; /* _Declare_ g_myglobal, that is promise it will be _defined_ by
 * some module. */
 ```
-```
+```c
 #endif /* GLOBAL_DOT_H */
 ```
 **global.c**
 
-```
+```c
 #include "global.h" /* Always include the header file that declares something
 * in the C file that defines it. This makes sure that the
 * declaration and definition are always in-sync.
 */
 ```
-```
+```c
 int g_myglobal; /* _Define_ my_global. As living in global scope it gets initialised to 0
 * on program start-up. */
 ```
 **main.c**
 
-```
+```c
 #include "global.h"
 ```
-```
+```c
 int main(void)
 {
 g_myglobal = 42 ;
@@ -16347,12 +16344,12 @@ See also How do I use **extern** to share variables between source files?
 
 Example of declarations are:
 
-```
+```c
 int a; /* declaring single identifier of type int */
 ```
 The above declaration declares single identifier named a which refers to some object with int type.
 
-```
+```c
 int a1, b1; /* declaring 2 identifiers of type int */
 ```
 
@@ -16370,7 +16367,7 @@ function call (( )) or subscript (or array indexing - [ ]) operators onto some i
 
 operators at all). The identifier used is not required to be visible in the current scope. Some examples:
 
-```
+```c
 /* 1 */ int /* 2 */ (*z) /* 3 */ , /* 4 */ *x , /* 5 */ **c /* 6 */ ;
 # Description
 1 The name of integer type.
@@ -16400,16 +16397,16 @@ the object declared.
 
 Examples:
 
-```
+```c
 int l = 90 ; /* the same as: */
 ```
-```
+```c
 int l; l = 90 ; /* if it the declaration of l was in block scope */
 ```
-```
+```c
 int c = 2 , b[c]; /* ok, equivalent to: */
 ```
-```
+```c
 int c = 2 ; int b[c];
 ```
 Later in your code, you are allowed to write the exact same expression from the declaration part of the newly
@@ -16431,7 +16428,7 @@ b2 = 2 ; /* assign a value to b2 */
 ```
 printf("%d", b2); /*ok - should print 2*/
 ```
-```
+```c
 int *b3; /* you should be able to write later in your code *b3 */
 ```
 
@@ -16441,7 +16438,7 @@ b3 = &b2; /* assign valid pointer value to b3 */
 ```
 printf("%d", *b3); /* ok - should print 2 */
 ```
-```
+```c
 int **b4; /* you should be able to write later in your code **b4 */
 ```
 ```
@@ -16477,7 +16474,7 @@ more info). You should also first store some value into an object before trying 
 
 this problem here). We've done all of this in the above examples.
 
-```
+```c
 int a3(); /* you should be able to call a3 */
 ```
 This one tells the compiler that you'll attempt to call a3. In this case a3 refers to function instead of an object. One
@@ -16490,10 +16487,10 @@ void f1()
 {
 int f2(); /* 1 refers to some function f2 */
 }
-```
+```c
 ##### {
 
-```
+```c
 int f2(); /* refers to the exact same function f2 as (1) */
 }
 }
@@ -16502,7 +16499,7 @@ In the above example, the 2 declarations refer to the same function f2, whilst i
 
 this context (having 2 different block scopes), they would have be 2 different distinct objects.
 
-```
+```c
 int (*a3)(); /* you should be able to apply indirection to `a3` and then call it */
 ```
 Now it may seems to be getting complicated, but if you know operators precedence you'll have 0 problems reading
@@ -16516,7 +16513,7 @@ because the index used in it (the value inside [ and ]) will always be 1 above t
 object/function.
 
 
-```
+```c
 int a4[ 5 ]; /* here a4 shouldn't be accessed using the index 5 later on */
 ```
 But it should be accessible by all other indexes lower then 5. Examples:
@@ -16526,7 +16523,7 @@ a4[ 0 ], a4[ 1 ]; a4[ 4 ];
 ```
 a4[ 5 ] will result into UB. More information about arrays can be found here.
 
-```
+```c
 int (*a5)[ 5 ](); /* here a4 could be applied indirection
 indexed up to (but not including) 5
 and called */
@@ -16549,7 +16546,7 @@ t0 pf;
 ```
 Which will have the same effect as writing:
 
-```
+```c
 int (*(*pf)())[ 5 ];
 ```
 As you can see the typedef name "saves" the declaration as a type to use later for other declarations. This way you
@@ -16563,9 +16560,9 @@ t0 (*pf1);
 ```
 Is the same as:
 
-```
+```c
 int (*(**pf1)())[ 5 ];
-```
+```c
 ### Section 44.5: Using Global Constants
 
 Headers may be used to declare globally used read-only resources, like string tables for example.
@@ -16576,7 +16573,7 @@ them. It's handy to use the same header to declare a related enumeration to iden
 
 **resources.h:**
 
-```
+```c
 #ifndef RESOURCES_H
 #define RESOURCES_H
 ```
@@ -16595,7 +16592,7 @@ for which we do not have a table entry defined, a fall back in
 case we _need_ to display something, but do not find anything
 appropriate. */
 ```
-```
+```c
 /* The following identify the resources we have defined: */
 RESOURCE_OK,
 RESOURCE_CANCEL,
@@ -16621,12 +16618,12 @@ of the what had been declared in the related header (.h) file:
 
 **resources.c:**
 
-```
+```c
 #include "resources.h" /* To make sure clashes between declaration and definition are
 recognised by the compiler include the declaring header into
 the implementing, defining translation unit (.c file).
 ```
-```
+```c
 /* Define the resources. Keep the promise made in resources.h. */
 const char * const resources[RESOURCE_MAX] = {
 "<unknown>",
@@ -16639,14 +16636,14 @@ A program using this could look like this:
 
 **main.c:**
 
-```
+```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h>
 ```
-```
+```c
 #include "resources.h"
 ```
-```
+```c
 int main(void)
 {
 EnumResourceID resource_id = RESOURCE_UNDEFINED;
@@ -16660,13 +16657,13 @@ while ((++resource_id) < RESOURCE_MAX)
 printf("resource ID: %d, resource: '%s' \n ", resource_id, resources[resource_id]);
 }
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
 Compile the three file above using GCC, and link them to become the program file main for example using this:
 
-```
+```c
 gcc -Wall -Wextra -pedantic -Wconversion -g main.c resources.c - o main
 ```
 (use these -Wall -Wextra -pedantic -Wconversion to make the compiler really picky, so you don't miss anything
@@ -16685,7 +16682,7 @@ resource ID: 0, resource: ''
 resource ID: 1, resource: 'OK'
 resource ID: 2, resource: 'Cancel'
 resource ID: 3, resource: 'Abort'
-```
+```c
 ### Section 44.6: Using the right-left or spiral rule to decipher C declaration
 
 The "right-left" rule is a completely regular rule for deciphering C declarations. It can also be useful in creating
@@ -16730,12 +16727,12 @@ Now repeat steps 2 and 3 until you've formed your declaration.
 
 **Here are some examples:**
 
-```
+```c
 int *p[];
 ```
 First, find identifier:
 
-```
+```c
 int *p[];
 ^
 ```
@@ -16743,7 +16740,7 @@ _"p is"_
 
 Now, move right until out of symbols or right parenthesis hit.
 
-```
+```c
 int *p[];
 ^^
 ```
@@ -16751,7 +16748,7 @@ _"p is array of"_
 
 Can't move right anymore (out of symbols), so move left and find:
 
-```
+```c
 int *p[];
 ^
 ```
@@ -16759,7 +16756,7 @@ _"p is array of pointer to"_
 
 Keep going left and find:
 
-```
+```c
 int *p[];
 ^^^
 ```
@@ -16769,12 +16766,12 @@ _"p is array of pointer to int"._
 
 **Another example:**
 
-```
+```c
 int *(*func())();
 ```
 Find the identifier.
 
-```
+```c
 int *(*func())();
 ^^^^
 ```
@@ -16782,7 +16779,7 @@ _"func is"_
 
 Move right.
 
-```
+```c
 int *(*func())();
 ^^
 ```
@@ -16791,7 +16788,7 @@ _"func is function returning"_
 
 Can't move right anymore because of the right parenthesis, so move left.
 
-```
+```c
 int *(*func())();
 ^
 ```
@@ -16799,7 +16796,7 @@ _"func is function returning pointer to"_
 
 Can't move left anymore because of the left parenthesis, so keep going right.
 
-```
+```c
 int *(*func())();
 ^^
 ```
@@ -16807,7 +16804,7 @@ _"func is function returning pointer to function returning"_
 
 Can't move right anymore because we're out of symbols, so go left.
 
-```
+```c
 int *(*func())();
 ^
 ```
@@ -16815,7 +16812,7 @@ _"func is function returning pointer to function returning pointer to"_
 
 And finally, keep going left, because there's nothing left on the right.
 
-```
+```c
 int *(*func())();
 ^^^
 ```
@@ -16833,7 +16830,7 @@ form. If you see [ 3 ], that's read as _"array (size 3) of..."_. If you see (cha
 
 **Here's a fun one:**
 
-```
+```c
 int (*(*fun_one)(char *,double))[ 9 ][ 20 ];
 ```
 I won't go through each of the steps to decipher this one.
@@ -16842,7 +16839,7 @@ I won't go through each of the steps to decipher this one.
 
 As you can see, it's not as complicated if you get rid of the array sizes and argument lists:
 
-```
+```c
 int (*(*fun_one)())[][];
 ```
 You can decipher it that way, and then put in the array sizes and argument lists later.
@@ -16853,7 +16850,7 @@ It is quite possible to make illegal declarations using this rule, so some knowl
 
 For instance, if the above had been:
 
-```
+```c
 int *((*fun_one)())[][];
 ```
 
@@ -16876,7 +16873,7 @@ right-side symbols in order for the declaration to be legal.
 
 **Legal**
 
-```
+```c
 int i; an int
 int *p; an int pointer (ptr to an int)
 int a[]; an array of ints
@@ -16904,7 +16901,7 @@ int (*fpf())(); a function returning a pointer to a function returning an int
 ```
 **Illegal**
 
-```
+```c
 int af[](); an array of functions returning an int
 int fa()[]; a function returning an array of ints
 int ff()(); a function returning a function returning an int
@@ -17022,7 +17019,7 @@ aligned on an N-byte boundary (a multiple of N bytes).
 
 For the structure shown with sizeof(int) == 4 and sizeof(short) == 2 , a common layout is:
 
-```
+```c
 int a; stored at offset 0; size 4.
 short b; stored at offset 4; size 2.
 unnamed padding at offset 6; size 2.
@@ -17078,7 +17075,7 @@ The C dynamic memory allocation functions are defined in the **<stdlib.h>** head
 
 memory space for an object dynamically, the following code can be used:
 
-```
+```c
 int *p = malloc( 10 * sizeof *p);
 if (p == NULL)
 {
@@ -17129,7 +17126,7 @@ desired size where all bits are initialized to^0. This need not be the same as t
 
 or a null pointer constant.
 
-```
+```c
 int *p = calloc( 10 , sizeof *p);
 if (p == NULL)
 {
@@ -17152,7 +17149,7 @@ calloc(). malloc() and calloc() functions allocate memory that's suitably aligne
 
 alignment is alignof(max_align_t)). But with aligned_alloc() greater alignments can be requested.
 
-```
+```c
 /* Allocates 1024 bytes with 256 bytes alignment. */
 char *ptr = aligned_alloc( 256 , 1024 );
 if (ptr) {
@@ -17171,7 +17168,7 @@ implementation. Failure to meet either of them results in undefined behavior.
 
 It is possible to release dynamically allocated memory by calling free().
 
-```
+```c
 int *p = malloc( 10 * sizeof *p); /* allocation of memory */
 if (p == NULL)
 {
@@ -17184,7 +17181,7 @@ free(p); /* release of memory */
 /* note that after free(p), even using the *value* of the pointer p
 has undefined behavior, until a new value is stored into it. */
 ```
-```
+```c
 /* reusing/re-purposing the pointer itself */
 int i = 42 ;
 p = &i; /* This is valid, has defined behaviour */
@@ -17222,7 +17219,7 @@ The first and preferable is simple - have p itself cease to exist when it is no 
 if (something_is_needed())
 {
 ```
-```
+```c
 int *p = malloc( 10 * sizeof *p);
 if (p == NULL)
 {
@@ -17230,7 +17227,7 @@ perror("malloc failed");
 return - 1 ;
 }
 ```
-```
+```c
 /* do whatever is needed with p */
 ```
 ```
@@ -17276,7 +17273,7 @@ been deallocated by a call to free or realloc, the behavior is undefined.
 ```
 Sometimes the first approach cannot be used (e.g. memory is allocated in one function, and deallocated
 much later in a completely different function)
-```
+```c
 ### Section 46.3: Reallocating Memory
 
 You may need to expand or shrink your pointer storage space after you have allocated memory to it. The void
@@ -17293,11 +17290,11 @@ shorter, the contents of the shrunken part is lost. If ptr is NULL, a new block 
 
 returned by the function.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 int main(void)
 {
 int *p = malloc( 10 * sizeof *p);
@@ -17311,13 +17308,13 @@ return EXIT_FAILURE;
 p[ 0 ] = 42 ;
 p[ 9 ] = 15 ;
 ```
-```
+```c
 /* Reallocate array to a larger size, storing the result into a
 * temporary pointer in case realloc() fails. */
 {
 int *temporary = realloc(p, 1000000 * sizeof *temporary);
 ```
-```
+```c
 /* realloc() failed, the original allocation was not free'd yet. */
 if (NULL == temporary)
 {
@@ -17330,11 +17327,11 @@ return EXIT_FAILURE;
 p = temporary;
 }
 ```
-```
+```c
 /* From here on, array can be used with the new size it was
 * realloc'ed to, until it is free'd. */
 ```
-```
+```c
 /* The values of p[0] to p[9] are preserved, so this will print:
 42 15
 */
@@ -17344,7 +17341,7 @@ printf("%d %d \n ", p[ 0 ], p[ 9 ]);
 free(p);
 ```
 
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -17399,7 +17396,7 @@ ret += A[i][j]
 return ret;
 }
 ```
-```
+```c
 int main(int argc, char *argv[argc+ 1 ]) {
 size_t n = argc* 10 ;
 size_t m = argc* 8 ;
@@ -17450,7 +17447,7 @@ unaware. Modern C code should replace it with _Variable Length Arrays_ (VLA).
 
 Manual page
 
-```
+```c
 #include <alloca.h>
 // glibc version of stdlib.h include alloca.h by default
 ```
@@ -17540,7 +17537,7 @@ making many allocations and frees of unpredictable size and and at unpredictable
 
 behave like that, the simple scheme is often adequate for small programs).
 
-```
+```c
 /* typical control block */
 struct block
 {
@@ -17605,13 +17602,13 @@ This scheme is extremely fast and efficient, and can be made generic with a cert
 
 ### Section 47.1: Right shift of a negative integer
 
-```
+```c
 int signed_integer = - 1 ;
 ```
 ```
 // The right shift operation exhibits implementation-defined behavior:
 int result = signed_integer >> 1 ;
-```
+```c
 ### Section 47.2: Assigning an out-of-range value to an integer
 
 ```
@@ -17619,14 +17616,14 @@ int result = signed_integer >> 1 ;
 // 127, the behavior of this assignment is implementation-defined:
 signed char integer;
 integer = 128 ;
-```
+```c
 ### Section 47.3: Allocating zero bytes
 
 ```
 // The allocation functions have implementation-defined behavior when the requested size
 // of the allocation is zero.
 void *p = malloc( 0 );
-```
+```c
 ### Section 47.4: Representation of signed integers
 
 Each signed integer type may be represented in any one of three formats; it is implementation-defined which one is
@@ -17658,11 +17655,11 @@ because the operands of & are subject to "the usual arithmetic conversions" befo
 
 Atomic variables can be accessed concurrently between different threads without creating race conditions.
 
-```
+```c
 /* a global static variable that is visible by all threads */
 static unsigned _Atomic active = ATOMIC_VAR_INIT( 0 );
 ```
-```
+```c
 int myThread(void* a) {
 ++active; // increment active race free
 // do something
@@ -17689,10 +17686,10 @@ then addition and finally a store. This is not race free. Only the operation a +
 
 One commonly used case: returning from main()
 
-```
+```c
 #include <stdlib.h> /* for EXIT_xxx macros */
 ```
-```
+```c
 int main(int argc, char ** argv)
 {
 if ( 2 < argc)
@@ -17701,10 +17698,10 @@ return EXIT_FAILURE; /* The code expects one argument:
 leave immediately skipping the rest of the function's code */
 }
 ```
-```
+```c
 /* Do stuff. */
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -17732,10 +17729,10 @@ return; /* Nothing to log, go home NOW, skip the logging. */
 ```
 fprintf(stderr, "%s:%d %s \n ", __FILE__, _LINE__, message_to_log);
 ```
-```
+```c
 return; /* Optional, as this function does not return a value. */
 }
-```
+```c
 ### Section 49.2: Using goto to jump out of nested loops
 
 Jumping out of nested loops would usually require use of a boolean variable with a check for this variable in the
@@ -17781,7 +17778,7 @@ ptr = malloc(N * x);
 if(!ptr)
 goto out_of_memory;
 ```
-```
+```c
 /* normal processing */
 free(ptr);
 return SUCCESS;
@@ -17799,7 +17796,7 @@ Use of goto keeps error flow separate from normal program control flow. It is ho
 
 Immediately continue reading on invalid input or **break** on user request or end-of-file:
 
-```
+```c
 #include <stdlib.h> /* for EXIT_xxx macros */
 #include <stdio.h> /* for printf() and getchar() */
 #include <ctype.h> /* for isdigit() */
@@ -17807,7 +17804,7 @@ Immediately continue reading on invalid input or **break** on user request or en
 ```
 void flush_input_stream(FILE * fp);
 ```
-```
+```c
 int main(void)
 {
 int sum = 0 ;
@@ -17948,7 +17945,7 @@ However, since then, opinion has tended in the opposite direction. If a source f
 
 declared by a header header.h, the programmer should be able to write:
 
-```
+```c
 #include "header.h"
 ```
 and (subject only to having the correct search paths set on the command line), any necessary pre-requisite headers
@@ -18047,7 +18044,7 @@ headers are not always present. However, very few programs actually use the faci
 
 ```
 See also How to link multiple implementation files in C?
-```
+```c
 ### Section 50.4: Notation and Miscellany
 
 The C standard says that there is very little difference between the #include <header.h> and #include
@@ -18083,7 +18080,7 @@ space there. Spaces are cheap.
 
 A number of projects use a notation such as:
 
-```
+```c
 #include <openssl/ssl.h>
 #include <sys/stat.h>
 #include <linux/kernel.h>
@@ -18145,13 +18142,13 @@ Header guards are simple and reliable and conform to the C standard. The first n
 
 should be of the form:
 
-```
+```c
 #ifndef UNIQUE_ID_FOR_HEADER
 #define UNIQUE_ID_FOR_HEADER
 ```
 The last non-comment line should be #endif, optionally with a comment after it:
 
-```
+```c
 #endif /* UNIQUE_ID_FOR_HEADER */
 ```
 All the operational code, including other #include directives, should be between these lines.
@@ -18172,7 +18169,7 @@ Alternatively, some compilers support the #pragma once directive which has the s
 
 shown for header guards.
 
-```
+```c
 #pragma once
 ```
 The compilers which support #pragma once include MS Visual Studio and GCC and Clang. However, if portability is a
@@ -18241,7 +18238,7 @@ value (FALSE).
 
 These classifying functions operate as shown, assuming the default C locale:
 
-```
+```c
 int a;
 int c = 'A';
 a = isalpha(c); /* Checks if c is alphabetic (A-Z, a-z), returns non-zero here. */
@@ -18272,18 +18269,18 @@ some manner.
 
 These conversion functions operate as shown, assuming the default C locale:
 
-```
+```c
 int a;
 int c = 'A';
 ```
-```
+```c
 /* Converts c to a lower-case letter (a-z).
 * If conversion is not possible the unchanged value is returned.
 * Returns 'a' here.
 */
 a = tolower(c);
 ```
-```
+```c
 /* Converts c to an upper-case letter (A-Z).
 * If conversion is not possible the unchanged value is returned.
 * Returns 'A' here.
@@ -18325,13 +18322,13 @@ codes: '\f','\v','\n','\r') • •
 0x39^0123456789 • • • • •
 0x3a ..
 0x40
-```
+```c
 ##### :;<=>?@ • • •
 
 ```
 0x41 ..
 0x46
-```
+```c
 ##### ABCDEF • • • • • •
 
 ```
@@ -18346,10 +18343,10 @@ codes: '\f','\v','\n','\r') • •
 0x7B ..
 0x7E {}~bar • • •
 0x7F (DEL) •
-```
+```c
 ### Section 51.2: Classifying characters read from a stream
 
-```
+```c
 #include <ctype.h>
 #include <stdio.h>
 ```
@@ -18372,7 +18369,7 @@ types.alnum += !!isalnum(ch);
 types.punct += !!ispunct(ch);
 }
 ```
-```
+```c
 return types;
 }
 ```
@@ -18390,10 +18387,10 @@ conversion here.
 The return value of the character classification functions only distinguishes between zero (meaning false )
 and nonzero (meaning true ). For counting the number of occurrences, this value needs to be converted to a
 1 or 0, which is done by the double negation, !!.
-```
+```c
 ### Section 51.3: Classifying characters from a string
 
-```
+```c
 #include <ctype.h>
 #include <stddef.h>
 ```
@@ -18414,7 +18411,7 @@ types.alnum += !!isalnum((unsigned char)*p);
 types.punct += !!ispunct((unsigned char)*p);
 }
 ```
-```
+```c
 return types;
 }
 ```
@@ -18451,7 +18448,7 @@ postfix form is operand++. When used in the prefix form, the operand is incremen
 
 value of the operand is used in the evaluation of the expression. Consider the following example:
 
-```
+```c
 int n, x = 5 ;
 n = ++x; /* x is incremented by 1(x=6), and result is assigned to n(6) */
 /* this is a short form for two statements: */
@@ -18462,7 +18459,7 @@ When used in the postfix form, the operand's current value is used in the expres
 
 operand is incremented by 1. Consider the following example:
 
-```
+```c
 int n, x = 5 ;
 n = x++; /* value of x(5) is assigned first to n(5), and then x is incremented by 1; x(6) */
 /* this is a short form for two statements: */
@@ -18473,7 +18470,7 @@ The working of the decrement operator -- can be understood similarly.
 
 The following code demonstrates what each one does
 
-```
+```c
 int main()
 {
 int a, b, x = 42 ;
@@ -18482,7 +18479,7 @@ b = x++; /* b is 43, x is 44 */
 a = x--; /* a is is 44, x is 43 */
 b = --x; /* b and x are 42 */
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -18494,7 +18491,7 @@ In all versions of C, the order of evaluation of pre and post operators are not 
 
 return unexpected outputs:
 
-```
+```c
 int main()
 {
 int a, x = 42 ;
@@ -18502,7 +18499,7 @@ a = x++ + x; /* wrong */
 a = x + x; /* right */
 ++x;
 ```
-```
+```c
 int ar[ 10 ];
 x = 0 ;
 ar[x] = x++; /* wrong */
@@ -18521,13 +18518,13 @@ code for this.
 
 Note also, that when a function is called, all side effects on arguments must take place before the function runs.
 
-```
+```c
 int foo(int x)
 {
 return x;
 }
 ```
-```
+```c
 int main()
 {
 int a = 42 ;
@@ -18557,7 +18554,7 @@ The following is a simple example that uses trigraph sequences instead of #, { a
 ```
 ??=include <stdio.h>
 ```
-```
+```c
 int main()
 ??<
 printf("Hello World! \n ");
@@ -18567,10 +18564,10 @@ This will be changed by the C preprocessor by replacing the trigraphs with their
 
 the code had been written:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main()
 {
 printf("Hello World! \n ");
@@ -18605,10 +18602,10 @@ character constants) then it will not be treated as a digraph, but remain as it 
 
 The following shows the difference before and after processing the digraphs sequence.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main()
 <%
 printf("Hello %> World! \n "); /* Note that the string contains a digraph */
@@ -18616,10 +18613,10 @@ printf("Hello %> World! \n "); /* Note that the string contains a digraph */
 ```
 Which will be treated the same as:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main()
 {
 printf("Hello %> World! \n "); /* Note the unchanged digraph within the string. */
@@ -18702,12 +18699,12 @@ working example.
 
 **main.c:**
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include "headerfile.h"
 ```
-```
+```c
 int main(void) {
 int start = 3 ;
 int intermediate = complicated1(start);
@@ -18719,12 +18716,12 @@ return 0 ;
 ```
 **source1.c:**
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include "headerfile.h"
 ```
-```
+```c
 int complicated1(int input) {
 int tmp = timestwo(input);
 tmp = plusfive(tmp);
@@ -18733,12 +18730,12 @@ return tmp;
 ```
 **source2.c:**
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include "headerfile.h"
 ```
-```
+```c
 int complicated2(int input) {
 int tmp = plusfive(input);
 tmp = timestwo(tmp);
@@ -18747,11 +18744,11 @@ return tmp;
 ```
 **headerfile.h:**
 
-```
+```c
 #ifndef HEADERFILE_H
 #define HEADERFILE_H
 ```
-```
+```c
 int complicated1(int input);
 int complicated2(int input);
 ```
@@ -18762,11 +18759,11 @@ return input * 2 ;
 inline int plusfive(int input) {
 ```
 
-```
+```c
 return input + 5 ;
 }
 ```
-```
+```c
 #endif
 ```
 Functions timestwo and plusfive get called by both complicated1 and complicated2, which are in different
@@ -18876,7 +18873,7 @@ to member m_1 results in the written value being read from member m_2 and writin
 
 written value being read from member m_1.
 
-```
+```c
 #include <stdio.h>
 ```
 
@@ -18887,7 +18884,7 @@ int m_1;
 int m_2;
 };
 ```
-```
+```c
 int main (void)
 {
 union my_union u; /* Declare union */
@@ -18903,12 +18900,12 @@ Result
 ```
 u.m_2: 1
 u.m_1: 2
-```
+```c
 ### Section 56.3: Dierence between struct and union
 
 This illustrates that union members shares memory and that struct members does not share memory.
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
@@ -18926,7 +18923,7 @@ int variable_1;
 int variable_2;
 };
 ```
-```
+```c
 int main (void)
 {
 union My_Union u;
@@ -18955,7 +18952,7 @@ ensures that all threads start with a clear state and no _race condition_ occurs
 
 If this is not possible once_flag and call_once can be used
 
-```
+```c
 #include <threads.h>
 #include <stdlib.h>
 ```
@@ -18994,7 +18991,7 @@ int myThreadFunc(void* a) {
 call_once(&onceBig, initBig);
 // only use Big from here on
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -19012,7 +19009,7 @@ data structures such as mtx_t or cnd_t that can't be initialized statically, usi
 
 ### Section 57.2: Start several threads
 
-```
+```c
 #include <stdio.h>
 ```
 
@@ -19064,20 +19061,20 @@ referred to as pthreads) using the pthread.h header.
 
 ### Section 58.1: C11 Threads simple example
 
-```
+```c
 #include <threads.h>
 #include <stdio.h>
 ```
-```
+```c
 int run(void *arg)
 {
 printf("Hello world of C11 threads.");
 ```
-```
+```c
 return 0 ;
 }
 ```
-```
+```c
 int main(int argc, const char *argv[])
 {
 thrd_t thread;
@@ -19120,12 +19117,12 @@ First, you'll need to include the required headers. Old versions of POSIX requir
 
 POSIX and most systems do not require it.
 
-```
+```c
 #include <sys/sem.h>
 ```
 Then, you'll need to define a key in both the parent as well as the child.
 
-```
+```c
 #define KEY 0x1111
 ```
 This key needs to be the same in both programs or they will not refer to the same IPC structure. There are ways to
@@ -19151,7 +19148,7 @@ struct sembuf v = { 0 , + 1 , SEM_UNDO}; # semsignal
 ```
 Now, start by getting the id for your IPC semaphore.
 
-```
+```c
 int id;
 // 2nd argument is number of semaphores
 // 3rd argument is the mode (IPC_CREAT creates the semaphore set if needed)
@@ -19196,13 +19193,13 @@ The below program will have a process fork a child and both parent and child att
 
 terminal without any synchronization.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 ```
-```
+```c
 int main()
 {
 int pid;
@@ -19261,7 +19258,7 @@ Compiling and running this program should give you a different output each time.
 
 Modifying _Example 1.1_ to use semaphores, we have:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -19270,7 +19267,7 @@ Modifying _Example 1.1_ to use semaphores, we have:
 #include <sys/ipc.h>
 #include <sys/sem.h>
 ```
-```
+```c
 #define KEY 0x1111
 ```
 ```
@@ -19284,7 +19281,7 @@ unsigned short *array;
 struct sembuf p = { 0 , - 1 , SEM_UNDO};
 struct sembuf v = { 0 , + 1 , SEM_UNDO};
 ```
-```
+```c
 int main()
 {
 int id = semget(KEY, 1 , 0666 | IPC_CREAT);
@@ -19395,7 +19392,7 @@ TEST_ASSERT_EQUAL_INT( 5 , FunctionUnderTest() );
 ```
 A full test file might look like:
 
-```
+```c
 #include "unity.h"
 #include "UnitUnderTest.h" /* The unit to be tested. */
 ```
@@ -19409,7 +19406,7 @@ void test_TheFirst(void)
 TEST_IGNORE_MESSAGE("Hello world!"); /* Ignore this test but print a message. */
 }
 ```
-```
+```c
 int main (void)
 {
 UNITY_BEGIN();
@@ -19429,7 +19426,7 @@ library, works on a range of computing platforms (including embedded) and with d
 
 tutorial on testing with mocks, API documentation, and a variety of examples.
 
-```
+```c
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -19445,7 +19442,7 @@ void null_test_fail (void ** state)
 assert_true ( 0 );
 }
 ```
-```
+```c
 /* These functions will be used to initialize
 and clean resources up after each test run */
 int setup (void ** state)
@@ -19453,13 +19450,13 @@ int setup (void ** state)
 return 0 ;
 }
 ```
-```
+```c
 int teardown (void ** state)
 {
 return 0 ;
 }
 ```
-```
+```c
 int main (void)
 {
 const struct CMUnitTest tests [] =
@@ -19468,18 +19465,18 @@ cmocka_unit_test (null_test_success),
 cmocka_unit_test (null_test_fail),
 };
 ```
-```
+```c
 /* If setup and teardown functions are not
 needed, then NULL may be passed instead */
 ```
-```
+```c
 int count_fail_tests =
 cmocka_run_group_tests (tests, setup, teardown);
 ```
-```
+```c
 return count_fail_tests;
 }
-```
+```c
 ### Section 60.3: CppUTest
 
 CppUTest is an xUnit-style framework for unit testing C and C++. It is written in C++ and aims for portability and
@@ -19488,7 +19485,7 @@ simplicity in design. It has support for memory leak detection, building mocks, 
 
 Google Test. Comes with helper scripts and sample projects for Visual Studio and Eclipse CDT.
 
-```
+```c
 #include <CppUTest/CommandLineTestRunner.h>
 #include <CppUTest/TestHarness.h>
 ```
@@ -19498,13 +19495,13 @@ TEST_GROUP(Foo_Group) {}
 ```
 TEST(Foo_Group, Foo_TestOne) {}
 ```
-```
+```c
 /* Test runner may be provided options, such
 as to enable colored output, to run only a
 specific test or a group of tests, etc. This
 will return the number of failed tests. */
 ```
-```
+```c
 int main(int argc, char ** argv)
 {
 RUN_ALL_TESTS(argc, argv);
@@ -19549,11 +19546,11 @@ memset(data, 0 , data_bytes);
 
 Here is a program that calls malloc but not free:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 char *s;
@@ -19561,7 +19558,7 @@ char *s;
 ```
 s = malloc( 26 ); // the culprint
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -19741,12 +19738,12 @@ function takes arguments, declare them; if it takes no arguments, use void.
 ```
 So this is how your function prototype should look:
 
-```
+```c
 int foo(void);
 ```
 And this is how the function definition should be:
 
-```
+```c
 int foo(void)
 {
 ...
@@ -19765,7 +19762,7 @@ silently, undetected and the code would still execute.
 
 This also means that you should define the main() function like this:
 
-```
+```c
 int main(void)
 {
 ...
@@ -19780,7 +19777,7 @@ prototype for the function, so the compiler will not complain if the function is
 
 For example:
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -19789,13 +19786,13 @@ static void parameterless()
 printf("%s called \n ", __func__);
 }
 ```
-```
+```c
 int main(void)
 {
 parameterless( 3 , "arguments", "provided");
 ```
 
-```
+```c
 return 0 ;
 }
 ```
@@ -19851,10 +19848,10 @@ It is usually not a good idea to mix signed and unsigned integers in arithmetic 
 
 output of following example?
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 unsigned int a = 1000 ;
@@ -19864,7 +19861,7 @@ signed int b = - 1 ;
 if (a > b) puts("a is more than b");
 else puts("a is less or equal than b");
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -19893,13 +19890,13 @@ Macros are simple string replacements. (Strictly speaking, they work with prepro
 
 strings.)
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define SQUARE(x) x*x
 ```
-```
+```c
 int main(void) {
 printf("%d \n ", SQUARE( 1 + 2 ));
 return 0 ;
@@ -19912,13 +19909,13 @@ You may expect this code to print 9 ( 3 * 3 ), but actually 5 will be printed be
 
 You should wrap the arguments and the whole macro expression in parentheses to avoid this problem.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define SQUARE(x) ((x)*(x))
 ```
-```
+```c
 int main(void) {
 printf("%d \n ", SQUARE( 1 + 2 ));
 return 0 ;
@@ -19928,13 +19925,13 @@ Another problem is that the arguments of a macro are not guaranteed to be evalua
 
 evaluated at all, or may be evaluated multiple times.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define MIN(x, y) ((x) <= (y)? (x) : (y))
 ```
-```
+```c
 int main(void) {
 int a = 0 ;
 printf("%d \n ", MIN(a++, 10 ));
@@ -19950,15 +19947,15 @@ This can be avoided by using functions, but note that the types will be fixed by
 
 macros can be (too) flexible with types.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int min(int x, int y) {
 return x <= y? x : y;
 }
 ```
-```
+```c
 int main(void) {
 int a = 0 ;
 printf("%d \n ", min(a++, 10 ));
@@ -19972,7 +19969,7 @@ truncating, for example.
 
 Macro directives can be of two types:
 
-```
+```c
 #define OBJECT_LIKE_MACRO followed by a "replacement list" of preprocessor tokens
 #define FUNCTION_LIKE_MACRO(with, arguments) followed by a replacement list
 ```
@@ -19993,17 +19990,17 @@ Version ≥ C11
 
 In C11, you could write a 'type-generic' expression for min.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 #define min(x, y) _Generic((x), \
 long double: min_ld, \
 unsigned long long: min_ull, \
 default: min_i \
 )(x, y)
 ```
-```
+```c
 #define gen_min(suffix, type) \
 static inline type min_##suffix(type x, type y) { return (x < y)? x : y; }
 ```
@@ -20012,7 +20009,7 @@ gen_min(ld, long double)
 gen_min(ull, unsigned long long)
 gen_min(i, int)
 ```
-```
+```c
 int main(void)
 {
 unsigned long long ull1 = 50ULL;
@@ -20045,7 +20042,7 @@ char *buf, *tmp;
 ```
 buf = malloc(...);
 ...
-```
+```c
 ##### /* WRONG */
 
 ```
@@ -20060,7 +20057,7 @@ if ((tmp = realloc(buf, 16 )) != NULL)
 buf = tmp;
 else
 perror("realloc");
-```
+```c
 ### Section 63.4: Forgetting to allocate one extra byte for \0
 
 When you are copying a string into a malloced buffer, always remember to add 1 to strlen.
@@ -20080,7 +20077,7 @@ It also applies to situations when you are reading a string of known maximum len
 
 source. For example
 
-```
+```c
 #define MAX_INPUT_LEN 42
 ```
 ```
@@ -20089,14 +20086,14 @@ char buffer[MAX_INPUT_LEN + 1 ]; /* RIGHT */
 ```
 ```
 scanf("%42s", buffer); /* Ensure that the buffer is not overflowed */
-```
+```c
 ### Section 63.5: Misunderstanding array decay
 
 A common problem in code that uses multidimensional arrays, arrays of pointers, etc. is the fact that Type** and
 
 Type[M][N] are fundamentally different types:
 
-```
+```c
 #include <stdio.h>
 ```
 ```
@@ -20107,7 +20104,7 @@ for (i = 0 ; i < n; i++)
 puts(strings[i]);
 }
 ```
-```
+```c
 int main(void)
 {
 char s[ 4 ][ 20 ] = {"Example 1", "Example 2", "Example 3", "Example 4"};
@@ -20190,9 +20187,9 @@ A problem arises when you want the print_strings function to be generic for any 
 
 30 chars instead of 20? Or 50? The answer is to add another parameter before the array parameter:
 
-```
+```c
 #include <stdio.h>
-```
+```c
 ##### /*
 
 ```
@@ -20213,11 +20210,11 @@ size_t i;
 for (i = 0 ; i < scount; i++)
 ```
 
-```
+```c
 puts(strings[i]);
 }
 ```
-```
+```c
 int main(void)
 {
 char s[ 4 ][ 20 ] = {"Example 1", "Example 2", "Example 3", "Example 4"};
@@ -20232,7 +20229,7 @@ Example 1
 Example 2
 Example 3
 Example 4
-```
+```c
 ### Section 63.6: Forgetting to free memory (memory leaks)
 
 A programming best practice is to free any memory that has been allocated directly by your own code, or implicitly
@@ -20253,31 +20250,31 @@ The following infinite loop is an example of a leak that will eventually exhaust
 
 getline(), a function that implicitly allocates new memory, without freeing that memory.
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 char *line = NULL;
 size_t size = 0 ;
 ```
-```
+```c
 /* The loop below leaks memory as fast as it can */
 ```
 ```
 for(;;) {
 getline(&line, &size, stdin); /* New memory implicitly allocated */
 ```
-```
+```c
 /* <do whatever> */
 ```
 ```
 line = NULL;
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -20285,12 +20282,12 @@ In contrast, the code below also uses the getline() function, but this time, the
 
 avoiding a leak.
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
 
-```
+```c
 int main(void)
 {
 char *line = NULL;
@@ -20302,11 +20299,11 @@ if (getline(&line, &size, stdin) < 0 ) {
 free(line);
 line = NULL;
 ```
-```
+```c
 /* Handle failure such as setting flag, breaking out of loop and/or exiting */
 }
 ```
-```
+```c
 /* <do whatever> */
 ```
 ```
@@ -20316,7 +20313,7 @@ line = NULL;
 ```
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
@@ -20387,7 +20384,7 @@ The == operator is used for comparison.
 
 One should be careful not to mix the two. Sometimes one mistakenly writes
 
-```
+```c
 /* assign y to x */
 if (x = y) {
 /* logic */
@@ -20395,7 +20392,7 @@ if (x = y) {
 ```
 when what was really wanted is:
 
-```
+```c
 /* compare if x is equal to y */
 if (x == y) {
 /* logic */
@@ -20468,11 +20465,11 @@ Furthermore, many modern compilers may give warnings when code is written with Y
 
 When this program
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void) {
 int num = 0 ;
 char str[ 128 ], *lf;
@@ -20506,11 +20503,11 @@ problems in online judge syste, for example -- is avoiding using scanf() directl
 
 You can use sscanf() to parse the lines read.
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void) {
 int num = 0 ;
 char line_buffer[ 128 ] = "", str[ 128 ], *lf;
@@ -20531,11 +20528,11 @@ return 0 ;
 ```
 Another way is to read until you hit a newline character after using scanf() and before using fgets().
 
-```
+```c
 #include <stdio.h>
 #include <string.h>
 ```
-```
+```c
 int main(void) {
 int num = 0 ;
 char str[ 128 ], *lf;
@@ -20551,7 +20548,7 @@ if ((lf = strchr(str, ' \n ')) != NULL) *lf = ' \0 ';
 printf("%d \" %s \"\n ", num, str);
 return 0 ;
 }
-```
+```c
 ### Section 63.10: Adding a semicolon to a #define
 
 It is easy to get confused in the C preprocessor, and treat it as part of C itself, but that is a mistake because the
@@ -20560,13 +20557,13 @@ preprocessor is just a text substitution mechanism. For example, if you write
 
 ##### /* WRONG */
 
-```
+```c
 #define MAX 100;
 int arr[MAX];
 ```
 the code expands to
 
-```
+```c
 int arr[ 100 ;];
 ```
 which is a syntax error. The remedy is to remove the semicolon from the #define line. It is almost invariably a
@@ -20609,7 +20606,7 @@ example:
 if (x > a) {
 a = x;
 }
-```
+```c
 ### Section 63.12: Undefined reference errors when linking
 
 One of the most common errors in compilation happens during the linking stage. The error looks similar to this:
@@ -20623,10 +20620,10 @@ $
 ```
 So let's look at the code that generated this error:
 
-```
+```c
 int foo(void);
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int foo_val;
@@ -20642,18 +20639,18 @@ the linker exits with an Undefined reference error.
 
 To fix this error in our small program we would only have to add a _definition_ for foo:
 
-```
+```c
 /* Declaration of foo */
 int foo(void);
 ```
-```
+```c
 /* Definition of foo */
 int foo(void)
 {
 return 5 ;
 }
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 int foo_val;
@@ -20684,12 +20681,12 @@ $
 ```
 A more complex case is where libraries are involved, like in the code:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 ```
-```
+```c
 int main(int argc, char **argv)
 {
 double first;
@@ -20703,13 +20700,13 @@ fprintf(stderr, "Usage: %s <denom> <nom> \n ", argv[ 0 ]);
 return EXIT_FAILURE;
 }
 ```
-```
+```c
 /* Translate user input to numbers, extra error checking
 * should be done here. */
 first = strtod(argv[ 1 ], NULL);
 second = strtod(argv[ 2 ], NULL);
 ```
-```
+```c
 /* Use function pow() from libm - this will cause a linkage
 * error unless this code is compiled against libm! */
 power = pow(first, second);
@@ -20717,7 +20714,7 @@ power = pow(first, second);
 ```
 printf("%f to the power of %f = %f \n ", first, second, power);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -20765,7 +20762,7 @@ More importantly, logical expressions treat anything that evaluates to zero as f
 
 true. For example:
 
-```
+```c
 /* Return 'true' if the most significant bit is set */
 bool isUpperBitSet(uint8_t bitField)
 {
@@ -20786,7 +20783,7 @@ explicitly checking against **true** , the if statement will only succeed if (bi
 
 **true** is defined as, which is typically 1 and very seldom 0x80. Either explicitly check against the case you expect:
 
-```
+```c
 /* Return 'true' if the most significant bit is set */
 bool isUpperBitSet(uint8_t bitField)
 {
@@ -20803,7 +20800,7 @@ return false ;
 Or evaluate any non-zero value as true.
 
 
-```
+```c
 /* Return 'true' if the most significant bit is set */
 bool isUpperBitSet(uint8_t bitField)
 {
@@ -20817,17 +20814,17 @@ else
 return false ;
 }
 }
-```
+```c
 ### Section 63.14: Doing extra scaling in pointer arithmetic
 
 In pointer arithmetic, the integer to be added or subtracted to pointer is interpreted not as change of _address_ but as
 
 number of _elements_ to move.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int array[] = { 1 , 2 , 3 , 4 , 5 };
 int *ptr = &array[ 0 ];
@@ -20844,10 +20841,10 @@ _undefined behavior_.
 
 To have ptr2 point at what is 2 elements after array[^0 ], you should simply add 2.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int array[] = { 1 , 2 , 3 , 4 , 5 };
 int *ptr = &array[ 0 ];
@@ -20858,10 +20855,10 @@ return 0 ;
 ```
 Explicit pointer arithmetic using additive operators may be confusing, so using array subscripting may be better.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int array[] = { 1 , 2 , 3 , 4 , 5 };
 int *ptr = &array[ 0 ];
@@ -20881,10 +20878,10 @@ addressing. Be careful though: endianness can become an issue, and casting to ty
 
 character' leads to strict aliasing problems.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 int array[ 3 ] = { 1 , 2 , 3 }; // 4 bytes * 3 allocated
 unsigned char *ptr = (unsigned char *) array; // unsigned chars only take 1 byte
@@ -20894,10 +20891,10 @@ unsigned char *ptr = (unsigned char *) array; // unsigned chars only take 1 byte
 * was declared as: unsigned char ptr[12];
 */
 ```
-```
+```c
 return 0 ;
 }
-```
+```c
 ### Section 63.15: Multi-line comments cannot be nested
 
 In C, multi-line comments, /* and */, do not nest.
@@ -20926,7 +20923,7 @@ You will not be able to comment it out easily:
 ```
 //Trying to comment out the block...
 /*
-```
+```c
 ##### /*
 
 ```
@@ -20991,10 +20988,10 @@ Another solution is to avoid disabling code using comment syntax, using #ifdef o
 
 instead. These directives _do_ nest, leaving you free to comment your code in the style you prefer.
 
-```
+```c
 #define DISABLE_MAX /* Remove or comment this line to enable max() code block */
 ```
-```
+```c
 #ifdef DISABLE_MAX
 /*
 * max(): Finds the largest integer in an array and returns it.
@@ -21012,7 +21009,7 @@ return max;
 }
 ```
 
-```
+```c
 #endif
 ```
 Some guides go so far as to recommend that code sections must _never_ be commented and that if code is to be
@@ -21041,11 +21038,11 @@ violation, unless your system has a lot of memory */
 ```
 This is good:
 
-```
+```c
 #include <stdlib.h>
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 char* x = malloc(100000000000UL * sizeof *x);
@@ -21061,14 +21058,14 @@ free(x);
 exit(EXIT_FAILURE);
 }
 ```
-```
+```c
 /* Do stuff with x. */
 ```
-```
+```c
 /* Clean up. */
 free(x);
 ```
-```
+```c
 return EXIT_SUCCESS;
 }
 ```
@@ -21087,11 +21084,11 @@ fractions such as 1/3, there are fractions that cannot be represented finitely i
 more importantly, 1/10). Do not directly compare floating point values; use a delta instead.
 
 
-```
+```c
 #include <float.h> // for DBL_EPSILON and FLT_EPSILON
 #include <math.h> // for fabs()
 ```
-```
+```c
 int main(void)
 {
 double a = 0.1; // imprecise: (binary) 0.000110...
@@ -21110,13 +21107,13 @@ if (fabs(a + a + a + a + a + a + a + a + a + a - 1.0) < 0.000001) {
 printf("10 * 0.1 is almost 1.0. \n ");
 }
 ```
-```
+```c
 return 0 ;
 }
 ```
 Another example:
 
-```
+```c
 gcc -O3 -g -I./inc -std=c11 -Wall -Wextra -Werror -Wmissing-prototypes -Wstrict-prototypes
 ```
 - Wold-style-definition rd11.c - o rd11 -L./lib -lsoq
@@ -21129,7 +21126,7 @@ static inline double rel_diff(double a, double b)
 return fabs(a - b) / fmax(fabs(a), fabs(b));
 }
 ```
-```
+```c
 int main(void)
 {
 double d1 = 3.14159265358979;
@@ -21166,14 +21163,14 @@ Output:
 7:3.1415926536 <=> 3.1415929204 within tolerance 0.0000001000 (rel diff 8.4914E-08)
 8:3.1415926536 <=> 3.1415929204 out of tolerance 0.0000000100 (rel diff 8.4914E-08)
 9:3.1415926536 <=> 3.1415929204 out of tolerance 0.0000000010 (rel diff 8.4914E-08)
-```
+```c
 ### Section 63.18: Floating point literals are of type double by default
 
 Care must be taken when initializing variables of type float to literal values or comparing them with literal values,
 
 because regular floating point literals like 0.1 are of type double. This may lead to surprises:
 
-```
+```c
 #include <stdio.h>
 int main() {
 float n;
@@ -21215,10 +21212,10 @@ converted to a pointer in an implementation-defined manner and there is little c
 
 be valid, so this example will invoke _undefined behavior_.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 const char *hello = 'hello, world'; /* bad */
 puts(hello);
@@ -21236,10 +21233,10 @@ value to convert is implementation-defined, and whether char is signed is also i
 
 output will be some meaningless thing.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void) {
 char c = "a"; /* bad */
 printf("%c \n ", c);
@@ -21256,16 +21253,16 @@ Calculating the factorial of a number is a classic example of a recursive functi
 
 **Missing the Base Condition:**
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int factorial(int n)
 {
 return n * factorial(n - 1 );
 }
 ```
-```
+```c
 int main()
 {
 printf("Factorial %d = %d \n ", 3 , factorial( 3 ));
@@ -21280,10 +21277,10 @@ to stop the recursion.
 
 **Base Condition Declared:**
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int factorial(int n)
 {
 if (n == 1 ) // Base Condition, very crucial in designing the recursive functions.
@@ -21296,7 +21293,7 @@ return n * factorial(n - 1 );
 }
 }
 ```
-```
+```c
 int main()
 {
 ```
@@ -21335,10 +21332,10 @@ Arrays are zero-based, that is the index always starts at 0 and ends with index 
 
 following code will not output the first element of the array and will output garbage for the final value that it prints.
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 int x = 0 ;
@@ -21357,10 +21354,10 @@ Output: 2 3 4 5 GarbageValue
 
 The following demonstrates the correct way to achieve the desired output:
 
-```
+```c
 #include <stdio.h>
 ```
-```
+```c
 int main(void)
 {
 int x = 0 ;
@@ -21388,12 +21385,12 @@ When allocating multidimensional arrays with malloc, calloc, and realloc, a comm
 
 inner arrays with multiple calls (even if the call only appears once, it may be in a loop):
 
-```
+```c
 /* Could also be `int **` with malloc used to allocate outer array. */
 int *array[ 4 ];
 int i;
 ```
-```
+```c
 /* Allocate 4 arrays of 16 ints. */
 for (i = 0 ; i < 4 ; i++)
 array[i] = malloc( 16 * sizeof(*array[i]));
@@ -21402,7 +21399,7 @@ The difference in bytes between the last element of one of the inner arrays and 
 
 array may not be 0 as they would be with a "real" multidimensional array (e.g. int array[ 4 ][ 16 ];):
 
-```
+```c
 /* 0x40003c, 0x402000 */
 printf("%p, %p \n ", (void *)(array[ 0 ] + 15 ), (void *)array[ 1 ]);
 ```
@@ -21418,7 +21415,7 @@ should allocate an object of type int * and use arithmetic to perform calculatio
 void func(int M, int N, int *array);
 ...
 ```
-```
+```c
 /* Equivalent to declaring `int array[M][N] = {{0}};` and assigning to array4_16[i][j]. */
 int *array;
 int M = 4 , N = 16 ;
@@ -21436,14 +21433,14 @@ void func(int M, int N, int *array);
 void func_N(int M, int (*array)[N]);
 ...
 ```
-```
+```c
 int M = 4 ;
 int (*array)[N];
 array = calloc(M, sizeof(*array));
 array[i][j] = 1 ;
 ```
 
-```
+```c
 /* Cast to `int *` works here because `array` is a single block of M*N ints with no gaps,
 just like `int array2[M * N];` and `int array3[M][N];` would be. */
 func(M, N, (int *)array);
@@ -21460,7 +21457,7 @@ void func(int M, int N, int *array);
 void func_vla(int M, int N, int array[M][N]);
 ...
 ```
-```
+```c
 int M = 4 , N = 16 ;
 int (*array)[N];
 array = calloc(M, sizeof(*array));
@@ -21940,8 +21937,3 @@ Wyzard Chapter 46
 Yotam Salmon Chapter 19
 
 Алексей Неудачин Chapters 6, 22 and 37
-
-
-## You may also like
-
-
