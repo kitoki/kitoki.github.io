@@ -426,7 +426,7 @@ C has many powerful operators. Many C operators are `binary` operators, which me
 
 Relational operators check if a specific relation between two operands `is true`. The result is evaluated to 1 (which means true) or 0 (which means false). This result is `often used` to affect control flow (via if, while, for), but can also be `stored in variables`.  
 
-Equals "=="  
+Equals "`==`"  
 ```c
 1 == 0; /* evaluates to 0. */
 1 == 1; /* evaluates to 1. */
@@ -437,9 +437,9 @@ xptr == yptr; /* evaluates to 0, the operands hold different location addresses.
 *xptr == *yptr; /* evaluates to 1, the operands point at locations that hold the same value. */
 ```
 
-Attention: This operator should not be confused with the assignment operator (=)!  
+Attention: This operator should not be confused with the assignment operator (`=`)!  
 
-Not equals "!="  
+Not equals "`!=`"  
 ```c
 1 != 0; /* evaluates to 1. */
 1 != 1; /* evaluates to 0. */
@@ -450,31 +450,32 @@ xptr != yptr; /* evaluates to 1, the operands hold different location addresses.
 *xptr != *yptr; /* evaluates to 0, the operands point at locations that hold the same value. */
 ```
 
-Not "!" `!someVal`  
+Not operator "`!`" `!someVal`  
+the opposite  
 `someVal == 0`  
 
-Greater than ">"
+Greater than "`>`"
 ```c
 5 > 4 /* evaluates to 1. */
 4 > 5 /* evaluates to 0. */
 4 > 4 /* evaluates to 0. */
 ```
 
-Less than "<"
+Less than "`<`"
 ```c
 5 < 4 /* evaluates to 0. */
 4 < 5 /* evaluates to 1. */
 4 < 4 /* evaluates to 0. */
 ```
 
-Greater than or equal ">="
+Greater than or equal "`>=`"
 ```c
 5 >= 4 /* evaluates to 1. */
 4 >= 5 /* evaluates to 0. */
 4 >= 4 /* evaluates to 1. */
 ```
 
-Less than or equal "<="
+Less than or equal "`<=`"
 ```c
 5 <= 4 /* evaluates to 0. */
 4 <= 5 /* evaluates to 1. */
@@ -494,7 +495,7 @@ else
  a = d;
 ```
 
-This pseudo-code represents it : condition ? value_if_true : value_if_false. Each value can be the result of an evaluated expression.
+This pseudo-code represents it : `condition ? value_if_true : value_if_false`. Each value can be the result of an evaluated expression.
 
 ```c
 int x = 5;
@@ -502,11 +503,11 @@ int y = 42;
 printf("%i, %i\n", 1 ? x : y, 0 ? x : y); /* Outputs "5, 42" */
 ```
 
-The conditional operator can be nested. For example, the following code determines the bigger of three numbers:
+The conditional operator `can be nested`. For example, the following code determines the bigger of three numbers:
 
 ```c
 big= a > b ? (a > c ? a : c)
- : (b > c ? b : c);
+           : (b > c ? b : c);
 ```
 
 The following example writes even integers to one file and odd integers to another file:
@@ -531,7 +532,7 @@ int main()
 }
 ```
 
-The conditional operator associates from right to left. Consider the following:  
+The conditional operator associates from `right to left`. Consider the following:  
 
 `exp1 ? exp2 : exp3 ? exp4 : exp5`  
 
@@ -578,22 +579,22 @@ int main(void)
 }
 ```
 
-Bitwise operations with signed types should be avoided because the sign bit of such a bit representation has a particular meaning. Particular restrictions apply to the shift operators:
+Bitwise operations with `signed` types should be avoided because the sign bit of such a bit representation has a `particular` meaning. Particular restrictions apply to the `shift` operators:
 
-- Left shifting a 1 bit into the signed bit is erroneous and leads to undefined behavior.
-- Right shifting a negative value (with sign bit 1) is implementation defined and therefore not portable.
-- If the value of the right operand of a shift operator is negative or is greater than or equal to the width of the promoted left operand, the behavior is undefined.
+- `Left shifting a 1 bit into the signed bit` is erroneous and leads to undefined behavior.
+- `Right shifting a negative value (with sign bit 1)` is implementation defined and therefore not portable.
+- If the value of the `right operand of a shift operator is negative` or is `greater than or equal` to the width of the promoted `left operand`, the behavior is undefined.
 
 > Masking
 
-Masking refers to the process of extracting the desired bits from (or transforming the desired bits in) a variable by using logical bitwise operations. The operand (a constant or variable) that is used to perform masking is called a mask.  
+Masking refers to the process of `extracting the desired bits` from (or transforming the desired bits in) a variable by using logical bitwise operations. The operand (a constant or variable) that is used to perform masking is `called a mask`.  
 
 Masking is used in many different ways:
 
-- To decide the bit pattern of an integer variable.
-- To copy a portion of a given bit pattern to a new variable, while the remainder of the new variable is filled with 0s (using bitwise AND)
-- To copy a portion of a given bit pattern to a new variable, while the remainder of the new variable is filled with 1s (using bitwise OR).
-- To copy a portion of a given bit pattern to a new variable, while the remainder of the original bit pattern is inverted within the new variable (using bitwise exclusive OR).
+- To decide the `bit pattern` of an integer variable.
+- To copy a `portion` of a given bit pattern to a new variable, while the remainder of the new variable is filled with `0s` (using bitwise `AND`)
+- To copy a `portion` of a given bit pattern to a new variable, while the remainder of the new variable is filled with `1s` (using bitwise `OR`).
+- To copy a `portion` of a given bit pattern to a new variable, while the remainder of the original bit pattern is `inverted` within the new variable (using bitwise exclusive `OR`).
 
 The following function uses a mask to display the bit pattern of a variable:
 
@@ -617,7 +618,7 @@ void bit_pattern(int u)
 
 > #### Section 4.4: Short circuit behavior of logical operators
 
-Short circuiting is a functionality that skips evaluating parts of a (if/while/...) condition when able. In case of a logical operation on two operands, the first operand is evaluated (to true or false) and if there is a verdict (i.e first operand is false when using &&, first operand is true when using ||) the second operand is not evaluated.
+Short circuiting is a functionality that `skips evaluating parts` of a (`if/while/...`) condition when able. In case of a logical operation on `two operands`, the first operand is evaluated (to `true` or `false`) and if there is a verdict (i.e first operand is false when using `&&`, first operand is true when using `||`) the second operand is not evaluated.
 
 ```c
 #include <stdio.h>
@@ -661,6 +662,6 @@ $ ./a.out
 print function 20
 I will be printed!
 ```
-Short circuiting is important, when you want to avoid evaluating terms that are (computationally) costly. Moreover, it can heavily affect the flow of your program like in this case: [Why does this program print "forked!" 4 times?](https://stackoverflow.com/questions/26716255/why-does-this-program-print-forked-4-times)
+Short circuiting is important, when you want `to avoid` evaluating terms that are (computationally) costly. Moreover, it can `heavily affect` the flow of your program like in this case: [Why does this program print "forked!" 4 times?](https://stackoverflow.com/questions/26716255/why-does-this-program-print-forked-4-times)
 
 
