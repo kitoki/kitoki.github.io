@@ -68,12 +68,12 @@
 
 >---
 
-# **chapter 1: getting started with C language**
+# **chapter 1: getting started with C language** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 1.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-11-hello-world): Hello World  
 [Section 1.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-12-original-hello-world-in-kr-c): Original "Hello, World!" in K&R C
 
-> #### Section 1.1: Hello World
+> #### Section 1.1: Hello World [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language)
 ```c
 #include <stdio.h>
 int main(void)
@@ -92,7 +92,7 @@ int main(void)
 > compiling using command line windows
 `cl hello.c`  
 
-> #### Section 1.2: Original "Hello, World!" in K&R C
+> #### Section 1.2: Original "Hello, World!" in K&R C [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-1-getting-started-with-c-language)
 ```c
 #Version = K&R
 #include <stdio.h>
@@ -104,7 +104,7 @@ main()
 
 >---
 
-# **Chapter 2: Comments**
+# **Chapter 2: Comments** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 2.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-21-commenting-using-the-preprocessor): Commenting using the preprocessor  
 [Section 2.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-22---delimited-comments): /* */ delimited comments  
@@ -112,7 +112,7 @@ main()
 [Section 2.4](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-24-possible-pitfall-due-to-trigraphs): Possible pitfall due to trigraphs  
 
 
-> #### Section 2.1: Commenting using the preprocessor
+> #### Section 2.1: Commenting using the preprocessor [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
 ```c
 #if 0 /* Starts the "comment", anything from here on is removed by preprocessor */
 /* A large amount of code with multi-line comments */
@@ -131,7 +131,7 @@ int foo()
 /* code from here on is "uncommented" (included in compiled executable) */
 ```
 
-> #### Section 2.2: /* */ delimited comments
+> #### Section 2.2: /* */ delimited comments [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
 ```c
 /* this is a comment */
 
@@ -160,7 +160,7 @@ if (x && y) { /*this comment is at the end of a line */
 /* outer comment, means this is ignored => /* attempted inner comment */ <= ends the comment, not this one => */
 ```
 
-> #### Section 2.3: // delimited comments
+> #### Section 2.3: // delimited comments [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
 ```c
 // this is a comment
 
@@ -174,7 +174,7 @@ if (x && y) { // this comment is at the end of a line
 }
 ```
 
-> #### Section 2.4: Possible pitfall due to trigraphs
+> #### Section 2.4: Possible pitfall due to trigraphs [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-2-comments)
 ```c
 int x = 20; // Why did I do this??/
 
@@ -188,7 +188,7 @@ bar += foo;
 
 >---
 
-# **Chapter 3: Data Types**
+# **Chapter 3: Data Types** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 3.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-31-interpreting-declarations): Interpreting Declarations  
 [Section 3.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-32-fixed-width-integer-types-since-c99): Fixed Width Integer Types (since C99)  
@@ -197,7 +197,7 @@ bar += foo;
 [Section 3.5](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-35-string-literals): String Literals  
 
 
-> #### Section 3.1: Interpreting Declarations
+> #### Section 3.1: Interpreting Declarations [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types)
 The following set of operators with identical precedence and associativity are reused in declarators, namely:
 - the `unary *` "dereference" operator which denotes a pointer;
 - the `binary []` "array subscription" operator which denotes an array;
@@ -266,7 +266,7 @@ int (*fp)(void);
 char *strings[10][20];
 ```
 
-> #### Section 3.2: Fixed Width Integer Types (since C99)
+> #### Section 3.2: Fixed Width Integer Types (since C99) [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types)
 
 The header `<stdint.h>` provides several fixed-width integer type definitions. These types are optional and only provided if the platform has an integer type of the corresponding width, and if the corresponding signed type has a two's complement representation of negative values.
 
@@ -277,7 +277,7 @@ uint8_t u8 = 255; /* exactly 8-bits wide */
 int64_t i64 = -65 /* exactly 64 bit in two's complement representation */
 ```
 
-> #### Section 3.3: Integer types and constants
+> #### Section 3.3: Integer types and constants [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types)
 ```c
 signed char c = 127; /* required to be 1 byte, see remarks for further information. */
 signed short int si = 32767; /* required to be at least 16 bits. */
@@ -343,7 +343,7 @@ If the value of an object of type `char sign-extends` when used in an expression
 
 The C99 standard added a new header, `<stdint.h>`, which contains definitions for fixed width integers. See the fixed width integer example for a more in-depth explanation
 
-> #### Section 3.4: Floating Point Constants
+> #### Section 3.4: Floating Point Constants [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types)
 ```c
 float f = 0.314f; /* suffix f or F denotes type float */
 double d = 0.314; /* no suffix denotes double */
@@ -359,7 +359,7 @@ The header `<float.h>` defines various limits for floating point operations.
 Floating point arithmetic is implementation defined. However, most modern platforms (arm, x86, x86_64, MIPS) use `IEEE 754` floating point operations.  
 C also has `three optional complex floating point` types that are derived from the above.
 
-> #### Section 3.5: String Literals
+> #### Section 3.5: String Literals [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-3-data-types)
 
 A string literal in C is a `sequence` of chars, terminated by a literal `zero`.
 
@@ -412,7 +412,7 @@ char32_t* s5 = U"abc";
 
 >---
 
-# **Chapter 4: Operators**
+# **Chapter 4: Operators** [:arrow_up:](https://github.com/kitoki/kitoki.github.io/edit/main/_posts/book%20-%20C%20notes%20for%20professional.md#contents)
 
 > [Section 4.1](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-41-relational-operators): Relational Operators  
 [Section 4.2](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#section-42-conditional-operatorternary-operator): Conditional Operator/Ternary Operator  
@@ -422,7 +422,7 @@ char32_t* s5 = U"abc";
 
 C has many powerful operators. Many C operators are `binary` operators, which means they have `two operands`. For example, in `a / b`, `/` is a binary operator that accepts two operands (a, b). There are some unary operators which take one operand (for example: `~, ++`), and only one ternary operator `? :`.
 
-> #### Section 4.1: Relational Operators
+> #### Section 4.1: Relational Operators [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators)
 
 Relational operators check if a specific relation between two operands `is true`. The result is evaluated to 1 (which means true) or 0 (which means false). This result is `often used` to affect control flow (via if, while, for), but can also be `stored in variables`.  
 
@@ -482,7 +482,7 @@ Less than or equal "`<=`"
 4 <= 4 /* evaluates to 1. */
 ```
 
-> #### Section 4.2: Conditional Operator/Ternary Operator
+> #### Section 4.2: Conditional Operator/Ternary Operator [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators)
 
 `a = b ? c : d;`  
 
@@ -540,7 +540,7 @@ As the association is from right to left, the above expression is evaluated as
 
 `exp1 ? exp2 : ( exp3 ? exp4 : exp5 )`
 
-> #### Section 4.3: Bitwise Operators
+> #### Section 4.3: Bitwise Operators [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators)
 
 Bitwise operators can be used to perform bit level operation on variables.  
 Below is a list of all six bitwise operators supported in C:
@@ -616,7 +616,7 @@ void bit_pattern(int u)
 }
 ```
 
-> #### Section 4.4: Short circuit behavior of logical operators
+> #### Section 4.4: Short circuit behavior of logical operators [:arrow_up:](https://github.com/kitoki/kitoki.github.io/blob/main/_posts/book%20-%20C%20notes%20for%20professional.md#chapter-4-operators)
 
 Short circuiting is a functionality that `skips evaluating parts` of a (`if/while/...`) condition when able. In case of a logical operation on `two operands`, the first operand is evaluated (to `true` or `false`) and if there is a verdict (i.e first operand is false when using `&&`, first operand is true when using `||`) the second operand is not evaluated.
 
