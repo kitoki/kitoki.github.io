@@ -38,6 +38,12 @@ TODO: `Everything you should know` about thread safety in [2 minutes](https://ww
 TODO: [Common used](https://www.youtube.com/watch?v=mbKEbfn7T2A) Thread class Methods(join, sleep, yield, setpriority, setName, setDemon)  
 TODO: how to highlight text in github markdown? trying to replica hidden in discord || this text need to click to show up ||  
 TODO: stackoverflow : fault-[tolerance](https://stackoverflow.com/questions/tagged/fault-tolerance?tab=Votes), default-value + [C Language](https://stackoverflow.com/questions/tagged/default-value%2bc?tab=Votes), fault + [C language](https://stackoverflow.com/questions/tagged/fault%2bc?tab=Votes),  
+
+TODO: string literals - [Notes](https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/CharacterStrings.html)  
+TODO: if you find it hard to understand, learn em one by one, use checklist too, make it step by step, nested  
+TODO: create animation/diagram/ video to understand explanation  
+
+
 >---  
 
 stackoverflow : tag : [C language](https://stackoverflow.com/questions/tagged/c?tab=Votes) sort by Votes, [C language](https://stackoverflow.com/questions/tagged/c?tab=Frequent) sort by frequent, [malloc](https://stackoverflow.com/questions/tagged/malloc?tab=Votes), undefined [behavior](https://stackoverflow.com/questions/tagged/undefined-behavior), unspecified [behavior](https://stackoverflow.com/questions/tagged/unspecified-behavior), implementation [defined](https://stackoverflow.com/questions/tagged/implementation-defined-behavior) behavior, buffer-[overflow](https://stackoverflow.com/questions/tagged/buffer-overflow), [pointer](https://stackoverflow.com/questions/tagged/pointers), segmentation [fault](https://stackoverflow.com/questions/tagged/segmentation-fault), size[of](https://stackoverflow.com/questions/tagged/sizeof), standard [compliance](https://stackoverflow.com/questions/tagged/standards-compliance), [performance](https://stackoverflow.com/questions/tagged/performance), [optimization](https://stackoverflow.com/questions/tagged/optimization), bitwise [operator](https://stackoverflow.com/questions/tagged/bitwise-operators), header-[files](https://stackoverflow.com/questions/tagged/header-files), [operator](https://stackoverflow.com/questions/tagged/operators), fault [tolerance](https://stackoverflow.com/questions/tagged/fault-tolerance), [memory](https://stackoverflow.com/questions/tagged/memory), memory [leaks](https://stackoverflow.com/questions/tagged/memory-leaks), [caching](https://stackoverflow.com/questions/tagged/caching), cpu [cache](https://stackoverflow.com/questions/tagged/cpu-cache)
@@ -2894,157 +2900,105 @@ For the latter two, it can be queried with feature test macros if the encoding i
 
 ### Section 7.3: Character literals
 
-Character literals are a special type of integer literals that are used to represent one character. They are enclosed in single quotes, e.g. 'a' and have the type `int`. The value of the literal is an `integer` value according to the machine's character set. They do not allow suffixes.
+Character literals are a special type of integer literals that are used to represent one character. They are enclosed in single quotes, e.g. 'a' and have the type `int`. The value of the literal is an `integer` value according to the machine's character set. They do not allow suffixes.  
 
-The `L` prefix before a character literal makes it a wide character of type `wchar_t`. Likewise since C11 u and U prefixes
+The `L` prefix before a character literal makes it a wide character of type `wchar_t`. Likewise since C11 u and U prefixes make it wide characters of type `char16_t` and `char32_t`, respectively. When intending to represent certain special characters, such as a character that is non-printing, escape sequences are used. Escape sequences use a sequence of characters that are translated into another character. All escape sequences consist of two or more characters, the first of which is a backslash `\`. The characters immediately following the backslash determine what character literal the sequence is interpreted as Escape Sequence Represented Character
 
-make it wide characters of type char16_t and char32_t, respectively.
+```c
+\b        Backspace
+\f        Form feed
+\n        Line feed (new line)
+\r        Carriage return
+\t        Horizontal tab
+\v        Vertical tab
+\\        Backslash
+\'        Single quotation mark
+\"        Double quotation mark
+\?        Question mark
+\nnn      Octal value
+\xnn...   Hexadecimal value
 
-When intending to represent certain special characters, such as a character that is non-printing, escape sequences
-
-are used. Escape sequences use a sequence of characters that are translated into another character. All escape
-
-sequences consist of two or more characters, the first of which is a backslash \. The characters immediately
-
-following the backslash determine what character literal the sequence is interpreted as.
-
-```
-Escape SequenceRepresented Character
-```
-
-```
-\b Backspace
-\f Form feed
-\n Line feed (new line)
-\r Carriage return
-\t Horizontal tab
-\v Vertical tab
-\\ Backslash
-\' Single quotation mark
-\" Double quotation mark
-\? Question mark
-\nnn Octal value
-\xnn... Hexadecimal value
-```
 Version ≥ C89
 **Escape SequenceRepresented Character**
-\a Alert (beep, bell)
+\a        Alert (beep, bell)
 
 Version ≥ C99
 **Escape SequenceRepresented Character**
-\unnnn Universal character name
-\Unnnnnnnn Universal character name
+\unnnn     Universal character name
+\Unnnnnnnn  Universal character name
+```
 
-A universal character name is a Unicode code point. A universal character name may map to more than one
+A universal character name is a `Unicode` code point. A universal character name may map to more than one character. The digits n are interpreted as hexadecimal digits. Depending on the `UTF` encoding in use, a universal character name sequence may result in a code point that consists of multiple characters, instead of a single normal char character.  
 
-character. The digits n are interpreted as hexadecimal digits. Depending on the UTF encoding in use, a universal
-
-character name sequence may result in a code point that consists of multiple characters, instead of a single normal
-
-char character.
-
-When using the line feed escape sequence in text mode I/O, it is converted to the OS-specific newline byte or byte
-
-sequence.
-
-The question mark escape sequence is used to avoid trigraphs. For example, ??/ is compiled as the trigraph
-
-representing a backslash character ' **\'** , but using ?\?/ would result in the _string_ "??/".
-
+When using the line feed escape sequence in text mode I/O, it is converted to the OS-specific newline byte or byte sequence.
+The question mark escape sequence is used `to avoid` trigraphs. For example, `??/` is compiled as the trigraph representing a backslash character ' **\'** , but using `?\?/` would result in the _string_ "??/".  
 There may be one, two or three octal numerals n in the octal value escape sequence.
 
 ### Section 7.4: Integer literals
 
 Integer literals are used to provide integral values. Three numerical bases are supported, indicated by prefixes:
 
-```
-Base Prefix Example
-Decimal None^5
-Octal 0 0345
-Hexadecimal0x or 0X0x12AB, 0X12AB, 0x12ab, 0x12Ab
-```
-Note that this writing doesn't include any sign, so integer literals are always positive. Something like -1 is treated as
+| Base | Prefix | Example |
+| :--- | :---   | :---    |
+| Decimal     | None      | 5                              |
+| Octal       | 0         | 0345                           |
+| Hexadecimal | 0x or 0X  | 0x12AB, 0X12AB, 0x12ab, 0x12Ab |
 
-an expression that has one integer literal ( 1 ) that is negated with a -
+Note that this writing doesn't include any sign, so integer literals are always positive. Something like `-1` is treated as an expression that has one integer literal `(1)` that is negated with a `-` The type of a decimal integer literal is the first data type that can fit the value from `int` and `long`. Since C99, `long long` is also supported for `very large` literals.  
 
-The type of a decimal integer literal is the first data type that can fit the value from int and long. Since C99, long
+The type of an `octal` or `hexadecimal` integer literal is the first data type that can fit the value from `int`, `unsigned`, `long`, and `unsigned long`. Since C99, `long long` and `unsigned long long` are also supported for very large literals. Using various suffixes, the default type of a literal can be changed.
 
-long is also supported for very large literals.
+| Suffix             | Explanation   |
+| :---               | :---          |
+| L, l               | long int      |
+| LL, ll (since C99) | long long int |
+| U, u               | unsigned      |
 
-The type of an octal or hexadecimal integer literal is the first data type that can fit the value from int, unsigned,
-
-long, and unsigned long. Since C99, long long and unsigned long long are also supported for very large literals.
-
-
-Using various suffixes, the default type of a literal can be changed.
-
-```
-Suffix Explanation
-L, l long^ int
-LL, ll (since C99)long long int
-U, u unsigned
-```
-The U and L/LL suffixes can be combined in any order and case. It is an error to duplicate suffixes (e.g. provide two
-
-U suffixes) even if they have different cases.
+The `U` and `L`/`LL` suffixes can be combined in any order and case. It is an error to duplicate suffixes (e.g. provide two `U` suffixes) even if they have different cases.
 
 
 ## Chapter 8: Compound Literals
 
 ### Section 8.1: Definition/Initialisation of Compound Literals
 
-A compound literal is an unnamed object which is created in the scope where is defined. The concept was first
-
-introduced in C99 standard. An example for compound literal is
+A compound literal is an unnamed object which is created in the scope where is defined. The concept was first introduced in C99 standard. An example for compound literal is
 
 **Examples from C standard, C11-** § **6.5.2.5/9:**
 
 ```c
-int *p = (int [ 2 ]){ 2 , 4 };
+int *p = (int[2]){2,4};
 ```
-p is initialized to the address of the first element of an unnamed array of two ints.
+`p` is initialized to the address of the first element of an unnamed array of two `ints`. The compound literal is an lvalue. The storage duration of the unnamed object is either static (if the literal appears at file scope) or automatic (if the literal appears at block scope), and in the latter case the object's lifetime ends when control leaves the enclosing block.
 
-The compound literal is an lvalue. The storage duration of the unnamed object is either static (if the literal appears
-
-at file scope) or automatic (if the literal appears at block scope), and in the latter case the object's lifetime ends
-
-when control leaves the enclosing block.
-
-```
+```c
 void f(void)
 {
-int *p;
-/*...*/
-p = (int [ 2 ]){ *p };
-/*...*/
+  int *p;
+  /*...*/
+  p = (int [ 2 ]){ *p };
+  /*...*/
 }
 ```
-```
-p is assigned the address of the first element of an array of two ints, the first having the value previously
-pointed to by p and the second, zero.[...]
-```
-Here p remains valid until the end of the block.
+`p` is assigned the address of the first element of an array of two `int`s, the first having the value previously
+pointed to by `p` and the second, zero.[...]  
+Here `p` remains valid until the end of the block.
 
-**Compound literal with designators**
+**Compound literal with designators**  
 
-(also from C11)
+(also from C11)  
 
-```
+```c
 struct point {
 unsigned x;
 unsigned y;
 };
-```
-```
+
 extern void drawline(struct point, struct point);
-```
-```
+
 // used somewhere like this
 drawline((struct point){.x= 1 , .y= 1 }, (struct point){.x= 3 , .y= 4 });
 ```
-A fictive function drawline receives two arguments of type struct point. The first has coordinate values x == 1
-
-and y == 1 , whereas the second has x == 3 and y == 4
+A fictive function drawline receives two arguments of type `struct` point. The first has coordinate values `x == 1` and `y == 1`, whereas the second has `x == 3` and `y == 4`.
 
 **Compound literal without specifying array length**
 
@@ -3059,234 +3013,191 @@ In this case the size of the array is no specified then it will be determined by
 int *p = (int [ 10 ]){ 1 , 2 , 3 };
 ```
 
-rest of the elements of compound literal will be initialized to^0 implicitly.
+rest of the elements of compound literal will be initialized to `0` implicitly.
 
 **Read-only compound literal**
 
-Note that a compound literal is an lvalue and therefore it's elements can be modifiable. A _read-only_ compound
-
-literal can be specified using const qualifier as (const int[]){ 1 , 2 }.
+Note that a compound literal is an lvalue and therefore it's elements can be modifiable. A _read-only_ compound literal can be specified using const qualifier as `(const int[]){ 1 , 2 }`.
 
 **Compound literal containing arbitrary expressions**
 
 Inside a function, a compound literal, as for any initialization since C99, can have arbitrary expressions.
 
-```
+```c
 void foo()
 {
-int *p;
-int i = 2 ; j = 5 ;
-/*...*/
-p = (int [ 2 ]){ i+j, i*j };
-/*...*/
+  int *p;
+  int i = 2 ; j = 5 ;
+  /*...*/
+  p = (int [ 2 ]){ i+j, i*j };
+  /*...*/
 }
 ```
 
 ## Chapter 9: Bit-fields
 
-```
-Parameter Description
-type-specifiersigned, unsigned, int or _Bool
-identifier The name for this field in the structure
-size The number of bits to use for this field
-```
-Most variables in C have a size that is an integral number of bytes. Bit-fields are a part of a structure that don't
+| Parameter      | Description |
+| :---           | :---        |
+| type-specifier | signed, unsigned, int or `_Bool` |
+| identifier     | The name for this field in the structure |
+| size           | The number of bits to use for this field |
 
-necessarily occupy a integral number of bytes; they can any number of bits. Multiple bit-fields can be packed into a
-
-single storage unit. They are a part of standard C, but there are many aspects that are implementation defined.
-
-They are one of the least portable parts of C.
+Most variables in C have a size that is an integral number of bytes. Bit-fields are a part of a structure that don't necessarily occupy a integral number of bytes; they can any number of bits. Multiple bit-fields can be packed into a single storage unit. They are a part of standard C, but there are many aspects that are implementation defined. They are one of the least portable parts of C.
 
 ### Section 9.1: Bit-fields
 
 A simple bit-field can be used to describe things that may have a specific number of bits involved.
 
-```
+```FPGA
 struct encoderPosition {
-unsigned int encoderCounts : 23 ;
-unsigned int encoderTurns : 4 ;
-unsigned int _reserved : 5 ;
+  unsigned int encoderCounts : 23 ;
+  unsigned int encoderTurns : 4 ;
+  unsigned int _reserved : 5 ;
 };
 ```
-In this example we consider an encoder with 23 bits of single precision and 4 bits to describe multi-turn. Bit-fields
+In this example we consider an encoder with `23 bits` of single precision and 4 bits to describe multi-turn. Bit-fields are often used when interfacing with hardware that outputs data associated with specific number of bits. Another example could be communication with an `FPGA`, where the FPGA writes data into your memory in `32 bit` sections allowing for hardware reads:
 
-are often used when interfacing with hardware that outputs data associated with specific number of bits. Another
-
-example could be communication with an FPGA, where the FPGA writes data into your memory in 32 bit sections
-
-allowing for hardware reads:
-
-```
+```FPGA
 struct FPGAInfo {
-union {
-struct bits {
-unsigned int bulb1On : 1 ;
-unsigned int bulb2On : 1 ;
-unsigned int bulb1Off : 1 ;
-unsigned int bulb2Off : 1 ;
-unsigned int jetOn : 1 ;
-};
-unsigned int data;
-};
+  union {
+    struct bits {
+      unsigned int bulb1On : 1 ;
+      unsigned int bulb2On : 1 ;
+      unsigned int bulb1Off : 1 ;
+      unsigned int bulb2Off : 1 ;
+      unsigned int jetOn : 1 ;
+    };
+    unsigned int data;
+  };
 };
 ```
-For this example we have shown a commonly used construct to be able to access the data in its individual bits, or to
+For this example we have shown a commonly used construct to be able to access the data in its individual bits, or to write the data packet as a whole (emulating what the FPGA might do). We could then access the bits like this:
 
-write the data packet as a whole (emulating what the FPGA might do). We could then access the bits like this:
-
-```
+```FPGA
 FPGAInfo fInfo;
 fInfo.data = 0xFF34F;
 if (fInfo.bits.bulb1On) {
-printf("Bulb 1 is on \n ");
+  printf("Bulb 1 is on \n ");
 }
 ```
 This is valid, but as per the C99 standard 6.7.2.1, item 10:
 
-```
-The order of allocation of bit-fields within a unit (high-order to low-order or low-order to high-order) is
-implementation-defined.
-```
+- The order of allocation of bit-fields within a unit (`high-order` to `low-order` or `low-order` to `high-order`) is implementation-defined.
 
-You need to be aware of endianness when defining bit-fields in this way. As such it may be necessary to use a
+You need to be aware of endianness when defining bit-fields in this way. As such it may be necessary to use a preprocessor directive to check for the endianness of the machine. An example of this follows:
 
-preprocessor directive to check for the endianness of the machine. An example of this follows:
-
-```
+```FPGA
 typedef union {
-struct bits {
-#if defined(WIN32) || defined(LITTLE_ENDIAN)
-uint8_t commFailure : 1 ;
-uint8_t hardwareFailure : 1 ;
-uint8_t _reserved : 6 ;
-#else
-uint8_t _reserved : 6 ;
-uint8_t hardwareFailure : 1 ;
-uint8_t commFailure : 1 ;
-#endif
-};
-uint8_t data;
-} hardwareStatus;
-```c
+  struct bits {
+    #if defined(WIN32) || defined(LITTLE_ENDIAN)
+      uint8_t commFailure : 1 ;
+      uint8_t hardwareFailure : 1 ;
+      uint8_t _reserved : 6 ;
+    #else
+      uint8_t _reserved : 6 ;
+      uint8_t hardwareFailure : 1 ;
+      uint8_t commFailure : 1 ;
+    #endif
+  };
+  uint8_t data;
+}
+
+hardwareStatus;
+```
 ### Section 9.2: Using bit-fields as small integers
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(void)
 {
-/* define a small bit-field that can hold values from 0 .. 7 */
-struct
-{
-unsigned int uint3: 3 ;
-} small;
-```
-```c
-/* extract the right 3 bits from a value */
-unsigned int value = 255 - 2 ; /* Binary 11111101 */
-small.uint3 = value; /* Binary 101 */
-printf("%d", small.uint3);
-```
-```c
-/* This is in effect an infinite loop */
-for (small.uint3 = 0 ; small.uint3 < 8 ; small.uint3++)
-{
-printf("%d \n ", small.uint3);
+  /* define a small bit-field that can hold values from 0 .. 7 */
+  struct
+  {
+    unsigned int uint3: 3 ;
+  } small;
+
+  /* extract the right 3 bits from a value */
+  unsigned int value = 255 - 2 ; /* Binary 11111101 */
+  small.uint3 = value; /* Binary 101 */
+  printf("%d", small.uint3);
+
+  /* This is in effect an infinite loop */
+  for (small.uint3 = 0 ; small.uint3 < 8 ; small.uint3++)
+  {
+    printf("%d \n ", small.uint3);
+  }
+
+  return 0 ;
 }
 ```
-```c
-return 0 ;
-}
-```c
 ### Section 9.3: Bit-field alignment
 
-Bit-fields give an ability to declare structure fields that are smaller than the character width. Bit-fields are
+Bit-fields give an ability to declare structure fields that are smaller than the character width. Bit-fields are implemented with byte-level or word-level mask. The following example results in a structure of 8 bytes.
 
-implemented with byte-level or word-level mask. The following example results in a structure of 8 bytes.
-
-```
+```c
 struct C
 {
-short s; /* 2 bytes */
-char c; /* 1 byte */
-int bit1 : 1 ; /* 1 bit */
-int nib : 4 ; /* 4 bits padded up to boundary of 8 bits. Thus 3 bits are padded */
-int sept : 7 ; /* 7 Bits septet, padded up to boundary of 32 bits. */
+  short s; /* 2 bytes */
+  char c; /* 1 byte */
+  int bit1 : 1 ; /* 1 bit */
+  int nib : 4 ; /* 4 bits padded up to boundary of 8 bits. Thus 3 bits are padded */
+  int sept : 7 ; /* 7 Bits septet, padded up to boundary of 32 bits. */
 };
 ```
+The comments describe one possible layout, but because the standard says _the alignment of the addressable storage_ _unit is unspecified_ , other layouts are also possible. An unnamed bit-field may be of any size, but they can't be initialized or referenced. A zero-width bit-field cannot be given a name and aligns the next field to the boundary defined by the datatype of the bit-field. This is achieved by padding bits between the bit-fields. The size of structure 'A' is 1 byte.
 
-The comments describe one possible layout, but because the standard says _the alignment of the addressable storage_
-
-_unit is unspecified_ , other layouts are also possible.
-
-An unnamed bit-field may be of any size, but they can't be initialized or referenced.
-
-A zero-width bit-field cannot be given a name and aligns the next field to the boundary defined by the datatype of
-
-the bit-field. This is achieved by padding bits between the bit-fields.
-
-The size of structure 'A' is 1 byte.
-
-```
+```FPGA
 struct A
 {
-unsigned char c1 : 3 ;
-unsigned char c2 : 4 ;
-unsigned char c3 : 1 ;
+  unsigned char c1 : 3 ;
+  unsigned char c2 : 4 ;
+  unsigned char c3 : 1 ;
 };
 ```
-In structure B, the first unnamed bit-field skips 2 bits; the zero width bit-field after c2 causes c3 to start from the
+In structure B, the first unnamed bit-field skips 2 bits; the zero width bit-field after c2 causes c3 to start from the `char` boundary (so 3 bits are skipped between c2 and c3. There are 3 padding bits after c4. Thus the size of the structure is 2 bytes.
 
-char boundary (so 3 bits are skipped between c2 and c3. There are 3 padding bits after c4. Thus the size of the
-
-structure is 2 bytes.
-
-```
+```FPGA
 struct B
 {
-unsigned char c1 : 1 ;
-unsigned char : 2 ; /* Skips 2 bits in the layout */
-unsigned char c2 : 2 ;
-unsigned char : 0 ; /* Causes padding up to next container boundary */
-unsigned char c3 : 4 ;
-unsigned char c4 : 1 ;
+  unsigned char c1 : 1 ;
+  unsigned char : 2 ; /* Skips 2 bits in the layout */
+  unsigned char c2 : 2 ;
+  unsigned char : 0 ; /* Causes padding up to next container boundary */
+  unsigned char c3 : 4 ;
+  unsigned char c4 : 1 ;
 };
-```c
+```
+
 ### Section 9.4: Don'ts for bit-fields
 
 1. Arrays of bit-fields, pointers to bit-fields and functions returning bit-fields are not allowed.
-2. The address operator (&) cannot be applied to bit-field members.
+2. The address operator (`&`) cannot be applied to bit-field members.
 3. The data type of a bit-field must be wide enough to contain the size of the field.
-4. The sizeof() operator cannot be applied to a bit-field.
-5. There is no way to create a typedef for a bit-field in isolation (though you can certainly create a typedef for a
-    structure containing bit-fields).
+4. The `sizeof()` operator cannot be applied to a bit-field.
+5. There is no way to create a `typedef` for a bit-field in isolation (though you can certainly create a typedef for a structure containing bit-fields).
 
-```
+```FPGA
 typedef struct mybitfield
 {
-unsigned char c1 : 20 ; /* incorrect, see point 3 */
-unsigned char c2 : 4 ; /* correct */
-unsigned char c3 : 1 ;
-unsigned int x[ 10 ]: 5 ; /* incorrect, see point 1 */
+  unsigned char c1 : 20 ; /* incorrect, see point 3 */
+  unsigned char c2 : 4 ; /* correct */
+  unsigned char c3 : 1 ;
+  unsigned int x[ 10 ]: 5 ; /* incorrect, see point 1 */
 } A;
-```
-```c
+
 int SomeFunction(void)
 {
-// Somewhere in the code
-A a = { ... };
-printf("Address of a.c2 is %p \n ", &a.c2); /* incorrect, see point 2 */
-printf("Size of a.c2 is %zu \n ", sizeof(a.c2)); /* incorrect, see point 4 */
+  // Somewhere in the code
+  A a = { ... };
+  printf("Address of a.c2 is %p \n ", &a.c2); /* incorrect, see point 2 */
+  printf("Size of a.c2 is %zu \n ", sizeof(a.c2)); /* incorrect, see point 4 */
 }
 ```
 
 ### Section 9.5: When are bit-fields useful?
 
-A bit-field is used to club together many variables into one object, similar to a structure. This allows for reduced
-
-memory usage and is especially useful in an embedded environment.
+A bit-field is used to club together many variables into one object, similar to a structure. This allows for reduced memory usage and is especially useful in an embedded environment.
 
 ```
 e.g. consider the following variables having the ranges as given below.
@@ -3296,50 +3207,41 @@ c --> range 0 - 7
 d --> range 0 - 1
 e --> range 0 - 1
 ```
-If we declare these variables separately, then each has to be at least an 8-bit integer and the total space required
 
-will be 5 bytes. Moreover the variables will not use the entire range of an 8 bit unsigned integer (0-255). Here we
+If we declare these variables separately, then each has to be at least an `8-bit` integer and the total space required will be `5` bytes. Moreover the variables will not use the entire range of an `8` bit `unsigned integer` (0-255). Here we can use bit-fields.
 
-can use bit-fields.
-
-```
+```FPGA
 typedef struct {
-unsigned int a: 2 ;
-unsigned int b: 1 ;
-unsigned int c: 3 ;
-unsigned int d: 1 ;
-unsigned int e: 1 ;
+  unsigned int a: 2 ;
+  unsigned int b: 1 ;
+  unsigned int c: 3 ;
+  unsigned int d: 1 ;
+  unsigned int e: 1 ;
 } bit_a;
 ```
-The bit-fields in the structure are accessed the same as any other structure. The programmer needs to take care
-
-that the variables are written in range. If out of range the behaviour is undefined.
+The bit-fields in the structure are accessed the same as any other structure. The programmer needs to take care that the variables are written in range. If out of range the behaviour is undefined.
 
 ```c
 int main(void)
 {
-bit_a bita_var;
-bita_var.a = 2 ; // to write into element a
-printf ("%d",bita_var.a); // to read from element a.
-return 0 ;
+  bit_a bita_var;
+  bita_var.a = 2 ; // to write into element a
+  printf ("%d",bita_var.a); // to read from element a.
+  return 0 ;
 }
 ```
-Often the programmer wants to zero the set of bit-fields. This can be done element by element, but there is second
+Often the programmer wants to zero the set of bit-fields. This can be done element by element, but there is second method. Simply create a union of the structure above with an `unsigned` type that is `greater than`, or `equal to`, the size of the structure. Then the entire set of bit-fields may be zeroed by zeroing this `unsigned integer`.
 
-method. Simply create a union of the structure above with an unsigned type that is greater than, or equal to, the
-
-size of the structure. Then the entire set of bit-fields may be zeroed by zeroing this unsigned integer.
-
-```
+```FPGA
 typedef union {
-struct {
-unsigned int a: 2 ;
-unsigned int b: 1 ;
-unsigned int c: 3 ;
-unsigned int d: 1 ;
-unsigned int e: 1 ;
-};
-uint8_t data;
+  struct {
+    unsigned int a: 2 ;
+    unsigned int b: 1 ;
+    unsigned int c: 3 ;
+    unsigned int d: 1 ;
+    unsigned int e: 1 ;
+  };
+  uint8_t data;
 } union_bit;
 ```
 Usage is as follows
@@ -3347,47 +3249,31 @@ Usage is as follows
 ```c
 int main(void)
 {
-union_bit un_bit;
-un_bit.data = 0x00; // clear the whole bit-field
-un_bit.a = 2 ; // write into element a
-```
+  union_bit un_bit;
+  un_bit.data = 0x00; // clear the whole bit-field
+  un_bit.a = 2 ; // write into element a
 
-```
-printf ("%d",un_bit.a); // read from element a.
-return 0 ;
+  printf ("%d",un_bit.a); // read from element a.
+  return 0 ;
 }
 ```
-In conclusion, bit-fields are commonly used in memory constrained situations where you have a lot of variables
-
-which can take on limited ranges.
-
+In conclusion, bit-fields are commonly used in memory constrained situations where you have a lot of variables which can take on limited ranges.
 
 ## Chapter 10: Arrays
 
-Arrays are derived data types, representing an ordered collection of values ("elements") of another type. Most
+Arrays are derived data types, representing an ordered collection of values ("elements") of another type. Most arrays in C have a fixed number of elements of any one type, and its representation stores the elements contiguously in memory without gaps or padding. C allows multidimensional arrays whose elements are other arrays, and also arrays of pointers.
 
-arrays in C have a fixed number of elements of any one type, and its representation stores the elements
-
-contiguously in memory without gaps or padding. C allows multidimensional arrays whose elements are other
-
-arrays, and also arrays of pointers.
-
-C supports dynamically allocated arrays whose size is determined at run time. C99 and later supports variable
-
-length arrays or VLAs.
+C supports dynamically allocated arrays whose size is determined at run time. C99 and later supports variable length arrays or `VLAs`.
 
 ### Section 10.1: Declaring and initializing an array
 
 The general syntax for declaring a one-dimensional array is
 
-```
+```c
 type arrName[size];
 ```
-where type could be any built-in type or user-defined types such as structures, arrName is a user-defined identifier,
-
-and size is an integer constant.
-
-Declaring an array (an array of 10 int variables in this case) is done like this:
+where type could be any built-in type or user-defined types such as structures, arrName is a user-defined identifier, and size is an integer constant.
+Declaring an array (an array of `10 int` variables in this case) is done like this:
 
 ```c
 int array[ 10 ];
@@ -3397,124 +3283,83 @@ it now holds indeterminate values. To ensure it holds zero values while declarin
 ```c
 int array[ 10 ] = { 0 };
 ```
-Arrays can also have initializers, this example declares an array of 10 int's, where the first 3 int's will contain the
-
-values 1 , 2 , 3 , all other values will be zero:
+Arrays can also have initializers, this example declares an array of `10 int`'s, where the first `3 int`'s will contain the values 1 , 2 , 3 , all other values will be zero:
 
 ```c
 int array[ 10 ] = { 1 , 2 , 3 };
 ```
-In the above method of initialization, the first value in the list will be assigned to the first member of the array, the
-
-second value will be assigned to the second member of the array and so on. If the list size is smaller than the array
-
-size, then as in the above example, the remaining members of the array will be initialized to zeros. With designated
-
-list initialization (ISO C99), explicit initialization of the array members is possible. For example,
+In the above method of initialization, the first value in the list will be assigned to the first member of the array, the second value will be assigned to the second member of the array and so on. If the list size is smaller than the array size, then as in the above example, the remaining members of the array will be initialized to zeros. With designated list initialization (`ISO C99`), explicit initialization of the array members is possible. For example,
 
 ```c
 int array[ 5 ] = {[ 2 ] = 5 , [ 1 ] = 2 , [ 4 ] = 9 }; /* array is {0, 2, 5, 0, 9} */
 ```
-In most cases, the compiler can deduce the length of the array for you, this can be achieved by leaving the square
-
-brackets empty:
+In most cases, the compiler can deduce the length of the array for you, this can be achieved by leaving the square brackets empty:
 
 ```c
 int array[] = { 1 , 2 , 3 }; /* an array of 3 int's */
 int array[] = {[ 3 ] = 8 , [ 0 ] = 9 }; /* size is 4 */
 ```
-Declaring an array of zero length is not allowed.
+Declaring an array of zero length is not allowed.  
 
-Version ≥ C99 Version < C11
+Version ≥ C99 Version < C11  
 
-Variable Length Arrays (VLA for short) were added in C99, and made optional in C11. They are equal to normal
+Variable Length Arrays (`VLA` for short) were added in `C99`, and made optional in `C11`. They are equal to normal arrays, with one, important, difference: The length doesn't have to be known at compile time. VLA's have automatic storage duration. Only pointers to VLA's can have static storage duration.
 
-arrays, with one, important, difference: The length doesn't have to be known at compile time. VLA's have automatic
-
-storage duration. Only pointers to VLA's can have static storage duration.
-
-
-```
+```c
 size_t m = calc_length(); /* calculate array length at runtime */
 int vla[m]; /* create array with calculated length */
 ```
 **Important:**
 
-VLA's are potentially dangerous. If the array vla in the example above requires more space on the stack than
+> VLA's are potentially dangerous. If the array vla in the example above requires more space on the stack than available, the stack will overflow. Usage of VLA's is therefore often discouraged in style guides and by books and exercises.
 
-available, the stack will overflow. Usage of VLA's is therefore often discouraged in style guides and by books and
+### Section 10.2: Iterating through an array efficiently and row-major order
 
-exercises.
-
-### Section 10.2: Iterating through an array eciently and row-major order
-
-Arrays in C can be seen as a contiguous chunk of memory. More precisely, the last dimension of the array is the
-
-contiguous part. We call this the _row-major order_. Understanding this and the fact that a cache fault loads a
-
-complete cache line into the cache when accessing uncached data to prevent subsequent cache faults, we can see
-
-why accessing an array of dimension 10000x10000 with array[^0 ][^0 ] would **potentially** load array[^0 ][ 1 ] in cache,
-
-but accessing array[ 1 ][ 0 ] right after would generate a second cache fault, since it is sizeof(type)* 10000 bytes
-
-away from array[ 0 ][ 0 ], and therefore certainly not on the same cache line. Which is why iterating like this is
-
-inefficient:
+Arrays in C can be seen as a `contiguous` chunk of memory. More precisely, the last dimension of the array is the contiguous part. We call this the _row-major order_. Understanding this and the fact that a cache fault loads a complete cache line into the cache when accessing uncached data to prevent subsequent `cache faults`, we can see why accessing an array of dimension `10000x10000` with `array[0][0]` would **potentially** load `array[0][1]` in cache, but accessing `array[1][0]` right after would generate a `second cache` fault, since it is `sizeof(type)* 10000` bytes away from `array[0][0]`, and therefore certainly not on the same cache line. Which is why iterating like this is `inefficient`:
 
 ```c
 #define ARRLEN 10000
 int array[ARRLEN][ARRLEN];
-```
-```
+
 size_t i, j;
 for (i = 0 ; i < ARRLEN; ++i)
 {
-for(j = 0 ; j < ARRLEN; ++j)
-{
-array[j][i] = 0 ;
-}
+  for(j = 0 ; j < ARRLEN; ++j)
+  {
+    array[j][i] = 0 ;
+  }
 }
 ```
-And iterating like this is more efficient:
+And iterating like this is `more efficient`:
 
 ```c
 #define ARRLEN 10000
 int array[ARRLEN][ARRLEN];
-```
-```
+
 size_t i, j;
 for (i = 0 ; i < ARRLEN; ++i)
 {
-for(j = 0 ; j < ARRLEN; ++j)
-{
-array[i][j] = 0 ;
-}
+  for(j = 0 ; j < ARRLEN; ++j)
+  {
+    array[i][j] = 0 ;
+  }
 }
 ```
-In the same vein, this is why when dealing with an array with one dimension and multiple indexes (let's say 2
-
-dimensions here for simplicity with indexes i and j) it is important to iterate through the array like this:
+> In the same vein, this is why when dealing with an array with one dimension and multiple indexes (let's say 2 dimensions here for simplicity with indexes i and j) it is important to iterate through the array like this:
 
 ```c
 #define DIM_X 10
 #define DIM_Y 20
-```
-```c
+
 int array[DIM_X*DIM_Y];
-```
-```
+
 size_t i, j;
 for (i = 0 ; i < DIM_X; ++i)
-```
-
-##### {
-
-```
-for(j = 0 ; j < DIM_Y; ++j)
 {
-array[i*DIM_Y+j] = 0 ;
-}
+  for(j = 0 ; j < DIM_Y; ++j)
+  {
+    array[i*DIM_Y+j] = 0 ;
+  }
 }
 ```
 Or with 3 dimensions and indexes i,j and k:
@@ -3523,62 +3368,39 @@ Or with 3 dimensions and indexes i,j and k:
 #define DIM_X 10
 #define DIM_Y 20
 #define DIM_Z 30
-```
-```c
+
 int array[DIM_X*DIM_Y*DIM_Z];
-```
-```
+
 size_t i, j, k;
 for (i = 0 ; i < DIM_X; ++i)
 {
-for(j = 0 ; j < DIM_Y; ++j)
-{
-for (k = 0 ; k < DIM_Z; ++k)
-{
-array[i*DIM_Y*DIM_Z+j*DIM_Z+k] = 0 ;
-}
-}
+  for(j = 0 ; j < DIM_Y; ++j)
+  {
+    for (k = 0 ; k < DIM_Z; ++k)
+    {
+      array[i*DIM_Y*DIM_Z+j*DIM_Z+k] = 0 ;
+    }
+  }
 }
 ```
-Or in a more generic way, when we have an array with **N1 x N2 x ... x Nd** elements, **d** dimensions and indices noted
-
-as **n1,n2,...,nd** the offset is calculated like this
-
-Picture/formula taken from: https://en.wikipedia.org/wiki/Row-major_order
+Or in a more generic way, when we have an array with **`N1 x N2 x ... x Nd`** elements, **`d`** dimensions and indices noted as **`n1,n2,...,nd`** the offset is calculated like this Picture/formula taken from: https://en.wikipedia.org/wiki/Row-major_order / [this?](https://en.wikipedia.org/wiki/Row-_and_column-major_order#:~:text=In%20row%2Dmajor%20order%2C%20the,column%20in%20column%2Dmajor%20order.)
 
 ### Section 10.3: Array length
 
-Arrays have fixed lengths that are known within the scope of their declarations. Nevertheless, it is possible and
-
-sometimes convenient to calculate array lengths. In particular, this can make code more flexible when the array
-
-length is determined automatically from an initializer:
+Arrays have fixed lengths that are known within the scope of their declarations. Nevertheless, it is possible and sometimes convenient to calculate array lengths. In particular, this can make code more flexible when the array length is determined automatically from an initializer:
 
 ```c
 int array[] = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 };
-```
-```c
+
 /* size of `array` in bytes */
 size_t size = sizeof(array);
-```
-```c
+
 /* number of elements in `array` */
-size_t length = sizeof(array) / sizeof(array[ 0 ]);
+size_t length = sizeof(array) / sizeof(array[0]);
 ```
-However, in most contexts where an array appears in an expression, it is automatically converted to ("decays to") a
+However, in most contexts where an array appears in an expression, it is automatically converted to ("decays to") a pointer to its first element. The case where an array is the operand of the sizeof `operator` is one of a small number of exceptions. The resulting pointer is not itself an array, and it does not carry any information about the length of the array from which it was derived. Therefore, if that length is needed in conjunction with the pointer, such as when the pointer is passed to a function, then it must be conveyed separately.  
 
-pointer to its first element. The case where an array is the operand of the sizeof operator is one of a small number
-
-of exceptions. The resulting pointer is not itself an array, and it does not carry any information about the length of
-
-the array from which it was derived. Therefore, if that length is needed in conjunction with the pointer, such as
-
-when the pointer is passed to a function, then it must be conveyed separately.
-
-For example, suppose we want to write a function to return the last element of an array of int. Continuing from the
-
-
-above, we might call it like so:
+For example, suppose we want to write a function to return the last element of an array of int. Continuing from the above, we might call it like so:
 
 ```c
 /* array will decay to a pointer, so the length must be passed separately */
@@ -3588,7 +3410,7 @@ The function could be implemented like this:
 
 ```c
 int get_last(int input[], size_t length) {
-return input[length - 1 ];
+  return input[length - 1 ];
 }
 ```
 Note in particular that although the declaration of parameter input resembles that of an array, **it in fact declares**
