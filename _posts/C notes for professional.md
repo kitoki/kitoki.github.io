@@ -12,7 +12,7 @@ TODO: reentrant kernel works
 TODO: stackoverflow : [thread safe vs reentrant](https://stackoverflow.com/questions/856823/threadsafe-vs-re-entrant) `The key for avoiding confusion is that reentrant refers to only one thread executing. It is a concept from the time when no multitasking operating systems existed.`  
 TODO: stackoverflow : tag : [thread-safety](https://stackoverflow.com/questions/tagged/thread-safety?tab=Votes)  
 TODO: stackoverflow : tag : [reentrancy](https://stackoverflow.com/questions/tagged/reentrancy?tab=Votes)  
-
+TODO: if you consider there too much fact in explaination, create list with same category, make it show only if it related, so the amount information decreased and targeted  
 
 
 > interesting title:
@@ -2393,33 +2393,23 @@ while (string[i] != ' \0 ') { /* Stop looping when we reach the null-character. 
 
 An array of strings can mean a couple of things:
 
-* An array whose elements are char *s
+* An array whose elements are char `*s`
 * An array whose elements are arrays of chars
 
 We can create an array of character pointers like so:
 
-```
+```c
 char * string_array[] = {
 "foo",
 "bar",
 "baz"
 };
 ```
-Remember: when we assign string literals to char *, the strings themselves are allocated in read-only memory.
+Remember: when we assign string literals to `char *`, the strings themselves are allocated in read-only memory. However, the array string_array is allocated in read/write memory. This means that we can modify the pointers in the array, but we cannot modify the strings they point to. In C, the parameter to `main argv` (the array of command-line arguments passed when the program was run) is an array of `char *`: `char * argv[]`.  
 
-However, the array string_array is allocated in read/write memory. This means that we can modify the pointers in
+We can also create arrays of character arrays. Since strings are arrays of characters, an array of strings is simply an array whose elements are arrays of characters:
 
-the array, but we cannot modify the strings they point to.
-
-In C, the parameter to main argv (the array of command-line arguments passed when the program was run) is an
-
-array of char *: char * argv[].
-
-We can also create arrays of character arrays. Since strings are arrays of characters, an array of strings is simply an
-
-array whose elements are arrays of characters:
-
-```
+```c
 char modifiable_string_array_literals[][ 4 ] = {
 "foo",
 "bar",
@@ -2428,53 +2418,42 @@ char modifiable_string_array_literals[][ 4 ] = {
 ```
 This is equivalent to:
 
-```
+```c
 char modifiable_string_array[][ 4 ] = {
-{'f', 'o', 'o', ' \0 '},
-{'b', 'a', 'r', ' \0 '},
-{'b', 'a', 'z', ' \0 '}
+  {'f', 'o', 'o', ' \0 '},
+  {'b', 'a', 'r', ' \0 '},
+  {'b', 'a', 'z', ' \0 '}
 };
 ```
-Note that we specify 4 as the size of the second dimension of the array; each of the strings in our array is actually 4
-
-bytes since we must include the null-terminating character.
+Note that we specify 4 as the size of the second dimension of the array; each of the strings in our array is actually 4 bytes since we must include the null-terminating character.
 
 ### Section 6.8: Convert Strings to Number: atoi(), atof() (dangerous, don't use them)
 
-Warning: The functions atoi, atol, atoll and atof are inherently unsafe, because: _If the value of the result cannot be_
-
-_represented, the behavior is undefined._ (7.20.1p1)
+Warning: The functions `atoi`, `atol`, `atoll` and `atof` are inherently unsafe, because: _If the value of the result cannot be_ _represented, the behavior is undefined._ (7.20.1p1)
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 int main(int argc, char** argv)
 {
-int val;
-if (argc < 2 )
-{
-```
+  int val;
+  if (argc < 2 )
+  {
+    printf("Usage: %s <integer> \n ", argv[ 0 ]);
+    return 0 ;
+  }
 
-```
-printf("Usage: %s <integer> \n ", argv[ 0 ]);
-return 0 ;
-}
-```
-```
-val = atoi(argv[ 1 ]);
-```
-```
-printf("String value = %s, Int value = %d \n ", argv[ 1 ], val);
-```
-```c
-return 0 ;
+  val = atoi(argv[ 1 ]);
+
+  printf("String value = %s, Int value = %d \n ", argv[ 1 ], val);
+
+  return 0 ;
 }
 ```
 When the string to be converted is a valid decimal integer that is in range, the function works:
 
-```
+```c
 $ ./atoi 100
 String value = 100 , Int value = 100
 $ ./atoi 200
@@ -2482,7 +2461,7 @@ String value = 200 , Int value = 200
 ```
 For strings that start with a number, followed by something else, only the initial number is parsed:
 
-```
+```c
 $ ./atoi 0x200
 0
 $ ./atoi 0123x300
@@ -2490,119 +2469,99 @@ $ ./atoi 0123x300
 ```
 In all other cases, the behavior is undefined:
 
-```
+```c
 $ ./atoi hello
 Formatting the hard disk...
 ```
-Because of the ambiguities above and this undefined behavior, the atoi family of functions should never be used.
+Because of the ambiguities above and this undefined behavior, the `atoi` family of functions should never be used.
 
-```
-To convert to long int, use strtol() instead of atol().
-To convert to double, use strtod() instead of atof().
-```
+- To convert to `long int`, use `strtol()` instead of `atol()`.
+- To convert to `double`, use `strtod()` instead of `atof()`.
+
 Version ≥ C99
 
-```
-To convert to long long int, use strtoll() instead of atoll().
-```c
+- To convert to `long long int`, use `strtoll()` instead of `atoll()`.
+
 ### Section 6.9: string formatted data read/write
 
-Write formatted data to string
-
-```c
-int sprintf ( char * str, const char * format, ... );
-```
-use sprintf function to write float data to string.
+Write formatted data to string `int sprintf ( char * str, const char * format, ... );`  
+use `sprintf` function to write float data to string.
 
 ```c
 #include <stdio.h>
 int main ()
 {
-char buffer [ 50 ];
-double PI = 3.1415926;
-sprintf (buffer, "PI = %.7f", PI);
-printf ("%s \n ",buffer);
-return 0 ;
+  char buffer [ 50 ];
+  double PI = 3.1415926;
+  sprintf (buffer, "PI = %.7f", PI);
+  printf ("%s \n ",buffer);
+  return 0 ;
 }
 ```
 
-Read formatted data from string
-
-```c
-int sscanf ( const char * s, const char * format, ...);
-```
-use sscanffunction to parse formatted data.
+Read formatted data from string `int sscanf ( const char * s, const char * format, ...);`  
+use `sscanf` function to parse formatted data.
 
 ```c
 #include <stdio.h>
 int main ()
 {
-char sentence []="date : 06-06-2012";
-char str [ 50 ];
-int year;
-int month;
-int day;
-sscanf (sentence,"%s : %2d-%2d-%4d", str, &day, &month, &year);
-printf ("%s -> %02d-%02d-%4d \n ",str, day, month, year);
-return 0 ;
+  char sentence []="date : 06-06-2012";
+  char str [ 50 ];
+  int year;
+  int month;
+  int day;
+  sscanf (sentence,"%s : %2d-%2d-%4d", str, &day, &month, &year);
+  printf ("%s -> %02d-%02d-%4d \n ",str, day, month, year);
+  return 0 ;
 }
-```c
+```
+
 ### Section 6.10: Find first/last occurrence of a specific character: strchr(), strrchr()
 
-The strchr and strrchr functions find a character in a string, that is in a NUL-terminated character array. strchr
-
-return a pointer to the first occurrence and strrchr to the last one.
+The `strchr` and `strrchr` functions find a character in a string, that is in a NUL-terminated character array. `strchr` return a pointer to the first occurrence and `strrchr` to the last one.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-```
-```c
+
 int main(void)
 {
-char toSearchFor = 'A';
-```
-```c
-/* Exit if no second argument is found. */
-if (argc != 2 )
-{
-printf("Argument missing. \n ");
-return EXIT_FAILURE;
-}
-```c
-##### {
+  char toSearchFor = 'A';
 
-```
-char *firstOcc = strchr(argv[ 1 ], toSearchFor);
-if (firstOcc != NULL)
-{
-printf("First position of %c in %s is %td. \n ",
-toSearchFor, argv[ 1 ], firstOcc-argv[ 1 ]); /* A pointer difference's result
-is a signed integer and uses the length modifier 't'. */
-}
-else
-{
-printf("%c is not in %s. \n ", toSearchFor, argv[ 1 ]);
-}
-}
-```c
-##### {
+  /* Exit if no second argument is found. */
+  if (argc != 2 )
+  {
+    printf("Argument missing. \n ");
+    return EXIT_FAILURE;
+  }
 
-```
-char *lastOcc = strrchr(argv[ 1 ], toSearchFor);
-if (lastOcc != NULL)
-{
-printf("Last position of %c in %s is %td. \n ",
-```
+  {
+    char *firstOcc = strchr(argv[ 1 ], toSearchFor);
+    if (firstOcc != NULL)
+    {
+      printf("First position of %c in %s is %td. \n ",
+      toSearchFor, argv[ 1 ], firstOcc-argv[ 1 ]); /* A pointer difference's result
+      is a signed integer and uses the length modifier 't'. */
+    }
+    else
+    {
+      printf("%c is not in %s. \n ", toSearchFor, argv[ 1 ]);
+    }
+  }
 
-```
-toSearchFor, argv[ 1 ], lastOcc-argv[ 1 ]);
-}
-}
-```
-```c
-return EXIT_SUCCESS;
+  {
+    char *lastOcc = strrchr(argv[ 1 ], toSearchFor);
+    if (lastOcc != NULL)
+    {
+      printf("Last position of %c in %s is %td. \n ",
+
+      toSearchFor, argv[ 1 ], lastOcc-argv[ 1 ]);
+    }
+  }
+
+  return EXIT_SUCCESS;
 }
 ```
 Outputs (after having generate an executable named pos):
@@ -2617,65 +2576,53 @@ Last position of A in BAbbbbbAccccAAAAzzz is 15.
 $ ./pos qwerty
 A is not in qwerty.
 ```
-One common use for strrchr is to extract a file name from a path. For example to extract myfile.txt from
+One common use for `strrchr` is to extract a file name from a path. For example to extract `myfile.txt` from `C:\Users\eak\myfile.txt`:
 
-C:\Users\eak\myfile.txt:
-
-```
+```c
 char *getFileName(const char *path)
 {
-char *pend;
-```
-```
-if ((pend = strrchr(path, ' \' )) != NULL)
-return pend + 1;
-```
-```c
-return NULL;
+  char *pend;
+
+  if ((pend = strrchr(path, ' \' )) != NULL) return pend + 1;
+
+  return NULL;
 }
-```c
+```
+
 ### Section 6.11: Copy and Concatenation: strcpy(), strcat()
 
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```c
+
 int main(void)
 {
-/* Always ensure that your string is large enough to contain the characters
-* and a terminating NUL character ('\0')!
-*/
-char mystring[ 10 ];
-```
-```c
-/* Copy "foo" into `mystring`, until a NUL character is encountered. */
-strcpy(mystring, "foo");
-printf("%s \n ", mystring);
-```
-```c
-/* At this point, we used 4 chars of `mystring`, the 3 characters of "foo",
-* and the NUL terminating byte.
-*/
-```
-```c
-/* Append "bar" to `mystring`. */
-strcat(mystring, "bar");
-printf("%s \n ", mystring);
-```
-```c
-/* We now use 7 characters of `mystring`: "foo" requires 3, "bar" requires 3
-* and there is a terminating NUL character ('\0') at the end.
-*/
-```
+  /* Always ensure that your string is large enough to contain the characters
+   * and a terminating NUL character ('\0')!
+   */
+  char mystring[ 10 ];
 
-```c
-/* Copy "bar" into `mystring`, overwriting the former contents. */
-strcpy(mystring, "bar");
-printf("%s \n ", mystring);
-```
-```c
-return 0 ;
+  /* Copy "foo" into `mystring`, until a NUL character is encountered. */
+  strcpy(mystring, "foo");
+  printf("%s \n ", mystring);
+
+  /* At this point, we used 4 chars of `mystring`, the 3 characters of "foo",
+   * and the NUL terminating byte.
+   */
+
+  /* Append "bar" to `mystring`. */
+  strcat(mystring, "bar");
+  printf("%s \n ", mystring);
+
+  /* We now use 7 characters of `mystring`: "foo" requires 3, "bar" requires 3
+   * and there is a terminating NUL character ('\0') at the end.
+   */
+
+  /* Copy "bar" into `mystring`, overwriting the former contents. */
+  strcpy(mystring, "bar");
+  printf("%s \n ", mystring);
+
+  return 0 ;
 }
 ```
 Outputs:
@@ -2691,38 +2638,30 @@ String literals (e.g. "foo") will always be NUL-terminated by the compiler.
 
 ### Section 6.12: Comparsion: strcmp(), strncmp(), strcasecmp(), strncasecmp()
 
-The strcase*-functions are not Standard C, but a POSIX extension.
-
-The strcmp function lexicographically compare two null-terminated character arrays. The functions return a
-
-negative value if the first argument appears before the second in lexicographical order, zero if they compare equal,
-
-or positive if the first argument appears after the second in lexicographical order.
+The `strcase*`-functions are not Standard C, but a POSIX extension. The `strcmp` function lexicographically compare two null-terminated character arrays. The functions return a negative value if the first argument appears before the second in lexicographical order, zero if they compare equal, or positive if the first argument appears after the second in lexicographical order.
 
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```
+
 void compare(char const *lhs, char const *rhs)
 {
-int result = strcmp(lhs, rhs); // compute comparison once
-if (result < 0 ) {
-printf("%s comes before %s \n ", lhs, rhs);
-} else if (result == 0 ) {
-printf("%s equals %s \n ", lhs, rhs);
-} else { // last case: result > 0
-printf("%s comes after %s \n ", lhs, rhs);
+  int result = strcmp(lhs, rhs); // compute comparison once
+  if (result < 0 ) {
+    printf("%s comes before %s \n ", lhs, rhs);
+  } else if (result == 0 ) {
+    printf("%s equals %s \n ", lhs, rhs);
+  } else { // last case: result > 0
+    printf("%s comes after %s \n ", lhs, rhs);
+  }
 }
-}
-```
-```c
+
 int main(void)
 {
-compare("BBB", "BBB");
-compare("BBB", "CCCCC");
-compare("BBB", "AAAAAA");
-return 0 ;
+  compare("BBB", "BBB");
+  compare("BBB", "CCCCC");
+  compare("BBB", "AAAAAA");
+  return 0 ;
 }
 ```
 Outputs:
@@ -2732,70 +2671,62 @@ BBB equals BBB
 BBB comes before CCCCC
 BBB comes after AAAAAA
 ```
-As strcmp, strcasecmp function also compares lexicographically its arguments after translating each character to its
-
-lowercase correspondent:
-
+As `strcmp`, `strcasecmp` function also compares lexicographically its arguments after translating each character to its lowercase correspondent:
 
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```
+
 void compare(char const *lhs, char const *rhs)
 {
-int result = strcasecmp(lhs, rhs); // compute case-insensitive comparison once
-if (result < 0 ) {
-printf("%s comes before %s \n ", lhs, rhs);
-} else if (result == 0 ) {
-printf("%s equals %s \n ", lhs, rhs);
-} else { // last case: result > 0
-printf("%s comes after %s \n ", lhs, rhs);
+  int result = strcasecmp(lhs, rhs); // compute case-insensitive comparison once
+  if (result < 0 ) {
+    printf("%s comes before %s \n ", lhs, rhs);
+  } else if (result == 0 ) {
+    printf("%s equals %s \n ", lhs, rhs);
+  } else { // last case: result > 0
+    printf("%s comes after %s \n ", lhs, rhs);
+  }
 }
-}
-```
-```c
+
 int main(void)
 {
-compare("BBB", "bBB");
-compare("BBB", "ccCCC");
-compare("BBB", "aaaaaa");
-return 0 ;
+  compare("BBB", "bBB");
+  compare("BBB", "ccCCC");
+  compare("BBB", "aaaaaa");
+  return 0 ;
 }
 ```
 Outputs:
-
 ```
 BBB equals bBB
 BBB comes before ccCCC
 BBB comes after aaaaaa
 ```
-strncmp and strncasecmp compare at most n characters:
+`strncmp` and `strncasecmp` compare at most n characters:
 
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```
+
 void compare(char const *lhs, char const *rhs, int n)
 {
-int result = strncmp(lhs, rhs, n); // compute comparison once
-if (result < 0 ) {
-printf("%s comes before %s \n ", lhs, rhs);
-} else if (result == 0 ) {
-printf("%s equals %s \n ", lhs, rhs);
-} else { // last case: result > 0
-printf("%s comes after %s \n ", lhs, rhs);
+  int result = strncmp(lhs, rhs, n); // compute comparison once
+  if (result < 0 ) {
+    printf("%s comes before %s \n ", lhs, rhs);
+  } else if (result == 0 ) {
+  printf("%s equals %s \n ", lhs, rhs);
+  } else { // last case: result > 0
+    printf("%s comes after %s \n ", lhs, rhs);
+  }
 }
-}
-```
-```c
+
 int main(void)
 {
-compare("BBB", "Bb", 1 );
-compare("BBB", "Bb", 2 );
-compare("BBB", "Bb", 3 );
-return 0 ;
+  compare("BBB", "Bb", 1 );
+  compare("BBB", "Bb", 2 );
+  compare("BBB", "Bb", 3 );
+  return 0 ;
 }
 ```
 Outputs:
@@ -2808,60 +2739,48 @@ BBB comes before Bb
 
 ### Section 6.13: Safely convert Strings to Number: strtoX functions
 
-Version ≥ C99
+Version ≥ C99  
 
-Since C99 the C library has a set of safe conversion functions that interpret a string as a number. Their names are of
+Since C99 the C library has a set of safe conversion functions that interpret a string as a number. Their names are of the form `strtoX`, where X is one of l, ul, d, etc to determine the target type of the conversion
 
-the form strtoX, where X is one of l, ul, d, etc to determine the target type of the conversion
-
-```
+```c
 double strtod(char const* p, char** endptr);
 long double strtold(char const* p, char** endptr);
 ```
 They provide checking that a conversion had an over- or underflow:
 
-```
-double ret = strtod(argv[ 1 ], 0 ); /* attempt conversion */
-```
 ```c
+double ret = strtod(argv[ 1 ], 0 ); /* attempt conversion */
+
 /* check the conversion result. */
 if ((ret == HUGE_VAL || ret == - HUGE_VAL) && errno == ERANGE)
 return; /* numeric overflow in in string */
 else if (ret == HUGE_VAL && errno == ERANGE)
 return; /* numeric underflow in in string */
-```
-```c
+
 /* At this point we know that everything went fine so ret may be used */
 ```
-If the string in fact contains no number at all, this usage of strtod returns 0.0.
 
-If this is not satisfactory, the additional parameter endptr can be used. It is a pointer to pointer that will be pointed
+- If the string in fact contains no number at all, this usage of strtod returns 0.0.
+- If this is not satisfactory, the additional parameter endptr can be used. It is a pointer to pointer that will be pointed to the end of the detected number in the string.
+- If it is set to 0 , as above, or NULL, it is simply ignored.
 
-to the end of the detected number in the string. If it is set to^0 , as above, or NULL, it is simply ignored.
+This `endptr` parameter provides indicates if there has been a successful conversion and if so, where the number ended:
 
-This endptr parameter provides indicates if there has been a successful conversion and if so, where the number
-
-ended:
-
-```
+```c
 char *check = 0 ;
 double ret = strtod(argv[ 1 ], &check); /* attempt conversion */
-```
-```c
+
 /* check the conversion result. */
-if (argv[ 1 ] == check)
-return; /* No number was detected in string */
-else if ((ret == HUGE_VAL || ret == - HUGE_VAL) && errno == ERANGE)
-return; /* numeric overflow in in string */
-else if (ret == HUGE_VAL && errno == ERANGE)
-return; /* numeric underflow in in string */
-```
-```c
+if (argv[ 1 ] == check)return; /* No number was detected in string */
+else if ((ret == HUGE_VAL || ret == - HUGE_VAL) && errno == ERANGE)return; /* numeric overflow in in string */
+else if (ret == HUGE_VAL && errno == ERANGE)return; /* numeric underflow in in string */
+
 /* At this point we know that everything went fine so ret may be used */
 ```
 There are analogous functions to convert to the wider integer types:
 
-```
+```c
 long strtol(char const* p, char** endptr, int nbase);
 long long strtoll(char const* p, char** endptr, int nbase);
 unsigned long strtoul(char const* p, char** endptr, int nbase);
@@ -2869,157 +2788,115 @@ unsigned long long strtoull(char const* p, char** endptr, int nbase);
 ```
 These functions have a third parameter nbase that holds the number base in which the number is written.
 
-```
+```c
 long a = strtol("101", 0 , 2 ); /* a = 5L */
 long b = strtol("101", 0 , 8 ); /* b = 65L */
 long c = strtol("101", 0 , 10 ); /* c = 101L */
 long d = strtol("101", 0 , 16 ); /* d = 257L */
 long e = strtol("101", 0 , 0 ); /* e = 101L */
-```
 
-```
 long f = strtol("0101", 0 , 0 ); /* f = 65L */
 long g = strtol("0x101", 0 , 0 ); /* g = 257L */
 ```
-The special value 0 for nbase means the string is interpreted in the same way as number literals are interpreted in a
-
-C program: a prefix of 0x corresponds to a hexadecimal representation, otherwise a leading 0 is octal and all other
-
-numbers are seen as decimal.
-
-Thus the most practical way to interpret a command-line argument as a number would be
+The special value `0` for nbase means the string is interpreted in the same way as number literals are interpreted in a C program: a prefix of `0x` corresponds to a hexadecimal representation, otherwise a leading `0` is octal and all other numbers are seen as decimal. Thus the most practical way to interpret a command-line argument as a number would be
 
 ```c
 int main(int argc, char* argv[] {
-if (argc < 1 )
-return EXIT_FAILURE; /* No number given. */
-```
-```c
-/* use strtoull because size_t may be wide */
-size_t mySize = strtoull(argv[ 1 ], 0 , 0 );
-```
-```c
-/* then check conversion results. */
-```
-```c
-return EXIT_SUCCESS;
+  if (argc < 1 )
+  return EXIT_FAILURE; /* No number given. */
+
+  /* use strtoull because size_t may be wide */
+  size_t mySize = strtoull(argv[ 1 ], 0 , 0 );
+
+  /* then check conversion results. */
+
+  return EXIT_SUCCESS;
 }
 ```
 This means that the program can be called with a parameter in octal, decimal or hexadecimal.
 
 ### Section 6.14: strspn and strcspn
 
-Given a string, strspn calculates the length of the initial substring (span) consisting solely of a specific list of
+Given a string, `strspn` calculates the length of the initial substring (span) consisting solely of a specific list of characters. `strcspn` is similar, except it calculates the length of the initial substring consisting of any characters except those listed:
 
-characters. strcspn is similar, except it calculates the length of the initial substring consisting of any characters
+```c
+/*
+  Provided a string of "tokens" delimited by "separators", print the tokens along with the token separators that get skipped.
+ */
 
-except those listed:
-
-##### /*
-
-```
-Provided a string of "tokens" delimited by "separators", print the tokens along
-with the token separators that get skipped.
-*/
 #include <stdio.h>
 #include <string.h>
-```
-```c
+
 int main(void)
 {
-const char sepchars[] = ",.;!?";
-char foo[] = ";ball call,.fall gall hall!?.,";
-char *s;
-int n;
-```
-```
-for (s = foo; *s != 0 ; /*empty*/ ) {
-/* Get the number of token separator characters. */
-n = (int)strspn(s, sepchars);
-```
-```
-if (n > 0 )
-printf("skipping separators: << %.*s >> (length=%d) \n ", n, s, n);
-```
-```c
-/* Actually skip the separators now. */
-s += n;
-```
-```c
-/* Get the number of token (non-separator) characters. */
-n = (int)strcspn(s, sepchars);
-```
+  const char sepchars[] = ",.;!?";
+  char foo[] = ";ball call,.fall gall hall!?.,";
+  char *s;
+  int n;
 
-```
-if (n > 0 )
-printf("token found: << %.*s >> (length=%d) \n ", n, s, n);
-```
-```c
-/* Skip the token now. */
-s += n;
+  for (s = foo; *s != 0 ; /*empty*/ ) {
+    /* Get the number of token separator characters. */
+    n = (int)strspn(s, sepchars);
+
+    if (n > 0 )
+    printf("skipping separators: << %.*s >> (length=%d) \n ", n, s, n);
+
+    /* Actually skip the separators now. */
+    s += n;
+
+    /* Get the number of token (non-separator) characters. */
+    n = (int)strcspn(s, sepchars);
+
+    if (n > 0 )
+    printf("token found: << %.*s >> (length=%d) \n ", n, s, n);
+
+    /* Skip the token now. */
+    s += n;
+  }
+
+  printf("== token list exhausted == \n ");
+  return 0 ;
 }
 ```
-```
-printf("== token list exhausted == \n ");
-```
-```c
-return 0 ;
-}
-```
-Analogous functions using wide-character strings are wcsspn and wcscspn; they're used the same way.
+Analogous functions using wide-character strings are `wcsspn` and `wcscspn;` they're used the same way.
 
 
 ## Chapter 7: Literals for numbers, characters and strings
 
 ### Section 7.1: Floating point literals
 
-Floating point literals are used to represent signed real numbers. The following suffixes can be used to specify type
+Floating point literals are used to represent `signed` real numbers. The following suffixes can be used to specify type of a literal:
 
-of a literal:
+| Suffix | Type        | Examples |
+| :---   | :---        | :---     |
+| none   | double      | 3.1415926 - 3E6    |
+| f, F   | float       | 3.1415926f 2.1E-6F |
+| l, L   | long double | 3.1415926L 1E126L  |
 
-```
-Suffix Type Examples
-none double 3.1415926 - 3E6
-f, F float 3.1415926f 2.1E-6F
-l, L long double3.1415926L 1E126L
-```
-In order to use these suffixes, the literal _must_ be a floating point literal. For example, 3f is an error, since 3 is an
-
-integer literal, while 3 .f or 3.0f are correct. For long double, the recommendation is to always use capital L for the
-
-sake of readability.
+In order to use these suffixes, the literal _must_ be a floating point literal. For example, `3f` is an error, since 3 is an `integer` literal, while `3.f` or `3.0f` are correct. For `long double`, the recommendation is to always use capital `L` for the sake of readability.
 
 ### Section 7.2: String literals
 
-String literals are used to specify arrays of characters. They are sequences of characters enclosed within double
-
-quotes (e.g. "abcd" and have the type char*).
-
-The L prefix makes the literal a wide character array, of type wchar_t*. For example, L"abcd".
+String literals are used to specify arrays of characters. They are sequences of characters enclosed within double quotes (e.g. "abcd" and have the type char*).
+The `L` prefix makes the literal a wide character array, of type `wchar_t*`. For example, L "`abcd`".  
 
 Since C11, there are other encoding prefixes, similar to L:
 
-```
-prefixbase type encoding
-none char platform dependent
-L wchar_t platform dependent
-u8 char UTF-8
-u char16_t usually UTF-16
-U char32_t usually UTF-32
-```
-For the latter two, it can be queried with feature test macros if the encoding is effectively the corresponding UTF
+| prefix | base type | encoding |
+| :---   | :---      | :---     |
+| none   | char      | platform dependent |
+| L      | wchar_t   | platform dependent |
+| u8     | char      | UTF-8              |
+| u      |char16_t   | usually UTF-16     |
+| U      |char32_t   | usually UTF-32     |
 
-encoding.
+For the latter two, it can be queried with feature test macros if the encoding is effectively the corresponding `UTF` encoding.
 
 ### Section 7.3: Character literals
 
-Character literals are a special type of integer literals that are used to represent one character. They are enclosed in
+Character literals are a special type of integer literals that are used to represent one character. They are enclosed in single quotes, e.g. 'a' and have the type `int`. The value of the literal is an `integer` value according to the machine's character set. They do not allow suffixes.
 
-single quotes, e.g. 'a' and have the type int. The value of the literal is an integer value according to the machine's
-
-character set. They do not allow suffixes.
-
-The L prefix before a character literal makes it a wide character of type wchar_t. Likewise since C11 u and U prefixes
+The `L` prefix before a character literal makes it a wide character of type `wchar_t`. Likewise since C11 u and U prefixes
 
 make it wide characters of type char16_t and char32_t, respectively.
 
