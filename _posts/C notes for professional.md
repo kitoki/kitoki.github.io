@@ -2058,324 +2058,228 @@ Version ≥ C11
 
 C11 has an optional part, Annex K, that offers a `thread-safe` and `re-entrant` version named `strtok_s`. You can test for the feature with __STDC_LIB_EXT1__. This optional part is not widely supported. 
 
-The strtok_s function differs from the POSIX strtok_r function by guarding against storing outside of the string
+> The `strtok_s` function differs from the POSIX `strtok_r` function by guarding against storing outside of the string being tokenized, and by checking runtime constraints. On correctly written programs, though, the `strtok_s` and `strtok_r` behave the same.  
 
-being tokenized, and by checking runtime constraints. On correctly written programs, though, the strtok_s and
-
-strtok_r behave the same.
-
-Using strtok_s with the example now yields the correct response, like so:
+Using `strtok_s` with the example now yields the correct response, like so:
 
 ```c
 /* you have to announce that you want to use Annex K */
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <string.h>
-```
-```c
+
 #ifndef __STDC_LIB_EXT1__
 # error "we need strtok_s from Annex K"
 #endif
-```
 
-```
 char src[] = "1.2,3.5,4.2";
 char *next = NULL;
 char *first = strtok_s(src, ",", &next);
-```
-```
+
 do
 {
-char *part;
-char *posn;
-```
-```
-printf("[%s] \n ", first);
-part = strtok_s(first, ".", &posn);
-while (part != NULL)
-{
-printf(" [%s] \n ", part);
-part = strtok_s(NULL, ".", &posn);
+  char *part;
+  char *posn;
+
+  printf("[%s] \n ", first);
+  part = strtok_s(first, ".", &posn);
+  while (part != NULL)
+  {
+    printf(" [%s] \n ", part);
+    part = strtok_s(NULL, ".", &posn);
+  }
 }
-}
+
 while ((first = strtok_s(NULL, ",", &next)) != NULL);
-```
+
 And the output will be:
 
-##### [1.2]
-
-##### [1]
-
-##### [2]
-
-##### [3.5]
-
-##### [3]
-
-##### [5]
-
-##### [4.2]
-
-##### [4]
-
-##### [2]
+[1.2]
+[1]
+[2]
+[3.5]
+[3]
+[5]
+[4.2]
+[4]
+[2]
+```
 
 ### Section 6.2: String literals
 
-String literals represent null-terminated, static-duration arrays of char. Because they have static storage duration, a
+String literals represent null-terminated, static-duration arrays of char. Because they have static storage duration, a string literal or a pointer to the same underlying array can safely be used in several ways that a pointer to an automatic array cannot. For example, returning a string literal from a function has well-defined behavior:
 
-string literal or a pointer to the same underlying array can safely be used in several ways that a pointer to an
-
-automatic array cannot. For example, returning a string literal from a function has well-defined behavior:
-
-```
+```c
 const char *get_hello() {
 return "Hello, World!"; /* safe */
 }
 ```
-For historical reasons, the elements of the array corresponding to a string literal are not formally const.
+For historical reasons, the elements of the array corresponding to a string literal are not formally const. Nevertheless, any attempt to modify them has undefined behavior. Typically, a program that attempts to modify the array corresponding to a string literal will crash or otherwise malfunction.
 
-Nevertheless, any attempt to modify them has undefined behavior. Typically, a program that attempts to modify
-
-the array corresponding to a string literal will crash or otherwise malfunction.
-
-```
+```c
 char *foo = "hello";
-foo[ 0 ] = 'y'; /* Undefined behavior - BAD! */
+foo[0] = 'y'; /* Undefined behavior - BAD! */
 ```
-Where a pointer points to a string literal -- or where it sometimes may do -- it is advisable to declare that pointer's
+Where a pointer points to a string literal -- or where it sometimes may do -- it is advisable to declare that pointer's referent const to avoid engaging such undefined behavior accidentally.
 
-referent const to avoid engaging such undefined behavior accidentally.
-
-```
+```c
 const char *foo = "hello";
 /* GOOD: can't modify the string pointed to by foo */
 ```
-On the other hand, a pointer to or into the underlying array of a string literal is not itself inherently special; its value
+On the other hand, a pointer to or into the underlying array of a string literal is not itself inherently special; its value can freely be modified to point to something else:
 
-can freely be modified to point to something else:
-
-
-```
+```c
 char *foo = "hello";
 foo = "World!"; /* OK - we're just changing what foo points to */
 ```
-Furthermore, although initializers for char arrays can have the same form as string literals, use of such an initializer
+Furthermore, although initializers for char arrays can have the same form as string literals, use of such an initializer does not confer the characteristics of a string literal on the initialized array. The initializer simply designates the length and initial contents of the array. In particular, the elements are modifiable `if not explicitly declared const`:
 
-does not confer the characteristics of a string literal on the initialized array. The initializer simply designates the
-
-length and initial contents of the array. In particular, the elements are modifiable if not explicitly declared const:
-
-```
-char foo[] = "hello";
-foo[ 0 ] = 'y'; /* OK! */
 ```c
+char foo[] = "hello";
+foo[0] = 'y'; /* OK! */
+```
+
 ### Section 6.3: Calculate the Length: strlen()
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-```
-```c
+
 int main(int argc, char **argv)
 {
-/* Exit if no second argument is found. */
-if (argc != 2 )
-{
-puts("Argument missing.");
-return EXIT_FAILURE;
+  /* Exit if no second argument is found. */
+  if (argc != 2 )
+  {
+    puts("Argument missing.");
+    return EXIT_FAILURE;
+  }
+
+  size_t len = strlen(argv[ 1 ]);
+  printf("The length of the second argument is %zu. \\ n", len);
+
+  return EXIT_SUCCESS;
 }
 ```
-```
-size_t len = strlen(argv[ 1 ]);
-printf("The length of the second argument is %zu. \\ n", len);
-```
-```c
-return EXIT_SUCCESS;
-}
-```
-This program computes the length of its second input argument and stores the result in len. It then prints that
+This program computes the length of its second input argument and stores the result in `len`. It then prints that length to the terminal. For example, when run with the parameters program_name "Hello, world!", the program will output The length of the second argument is 13. because the string Hello, world! is 13 characters long.  
 
-length to the terminal. For example, when run with the parameters program_name "Hello, world!", the program
-
-will output The length of the second argument is 13. because the string Hello, world! is 13 characters long.
-
-strlen counts all the **bytes** from the beginning of the string up to, but not including, the terminating NUL
-
-character, ' **\\** 0'. As such, it can only be used when the string is _guaranteed_ to be NUL-terminated.
-
-Also keep in mind that if the string contains any Unicode characters, strlen will not tell you how many characters
-
-are in the string (since some characters may be multiple bytes long). In such cases, you need to count the
-
-characters ( _i.e._ , code units) yourself. Consider the output of the following example:
+`strlen` counts all the **bytes** from the beginning of the string up to, but not including, the terminating NULL character, ' **\\** 0'. As such, it can only be used when the string is _guaranteed_ to be NUL-terminated. Also keep in mind that if the string contains any `Unicode` characters, strlen will not tell you how many characters are in the string (since some characters may be multiple bytes long). In such cases, you need to count the characters ( _i.e._ , code units) yourself. Consider the output of the following example:
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-```
-```c
+
 int main(void)
 {
-char asciiString[ 50 ] = "Hello world!";
-char utf8String[ 50 ] = "Γειά σου Κόσμε!"; /* "Hello World!" in Greek */
-```
-```
-printf("asciiString has %zu bytes in the array \\ n", sizeof(asciiString));
-printf("utf8String has %zu bytes in the array \\ n", sizeof(utf8String));
-printf(" \\ "%s\\" is %zu bytes \\ n", asciiString, strlen(asciiString));
-printf(" \\ "%s\\" is %zu bytes \\ n", utf8String, strlen(utf8String));
+  char asciiString[ 50 ] = "Hello world!";
+  char utf8String[ 50 ] = "Γειά σου Κόσμε!"; /* "Hello World!" in Greek */
+
+  printf("asciiString has %zu bytes in the array \\ n", sizeof(asciiString));
+  printf("utf8String has %zu bytes in the array \\ n", sizeof(utf8String));
+  printf(" \\ "%s\\" is %zu bytes \\ n", asciiString, strlen(asciiString));
+  printf(" \\ "%s\\" is %zu bytes \\ n", utf8String, strlen(utf8String));
 }
-```
 
 Output:
 
-```
 asciiString has 50 bytes in the array
 utf8String has 50 bytes in the array
 "Hello world!" is 12 bytes
 "Γειά σου Κόσμε!" is 27 bytes
-```c
+```
+
 ### Section 6.4: Basic introduction to strings
 
-In C, a **string** is a sequence of characters that is terminated by a null character ('\0').
+In C, a **string** is a sequence of characters that is terminated by a null character ('\0'). We can create strings using **string literals** , which are sequences of characters surrounded by double quotation marks; for example, take the string literal "hello world". String literals are automatically null-terminated. We can create strings using several methods. For instance, we can declare a char * and initialize it to point to the first character of a string:
 
-We can create strings using **string literals** , which are sequences of characters surrounded by double quotation
-
-marks; for example, take the string literal "hello world". String literals are automatically null-terminated.
-
-We can create strings using several methods. For instance, we can declare a char * and initialize it to point to the
-
-first character of a string:
-
-```
+```c
 char * string = "hello world";
 ```
-When initializing a char * to a string constant as above, the string itself is usually allocated in read-only data;
+> When initializing a char * to a string constant as above, the string itself is usually allocated in `read-only` data; string is a pointer to the first element of the array, which is the character 'h'. Since the string literal is allocated in read-only memory, it is non-modifiable1. Any attempt to modify it will lead to undefined behaviour, so it's better to add const to get a compile-time error like this.
 
-string is a pointer to the first element of the array, which is the character 'h'.
-
-Since the string literal is allocated in read-only memory, it is non-modifiable1. Any attempt to modify it will lead to
-
-undefined behaviour, so it's better to add const to get a compile-time error like this
-
-```
+```c
 char const * string = "hello world";
 ```
 It has similar effect2 as
 
-```
+```c
 char const string_arr[] = "hello world";
 ```
-To create a modifiable string, you can declare a character array and initialize its contents using a string literal, like
+To create a modifiable string, you can declare a character array and initialize its contents using a string literal, like so:
 
-so:
-
-```
+```c
 char modifiable_string[] = "hello world";
 ```
 This is equivalent to the following:
 
-```
+```c
 char modifiable_string[] = {'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', ' \0 '};
 ```
-Since the second version uses brace-enclosed initializer, the string is not automatically null-terminated unless a
 
-' **\0** ' character is included explicitly in the character array usually as its last element.
-
-1 Non-modifiable implies that the characters in the string literal can't be modified, but remember that the pointer
-
-string can be modified (can point somewhere else or can be incremented or decremented).
-
-2 Both strings have similar effect in a sense that characters of both strings can't be modified. It should be noted
-
-that string is a pointer to char and it is a modifiable l-value so it can be incremented or point to some other
-
-location while the array string_arr is a non-modifiable l-value, it can't be modified.
+Since the second version uses brace-enclosed initializer, the string is not automatically null-terminated unless a ' **\0** ' character is included explicitly in the character array usually as its last element.
+- 1 Non-modifiable implies that the characters in the string literal can't be modified, but remember that the pointer string can be modified (can point somewhere else or can be incremented or decremented).
+- 2 Both strings have similar effect in a sense that characters of both strings can't be modified. It should be noted that string is a pointer to char and it is a modifiable l-value so it can be incremented or point to some other location while the array `string_arr` is a non-modifiable l-value, it can't be modified.
 
 ### Section 6.5: Copying strings
 
 **Pointer assignments do not copy strings**
 
-
-You can use the = operator to copy integers, but you cannot use the = operator to copy strings in C. Strings in C are
-
-represented as arrays of characters with a terminating null-character, so using the = operator will only save the
-
-address (pointer) of a string.
+You can use the `=` operator to copy integers, but you cannot use the `=` operator to copy strings in C. Strings in C are represented as arrays of characters with a terminating null-character, so using the `=` operator will only save the address (pointer) of a string.
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(void) {
-int a = 10 , b;
-char c[] = "abc", *d;
-```
-```
-b = a; /* Integer is copied */
-a = 20 ; /* Modifying a leaves b unchanged - b is a 'deep copy' of a */
-printf("%d %d \n ", a, b); /* "20 10" will be printed */
-```
-```
-d = c;
-/* Only copies the address of the string -
-there is still only one string stored in memory */
-```
-```
-c[ 1 ] = 'x';
-/* Modifies the original string - d[1] = 'x' will do exactly the same thing */
-```
-```
-printf("%s %s \n ", c, d); /* "axc axc" will be printed */
-```
-```c
-return 0 ;
+  int a = 10 , b;
+  char c[] = "abc", *d;
+
+  b = a; /* Integer is copied */
+  a = 20 ; /* Modifying a leaves b unchanged - b is a 'deep copy' of a */
+  printf("%d %d \n ", a, b); /* "20 10" will be printed */
+
+  d = c;
+  /* Only copies the address of the string -
+  there is still only one string stored in memory */
+
+  c[1] = 'x';
+  /* Modifies the original string - d[1] = 'x' will do exactly the same thing */
+
+  printf("%s %s \n ", c, d); /* "axc axc" will be printed */
+
+  return 0 ;
 }
 ```
-The above example compiled because we used char *d rather than char d[ 3 ]. Using the latter would cause a
-
-compiler error. You cannot assign to arrays in C.
+The above example compiled because we used `char *d` rather than `char d[3]`. Using the latter would cause a compiler error. You cannot assign to arrays in C.
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(void) {
-char a[] = "abc";
-char b[ 8 ];
-```
-```
-b = a; /* compile error */
-printf("%s \n ", b);
-```
-```c
-return 0 ;
+  char a[] = "abc";
+  char b[ 8 ];
+
+  b = a; /* compile error */
+  printf("%s \n ", b);
+
+  return 0 ;
 }
 ```
-**Copying strings using standard functions
-strcpy()**
+**Copying strings using standard functions strcpy()**
 
-To actually copy strings, strcpy() function is available in string.h. Enough space must be allocated for the
-
-destination before copying.
+To actually copy strings, `strcpy()` function is available in `string.h`. Enough space must be allocated for the destination before copying.
 
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```c
+
 int main(void) {
-char a[] = "abc";
-char b[ 8 ];
-```
-```
-strcpy(b, a); /* think "b special equals a" */
-printf("%s \n ", b); /* "abc" will be printed */
-```
-```c
-return 0 ;
+  char a[] = "abc";
+  char b[ 8 ];
+
+  strcpy(b, a); /* think "b special equals a" */
+  printf("%s \n ", b); /* "abc" will be printed */
+
+  return 0 ;
 }
 ```
 Version ≥ C99
@@ -2383,143 +2287,105 @@ Version ≥ C99
 
 **snprintf()**
 
-To avoid buffer overrun, snprintf() may be used. It is not the best solution performance-wise since it has to parse
-
-the template string, but it is the only buffer limit-safe function for copying strings readily-available in standard
-
-library, that can be used without any extra steps.
+To avoid buffer overrun, `snprintf()` may be used. It is not the best solution performance-wise since it has to parse the template string, but it is the only buffer limit-safe function for copying strings readily-available in standard library, that can be used without any extra steps.
 
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```c
+
 int main(void) {
-char a[] = "012345678901234567890";
-char b[ 8 ];
-```
-```c
-#if 0
-strcpy(b, a); /* causes buffer overrun (undefined behavior), so do not execute this here! */
-#endif
-```
-```
-snprintf(b, sizeof(b), "%s", a); /* does not cause buffer overrun */
-printf("%s \n ", b); /* "0123456" will be printed */
-```
-```c
-return 0 ;
+  char a[] = "012345678901234567890";
+  char b[8];
+
+  #if 0
+  strcpy(b, a); /* causes buffer overrun (undefined behavior), so do not execute this here! */
+  #endif
+
+  snprintf(b, sizeof(b), "%s", a); /* does not cause buffer overrun */
+  printf("%s \n ", b); /* "0123456" will be printed */
+
+  return 0 ;
 }
 ```
 **strncat()**
 
-A second option, with better performance, is to use strncat() (a buffer overflow checking version of strcat()) - it
+A second option, with better performance, is to use `strncat()` (a buffer overflow checking version of `strcat()`) - it takes a third argument that tells it the maximum number of bytes to copy:
 
-takes a third argument that tells it the maximum number of bytes to copy:
+```c
+char dest[32];
 
-```
-char dest[ 32 ];
-```
-```
-dest[ 0 ] = ' \0 ';
+dest[ 0 ] = '\0';
 strncat(dest, source, sizeof(dest) - 1 );
 /* copies up to the first (sizeof(dest) - 1) elements of source into dest,
 then puts a \0 on the end of dest */
 ```
-Note that this formulation use sizeof(dest) - 1 ; this is crucial because strncat() always adds a null byte (good),
+Note that this formulation use `sizeof(dest) - 1 ;` this is crucial because `strncat()` always adds a null byte (good), but doesn't count that in the size of the string (a cause of confusion and buffer overwrites). Also note that the alternative — concatenating after a non-empty string — is even more fraught. Consider:
 
-but doesn't count that in the size of the string (a cause of confusion and buffer overwrites).
-
-Also note that the alternative — concatenating after a non-empty string — is even more fraught. Consider:
-
-```
+```c
 char dst[ 24 ] = "Clownfish: ";
 char src[] = "Marvin and Nemo";
 size_t len = strlen(dst);
-```
-```
+
 strncat(dst, src, sizeof(dst) - len - 1 );
 printf("%zu: [%s] \n ", strlen(dst), dst);
-```
-The output is:
 
-```
 23: [Clownfish: Marvin and N]
 ```
-Note, though, that the size specified as the length was _not_ the size of the destination array, but the amount of space
+Note, though, that the size specified as the length was _not_ the size of the destination array, but the amount of space left in it, not counting the terminal null byte. This can cause big overwriting problems. It is also a bit wasteful; to specify the length argument correctly, you know the length of the data in the destination, so you could instead specify the address of the null byte at the end of the existing content, saving `strncat()` from rescanning it:
 
-left in it, not counting the terminal null byte. This can cause big overwriting problems. It is also a bit wasteful; to
-
-specify the length argument correctly, you know the length of the data in the destination, so you could instead
-
-specify the address of the null byte at the end of the existing content, saving strncat() from rescanning it:
-
-```
+```c
 strcpy(dst, "Clownfish: ");
-```
 
-```
 assert(len < sizeof(dst) - 1 );
 strncat(dst + len, src, sizeof(dst) - len - 1 );
 printf("%zu: [%s] \n ", strlen(dst), dst);
 ```
-This produces the same output as before, but strncat() doesn't have to scan over the existing content of dst
-
-before it starts copying.
+This produces the same output as before, but `strncat()` doesn't have to scan over the existing content of dst before it starts copying.
 
 **strncpy()**
 
-The last option is the strncpy() function. Although you might think it should come first, it is a rather deceptive
+The last option is the `strncpy()` function. Although you might think it should come first, it is a rather deceptive function that has two main gotchas:
 
-function that has two main gotchas:
+* If copying via `strncpy()` hits the buffer limit, a terminating null-character won't be written.
+* `strncpy()` always completely fills the destination, with null bytes if necessary.
 
-1. If copying via strncpy() hits the buffer limit, a terminating null-character won't be written.
-2. strncpy() always completely fills the destination, with null bytes if necessary.
+(Such quirky implementation is historical and was initially intended for handling UNIX file names)  
+> The only correct way to use it is to `manually ensure` null-termination:
 
-(Such quirky implementation is historical and was initially intended for handling UNIX file names)
-
-The only correct way to use it is to manually ensure null-termination:
-
-```
+```c
 strncpy(b, a, sizeof(b)); /* the third parameter is destination buffer size */
 b[sizeof(b)/sizeof(*b) - 1 ] = ' \0 '; /* terminate the string */
 printf("%s \n ", b); /* "0123456" will be printed */
 ```
-Even then, if you have a big buffer it becomes very inefficient to use strncpy() because of additional null padding.
+> Even then, if you have a big buffer it becomes very inefficient to use `strncpy()` because of additional null padding.
 
 ### Section 6.6: Iterating Over the Characters in a String
 
 If we know the length of the string, we can use a for loop to iterate over its characters:
 
-```
+```c
 char * string = "hello world"; /* This 11 chars long, excluding the 0-terminator. */
 size_t i = 0 ;
 for (; i < 11 ; i++) {
 printf("%c \n ", string[i]); /* Print each character of the string. */
 }
 ```
-Alternatively, we can use the standard function strlen() to get the length of a string if we don't know what the
+Alternatively, we can use the standard function `strlen()` to get the length of a string if we don't know what the string is:
 
-string is:
-
-```
+```c
 size_t length = strlen(string);
 size_t i = 0 ;
 for (; i < length; i++) {
 printf("%c \n ", string[i]); /* Print each character of the string. */
 }
 ```
-Finally, we can take advantage of the fact that strings in C are guaranteed to be null-terminated (which we already
+Finally, we can take advantage of the fact that strings in C are guaranteed to be null-terminated (which we already did when passing it to `strlen()` in the previous example ;-)). We can iterate over the array regardless of its size and stop iterating once we reach a null-character:
 
-did when passing it to strlen() in the previous example ;-)). We can iterate over the array regardless of its size and
-
-stop iterating once we reach a null-character:
-
-```
+```c
 size_t i = 0 ;
 while (string[i] != ' \0 ') { /* Stop looping when we reach the null-character. */
-printf("%c \n ", string[i]); /* Print each character of the string. */
-i++;
+  printf("%c \n ", string[i]); /* Print each character of the string. */
+  i++;
 }
 ```
 
@@ -2527,8 +2393,8 @@ i++;
 
 An array of strings can mean a couple of things:
 
-1. An array whose elements are char *s
-2. An array whose elements are arrays of chars
+* An array whose elements are char *s
+* An array whose elements are arrays of chars
 
 We can create an array of character pointers like so:
 
