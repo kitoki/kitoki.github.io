@@ -1,5 +1,20 @@
+stackoverflow : tag : [C Language](https://stackoverflow.com/questions/tagged/c?tab=Votes)  
 
+> 22 May 2022
 - `while` loop : when the condition reach `false`, it still loop for the last time, ex: var `int test = 0`, the condition `test<=1`, with `test++;`, it will loop 2 time.
+- iterator : its `->`, the process itself called this, getting collection of data from object, 
+
+> TODO list today:  
+TODO: iterator in C  
+TODO: strtok(), strtok_r(), strtok_s()  
+TODO: thread-safe or re-entrant  
+TODO: reentrant kernel works  
+TODO: stackoverflow : [thread safe vs reentrant](https://stackoverflow.com/questions/856823/threadsafe-vs-re-entrant) `The key for avoiding confusion is that reentrant refers to only one thread executing. It is a concept from the time when no multitasking operating systems existed.`  
+TODO: stackoverflow : tag : [thread-safety](https://stackoverflow.com/questions/tagged/thread-safety?tab=Votes)  
+TODO: stackoverflow : tag : [reentrancy](https://stackoverflow.com/questions/tagged/reentrancy?tab=Votes)  
+
+
+>---  
 
 stackoverflow : tag : [C language](https://stackoverflow.com/questions/tagged/c?tab=Votes) sort by Votes, [C language](https://stackoverflow.com/questions/tagged/c?tab=Frequent) sort by frequent, [malloc](https://stackoverflow.com/questions/tagged/malloc?tab=Votes), undefined [behavior](https://stackoverflow.com/questions/tagged/undefined-behavior), unspecified [behavior](https://stackoverflow.com/questions/tagged/unspecified-behavior), implementation [defined](https://stackoverflow.com/questions/tagged/implementation-defined-behavior) behavior, buffer-[overflow](https://stackoverflow.com/questions/tagged/buffer-overflow), [pointer](https://stackoverflow.com/questions/tagged/pointers), segmentation [fault](https://stackoverflow.com/questions/tagged/segmentation-fault), size[of](https://stackoverflow.com/questions/tagged/sizeof), standard [compliance](https://stackoverflow.com/questions/tagged/standards-compliance), [performance](https://stackoverflow.com/questions/tagged/performance), [optimization](https://stackoverflow.com/questions/tagged/optimization), bitwise [operator](https://stackoverflow.com/questions/tagged/bitwise-operators), header-[files](https://stackoverflow.com/questions/tagged/header-files), [operator](https://stackoverflow.com/questions/tagged/operators), fault [tolerance](https://stackoverflow.com/questions/tagged/fault-tolerance), [memory](https://stackoverflow.com/questions/tagged/memory), memory [leaks](https://stackoverflow.com/questions/tagged/memory-leaks), [caching](https://stackoverflow.com/questions/tagged/caching), cpu [cache](https://stackoverflow.com/questions/tagged/cpu-cache)
 
@@ -2004,29 +2019,20 @@ Output:
 [2]
 ```
 
-The expected operation is that the outer do while loop should create three tokens consisting of each decimal
+The expected operation is that the outer do while loop should create three tokens consisting of each decimal number string ("1.2", "3.5", "4.2"), for each of which the strtok calls for the inner loop should split it into separate digit strings ("1", "2", "3", "5", "4", "2").  
 
-number string ("1.2", "3.5", "4.2"), for each of which the strtok calls for the inner loop should split it into
-
-separate digit strings ("1", "2", "3", "5", "4", "2").
-
-However, because strtok is not re-entrant, this does not occur. Instead the first strtok correctly creates the "1.2\0"
-
-token, and the inner loop correctly creates the tokens "1" and "2". But then the strtok in the outer loop is at the
-
-end of the string used by the inner loop, and returns NULL immediately. The second and third substrings of the src
-
-array are not analyzed at all.
+> However, because strtok is not re-entrant, this does not occur. Instead the first strtok correctly creates the "1.2\0" token, and the inner loop correctly creates the tokens "1" and "2". But then the strtok in the outer loop is at the end of the string used by the inner loop, and returns NULL immediately. The second and third substrings of the src array are not analyzed at all.
 
 Version < C11
 
-The standard C libraries do not contain a thread-safe or re-entrant version but some others do, such as POSIX'
+> The standard C libraries do not contain a thread-safe `or` re-entrant version but some others do, such as POSIX' `strtok_r`. Note that on MSVC the strtok equivalent, `strtok_s` is thread-safe.  
 
-strtok_r. Note that on MSVC the strtok equivalent, strtok_s is thread-safe.
+TODO: stackoverflow : [thread safe vs reentrant](https://stackoverflow.com/questions/856823/threadsafe-vs-re-entrant) `The key for avoiding confusion is that reentrant refers to only one thread executing. It is a concept from the time when no multitasking operating systems existed.`  
+TODO: reentrant kernel works  
 
-Version ≥ C11
+Version ≥ C11  
 
-C11 has an optional part, Annex K, that offers a thread-safe and re-entrant version named strtok_s. You can test
+C11 has an optional part, Annex K, that offers a `thread-safe` and `re-entrant` version named `strtok_s`. You can test
 
 for the feature with __STDC_LIB_EXT1__. This optional part is not widely supported.
 
