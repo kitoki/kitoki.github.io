@@ -6,7 +6,7 @@ stackoverflow : tag : [C Language](https://stackoverflow.com/questions/tagged/c?
 
 > TODO list today:  
 TODO: iterator in C  
-TODO: strtok(), strtok_r(), strtok_s()  
+TODO: [strtok()](https://i.ytimg.com/vi/oaL8VdSD5u8/hq720.jpg), strtok_r(), strtok_s() `the link is the explanation with image`
 TODO: thread-safe or re-entrant  
 TODO: reentrant kernel works  
 TODO: stackoverflow : [thread safe vs reentrant](https://stackoverflow.com/questions/856823/threadsafe-vs-re-entrant) `The key for avoiding confusion is that reentrant refers to only one thread executing. It is a concept from the time when no multitasking operating systems existed.`  
