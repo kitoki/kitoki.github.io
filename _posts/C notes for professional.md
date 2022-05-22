@@ -13,6 +13,8 @@ TODO: stackoverflow : [thread safe vs reentrant](https://stackoverflow.com/quest
 TODO: stackoverflow : tag : [thread-safety](https://stackoverflow.com/questions/tagged/thread-safety?tab=Votes)  
 TODO: stackoverflow : tag : [reentrancy](https://stackoverflow.com/questions/tagged/reentrancy?tab=Votes)  
 
+
+
 > interesting title:
 
 TODO: QCAD – [Open Source](https://news.ycombinator.com/item?id=31462563) CAD System (qcad.org)  
