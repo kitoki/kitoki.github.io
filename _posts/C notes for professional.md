@@ -3413,121 +3413,85 @@ int get_last(int input[], size_t length) {
   return input[length - 1 ];
 }
 ```
-Note in particular that although the declaration of parameter input resembles that of an array, **it in fact declares**
-
-**input as a pointer** (to int). It is exactly equivalent to declaring input as int *input. The same would be true even
-
-if a dimension were given. This is possible because arrays cannot ever be actual arguments to functions (they decay
-
-to pointers when they appear in function call expressions), and it can be viewed as mnemonic.
+Note in particular that although the declaration of parameter input resembles that of an array, **it in fact declares input as a pointer** (to `int`). It is exactly equivalent to declaring input as `int *input`. The same would be true even if a dimension were given. This is possible because arrays cannot ever be actual arguments to functions (they decay to pointers when they appear in function call expressions), and it can be viewed as mnemonic.  
 
 It is a very common error to attempt to determine array size from a pointer, which cannot work. DO NOT DO THIS:
 
 ```c
 int BAD_get_last(int input[]) {
-/* INCORRECTLY COMPUTES THE LENGTH OF THE ARRAY INTO WHICH input POINTS: */
-size_t length = sizeof(input) / sizeof(input[ 0 ]));
-```
-```c
-return input[length - 1 ]; /* Oops -- not the droid we are looking for */
+  /* INCORRECTLY COMPUTES THE LENGTH OF THE ARRAY INTO WHICH input POINTS: */
+  size_t length = sizeof(input) / sizeof(input[ 0 ]));
+
+  return input[length - 1 ]; /* Oops -- not the droid we are looking for */
 }
 ```
-In fact, that particular error is so common that some compilers recognize it and warn about it. clang, for instance,
+In fact, that particular error is so common that some compilers recognize it and warn about it. `clang`, for instance, will emit the following warning:
 
-will emit the following warning:
-
-```
-warning: sizeof on array function parameter will return size of 'int *' instead of 'int []' [-
-Wsizeof-array-argument]
+```c
+warning: sizeof on array function parameter will return size of 'int *' instead of 'int []' [Wsizeof-array-argument]
 int length = sizeof(input) / sizeof(input[ 0 ]);
-^
+                  ^
 note: declared here
 int BAD_get_last(int input[])
-^
-```c
+                     ^
+```
+
 ### Section 10.4: Passing multidimensional arrays to a function
 
-Multidimensional arrays follow the same rules as single-dimensional arrays when passing them to a function.
-
-However the combination of decay-to-pointer, operator precedence, and the two different ways to declare a
-
-multidimensional array (array of arrays vs array of pointers) may make the declaration of such functions non-
-
-intuitive. The following example shows the correct ways to pass multidimensional arrays.
+Multidimensional arrays follow the same rules as single-dimensional arrays when passing them to a function. However the combination of decay-to-pointer, operator precedence, and the two different ways to declare a multidimensional array (array of arrays vs array of pointers) may make the declaration of such functions non-intuitive. The following example shows the correct ways to pass multidimensional arrays.
 
 ```c
 #include <assert.h>
 #include <stdlib.h>
-```
-```c
-/* When passing a multidimensional array (i.e. an array of arrays) to a
-function, it decays into a pointer to the first element as usual. But only
-the top level decays, so what is passed is a pointer to an array of some fixed
-size (4 in this case). */
-void f(int x[][ 4 ]) {
-assert(sizeof(*x) == sizeof(int) * 4 );
-}
-```
-```c
-/* This prototype is equivalent to f(int x[][4]).
-The parentheses around *x are required because [index] has a higher
-precedence than *expr, thus int *x[4] would normally be equivalent to int
-```
 
-```
-*(x[4]), i.e. an array of 4 pointers to int. But if it's declared as a
-function parameter, it decays into a pointer and becomes int **x,
-which is not compatable with x[2][4]. */
+/* When passing a multidimensional array (i.e. an array of arrays) to a function, it decays into a pointer to the first element as usual. But only the top level decays, so what is passed is a pointer to an array of some fixed size (4 in this case). */
+void f(int x[][ 4 ]) {
+  assert(sizeof(*x) == sizeof(int) * 4 );
+}
+
+/* This prototype is equivalent to f(int x[][4]). The parentheses around *x are required because [index] has a higher precedence than *expr, thus int *x[4] would normally be equivalent to int *(x[4]), i.e. an array of 4 pointers to int. But if it's declared as a function parameter, it decays into a pointer and becomes int **x, which is not compatable with x[2][4]. */
+
 void g(int (*x)[ 4 ]) {
-assert(sizeof(*x) == sizeof(int) * 4 );
+  assert(sizeof(*x) == sizeof(int) * 4 );
 }
-```
-```c
-/* An array of pointers may be passed to this, since it'll decay into a pointer
-to pointer, but an array of arrays may not. */
+
+/* An array of pointers may be passed to this, since it'll decay into a pointer to pointer, but an array of arrays may not. */
 void h(int **x) {
-assert(sizeof(*x) == sizeof(int*));
+  assert(sizeof(*x) == sizeof(int*));
 }
-```
-```c
+
 int main(void) {
-int foo[ 2 ][ 4 ];
-f(foo);
-g(foo);
-```
-```c
-/* Here we're dynamically creating an array of pointers. Note that the
-size of each dimension is not part of the datatype, and so the type
-system just treats it as a pointer to pointer, not a pointer to array
-or array of arrays. */
-int **bar = malloc(sizeof(*bar) * 2 );
-assert(bar);
-for (size_t i = 0 ; i < 2 ; i++) {
-bar[i] = malloc(sizeof(*bar[i]) * 4 );
-assert(bar[i]);
+  int foo[ 2 ][ 4 ];
+  f(foo);
+  g(foo);
+
+  /* Here we're dynamically creating an array of pointers. Note that the size of each dimension is not part of the datatype, and so the type system just treats it as a pointer to pointer, not a pointer to array or array of arrays. */
+
+  int **bar = malloc(sizeof(*bar) * 2 );
+  assert(bar);
+
+  for (size_t i = 0 ; i < 2 ; i++) {
+    bar[i] = malloc(sizeof(*bar[i]) * 4 );
+    assert(bar[i]);
+  }
+
+  h(bar);
+
+  for (size_t i = 0 ; i < 2 ; i++) {
+    free(bar[i]);
+  }
+  free(bar);
 }
 ```
-```
-h(bar);
-```
-```
-for (size_t i = 0 ; i < 2 ; i++) {
-free(bar[i]);
-}
-free(bar);
-}
-```
-**See also**
+**See also**  
 
 Passing in Arrays to Functions
 
 ### Section 10.5: Multi-dimensional arrays
 
-The C programming language allows multidimensional arrays. Here is the general form of a multidimensional array
+The C programming language allows multidimensional arrays. Here is the general form of a multidimensional array declaration −
 
-declaration −
-
-```
+```c
 type name[size1][size2]...[sizeN];
 ```
 For example, the following declaration creates a three dimensional (5 x 10 x 4) integer array:
@@ -3537,94 +3501,62 @@ int arr[ 5 ][ 10 ][ 4 ];
 ```
 **Two-dimensional Arrays**
 
-The simplest form of multidimensional array is the two-dimensional array. A two-dimensional array is, in essence, a
+The simplest form of multidimensional array is the two-dimensional array. A two-dimensional array is, in essence, a list of one-dimensional arrays. To declare a two-dimensional integer array of dimensions m x n, we can write as follows:
 
-list of one-dimensional arrays. To declare a two-dimensional integer array of dimensions m x n, we can write as
-
-follows:
-
-
-```
+```c
 type arrayName[m][n];
 ```
-Where type can be any valid C data type (int, float, etc.) and arrayName can be any valid C identifier. A two-
+Where type can be any valid C data type (`int`, `float`, etc.) and `arrayName` can be any valid C identifier. A two- dimensional array can be visualized as a table with m rows and n columns. **Note** : The order _does_ matter in C. The array `int a[ 4 ][ 3 ]` is not the same as the `array int a[ 3 ][ 4 ]`. The number of rows comes first as C is a _row_ -major language.  
 
-dimensional array can be visualized as a table with m rows and n columns. **Note** : The order _does_ matter in C. The
+A two-dimensional array a, which contains three rows and four columns can be shown as follows:  
 
-array int a[ 4 ][ 3 ] is not the same as the array int a[ 3 ][ 4 ]. The number of rows comes first as C is a _row_ -major
-
-language.
-
-A two-dimensional array a, which contains three rows and four columns can be shown as follows:
-
-Thus, every element in the array a is identified by an element name of the form a[i][j], where a is the name of the
-
-array, i represents which row, and j represents which column. Recall that rows and columns are zero indexed. This
-
-is very similar to mathematical notation for subscripting 2-D matrices.
+Thus, every element in the array a is identified by an element name of the form `a[i][j]`, where a is the name of the array, i represents which row, and j represents which column. Recall that rows and columns are zero indexed. This is very similar to mathematical notation for subscripting `2-D` matrices.  
 
 **Initializing Two-Dimensional Arrays**
 
-Multidimensional arrays may be initialized by specifying bracketed values for each row. The following define an
-
-array with 3 rows where each row has 4 columns.
+Multidimensional arrays may be initialized by specifying bracketed values for each row. The following define an array with 3 rows where each row has 4 columns.
 
 ```c
 int a[ 3 ][ 4 ] = {
-{ 0 , 1 , 2 , 3 } , /* initializers for row indexed by 0 */
-{ 4 , 5 , 6 , 7 } , /* initializers for row indexed by 1 */
-{ 8 , 9 , 10 , 11 } /* initializers for row indexed by 2 */
+  { 0 , 1 , 2 , 3 } , /* initializers for row indexed by 0 */
+  { 4 , 5 , 6 , 7 } , /* initializers for row indexed by 1 */
+  { 8 , 9 , 10 , 11 } /* initializers for row indexed by 2 */
 };
 ```
-The nested braces, which indicate the intended row, are optional. The following initialization is equivalent to the
-
-previous example:
+The nested braces, which indicate the intended row, are optional. The following initialization is equivalent to the previous example:
 
 ```c
 int a[ 3 ][ 4 ] = { 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11 };
 ```
-While the method of creating arrays with nested braces is optional, it is strongly encouraged as it is more readable
-
-and clearer.
+While the method of creating arrays with nested braces is optional, it is strongly encouraged as it is more readable and clearer.
 
 **Accessing Two-Dimensional Array Elements**
 
-An element in a two-dimensional array is accessed by using the subscripts, i.e., row index and column index of the
-
-array. For example −
+An element in a two-dimensional array is accessed by using the subscripts, i.e., row index and column index of the array. For example −
 
 ```c
 int val = a[ 2 ][ 3 ];
 ```
-The above statement will take the 4th element from the 3rd row of the array. Let us check the following program
-
-where we have used a nested loop to handle a two-dimensional array:
+The above statement will take the 4th element from the 3rd row of the array. Let us check the following program where we have used a nested loop to handle a two-dimensional array:
 
 ```c
 #include <stdio.h>
-```
-```c
-int main () {
-```
-```c
-/* an array with 5 rows and 2 columns*/
-int a[ 5 ][ 2 ] = { { 0 , 0 }, { 1 , 2 }, { 2 , 4 }, { 3 , 6 },{ 4 , 8 }};
-```
 
-```c
-int i, j;
-```
-```c
-/* output each array element's value */
-for ( i = 0 ; i < 5 ; i++ ) {
-```
-```
-for ( j = 0 ; j < 2 ; j++ ) {
-printf("a[%d][%d] = %d \n ", i,j, a[i][j] );
-}
-}
-```
-```c
+int main () {
+
+  /* an array with 5 rows and 2 columns*/
+  int a[ 5 ][ 2 ] = { { 0 , 0 }, { 1 , 2 }, { 2 , 4 }, { 3 , 6 },{ 4 , 8 }};
+
+  int i, j;
+
+  /* output each array element's value */
+  for ( i = 0 ; i < 5 ; i++ ) {
+
+    for ( j = 0 ; j < 2 ; j++ ) {
+      printf("a[%d][%d] = %d \n ", i,j, a[i][j] );
+    }
+  }
+
 return 0 ;
 }
 ```
@@ -3644,110 +3576,88 @@ a[4][1]: 8
 ```
 **Three-Dimensional array:**
 
-A 3D array is essentially an array of arrays of arrays: it's an array or collection of 2D arrays, and a 2D array is an
+A 3D array is essentially an array of arrays of arrays: it's an array or collection of 2D arrays, and a 2D array is an array of 1D arrays.  
 
-array of 1D arrays.
-
-**3D array memory map:**
+**3D array memory map:**  
 
 **Initializing a 3D Array:**
 
-```
-double cprogram[ 3 ][ 2 ][ 4 ]={
-{{-0.1, 0.22, 0.3, 4.3}, {2.3, 4.7, - 0.9, 2 }},
-{{0.9, 3.6, 4.5, 4 }, {1.2, 2.4, 0.22, - 1 }},
-{{8.2, 3.12, 34.2, 0.1}, {2.1, 3.2, 4.3, - 2.0}}
+```c
+double cprogram[ 3 ][ 2 ][ 4 ] =
+{
+  {{-0.1, 0.22, 0.3, 4.3}, {2.3, 4.7, - 0.9, 2 }},
+  {{0.9, 3.6, 4.5, 4 }, {1.2, 2.4, 0.22, - 1 }},
+  {{8.2, 3.12, 34.2, 0.1}, {2.1, 3.2, 4.3, - 2.0}}
 };
 ```
-We can have arrays with any number of dimensions, although it is likely that most of the arrays that are created will
-
-be of one or two dimensions.
+We can have arrays with any number of dimensions, although it is likely that most of the arrays that are created will be of one or two dimensions.
 
 
 ### Section 10.6: Define array and access array element
 
 ```c
 #include <stdio.h>
-```
-```c
+
 #define ARRLEN (10)
-```
-```c
+
 int main (void)
 {
-```
-```c
-int n[ ARRLEN ]; /* n is an array of 10 integers */
-size_t i, j; /* Use size_t to address memory, that is to index arrays, as its guaranteed to
-be wide enough to address all of the possible available memory.
-Using signed integers to do so should be considered a special use case,
-and should be restricted to the uncommon case of being in the need of
-negative indexes. */
-```
-```c
-/* Initialize elements of array n. */
-for ( i = 0 ; i < ARRLEN ; i++ )
-{
-n[ i ] = i + 100 ; /* Set element at location i to i + 100. */
+  int n[ ARRLEN ]; /* n is an array of 10 integers */
+  size_t i, j; /* Use size_t to address memory, that is to index arrays, as its guaranteed to be wide enough to address all of the possible available memory. Using signed integers to do so should be considered a special use case, and should be restricted to the uncommon case of being in the need of negative indexes. */
+
+  /* Initialize elements of array n. */
+  for ( i = 0 ; i < ARRLEN ; i++ )
+  {
+    n[ i ] = i + 100 ; /* Set element at location i to i + 100. */
+  }
+
+  /* Output each array element's value. */
+  for (j = 0 ; j < ARRLEN ; j++ )
+  {
+    printf("Element[%zu] = %d \n ", j, n[j] );
+  }
+
+  return 0 ;
 }
 ```
-```c
-/* Output each array element's value. */
-for (j = 0 ; j < ARRLEN ; j++ )
-{
-printf("Element[%zu] = %d \n ", j, n[j] );
-}
-```
-```c
-return 0 ;
-}
-```c
 ### Section 10.7: Clearing array contents (zeroing)
 
 Sometimes it's necessary to set an array to zero, after the initialization has been done.
 
 ```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
-```
-```c
+
 #define ARRLEN (10)
-```
-```c
+
 int main(void)
 {
-int array[ARRLEN]; /* Allocated but not initialised, as not defined static or global. */
-```
-```
-size_t i;
-for(i = 0 ; i < ARRLEN; ++i)
-{
-array[i] = 0 ;
+  int array[ARRLEN]; /* Allocated but not initialised, as not defined static or global. */
+
+  size_t i;
+  for(i = 0 ; i < ARRLEN; ++i)
+  {
+    array[i] = 0 ;
+  }
+
+  return EXIT_SUCCESS;
 }
 ```
+An common short cut to the above loop is to use `memset()` from **`<string.h>`**. Passing array as shown below makes it decay to a pointer to its 1st element.
+
 ```c
-return EXIT_SUCCESS;
-}
-```
-An common short cut to the above loop is to use memset() from **<string.h>**. Passing array as shown below makes
-
-it decay to a pointer to its 1st element.
-
-```
 memset(array, 0 , ARRLEN * sizeof (int)); /* Use size explicitly provided type (int here). */
 ```
 or
 
-
-```
+```c
 memset(array, 0 , ARRLEN * sizeof *array); /* Use size of type the pointer is pointing to. */
 ```
-As in this example array _is_ an array and not just a pointer to an array's 1st element (see Array length on why this is
+As in this example array _is_ an array and not just a pointer to an array's 1st element (see Array length on why this is important) a third option to 0-out the array is possible:
 
-important) a third option to 0-out the array is possible:
-
-```
-memset(array, 0 , sizeof array); /* Use size of the array itself. */
 ```c
+memset(array, 0 , sizeof array); /* Use size of the array itself. */
+```
+
 ### Section 10.8: Setting values in arrays
 
 Accessing array values is generally done through square brackets:
@@ -3755,97 +3665,78 @@ Accessing array values is generally done through square brackets:
 ```c
 int val;
 int array[ 10 ];
-```
-```c
+
 /* Setting the value of the fifth element to 5: */
 array[ 4 ] = 5 ;
-```
-```c
+
 /* The above is equal to: */
 *(array + 4 ) = 5 ;
-```
-```c
+
 /* Reading the value of the fifth element: */
 val = array[ 4 ];
 ```
-As a side effect of the operands to the + operator being exchangeable (--> commutative law) the following is
+As a side effect of the operands to the `+` operator being exchangeable (`-->` commutative law) the following is equivalent:
 
-equivalent:
-
-```
+```c
 *(array + 4 ) = 5 ;
 *( 4 + array) = 5 ;
 ```
 so as well the next statements are equivalent:
 
-```
+```c
 array[ 4 ] = 5 ;
 4 [array] = 5 ; /* Weird but valid C ... */
 ```
 and those two as well:
 
-```
+```c
 val = array[ 4 ];
 val = 4 [array]; /* Weird but valid C ... */
 ```
-C doesn't perform any boundary checks, accessing contents outside of the declared array is undefined (Accessing
-
-memory beyond allocated chunk ):
+C doesn't perform any boundary checks, accessing contents outside of the declared array is undefined (Accessing memory beyond allocated chunk ):
 
 ```c
 int val;
 int array[ 10 ];
-```
-```
+
 array[ 4 ] = 5 ; /* ok */
 val = array[ 4 ]; /* ok */
 array[ 19 ] = 20 ; /* undefined behavior */
 val = array[ 15 ]; /* undefined behavior */
-```c
+```
 ### Section 10.9: Allocate and zero-initialize an array with user defined size
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
 
-```c
 int main (void)
 {
-int * pdata;
-size_t n;
-```
-```
-printf ("Enter the size of the array: ");
-fflush(stdout); /* Make sure the prompt gets printed to buffered stdout. */
-```
-```
-if ( 1 != scanf("%zu", &n)) /* If zu is not supported (Windows?) use lu. */
-{
-fprintf("scanf() did not read a in proper value. \n ");
-exit(EXIT_FAILURE);
-}
-```
-```
-pdata = calloc(n, sizeof *pdata);
-if (NULL == pdata)
-{
-perror("calloc() failed"); /* Print error. */
-exit(EXIT_FAILURE);
-}
-```
-```
-free(pdata); /* Clean up. */
-```
-```c
-return EXIT_SUCCESS;
-}
-```
-This program tries to scan in an unsigned integer value from standard input, allocate a block of memory for an
+  int * pdata;
+  size_t n;
 
-array of n elements of type int by calling the calloc() function. The memory is initialized to all zeros by the latter.
+  printf ("Enter the size of the array: ");
+  fflush(stdout); /* Make sure the prompt gets printed to buffered stdout. */
 
-In case of success the memory is releases by the call to free().
+  if ( 1 != scanf("%zu", &n)) /* If zu is not supported (Windows?) use lu. */
+  {
+    fprintf("scanf() did not read a in proper value. \n ");
+    exit(EXIT_FAILURE);
+  }
+
+  pdata = calloc(n, sizeof *pdata);
+  if (NULL == pdata)
+  {
+    perror("calloc() failed"); /* Print error. */
+    exit(EXIT_FAILURE);
+  }
+
+  free(pdata); /* Clean up. */
+
+  return EXIT_SUCCESS;
+}
+```
+This program tries to scan in an `unsigned integer` value from standard input, allocate a block of memory for an array of n elements of type int by calling the `calloc()` function. The memory is initialized to all zeros by the latter. In case of success the memory is releases by the call to `free()`.
 
 ### Section 10.10: Iterating through an array using pointers
 
@@ -3854,37 +3745,26 @@ In case of success the memory is releases by the call to free().
 #define SIZE (10)
 int main()
 {
-size_t i = 0 ;
-int *p = NULL;
-int a[SIZE];
-```
-```c
-/* Setting up the values to be i*i */
-for(i = 0 ; i < SIZE; ++i)
-{
-a[i] = i * i;
+  size_t i = 0 ;
+  int *p = NULL;
+  int a[SIZE];
+
+  /* Setting up the values to be i*i */
+  for(i = 0 ; i < SIZE; ++i)
+  {
+    a[i] = i * i;
+  }
+
+  /* Reading the values using pointers */
+  for(p = a; p < a + SIZE; ++p)
+  {
+    printf("%d \n ", *p);
+  }
+
+  return 0 ;
 }
 ```
-```c
-/* Reading the values using pointers */
-for(p = a; p < a + SIZE; ++p)
-{
-printf("%d \n ", *p);
-}
-```
-```c
-return 0 ;
-}
-```
-Here, in the initialization of p in the first for loop condition, the array a _decays_ to a pointer to its first element, as it
-
-would in almost all places where such an array variable is used.
-
-Then, the ++p performs pointer arithmetic on the pointer p and walks one by one through the elements of the
-
-
-array, and refers to them by dereferencing them with *p.
-
+Here, in the initialization of p in the first for loop condition, the array a _decays_ to a pointer to its first element, as it would in almost all places where such an array variable is used. Then, the `++p` performs pointer arithmetic on the pointer p and walks one by one through the elements of the array, and refers to them by dereferencing them with `*p`.
 
 ## Chapter 11: Linked lists
 
