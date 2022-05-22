@@ -6,13 +6,35 @@ stackoverflow : tag : [C Language](https://stackoverflow.com/questions/tagged/c?
 
 > TODO list today:  
 TODO: iterator in C  
-TODO: [strtok()](https://i.ytimg.com/vi/oaL8VdSD5u8/hq720.jpg), strtok_r(), strtok_s() `the link is the explanation with image`
+TODO: [strtok()](https://i.ytimg.com/vi/oaL8VdSD5u8/hq720.jpg), strtok_r(), strtok_s() `the link is the explanation with image`  
 TODO: thread-safe or re-entrant  
 TODO: reentrant kernel works  
 TODO: stackoverflow : [thread safe vs reentrant](https://stackoverflow.com/questions/856823/threadsafe-vs-re-entrant) `The key for avoiding confusion is that reentrant refers to only one thread executing. It is a concept from the time when no multitasking operating systems existed.`  
 TODO: stackoverflow : tag : [thread-safety](https://stackoverflow.com/questions/tagged/thread-safety?tab=Votes)  
 TODO: stackoverflow : tag : [reentrancy](https://stackoverflow.com/questions/tagged/reentrancy?tab=Votes)  
 
+> interesting title:
+
+TODO: QCAD – [Open Source](https://news.ycombinator.com/item?id=31462563) CAD System (qcad.org)  
+TODO: Rising temperatures erode [human sleep](https://news.ycombinator.com/item?id=31465628) globally (cell.com)  
+TODO: Listening to [songs can cause](https://news.ycombinator.com/item?id=31452766) a physiological response known as “frisson” (bigthink.com)  
+TODO: Trunk – Build, bundle and ship your [rust](https://news.ycombinator.com/item?id=31463454) WASM application to the web (github.com/thedodd)  
+TODO: UK Government Guidelines on [Documenting](https://news.ycombinator.com/item?id=31466416) APIs (gov.uk)  
+TODO: 	We are all confident [idiots](https://news.ycombinator.com/item?id=31448386) (2014) (psmag.com)  
+TODO: The balance has shifted away from [SPAs](https://news.ycombinator.com/item?id=31459316) (nolanlawson.com)  
+TODO: Why is the nuclear power industry [stagnant](https://news.ycombinator.com/item?id=31462222)? (austinvernon.site)  
+TODO: Low-cost, battery-like device absorbs [CO2 emissions](https://news.ycombinator.com/item?id=31448764) while it charges (techxplore.com)  
+TODO: [Reflecting](https://news.ycombinator.com/item?id=13682022) on one very, very strange year at Uber (susanjfowler.com)  
+TODO: [Replit](https://news.ycombinator.com/item?id=27424195) used legal threats to kill my open-source project (intuitiveexplanations.com)  
+TODO: Re[licensing](https://news.ycombinator.com/item?id=15316175) React, Jest, Flow, and Immutable.js (facebook.com)  
+TODO: 	[Reflecting](https://news.ycombinator.com/item?id=19105733) on My Failure to Build a Billion-Dollar Company (medium.com/shl)  
+TODO: Request for [Startups](https://news.ycombinator.com/item?id=3491542): Kill Hollywood. (ycombinator.com)  
+TODO: 	Request For Research: [Basic Income](https://news.ycombinator.com/item?id=10982340) (blog.ycombinator.com)  
+TODO: [RethinkDB](https://news.ycombinator.com/item?id=12649414) is shutting down (rethinkdb.com)  
+TODO: CppCon 2018: Geoffrey Romer “What do you [mean](https://www.youtube.com/watch?v=s5PCh_FaMfM) "thread-safe"?”  
+TODO: `Everything you should know` about thread safety in [2 minutes](https://www.youtube.com/watch?v=6Y0NF85cUvk) or less  
+TODO: [Common used](https://www.youtube.com/watch?v=mbKEbfn7T2A) Thread class Methods(join, sleep, yield, setpriority, setName, setDemon)  
+TODO: how to highlight text in github markdown? trying to replica hidden in discord || this text need to click to show up ||  
 
 >---  
 
@@ -2032,9 +2054,7 @@ TODO: reentrant kernel works
 
 Version ≥ C11  
 
-C11 has an optional part, Annex K, that offers a `thread-safe` and `re-entrant` version named `strtok_s`. You can test
-
-for the feature with __STDC_LIB_EXT1__. This optional part is not widely supported.
+C11 has an optional part, Annex K, that offers a `thread-safe` and `re-entrant` version named `strtok_s`. You can test for the feature with __STDC_LIB_EXT1__. This optional part is not widely supported. 
 
 The strtok_s function differs from the POSIX strtok_r function by guarding against storing outside of the string
 
