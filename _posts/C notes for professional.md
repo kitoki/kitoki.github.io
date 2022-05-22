@@ -1,4 +1,5 @@
 
+- `while` loop : when the condition reach `false`, it still loop for the last time, ex: var `int test = 0`, the condition `test<=1`, with `test++;`, it will loop 2 time.
 
 stackoverflow : tag : [C language](https://stackoverflow.com/questions/tagged/c?tab=Votes) sort by Votes, [C language](https://stackoverflow.com/questions/tagged/c?tab=Frequent) sort by frequent, [malloc](https://stackoverflow.com/questions/tagged/malloc?tab=Votes), undefined [behavior](https://stackoverflow.com/questions/tagged/undefined-behavior), unspecified [behavior](https://stackoverflow.com/questions/tagged/unspecified-behavior), implementation [defined](https://stackoverflow.com/questions/tagged/implementation-defined-behavior) behavior, buffer-[overflow](https://stackoverflow.com/questions/tagged/buffer-overflow), [pointer](https://stackoverflow.com/questions/tagged/pointers), segmentation [fault](https://stackoverflow.com/questions/tagged/segmentation-fault), size[of](https://stackoverflow.com/questions/tagged/sizeof), standard [compliance](https://stackoverflow.com/questions/tagged/standards-compliance), [performance](https://stackoverflow.com/questions/tagged/performance), [optimization](https://stackoverflow.com/questions/tagged/optimization), bitwise [operator](https://stackoverflow.com/questions/tagged/bitwise-operators), header-[files](https://stackoverflow.com/questions/tagged/header-files), [operator](https://stackoverflow.com/questions/tagged/operators), fault [tolerance](https://stackoverflow.com/questions/tagged/fault-tolerance), [memory](https://stackoverflow.com/questions/tagged/memory), memory [leaks](https://stackoverflow.com/questions/tagged/memory-leaks), [caching](https://stackoverflow.com/questions/tagged/caching), cpu [cache](https://stackoverflow.com/questions/tagged/cpu-cache)
 
@@ -1793,102 +1794,81 @@ alignof(struct{char c; int n;}) = 4
 
 Version ≥ C99
 
-Using the system header file stdbool.h allows you to use bool as a Boolean data type. **true** evaluates to 1 and
-
-**false** evaluates to^0.
+Using the system header file `stdbool.h` allows you to use `bool` as a Boolean data type. **true** evaluates to 1 and **false** evaluates to^0.
 
 ```c
 #include <stdio.h>
 #include <stdbool.h>
-```
-```c
+
 int main(void) {
 bool x = true; /* equivalent to bool x = 1; */
 bool y = false; /* equivalent to bool y = 0; */
 if (x) /* Functionally equivalent to if (x != 0) or if (x != false) */
 {
-puts("This will print!");
+  puts("This will print!");
 }
-if (!y) /* Functionally equivalent to if (y == 0) or if (y == false) */
-{
-puts("This will also print!");
-}
+  if (!y) /* Functionally equivalent to if (y == 0) or if (y == false) */
+  {
+    puts("This will also print!");
+  }
 }
 ```
-bool is just a nice spelling for the data type _Bool. It has special rules when numbers or pointers are converted to it.
+`bool` is just a nice spelling for the data type _Bool. It has special rules when numbers or pointers are converted to it.
 
 ### Section 5.2: Using #define
 
-C of all versions, will effectively treat any integer value other than 0 as **true** for comparison operators and the
-
-integer value 0 as **false**. If you don't have _Bool or bool as of C99 available, you could simulate a Boolean data type
-
-in C using #define macros, and you might still find such things in legacy code.
+C of all versions, will effectively treat any integer value other than 0 as **true** for comparison operators and the integer value 0 as **false**. If you don't have `_Bool` or `bool` as of C99 available, you could simulate a Boolean data type in C using `#define` macros, and you might still find such things in legacy code.
 
 ```c
 #include <stdio.h>
-```
-```c
+
 #define bool int
 #define true 1
 #define false 0
-```
-```c
+
 int main(void) {
-bool x = true; /* Equivalent to int x = 1; */
-bool y = false; /* Equivalent to int y = 0; */
-if (x) /* Functionally equivalent to if (x != 0) or if (x != false) */
-{
-puts("This will print!");
-}
-if (!y) /* Functionally equivalent to if (y == 0) or if (y == false) */
-{
-puts("This will also print!");
-}
+  bool x = true; /* Equivalent to int x = 1; */
+  bool y = false; /* Equivalent to int y = 0; */
+  if (x) /* Functionally equivalent to if (x != 0) or if (x != false) */
+  {
+    puts("This will print!");
+  }
+  if (!y) /* Functionally equivalent to if (y == 0) or if (y == false) */
+  {
+    puts("This will also print!");
+  }
 }
 ```
-Don't introduce this in new code since the definition of these macros might clash with modern uses of
-
-**<stdbool.h>**.
-
+Don't introduce this in new code since the definition of these macros might clash with modern uses of **`<stdbool.h>`**.
 
 ### Section 5.3: Using the Intrinsic (built-in) Type _Bool
 
 Version ≥ C99
 
-Added in the C standard version C99, _Bool is also a native C data type. It is capable of holding the values 0 (for
-
-_false_ ) and 1 (for _true_ ).
+Added in the C standard version C99, `_Bool` is also a native C data type. It is capable of holding the values 0 (for `_false_` ) and 1 (for `_true_` ).
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(void) {
-_Bool x = 1 ;
-_Bool y = 0 ;
-if(x) /* Equivalent to if (x == 1) */
-{
-puts("This will print!");
-}
-if (!y) /* Equivalent to if (y == 0) */
-{
-puts("This will also print!");
-}
+  _Bool x = 1 ;
+  _Bool y = 0 ;
+  if(x) /* Equivalent to if (x == 1) */
+  {
+    puts("This will print!");
+  }
+  if (!y) /* Equivalent to if (y == 0) */
+  {
+    puts("This will also print!");
+  }
 }
 ```
-_Bool is an integer type but has special rules for conversions from other types. The result is analogous to the usage
+`_Bool` is an integer type but has special rules for conversions from other types. The result is analogous to the usage of other types in if expressions. In the following `_Bool z = X;`.
 
-of other types in if expressions. In the following
+- If X has an arithmetic type (is any kind of number), z becomes 0 `if X == 0`. Otherwise z becomes 1.
+- If X has a pointer type, z becomes 0 `if X is a null` pointer and 1 otherwise.
 
-```
-_Bool z = X;
-```
-```
-If X has an arithmetic type (is any kind of number), z becomes^0 if X == 0. Otherwise z becomes 1.
-If X has a pointer type, z becomes^0 if X is a null pointer and 1 otherwise.
-```
-To use nicer spellings bool, **false** and **true** you need to use **<stdbool.h>**.
+To use nicer spellings bool, **false** and **true** you need to use **`<stdbool.h>`**.
 
 ### Section 5.4: Integers and pointers in Boolean expressions
 
@@ -1896,54 +1876,43 @@ All integers or pointers can be used in an expression that is interpreted as "tr
 
 ```c
 int main(int argc, char* argv[]) {
-if (argc % 4 ) {
-puts("arguments number is not divisible by 4");
-} else {
-puts("argument number is divisible by 4");
+  if (argc % 4 ) {
+    puts("arguments number is not divisible by 4");
+  } else {
+    puts("argument number is divisible by 4");
+  }
 }
-...
 ```
-The expression argc % 4 is evaluated and leads to one of the values^0 , 1 , 2 or 3. The first,^0 is the only value that is
+The expression `argc % 4` is evaluated and leads to one of the values 0 , 1 , 2 or 3. The first, 0 is the only value that is "false" and brings execution into the else part. All other values are "true" and go into the if part.
 
-"false" and brings execution into the else part. All other values are "true" and go into the if part.
-
-```
+```c
 double* A = malloc(n*sizeof *A);
 if (!A) {
-perror("allocation problems");
-exit(EXIT_FAILURE);
+  perror("allocation problems");
+  exit(EXIT_FAILURE);
 }
 ```
-Here the pointer A is evaluated and if it is a null pointer, an error is detected and the program exits.
+Here the pointer A is evaluated and if it is a null pointer, an error is detected and the program exits. Many people prefer to write something as `A == NULL`, instead, but if you have such pointer comparisons as part of other complicated expressions, things `become quickly difficult to read`.
 
-Many people prefer to write something as A == NULL, instead, but if you have such pointer comparisons as part of
-
-
-other complicated expressions, things become quickly difficult to read.
-
-```
+```c
 char const* s = ....; /* some pointer that we receive */
 if (s != NULL && s[ 0 ] != ' \0 ' && isalpha(s[ 0 ])) {
-printf("this starts well, %c is alphabetic \n ", s[ 0 ]);
+  printf("this starts well, %c is alphabetic \n ", s[ 0 ]);
 }
 ```
 For this to check, you'd have to scan a complicated code in the expression and be sure about operator preference.
 
-```
+```c
 char const* s = ....; /* some pointer that we receive */
 if (s && s[ 0 ] && isalpha(s[ 0 ])) {
-printf("this starts well, %c is alphabetic \n ", s[ 0 ]);
+  printf("this starts well, %c is alphabetic \n ", s[ 0 ]);
 }
 ```
-is relatively easy to capture: if the pointer is valid we check if the first character is non-zero and then check if it is a
-
-letter.
+is relatively easy to capture: if the pointer is valid we check if the first character is non-zero and then check if it is a letter.
 
 ### Section 5.5: Defining a bool type using typedef
 
-Considering that most debuggers are not aware of #define macros, but can check **enum** constants, it may be
-
-desirable to do something like this:
+Considering that most debuggers are not aware of `#define` macros, but can check **`enum`** constants, it may be desirable to do something like this:
 
 ```c
 #if __STDC_VERSION__ < 199900L
@@ -1958,30 +1927,18 @@ typedef enum { false , true } bool;
 # ifndef false
 # define false false
 # endif
-#else
+# else
 # include <stdbool.h>
-#endif
-```
-```c
+# endif
+
 /* Somewhere later in the code ... */
 bool b = true ;
 ```
-This allows compilers for historic versions of C to function, but remains forward compatible if the code is compiled
-
-with a modern C compiler.
-
-For more information on typedef, see Typedef, for more on **enum** see Enumerations
-
+This allows compilers for historic versions of C to function, but remains forward compatible if the code is compiled with a modern C compiler. For more information on `typedef`, see `Typedef`, for more on **`enum`** see `Enumerations`.
 
 ## Chapter 6: Strings
 
-In C, a string is not an intrinsic type. A C-string is the convention to have a one-dimensional array of characters
-
-which is terminated by a null-character, by a ' **\0** '.
-
-This means that a C-string with a content of "abc" will have four characters 'a', 'b', 'c' and ' **\0** '.
-
-See the basic introduction to strings example.
+In C, a string is not an intrinsic type. A C-string is the convention to have a one-dimensional array of characters which is terminated by a null-character, by a ' **`\0`** '. This means that a C-string with a content of "abc" will have four characters 'a', 'b', 'c' and ' **\0** '. See the basic introduction to strings example.
 
 ### Section 6.1: Tokenisation: strtok(), strtok_r() and strtok_s()
 
@@ -1990,86 +1947,62 @@ The function strtok breaks a string into a smaller strings, or tokens, using a s
 ```c
 #include <stdio.h>
 #include <string.h>
-```
-```c
+
 int main(void)
 {
-int toknum = 0 ;
-char src[] = "Hello,, world!";
-const char delimiters[] = ", !";
-char *token = strtok(src, delimiters);
-while (token != NULL)
-{
-printf("%d: [%s] \n ", ++toknum, token);
-token = strtok(NULL, delimiters);
+  int toknum = 0 ;
+  char src[] = "Hello,, world!";
+  const char delimiters[] = ", !";
+  char *token = strtok(src, delimiters);
+  while (token != NULL)
+  {
+    printf("%d: [%s] \n ", ++toknum, token);
+    token = strtok(NULL, delimiters);
+  }
+  /* source is now "Hello\0, world\0\0" */
 }
-/* source is now "Hello\0, world\0\0" */
-}
-```
+
 Output:
 
-```
+
 1: [Hello]
 2: [world]
 ```
-The string of delimiters may contain one or more delimiters and different delimiter strings may be used with each
+The string of delimiters may contain one or more delimiters and different delimiter strings may be used with each call to `strtok`. Calls to strtok to continue tokenizing the same source string should not pass the source string again, but instead pass NULL as the first argument. If the same source string _is_ passed then the first token will instead be re-tokenized.  
 
-call to strtok.
+That is, given the same delimiters, strtok would simply return the first token again.  
 
-Calls to strtok to continue tokenizing the same source string should not pass the source string again, but instead
+Note that as strtok does not allocate new memory for the tokens, _it modifies the source string_. That is, in the above example, the string `src` will be manipulated to produce the tokens that are referenced by the pointer returned by the calls to strtok. This means that the source string cannot be const (so it can't be a string literal). It also means that the identity of the delimiting byte is lost (i.e. in the example the "," and "!" are effectively deleted from the source string and you cannot tell which delimiter character matched).  
 
-pass NULL as the first argument. If the same source string _is_ passed then the first token will instead be re-tokenized.
-
-That is, given the same delimiters, strtok would simply return the first token again.
-
-Note that as strtok does not allocate new memory for the tokens, _it modifies the source string_. That is, in the above
-
-example, the string src will be manipulated to produce the tokens that are referenced by the pointer returned by
-
-the calls to strtok. This means that the source string cannot be const (so it can't be a string literal). It also means
-
-that the identity of the delimiting byte is lost (i.e. in the example the "," and "!" are effectively deleted from the
-
-source string and you cannot tell which delimiter character matched).
-
-Note also that multiple consecutive delimiters in the source string are treated as one; in the example, the second
-
-comma is ignored.
-
-strtok is neither thread safe nor re-entrant because it uses a static buffer while parsing. This means that if a
-
-function calls strtok, no function that it calls while it is using strtok can also use strtok, and it cannot be called by
-
-any function that is itself using strtok.
-
+Note also that multiple consecutive delimiters in the source string are treated as one; in the example, the second comma is ignored. strtok is neither thread safe nor re-entrant because it uses a static buffer while parsing. This means that if a function calls strtok, no function that it calls while it is using strtok can also use strtok, and it cannot be called by any function that is itself using strtok.  
 
 An example that demonstrates the problems caused by the fact that strtokis not re-entrant is as follows:
 
-```
+```c
 char src[] = "1.2,3.5,4.2";
 char *first = strtok(src, ",");
-```
-```
+
 do
 {
-char *part;
-/* Nested calls to strtok do not work as desired */
-printf("[%s] \n ", first);
-part = strtok(first, ".");
-while (part != NULL)
-{
-printf(" [%s] \n ", part);
-part = strtok(NULL, ".");
+  char *part;
+  /* Nested calls to strtok do not work as desired */
+  printf("[%s] \n ", first);
+  part = strtok(first, ".");
+  
+  while (part != NULL)
+  {
+    printf(" [%s] \n ", part);
+    part = strtok(NULL, ".");
+  }
 }
-} while ((first = strtok(NULL, ",")) != NULL);
-```
+while ((first = strtok(NULL, ",")) != NULL);
+
 Output:
 
-##### [1.2]
-
-##### [1]
-
-##### [2]
+[1.2]
+[1]
+[2]
+```
 
 The expected operation is that the outer do while loop should create three tokens consisting of each decimal
 
