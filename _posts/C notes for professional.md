@@ -3771,293 +3771,255 @@ Here, in the initialization of p in the first for loop condition, the array a _d
 
 ### Section 11.1: A doubly linked list
 
-An example of code showing how nodes can be inserted at a doubly linked list, how the list can easily be reversed,
-
-and how it can be printed in reverse.
+An example of code showing how nodes can be inserted at a doubly linked list, how the list can easily be reversed, and how it can be printed in reverse.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 /* This data is not always stored in a structure, but it is sometimes for ease of use */
 struct Node {
-/* Sometimes a key is also stored and used in the functions */
-int data;
-struct Node* next;
-struct Node* previous;
+  /* Sometimes a key is also stored and used in the functions */
+  int data;
+  struct Node* next;
+  struct Node* previous;
 };
-```
-```
+
 void insert_at_beginning(struct Node **pheadNode, int value);
 void insert_at_end(struct Node **pheadNode, int value);
-```
-```
+
 void print_list(struct Node *headNode);
 void print_list_backwards(struct Node *headNode);
-```
-```
+
 void free_list(struct Node *headNode);
-```
-```c
+
 int main(void) {
-/* Sometimes in a doubly linked list the last node is also stored */
-struct Node *head = NULL;
-```
-```
-printf("Insert a node at the beginning of the list. \n ");
-insert_at_beginning(&head, 5 );
-print_list(head);
-```
-```
-printf("Insert a node at the beginning, and then print the list backwards \n ");
-insert_at_beginning(&head, 10 );
-print_list_backwards(head);
-```
-```
-printf("Insert a node at the end, and then print the list forwards. \n ");
-```
-```
-insert_at_end(&head, 15 );
-print_list(head);
-```
-```
-free_list(head);
-```
-```c
-return 0 ;
+  /* Sometimes in a doubly linked list the last node is also stored */
+  struct Node *head = NULL;
+
+  printf("Insert a node at the beginning of the list. \n ");
+  insert_at_beginning(&head, 5 );
+  print_list(head);
+
+  printf("Insert a node at the beginning, and then print the list backwards \n ");
+  insert_at_beginning(&head, 10 );
+  print_list_backwards(head);
+
+  printf("Insert a node at the end, and then print the list forwards. \n ");
+
+  insert_at_end(&head, 15 );
+  print_list(head);
+
+  free_list(head);
+
+  return 0 ;
 }
-```
-```
+
 void print_list_backwards(struct Node *headNode) {
-if (NULL == headNode)
-{
-return;
-}
-/*
-Iterate through the list, and once we get to the end, iterate backwards to print
-out the items in reverse order (this is done with the pointer to the previous node).
-This can be done even more easily if a pointer to the last node is stored.
-*/
-struct Node *i = headNode;
-while (i->next != NULL) {
-```
+  if (NULL == headNode)
+  {
+    return;
+  }
+  /*
+  Iterate through the list, and once we get to the end, iterate backwards to print
+  out the items in reverse order (this is done with the pointer to the previous node).
+  This can be done even more easily if a pointer to the last node is stored.
+  */
+  struct Node *i = headNode;
+  while (i->next != NULL) {
+    i = i->next; _/* Move to the end of the list */_
+  }
 
-i = i->next; _/* Move to the end of the list */_
-}
-
-while (i != NULL) {
-printf("Value: %d **\n** ", i->data);
-i = i->previous;
-}
+  while (i != NULL) {
+    printf("Value: %d **\n** ", i->data);
+    i = i->previous;
+  }
 }
 
 void print_list(struct Node *headNode) {
-_/* Iterate through the list and print out the data member of each node */_
-struct Node *i;
-for (i = headNode; i != NULL; i = i->next) {
-printf("Value: %d **\n** ", i->data);
-}
+  _/* Iterate through the list and print out the data member of each node */_
+  struct Node *i;
+  for (i = headNode; i != NULL; i = i->next) {
+    printf("Value: %d **\n** ", i->data);
+  }
 }
 
 void insert_at_beginning(struct Node **pheadNode, int value) {
-struct Node *currentNode;
+  struct Node *currentNode;
 
-if (NULL == pheadNode)
-{
-return;
-}
-_/*
-This is done similarly to how we insert a node at the beginning of a singly linked
-list, instead we set the previous member of the structure as well
-*/_
-currentNode = malloc(sizeof *currentNode);
+  if (NULL == pheadNode)
+  {
+    return;
+  }
+  _/*
+  This is done similarly to how we insert a node at the beginning of a singly linked
+  list, instead we set the previous member of the structure as well
+  */_
+  currentNode = malloc(sizeof *currentNode);
 
-currentNode->next = NULL;
-currentNode->previous = NULL;
-currentNode->data = value;
+  currentNode->next = NULL;
+  currentNode->previous = NULL;
+  currentNode->data = value;
 
-if (*pheadNode == NULL) { _/* The list is empty */_
-*pheadNode = currentNode;
-return;
-}
+  if (*pheadNode == NULL) { _/* The list is empty */_
+    *pheadNode = currentNode;
+  return;
+  }
 
-currentNode->next = *pheadNode;
-(*pheadNode)->previous = currentNode;
-*pheadNode = currentNode;
+  currentNode->next = *pheadNode;
+  (*pheadNode)->previous = currentNode;
+  *pheadNode = currentNode;
 }
 
 void insert_at_end(struct Node **pheadNode, int value) {
-struct Node *currentNode;
+  struct Node *currentNode;
 
-if (NULL == pheadNode)
-{
-return;
+  if (NULL == pheadNode)
+  {
+    return;
+  }
+
+  ##### /*
+
+  _This can, again be done easily by being able to have the previous element. It
+  would also be even more useful to have a pointer to the last node, which is commonly
+  used.
+  */_
+
+  currentNode = malloc(sizeof *currentNode);
+  struct Node *i = *pheadNode;
+
+  currentNode->data = value;
+
+  currentNode->next = NULL;
+  currentNode->previous = NULL;
+
+  if (*pheadNode == NULL) {
+    *pheadNode = currentNode;
+    return;
+  }
+
+  while (i->next != NULL) { /* Go to the end of the list */
+    i = i->next;
+  }
+
+  i->next = currentNode;
+  currentNode->previous = i;
 }
 
-##### /*
-
-_This can, again be done easily by being able to have the previous element. It
-would also be even more useful to have a pointer to the last node, which is commonly
-used.
-*/_
-
-currentNode = malloc(sizeof *currentNode);
-struct Node *i = *pheadNode;
-
-currentNode->data = value;
-
-
-```
-currentNode->next = NULL;
-currentNode->previous = NULL;
-```
-```
-if (*pheadNode == NULL) {
-*pheadNode = currentNode;
-return;
-}
-```
-```
-while (i->next != NULL) { /* Go to the end of the list */
-i = i->next;
-}
-```
-```
-i->next = currentNode;
-currentNode->previous = i;
-}
-```
-```
 void free_list(struct Node *node) {
-while (node != NULL) {
-struct Node *next = node->next;
-free(node);
-node = next;
-}
+  while (node != NULL) {
+    struct Node *next = node->next;
+    free(node);
+    node = next;
+  }
 }
 ```
-Note that sometimes, storing a pointer to the last node is useful (it is more efficient to simply be able to jump
+Note that sometimes, storing a `pointer` to the `last node` is useful (it is more efficient to simply be able to `jump` straight to the end of the list than to need to iterate through to the end):
 
-straight to the end of the list than to need to iterate through to the end):
-
-```
+```c
 struct Node *lastNode = NULL;
 ```
-In which case, updating it upon changes to the list is needed.
-
+In which case, updating it upon changes to the list is needed.  
 Sometimes, a key is also used to identify elements. It is simply a member of the Node structure:
 
-```
+```c
 struct Node {
-int data;
-int key;
-struct Node* next;
-struct Node* previous;
+  int data;
+  int key;
+  struct Node* next;
+  struct Node* previous;
 };
 ```
 The key is then used when any tasks are performed on a specific element, like deleting elements.
 
 ### Section 11.2: Reversing a linked list
 
-You can also perform this task recursively, but I have chosen in this example to use an iterative approach. This task
-
-is useful if you are inserting all of your nodes at the beginning of a linked list. Here is an example:
+You can also perform this task recursively, but I have chosen in this example to use an iterative approach. This task is useful if you are inserting all of your nodes at the beginning of a linked list. Here is an example:
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 #define NUM_ITEMS 10
-```
-```
+
 struct Node {
-int data;
-struct Node *next;
+  int data;
+  struct Node *next;
 };
-```
-```
+
 void insert_node(struct Node **headNode, int nodeValue, int position);
 void print_list(struct Node *headNode);
-```
 
 void reverse_list(struct Node **headNode);
 
 int main(void) {
-int i;
-struct Node *head = NULL;
+  int i;
+  struct Node *head = NULL;
 
-for(i = 1 ; i <= NUM_ITEMS; i++) {
-insert_node(&head, i, i);
-}
-print_list(head);
+  for(i = 1 ; i <= NUM_ITEMS; i++) {
+    insert_node(&head, i, i);
+  }
+  print_list(head);
 
-printf("I will now reverse the linked list **\n** ");
-reverse_list(&head);
-print_list(head);
-return 0 ;
+  printf("I will now reverse the linked list **\n** ");
+  reverse_list(&head);
+  print_list(head);
+  return 0 ;
 }
 
 void print_list(struct Node *headNode) {
-struct Node *iterator;
+  struct Node *iterator;
 
-for(iterator = headNode; iterator != NULL; iterator = iterator->next) {
-printf("Value: %d **\n** ", iterator->data);
-}
+  for(iterator = headNode; iterator != NULL; iterator = iterator->next) {
+    printf("Value: %d **\n** ", iterator->data);
+  }
 }
 
 void insert_node(struct Node **headNode, int nodeValue, int position) {
-int i;
-struct Node *currentNode = (struct Node *)malloc(sizeof(struct Node));
-struct Node *nodeBeforePosition = *headNode;
+  int i;
+  struct Node *currentNode = (struct Node *)malloc(sizeof(struct Node));
+  struct Node *nodeBeforePosition = *headNode;
 
-currentNode->data = nodeValue;
+  currentNode->data = nodeValue;
 
-if(position == 1 ) {
-currentNode->next = *headNode;
-*headNode = currentNode;
-return;
+  if(position == 1 ) {
+    currentNode->next = *headNode;
+    *headNode = currentNode;
+    return;
+  }
+
+  for (i = 0 ; i < position - 2 ; i++) {
+  nodeBeforePosition = nodeBeforePosition->next;
+  }
+
+  currentNode->next = nodeBeforePosition->next;
+  nodeBeforePosition->next = currentNode;
+  }
+
+  void reverse_list(struct Node **headNode) {
+    struct Node *iterator = *headNode;
+    struct Node *previousNode = NULL;
+    struct Node *nextNode = NULL;
+
+    while (iterator != NULL) {
+      nextNode = iterator->next;
+      iterator->next = previousNode;
+      previousNode = iterator;
+      iterator = nextNode;
+    }
+
+    _/* Iterator will be NULL by the end, so the last node will be stored in
+    previousNode. We will set the last node to be the headNode */_
+    *headNode = previousNode;
 }
-
-for (i = 0 ; i < position - 2 ; i++) {
-nodeBeforePosition = nodeBeforePosition->next;
-}
-
-currentNode->next = nodeBeforePosition->next;
-nodeBeforePosition->next = currentNode;
-}
-
-void reverse_list(struct Node **headNode) {
-struct Node *iterator = *headNode;
-struct Node *previousNode = NULL;
-struct Node *nextNode = NULL;
-
-while (iterator != NULL) {
-nextNode = iterator->next;
-iterator->next = previousNode;
-previousNode = iterator;
-iterator = nextNode;
-}
-
-_/* Iterator will be NULL by the end, so the last node will be stored in
-previousNode. We will set the last node to be the headNode */_
-*headNode = previousNode;
-
-
-##### }
+```
 
 **Explanation for the Reverse List Method**
 
-We start the previousNode out as NULL, since we know on the first iteration of the loop, if we are looking for the
+We start the previousNode out as `NULL`, since we know on the first iteration of the loop, if we are looking for the node before the first head node, it will be `NULL`. The first node will become the last node in the list, and the next variable should naturally be `NULL`.  
 
-node before the first head node, it will be NULL. The first node will become the last node in the list, and the next
-
-variable should naturally be NULL.
-
-Basically, the concept of reversing the linked list here is that we actually reverse the links themselves. Each node's
-
-next member will become the node before it, like so:
+Basically, the concept of reversing the linked list here is that we actually reverse the links themselves. Each node's next member will become the node before it, like so:
 
 ```
 Head -> 1 -> 2 -> 3 -> 4 -> 5
@@ -4067,195 +4029,158 @@ Where each number represents a node. This list would become:
 ```
 1 <- 2 <- 3 <- 4 <- 5 <- Head
 ```
-Finally, the head should point to the 5th node instead, and each node should point to the node previous of it.
+Finally, the head should point to the `5th` node instead, and each node should point to the node `previous` of it. Node `1` should point to `NULL` since there was nothing before it. Node 2 should point to node 1, node 3 should point to node 2, et cetera.  
 
-Node 1 should point to NULL since there was nothing before it. Node 2 should point to node 1, node 3 should point
-
-to node 2, et cetera.
-
-However, there is _one small problem_ with this method. If we break the link to the next node and change it to the
-
-previous node, we will not be able to traverse to the next node in the list since the link to it is gone.
+However, there is `_one small problem_` with this method. If we break the link to the next node and change it to the previous node, we will not be able to traverse to the next node in the list since the link to it is gone.  
 
 The solution to this problem is to simply store the next element in a variable (nextNode) before changing the link.
 
 ### Section 11.3: Inserting a node at the nth position
 
-So far, we have looked at inserting a node at the beginning of a singly linked list. However, most of the times you
-
-will want to be able to insert nodes elsewhere as well. The code written below shows how it is possible to write an
-
-insert() function to insert nodes _anywhere_ in the linked lists.
+So far, we have looked at inserting a node at the beginning of a singly `linked list`. However, most of the times you will want to be able to insert nodes elsewhere as well. The code written below shows how it is possible to write an `insert()` function to insert nodes _anywhere_ in the linked lists.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```
+
 struct Node {
-int data;
-struct Node* next;
+    int data;
+    struct Node* next;
 };
-```
-```
+
 struct Node* insert(struct Node* head, int value, size_t position);
 void print_list (struct Node* head);
-```
-```c
+
 int main(int argc, char *argv[]) {
-struct Node *head = NULL; /* Initialize the list to be empty */
-```
-```c
-/* Insert nodes at positions with values: */
-head = insert(head, 1 , 0 );
-head = insert(head, 100 , 1 );
-head = insert(head, 21 , 2 );
-head = insert(head, 2 , 3 );
-head = insert(head, 5 , 4 );
-head = insert(head, 42 , 2 );
-```
-```
-print_list(head);
-return 0 ;
-```
+  struct Node *head = NULL; /* Initialize the list to be empty */
 
-##### }
+  /* Insert nodes at positions with values: */
+  head = insert(head, 1 , 0 );
+  head = insert(head, 100 , 1 );
+  head = insert(head, 21 , 2 );
+  head = insert(head, 2 , 3 );
+  head = insert(head, 5 , 4 );
+  head = insert(head, 42 , 2 );
 
-```
+  print_list(head);
+  return 0 ;
+}
+
 struct Node* insert(struct Node* head, int value, size_t position) {
-size_t i = 0 ;
-struct Node *currentNode;
-```
-```c
-/* Create our node */
-currentNode = malloc(sizeof *currentNode);
-/* Check for success of malloc() here! */
-```
-```c
-/* Assign data */
-currentNode->data = value;
-```
-```c
-/* Holds a pointer to the 'next' field that we have to link to the new node.
-By initializing it to &head we handle the case of insertion at the beginning. */
-struct Node **nextForPosition = &head;
-/* Iterate to get the 'next' field we are looking for.
-Note: Insert at the end if position is larger than current number of elements. */
-for (i = 0 ; i < position && *nextForPosition != NULL; i++) {
-/* nextForPosition is pointing to the 'next' field of the node.
-So *nextForPosition is a pointer to the next node.
-Update it with a pointer to the 'next' field of the next node. */
-nextForPosition = &(*nextForPosition)->next;
+  size_t i = 0 ;
+  struct Node *currentNode;
+
+  /* Create our node */
+  currentNode = malloc(sizeof *currentNode);
+  /* Check for success of malloc() here! */
+
+  /* Assign data */
+  currentNode->data = value;
+
+  /* Holds a pointer to the 'next' field that we have to link to the new node.
+  By initializing it to &head we handle the case of insertion at the beginning. */
+  struct Node **nextForPosition = &head;
+  /* Iterate to get the 'next' field we are looking for.
+  Note: Insert at the end if position is larger than current number of elements. */
+
+  for (i = 0 ; i < position && *nextForPosition != NULL; i++) {
+    /* nextForPosition is pointing to the 'next' field of the node.
+    So *nextForPosition is a pointer to the next node.
+    Update it with a pointer to the 'next' field of the next node. */
+
+    nextForPosition = &(*nextForPosition)->next;
+  }
+
+  /* Here, we are taking the link to the next node (the one our newly inserted node should
+  point to) by dereferencing nextForPosition, which points to the 'next' field of the node
+  that is in the position we want to insert our node at.
+  We assign this link to our next value. */
+  
+  currentNode->next = *nextForPosition;
+
+  /* Now, we want to correct the link of the node before the position of our
+  new node: it will be changed to be a pointer to our new node. */
+  *nextForPosition = currentNode;
+
+  return head;
 }
-```
-```c
-/* Here, we are taking the link to the next node (the one our newly inserted node should
-point to) by dereferencing nextForPosition, which points to the 'next' field of the node
-that is in the position we want to insert our node at.
-We assign this link to our next value. */
-currentNode->next = *nextForPosition;
-```
-```c
-/* Now, we want to correct the link of the node before the position of our
-new node: it will be changed to be a pointer to our new node. */
-*nextForPosition = currentNode;
-```
-```c
-return head;
-}
-```
-```
+
 void print_list (struct Node* head) {
-/* Go through the list of nodes and print out the data in each node */
-struct Node* i = head;
-while (i != NULL) {
-printf("%d \n ", i->data);
-i = i->next;
+  /* Go through the list of nodes and print out the data in each node */
+  struct Node* i = head;
+  while (i != NULL) {
+    printf("%d \n ", i->data);
+    i = i->next;
+  }
 }
-}
-```c
+```
 ### Section 11.4: Inserting a node at the beginning of a singly linked list
 
 The code below will prompt for numbers and continue to add them to the beginning of a linked list.
 
 ```c
 /* This program will demonstrate inserting a node at the beginning of a linked list */
-```
-```c
+
 #include <stdio.h>
 #include <stdlib.h>
-```
-```
-struct Node {
-int data;
-struct Node* next;
-};
-```
 
-```
+struct Node {
+  int data;
+  struct Node* next;
+};
+
 void insert_node (struct Node **head, int nodeValue);
 void print_list (struct Node *head);
-```
-```c
+
 int main(int argc, char *argv[]) {
-struct Node* headNode;
-headNode = NULL; /* Initialize our first node pointer to be NULL. */
-size_t listSize, i;
-do {
-printf("How many numbers would you like to input? \n ");
-} while( 1 != scanf("%zu", &listSize));
-```
-```
-for (i = 0 ; i < listSize; i++) {
-int numToAdd;
-do {
-printf("Enter a number: \n ");
-} while ( 1 != scanf("%d", &numToAdd));
-```
-```
-insert_node (&headNode, numToAdd);
-printf("Current list after your inserted node: \n ");
-print_list(headNode);
+  struct Node* headNode;
+  headNode = NULL; /* Initialize our first node pointer to be NULL. */
+  size_t listSize, i;
+  do {
+    printf("How many numbers would you like to input? \n ");
+  } while( 1 != scanf("%zu", &listSize));
+
+  for (i = 0 ; i < listSize; i++) {
+    int numToAdd;
+    do {
+      printf("Enter a number: \n ");
+    } while ( 1 != scanf("%d", &numToAdd));
+
+    insert_node (&headNode, numToAdd);
+    printf("Current list after your inserted node: \n ");
+    print_list(headNode);
+  }
+
+  return 0 ;
 }
-```
-```c
-return 0 ;
-}
-```
-```
+
 void print_list (struct Node *head) {
-struct node* currentNode = head;
-```
-```c
-/* Iterate through each link. */
-while (currentNode != NULL) {
-printf("Value: %d \n ", currentNode->data);
-currentNode = currentNode -> next;
+  struct node* currentNode = head;
+
+  /* Iterate through each link. */
+  while (currentNode != NULL) {
+    printf("Value: %d \n ", currentNode->data);
+    currentNode = currentNode -> next;
+  }
 }
-}
-```
-```
+
 void insert_node (struct Node **head, int nodeValue) {
-struct Node *currentNode = malloc(sizeof *currentNode);
-currentNode->data = nodeValue;
-currentNode->next = (*head);
-```
-```
-*head = currentNode;
+  struct Node *currentNode = malloc(sizeof *currentNode);
+  currentNode->data = nodeValue;
+  currentNode->next = (*head);
+  
+  *head = currentNode;
 }
 ```
 **Explanation for the Insertion of Nodes**
 
 In order to understand how we add nodes at the beginning, let's take a look at possible scenarios:
 
-1. The list is empty, so we need to add a new node. In which case, our memory looks like this where HEAD is a
-    pointer to the first node:
+1. The list is empty, so we need to add a new node. In which case, our memory looks like this where HEAD is a pointer to the first node:
 
 ##### | HEAD | --> NULL
 
-The line currentNode->next = *headNode; will assign the value of currentNode->next to be NULL since headNode
-
-originally starts out at a value of NULL.
+The line currentNode->next = *headNode; will assign the value of currentNode->next to be NULL since headNode originally starts out at a value of NULL.
 
 Now, we want to set our head node pointer to point to our current node.
 
@@ -4269,8 +4194,7 @@ Now, we want to set our head node pointer to point to our current node.
 
 This is done with *headNode = currentNode;
 
-2. The list is already populated; we need to add a new node to the beginning. For the sake of simplicity, let's
-    start out with 1 node:
+2. The list is already populated; we need to add a new node to the beginning. For the sake of simplicity, let's start out with 1 node:
 
 ##### ----- -----------
 
@@ -4301,102 +4225,87 @@ This is done with *headNode = currentNode;
 
 ### Section 12.1: Simple Enumeration
 
-An enumeration is a user-defined data type consists of integral constants and each integral constant is given a
-
-name. Keyword **enum** is used to define enumerated data type.
-
-If you use **enum** instead of int or string/ char*, you increase compile-time checking and avoid errors from passing
-
-in invalid constants, and you document which values are legal to use.
+An enumeration is a user-defined data type consists of integral constants and each integral constant is given a name. Keyword **enum** is used to define enumerated data type. If you use **enum** instead of `int` or `string`/ `char*`, you increase compile-time checking and avoid errors from passing in invalid constants, and you document which values are legal to use.
 
 **Example 1**
 
-```
+```c
 enum color{ RED, GREEN, BLUE };
-```
-```
+
 void printColor( enum color chosenColor)
 {
-const char *color_name = "Invalid color";
-switch (chosenColor)
-{
-case RED:
-color_name = "RED";
-break ;
-```
-```
-case GREEN:
-color_name = "GREEN";
-break ;
-```
-```
-case BLUE:
-color_name = "BLUE";
-break ;
-}
-printf("%s \n ", color_name);
+  const char *color_name = "Invalid color";
+  switch (chosenColor)
+  {
+    case RED:
+    color_name = "RED";
+    break ;
+  
+    case GREEN:
+    color_name = "GREEN";
+    break ;
+  
+    case BLUE:
+    color_name = "BLUE";
+    break ;
+  }
+  printf("%s \n ", color_name);
 }
 ```
 With a main function defined as follows (for example):
 
 ```c
 int main(){
-enum color chosenColor;
-printf("Enter a number between 0 and 2");
-scanf("%d", (int*)&chosenColor);
-printColor(chosenColor);
-return 0 ;
+  enum color chosenColor;
+  printf("Enter a number between 0 and 2");
+  scanf("%d", (int*)&chosenColor);
+  printColor(chosenColor);
+  return 0 ;
 }
 ```
-Version ≥ C99
+Version ≥ C99  
 
-**Example 2**
+**Example 2**  
 
 (This example uses designated initializers which are standardized since C99.)
 
-```
+```c
 enum week{ MON, TUE, WED, THU, FRI, SAT, SUN };
-```
-```
+
 static const char* const dow[] = {
-[MON] = "Mon", [TUE] = "Tue", [WED] = "Wed",
-[THU] = "Thu", [FRI] = "Fri", [SAT] = "Sat", [SUN] = "Sun" };
-```
-```
+  [MON] = "Mon", [TUE] = "Tue", [WED] = "Wed",
+  [THU] = "Thu", [FRI] = "Fri", [SAT] = "Sat", [SUN] = "Sun" };
+
 void printDayOfWeek( enum week day)
 {
-printf("%s \n ", dow[day]);
+  printf("%s \n ", dow[day]);
 }
 ```
 
 The same example using range checking:
 
-```
-enum week{ DOW_INVALID = - 1 ,
-MON, TUE, WED, THU, FRI, SAT, SUN,
-DOW_MAX };
-```
-```
+```c
+enum week{ DOW_INVALID = - 1 , MON, TUE, WED, THU, FRI, SAT, SUN, DOW_MAX };
+
 static const char* const dow[] = {
-[MON] = "Mon", [TUE] = "Tue", [WED] = "Wed",
-[THU] = "Thu", [FRI] = "Fri", [SAT] = "Sat", [SUN] = "Sun" };
-```
-```
+  [MON] = "Mon", [TUE] = "Tue", [WED] = "Wed",
+  [THU] = "Thu", [FRI] = "Fri", [SAT] = "Sat", [SUN] = "Sun" };
+
 void printDayOfWeek( enum week day)
 {
-assert(day > DOW_INVALID && day < DOW_MAX);
-printf("%s \n ", dow[day]);
+  assert(day > DOW_INVALID && day < DOW_MAX);
+  printf("%s \n ", dow[day]);
 }
-```c
+```
 ### Section 12.2: enumeration constant without typename
 
 Enumeration types can also be declared without giving them a name:
 
-```
+```c
 enum { buffersize = 256 , };
 static unsigned char buffer [buffersize] = { 0 };
 ```
-This enables us to define compile time constants of type int that can as in this example be used as array length.
+This enables us to define compile time constants of type `int` that can as in this example be used as array length.
 
 ### Section 12.3: Enumeration with duplicate value
 
@@ -4405,28 +4314,25 @@ An enumerations value in no way needs to be unique:
 ```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h> /* for printf() */
-```
-```
+
 enum Dupes
 {
-Base, /* Takes 0 */
-One, /* Takes Base + 1 */
-Two, /* Takes One + 1 */
-Negative = - 1 ,
-AnotherZero /* Takes Negative + 1 == 0, sigh */
+  Base, /* Takes 0 */
+  One, /* Takes Base + 1 */
+  Two, /* Takes One + 1 */
+  Negative = - 1 ,
+  AnotherZero /* Takes Negative + 1 == 0, sigh */
 };
-```
-```c
+
 int main(void)
 {
-printf("Base = %d \n ", Base);
-printf("One = %d \n ", One);
-printf("Two = %d \n ", Two);
-printf("Negative = %d \n ", Negative);
-printf("AnotherZero = %d \n ", AnotherZero);
-```
-```c
-return EXIT_SUCCESS;
+  printf("Base = %d \n ", Base);
+  printf("One = %d \n ", One);
+  printf("Two = %d \n ", Two);
+  printf("Negative = %d \n ", Negative);
+  printf("AnotherZero = %d \n ", AnotherZero);
+
+  return EXIT_SUCCESS;
 }
 ```
 The sample prints:
@@ -4440,81 +4346,68 @@ Two = 2
 ```
 Negative = -1
 AnotherZero = 0
-```c
+```
 ### Section 12.4: Typedef enum
 
-There are several possibilities and conventions to name an enumeration. The first is to use a _tag name_ just after the
+There are several possibilities and conventions to name an enumeration. The first is to use a _tag name_ just after the **enum** keyword.
 
-**enum** keyword.
-
-```
+```c
 enum color
 {
-RED,
-GREEN,
-BLUE
+  RED,
+  GREEN,
+  BLUE
 };
 ```
 This enumeration must then always be used with the keyword _and_ the tag like this:
 
-```
+```c
 enum color chosenColor = RED;
 ```
-If we use typedef directly when declaring the **enum** , we can omit the tag name and then use the type without the
+If we use typedef directly when declaring the **enum** , we can omit the tag name and then use the type without the **enum** keyword:
 
-**enum** keyword:
-
-```
+```c
 typedef enum
 {
-RED,
-GREEN,
-BLUE
+  RED,
+  GREEN,
+  BLUE
 } color;
-```
-```
+
 color chosenColor = RED;
 ```
-But in this latter case we cannot use it as **enum** color, because we didn't use the tag name in the definition. One
+But in this latter case we cannot use it as **enum** color, because we didn't use the tag name in the definition. One common convention is to use both, such that the same name can be used with or without **enum** keyword. This has the particular advantage of being compatible with C++
 
-common convention is to use both, such that the same name can be used with or without **enum** keyword. This has
-
-the particular advantage of being compatible with C++
-
-```
+```c
 enum color /* as in the first example */
 {
-RED,
-GREEN,
-BLUE
+  RED,
+  GREEN,
+  BLUE
 };
+
 typedef enum color color; /* also a typedef of same identifier */
-```
-```
+
 color chosenColor = RED;
 enum color defaultColor = BLUE;
 ```
 Function:
 
-```
+```c
 void printColor()
 {
-if (chosenColor == RED)
-{
-printf("RED \n ");
-}
-else if (chosenColor == GREEN)
-{
-printf("GREEN \n ");
-```
-
-##### }
-
-```
-else if (chosenColor == BLUE)
-{
-printf("BLUE \n ");
-}
+  if (chosenColor == RED)
+  {
+    printf("RED \n ");
+  }
+  else if (chosenColor == GREEN)
+  {
+    printf("GREEN \n ");
+  }
+  else if (chosenColor == BLUE)
+  {
+    printf("BLUE \n ");
+  }
 }
 ```
 For more on typedef see Typedef
@@ -4522,92 +4415,63 @@ For more on typedef see Typedef
 
 ## Chapter 13: Structs
 
-Structures provide a way to group a set of related variables of diverse types into a single unit of memory. The
-
-structure as a whole can be referenced by a single name or pointer; the structure members can be accessed
-
-individually too. Structures can be passed to functions and returned from functions. They are defined using the
-
-keyword struct.
+Structures provide a way to group a set of related variables of diverse types `into a single unit` of memory. The structure as a whole can be referenced by a single `name` or `pointer`; the structure members can be accessed individually too. Structures can be passed to functions and returned from functions. They are defined using the keyword struct.
 
 ### Section 13.1: Flexible Array Members
 
-Version ≥ C99
+Version ≥ C99  
 
-**Type Declaration**
+**Type Declaration**  
 
-A structure _with at least one member_ may additionally contain a single array member of unspecified length at the
+A structure _with at least one member_ may additionally contain a single array member of unspecified length at the end of the structure. This is called a flexible array member:
 
-end of the structure. This is called a flexible array member:
-
-```
+```c
 struct ex1
 {
-size_t foo;
-int flex[];
+  size_t foo;
+  int flex[];
 };
-```
-```
+
 struct ex2_header
 {
-int foo;
-char bar;
+  int foo;
+  char bar;
 };
-```
-```
+
 struct ex2
 {
-struct ex2_header hdr;
-int flex[];
+  struct ex2_header hdr;
+  int flex[];
 };
-```
-```c
+
 /* Merged ex2_header and ex2 structures. */
 struct ex3
 {
-int foo;
-char bar;
-int flex[];
+  int foo;
+  char bar;
+  int flex[];
 };
 ```
 **Effects on Size and Padding**
 
-A flexible array member is treated as having no size when calculating the size of a structure, though padding
-
-between that member and the previous member of the structure may still exist:
+A flexible array member is treated as having no size when calculating the size of a structure, though padding between that member and the previous member of the structure may still exist:
 
 ```c
 /* Prints "8,8" on my machine, so there is no padding. */
 printf("%zu,%zu \n ", sizeof(size_t), sizeof(struct ex1));
-```
-```c
+
 /* Also prints "8,8" on my machine, so there is no padding in the ex2 structure itself. */
 printf("%zu,%zu \n ", sizeof(struct ex2_header), sizeof(struct ex2));
-```
-```c
+
 /* Prints "5,8" on my machine, so there are 3 bytes of padding. */
 printf("%zu,%zu \n ", sizeof(int) + sizeof(char), sizeof(struct ex3));
 ```
-The flexible array member is considered to have an incomplete array type, so its size cannot be calculated using
-
-sizeof.
+The flexible array member is considered to have an `incomplete` array type, so its size `cannot be calculated` using `sizeof`.  
 
 
-**Usage**
+**Usage**  
 
-You can declare and initialize an object with a structure type containing a flexible array member, but you must not
-
-attempt to initialize the flexible array member since it is treated as if it does not exist. It is forbidden to try to do
-
-this, and compile errors will result.
-
-Similarly, you should not attempt to assign a value to any element of a flexible array member when declaring a
-
-structure in this way since there may not be enough padding at the end of the structure to allow for any objects
-
-required by the flexible array member. The compiler will not necessarily prevent you from doing this, however, so
-
-this can lead to undefined behavior.
+You can declare and initialize an object with a structure type containing a flexible array member, but you `must not attempt` to initialize the flexible array member since it is treated as if it does not exist. It is forbidden to try to do this, and compile errors will result. Similarly, you `should not attempt` to assign a value to any element of a flexible array member when declaring a structure in this way since there may not be enough padding at the end of the structure to allow for any objects required by the flexible array member. The compiler will not necessarily prevent you from doing this, however, so this can `lead to` undefined behavior.
 
 ```c
 /* invalid: cannot initialize flexible array member */
@@ -4616,45 +4480,37 @@ struct ex1 e1 = { 1 , { 2 , 3 }};
 struct ex2 e2 = {{ 1 , 2 }, { 3 }};
 /* valid: initialize foo=1, bar=2 members */
 struct ex3 e3 = { 1 , 2 };
-```
-```
+
 e1.flex[ 0 ] = 3 ; /* undefined behavior, in my case */
 e3.flex[ 0 ] = 2 ; /* undefined behavior again */
 e2.flex[ 0 ] = e3.flex[ 0 ]; /* undefined behavior */
 ```
-You may instead choose to use malloc, calloc, or realloc to allocate the structure with extra storage and later
-
-free it, which allows you to use the flexible array member as you wish:
+You may instead choose to use `malloc`, `calloc`, or `realloc` to allocate the structure with extra storage and later free it, which allows you to use the flexible array member as you wish:
 
 ```c
 /* valid: allocate an object of structure type `ex1` along with an array of 2 ints */
 struct ex1 *pe1 = malloc(sizeof(*pe1) + 2 * sizeof(pe1->flex[ 0 ]));
-```
-```c
+
 /* valid: allocate an object of structure type ex2 along with an array of 4 ints */
 struct ex2 *pe2 = malloc(sizeof(struct ex2) + sizeof(int[ 4 ]));
-```
-```c
+
 /* valid: allocate 5 structure type ex3 objects along with an array of 3 ints per object */
 struct ex3 *pe3 = malloc( 5 * (sizeof(*pe3) + sizeof(int[ 3 ])));
-```
-```
+
 pe1->flex[ 0 ] = 3 ; /* valid */
 pe3[ 0 ]->flex[ 0 ] = pe1->flex[ 0 ]; /* valid */
 ```
-Version < C99
+Version < C99  
 
-**The 'struct hack'**
+**The 'struct hack'**  
 
-Flexible array members did not exist prior to C99 and are treated as errors. A common workaround is to declare an
+Flexible array members did `not exist` prior to C99 and are treated as errors. A common workaround is to declare an array of length 1, a technique called the '`struct hack`':
 
-array of length 1, a technique called the 'struct hack':
-
-```
+```c
 struct ex1
 {
-size_t foo;
-int flex[ 1 ];
+  size_t foo;
+  int flex[ 1 ];
 };
 ```
 This will affect the size of the structure, however, unlike a true flexible array member:
@@ -4663,22 +4519,11 @@ This will affect the size of the structure, however, unlike a true flexible arra
 /* Prints "8,4,16" on my machine, signifying that there are 4 bytes of padding. */
 printf("%d,%d,%d \n ", (int)sizeof(size_t), (int)sizeof(int[ 1 ]), (int)sizeof(struct ex1));
 ```
-To use the flex member as a flexible array member, you'd allocate it with malloc as shown above, except that
+> To use the flex member as a flexible array member, you'd allocate it with malloc as shown above, except that `sizeof(*pe1)` (or the equivalent `sizeof(struct ex1)`) would be replaced with `offsetof(struct ex1, flex)` or the longer, type-agnostic expression `sizeof(*pe1)-sizeof(pe1->flex)`. Alternatively, you might subtract 1 from the desired length of the "flexible" array since it's already included in the structure size, assuming the desired length is greater than `0`. The same logic may be applied to the other usage examples.  
 
-sizeof(*pe1) (or the equivalent sizeof(struct ex1)) would be replaced with offsetof(struct ex1, flex) or the
+**Compatibility**  
 
-longer, type-agnostic expression sizeof(*pe1)-sizeof(pe1->flex). Alternatively, you might subtract 1 from the
-
-desired length of the "flexible" array since it's already included in the structure size, assuming the desired length is
-
-
-greater than 0. The same logic may be applied to the other usage examples.
-
-**Compatibility**
-
-If compatibility with compilers that do not support flexible array members is desired, you may use a macro defined
-
-like FLEXMEMB_SIZE below:
+If compatibility with compilers that `do not support` flexible array members is desired, you may use a macro defined like `FLEXMEMB_SIZE` below:
 
 ```c
 #if __STDC_VERSION__ < 199901L
@@ -4686,148 +4531,121 @@ like FLEXMEMB_SIZE below:
 #else
 #define FLEXMEMB_SIZE /* nothing */
 #endif
-```
-```
+
 struct ex1
 {
-size_t foo;
-int flex[FLEXMEMB_SIZE];
+  size_t foo;
+  int flex[FLEXMEMB_SIZE];
 };
 ```
-When allocating objects, you should use the offsetof(struct ex1, flex) form to refer to the structure size
+When allocating objects, you should use the `offsetof(struct ex1, flex)` form to refer to the structure size (`excluding` the flexible array member) since it is the only expression that will remain consistent between compilers that support flexible array members and compilers that do not:
 
-(excluding the flexible array member) since it is the only expression that will remain consistent between compilers
-
-that support flexible array members and compilers that do not:
-
-```
+```c
 struct ex1 *pe10 = malloc(offsetof(struct ex1, flex) + n * sizeof(pe10->flex[ 0 ]));
 ```
-The alternative is to use the preprocessor to conditionally subtract 1 from the specified length. Due to the increased
+The alternative is to use the preprocessor to conditionally subtract 1 from the specified length. Due to the increased potential for inconsistency and general human error in this form, I moved the logic into a separate function:
 
-potential for inconsistency and general human error in this form, I moved the logic into a separate function:
-
-```
+```c
 struct ex1 *ex1_alloc(size_t n)
 {
-struct ex1 tmp;
-#if __STDC_VERSION__ < 199901L
-if (n != 0 )
-n--;
-#endif
-return malloc(sizeof(tmp) + n * sizeof(tmp.flex[ 0 ]));
+  struct ex1 tmp;
+
+  #if __STDC_VERSION__ < 199901L
+  if (n != 0 )n--;
+  #endif
+
+  return malloc(sizeof(tmp) + n * sizeof(tmp.flex[ 0 ]));
 }
-```
-```c
+
 /* allocate an ex1 object with "flex" array of length 3 */
 struct ex1 *pe1 = ex1_alloc( 3 );
-```c
+```
 ### Section 13.2: Typedef Structs
 
-Combining typedef with struct can make code clearer. For example:
+Combining `typedef` with `struct` can make code clearer. For example:
 
-```
+```c
 typedef struct
 {
-int x, y;
+  int x, y;
 } Point;
 ```
 as opposed to:
 
-```
+```c
 struct Point
 {
-int x, y;
+`int x, y;
 };
 ```
 
 could be declared as:
 
-```
+```c
 Point point;
 ```
 instead of:
 
-```
+```c
 struct Point point;
 ```
 Even better is to use the following
 
-```
+```c
 typedef struct Point Point;
-```
-```
+
 struct Point
 {
-int x, y;
+  int x, y;
 };
 ```
-to have advantage of both possible definitions of point. Such a declaration is most convenient if you learned C++
-
-first, where you may omit the struct keyword if the name is not ambiguous.
-
-typedef names for structs could be in conflict with other identifiers of other parts of the program. Some consider
-
-this a disadvantage, but for most people having a struct and another identifier the same is quite disturbing.
+to have advantage of both possible definitions of point. Such a declaration is most convenient if you learned C++ first, where you may omit the `struct` keyword if the name is not ambiguous. `typedef` names for structs could be in conflict with other identifiers of other parts of the program. Some consider this a disadvantage, but for most people having a struct and another identifier the same is quite disturbing.  
 
 Notorious is e.g POSIX' stat
 
 ```c
 int stat(const char *pathname, struct stat *buf);
 ```
-where you see a function stat that has one argument that is struct stat.
+where you see a function stat that has one argument that is `struct` stat.
 
-typedef'd structs without a tag name always impose that the whole struct declaration is visible to code that uses
-
-it. The entire struct declaration must then be placed in a header file.
+`typedef`'d structs without a tag name always impose that the whole struct declaration is visible to code that uses it. The entire struct declaration must then be placed in a header file.
 
 Consider:
 
 ```c
 #include "bar.h"
-```
-```
+
 struct foo
 {
-bar *aBar;
+  bar *aBar;
 };
 ```
-So with a typedefd struct that has no tag name, the bar.h file always has to include the whole definition of bar. If
+So with a `typedefd` struct that has no tag name, the `bar.h` file always has to include the whole definition of bar. If we use
 
-we use
-
-```
+```c
 typedef struct bar bar;
 ```
-in bar.h, the details of the bar structure can be hidden.
-
-See Typedef
+in `bar.h`, the details of the bar structure can be hidden. See `Typedef`
 
 ### Section 13.3: Pointers to structs
 
-When you have a variable containing a struct, you can access its fields using the dot operator (.). However, if you
+When you have a variable containing a `struct`, you can access its fields using the dot operator (.). However, if you have a pointer to a struct, this will not work. You have to use the arrow operator (->) to access its fields. Here's an example of a terribly simple (some might say "terrible and simple") implementation of a stack that uses pointers to structs and demonstrates the arrow operator.
 
-have a pointer to a struct, this will not work. You have to use the arrow operator (->) to access its fields. Here's an
-
-example of a terribly simple (some might say "terrible and simple") implementation of a stack that uses pointers to
-
-structs and demonstrates the arrow operator.
-
-
+```c
 #include <stdlib.h>
 #include <stdio.h>
 
 _/* structs */_
 struct stack
 {
-struct node *top;
-int size;
+  struct node *top;
+  int size;
 };
 
 struct node
 {
-int data;
-struct node *next;
+  int data;
+  struct node *next;
 };
 
 _/* function declarations */_
@@ -4837,186 +4655,164 @@ void destroy(struct stack*);
 
 int main(void)
 {
-int result = EXIT_SUCCESS;
+  int result = EXIT_SUCCESS;
 
-size_t i;
+  size_t i;
 
-_/* allocate memory for a struct stack and record its pointer */_
-struct stack *stack = malloc(sizeof *stack);
-if (NULL == stack)
-{
-perror("malloc() failed");
-return EXIT_FAILURE;
+  _/* allocate memory for a struct stack and record its pointer */_
+
+  struct stack *stack = malloc(sizeof *stack);
+  if (NULL == stack)
+  {
+    perror("malloc() failed");
+    return EXIT_FAILURE;
+  }
+
+  _/* initialize stack */_
+  stack->top = NULL;
+  stack->size = 0 ;
+
+  _/* push 10 ints */_
+  {
+    int data = 0 ;
+    for(i = 0 ; i < 10 ; i++)
+    {
+      printf("Pushing: %d **\n** ", data);
+      if (- 1 == push(data, stack))
+      {
+        perror("push() failed");
+        result = EXIT_FAILURE;
+        break;
+      }
+
+      ++data;
+    }
+  }
+
+  if (EXIT_SUCCESS == result)
+  {
+    _/* pop 5 ints */_
+    for(i = 0 ; i < 5 ; i++)
+    {
+      printf("Popped: %i **\n** ", pop(stack));
+    }
+  }
+
+  /* destroy stack */
+  destroy(stack);
+
+  return result;
 }
 
-_/* initialize stack */_
-stack->top = NULL;
-stack->size = 0 ;
-
-_/* push 10 ints */_
-{
-int data = 0 ;
-for(i = 0 ; i < 10 ; i++)
-{
-printf("Pushing: %d **\n** ", data);
-if (- 1 == push(data, stack))
-{
-perror("push() failed");
-result = EXIT_FAILURE;
-break;
-}
-
-++data;
-}
-}
-
-if (EXIT_SUCCESS == result)
-{
-_/* pop 5 ints */_
-for(i = 0 ; i < 5 ; i++)
-{
-printf("Popped: %i **\n** ", pop(stack));
-
-
-##### }
-
-##### }
-
-```c
-/* destroy stack */
-destroy(stack);
-```
-```c
-return result;
-}
-```
-```c
 /* Push a value onto the stack. */
 /* Returns 0 on success and -1 on failure. */
 int push(int data, struct stack *stack)
 {
-int result = 0 ;
-```
-```c
-/* allocate memory for new node */
-struct node *new_node = malloc(sizeof *new_node);
-if (NULL == new_node)
-{
-result = - 1 ;
+  int result = 0 ;
+
+  /* allocate memory for new node */
+  
+  struct node *new_node = malloc(sizeof *new_node);
+  if (NULL == new_node)
+  {
+    result = - 1 ;
+  }
+  else
+  {
+    new_node->data = data;
+    new_node->next = stack->top;
+    stack->top = new_node;
+    stack->size++;
+  }
+
+  return result;
 }
-else
-{
-new_node->data = data;
-new_node->next = stack->top;
-stack->top = new_node;
-stack->size++;
-}
-```
-```c
-return result;
-}
-```
-```c
+
 /* Pop a value off of the stack. */
 /* Returns the value popped off the stack */
+
 int pop(struct stack *stack)
 {
-struct node *top = stack->top;
-int data = top->data;
-stack->top = top->next;
-stack->size--;
-free(top);
-return data;
+  struct node *top = stack->top;
+  int data = top->data;
+  stack->top = top->next;
+  stack->size--;
+  free(top);
+  return data;
 }
-```
-```c
+
 /* destroy the stack */
 void destroy(struct stack *stack)
 {
-/* free all pointers */
-while(stack->top != NULL)
-{
-pop(stack);
+  /* free all pointers */
+  while(stack->top != NULL)
+  {
+    pop(stack);
+  }
 }
-}
-```c
+```
 ### Section 13.4: Passing structs to functions
 
-In C, all arguments are passed to functions by value, including structs. For small structs, this is a good thing as it
+In C, all arguments are passed to functions by value, including structs. For small structs, this is a good thing as it means there is `no overhead` from accessing the data through a pointer. However, it also makes it very easy to accidentally pass a huge struct resulting in `poor performance`, particularly if the programmer is used to other languages where arguments are passed by reference.
 
-means there is no overhead from accessing the data through a pointer. However, it also makes it very easy to
-
-accidentally pass a huge struct resulting in poor performance, particularly if the programmer is used to other
-
-languages where arguments are passed by reference.
-
-
-```
+```c
 struct coordinates
 {
-int x;
-int y;
-int z;
+  int x;
+  int y;
+  int z;
 };
-```
-```
+
 // Passing and returning a small struct by value, very fast
 struct coordinates move(struct coordinates position, struct coordinates movement)
 {
-position.x += movement.x;
-position.y += movement.y;
-position.z += movement.z;
-return position;
+  position.x += movement.x;
+  position.y += movement.y;
+  position.z += movement.z;
+  return position;
 }
-```
-```
+
 // A very big struct
 struct lotsOfData
 {
-int param1;
-char param2[ 80000 ];
+  int param1;
+  char param2[ 80000 ];
 };
-```
-```
+
 // Passing and returning a large struct by value, very slow!
 // Given the large size of the struct this could even cause stack overflow
+
 struct lotsOfData doubleParam1(struct lotsOfData value)
 {
-value.param1 *= 2 ;
-return value;
+  value.param1 *= 2 ;
+  return value;
 }
-```
-```
+
 // Passing the large struct by pointer instead, fairly fast
+
 void doubleParam1ByPtr(struct lotsOfData *value)
 {
-value->param1 *= 2 ;
+  value->param1 *= 2 ;
 }
-```c
+```
 ### Section 13.5: Object-based programming using structs
 
-Structs may be used to implement code in an object oriented manner. A struct is similar to a class, but is missing
-
-the functions which normally also form part of a class, we can add these as function pointer member variables. To
-
-stay with our coordinates example:
+`Struct`s may be used to implement code in an `object oriented` manner. A struct is similar to a class, but is missing the functions which normally also form part of a class, we can add these as function pointer member variables. To stay with our coordinates example:
 
 ```c
 /* coordinates.h */
-```
-```
+
 typedef struct coordinate_s
 {
-/* Pointers to method functions */
-void (*setx)(coordinate *this, int x);
-void (*sety)(coordinate *this, int y);
-void (*print)(coordinate *this);
-/* Data */
-int x;
-int y;
+  /* Pointers to method functions */
+  void (*setx)(coordinate *this, int x);
+  void (*sety)(coordinate *this, int y);
+  void (*print)(coordinate *this);
+  /* Data */
+  int x;
+  int y;
 } coordinate;
-```
-```c
+
 /* Constructor */
 coordinate *coordinate_create(void);
 /* Destructor */
@@ -5027,68 +4823,63 @@ And now the implementing C file:
 
 ```c
 /* coordinates.c */
-```
-```c
+
 #include "coordinates.h"
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 /* Constructor */
 coordinate *coordinate_create(void)
 {
-coordinate *c = malloc(sizeof(*c));
-if (c != 0 )
-{
-c->setx = &coordinate_setx;
-c->sety = &coordinate_sety;
-c->print = &coordinate_print;
-c->x = 0 ;
-c->y = 0 ;
+  coordinate *c = malloc(sizeof(*c));
+  if (c != 0 )
+  {
+    c->setx = &coordinate_setx;
+    c->sety = &coordinate_sety;
+    c->print = &coordinate_print;
+    c->x = 0 ;
+    c->y = 0 ;
+  }
+
+  return c;
 }
-return c;
-}
-```
-```c
+
 /* Destructor */
 void coordinate_destroy(coordinate *this)
 {
-if (this != NULL)
-{
-free(this);
+  if (this != NULL)
+  {
+    free(this);
+  }
 }
-}
-```
-```c
+
 /* Methods */
 static void coordinate_setx(coordinate *this, int x)
 {
-if (this != NULL)
-{
-this->x = x;
+  if (this != NULL)
+  {
+    this->x = x;
+  }
 }
-}
-```
-```
+
 static void coordinate_sety(coordinate *this, int y)
 {
-if (this != NULL)
-{
-this->y = y;
+  if (this != NULL)
+  {
+    this->y = y;
+  }
 }
-}
-```
-```
+
 static void coordinate_print(coordinate *this)
 {
-if (this != NULL)
-{
-printf("Coordinate: (%i, %i) \n ", this->x, this->y);
-}
-else
-{
-printf("NULL pointer exception! \n ");
-}
+  if (this != NULL)
+  {
+    printf("Coordinate: (%i, %i) \n ", this->x, this->y);
+  }
+  else
+  {
+    printf("NULL pointer exception! \n ");
+  }
 }
 ```
 
@@ -5096,75 +4887,65 @@ An example usage of our coordinate class would be:
 
 ```c
 /* main.c */
-```
-```c
+
 #include "coordinates.h"
 #include <stddef.h>
-```
-```c
+
 int main(void)
 {
-/* Create and initialize pointers to coordinate objects */
-coordinate *c1 = coordinate_create();
-coordinate *c2 = coordinate_create();
-```
-```c
-/* Now we can use our objects using our methods and passing the object as parameter */
-c1->setx(c1, 1 );
-c1->sety(c1, 2 );
-```
-```
-c2->setx(c2, 3 );
-c2->sety(c2, 4 );
-```
-```
-c1->print(c1);
-c2->print(c2);
-```
-```c
-/* After using our objects we destroy them using our "destructor" function */
-coordinate_destroy(c1);
-c1 = NULL;
-coordinate_destroy(c2);
-c2 = NULL;
-```
-```c
-return 0 ;
+  /* Create and initialize pointers to coordinate objects */
+  coordinate *c1 = coordinate_create();
+  coordinate *c2 = coordinate_create();
+
+  /* Now we can use our objects using our methods and passing the object as parameter */
+  c1->setx(c1, 1 );
+  c1->sety(c1, 2 );
+
+  c2->setx(c2, 3 );
+  c2->sety(c2, 4 );
+
+  c1->print(c1);
+  c2->print(c2);
+
+  /* After using our objects we destroy them using our "destructor" function */
+  
+  coordinate_destroy(c1);
+  c1 = NULL;
+  coordinate_destroy(c2);
+  c2 = NULL;
+  
+  return 0 ;
 }
-```c
+```
 ### Section 13.6: Simple data structures
 
-Structure data types are useful way to package related data and have them behave like a single variable.
-
+Structure data types are useful way to package related data and have them behave like a single variable.  
 Declaring a simple struct that holds two int members:
 
-```
+```c
 struct point
 {
-int x;
-int y;
+  int x;
+  int y;
 };
 ```
-x and y are called the _members_ (or _fields_ ) of point struct.
-
+x and y are called the _members_ (or _fields_ ) of point struct.  
 Defining and using structs:
 
-```
+```c
 struct point p; // declare p as a point struct
 p.x = 5 ; // assign p member variables
 p.y = 3 ;
 ```
 Structs can be initialized at definition. The above is equivalent to:
 
-```
+```c
 struct point p = { 5 , 3 };
 ```
-Structs may also be initialized using designated initializers.
-
-
+Structs may also be initialized using designated initializers.  
 Accessing fields is also done using the. operator
 
-```
+```c
 printf("point is (x = %d, y = %d)", p.x, p.y);
 ```
 
@@ -5172,52 +4953,46 @@ printf("point is (x = %d, y = %d)", p.x, p.y);
 
 ### Section 14.1: Power functions - pow(), powf(), powl()
 
-The following example code computes the sum of _1+4(3+3^2+3^3+3^4+...+3^N)_ series using pow() family of standard
-
-math library.
+The following example code computes the sum of `_1+4(3+3^2+3^3+3^4+...+3^N)_` series using `pow()` family of standard math library.
 
 ```c
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
 #include <fenv.h>
-```
-```c
+
 int main()
 {
-double pwr, sum= 0 ;
-int i, n;
-```
-```
-printf(" \n 1+4(3+3^2+3^3+3^4+...+3^N)=? \n Enter N:");
-scanf("%d",&n);
-if (n<= 0 ) {
-printf("Invalid power N=%d", n);
-return - 1 ;
-}
-```
-```
-for (i= 0 ; i<n+ 1 ; i++) {
-errno = 0 ;
-feclearexcept(FE_ALL_EXCEPT);
-pwr = powl( 3 ,i);
-if (fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
-FE_UNDERFLOW)) {
-perror("Math Error");
-}
-sum += i? pwr : 0 ;
-printf("N= %d \t S= %g \n ", i, 1 + 4 *sum);
-}
-```
-```c
-return 0 ;
+  double pwr, sum= 0 ;
+  int i, n;
+
+  printf(" \n 1+4(3+3^2+3^3+3^4+...+3^N)=? \n Enter N:");
+  scanf("%d",&n);
+  if (n<= 0 ) {
+    printf("Invalid power N=%d", n);
+    return - 1 ;
+  }
+
+  for (i= 0 ; i<n+ 1 ; i++) {
+    errno = 0 ;
+    feclearexcept(FE_ALL_EXCEPT);
+    pwr = powl( 3 ,i);
+    
+    if (fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW | FE_UNDERFLOW)) {
+      perror("Math Error");
+    }
+    sum += i? pwr : 0 ;
+    printf("N= %d \t S= %g \n ", i, 1 + 4 *sum);
+  }
+  
+  return 0 ;
 }
 ```
 Example Output:
 
-##### 1+4(3+3^2+3^3+3^4+...+3^N)=?
-
 ```
+1+4(3+3^2+3^3+3^4+...+3^N)=?
+
 Enter N:10
 N= 0 S= 1
 N= 1 S= 13
@@ -5239,383 +5014,289 @@ This function returns the floating-point remainder of the division of x/y. The r
 ```c
 #include <math.h> /* for fmod() */
 #include <stdio.h> /* for printf() */
-```
-```c
+
 int main(void)
 {
-double x = 10.0;
-double y = 5.1;
-```
-```
-double modulus = fmod(x, y);
-```
-```
-printf("%lf \n ", modulus); /* f is the same as lf. */
-```
-```c
-return 0 ;
+  double x = 10.0;
+  double y = 5.1;
+
+  double modulus = fmod(x, y);
+
+  printf("%lf \n ", modulus); /* f is the same as lf. */
+
+  return 0 ;
 }
 ```
 Output:
-
-##### 4.90000
-
-**Important:** Use this function with care, as it can return unexpected values due to the operation of floating point
-
-values.
+```
+4.90000
+```
+**Important:** Use this function with care, as it can return unexpected values due to the operation of floating point values.
 
 ```c
 #include <math.h>
 #include <stdio.h>
-```
-```c
+
 int main(void)
 {
-printf("%f \n ", fmod( 1 , 0.1));
-printf("%19.17f \n ", fmod( 1 , 0.1));
-return 0 ;
+  printf("%f \n ", fmod( 1 , 0.1));
+  printf("%19.17f \n ", fmod( 1 , 0.1));
+  return 0 ;
 }
 ```
 Output:
 
-##### 0.1
+```
+0.1
 
-##### 0.09999999999999995
-
+0.09999999999999995
+```
 ### Section 14.3: Single precision and long double precision floating-point remainder: fmodf(), fmodl()
 
-Version ≥ C99
+Version ≥ C99  
 
-These functions returns the floating-point remainder of the division of x/y. The returned value has the same sign as
-
-x.
-
+These functions returns the floating-point remainder of the division of x/y. The returned value has the same sign as x.  
 Single Precision:
 
 ```c
 #include <math.h> /* for fmodf() */
 #include <stdio.h> /* for printf() */
-```
 
-```c
 int main(void)
 {
-float x = 10.0;
-float y = 5.1;
-```
-```
-float modulus = fmodf(x, y);
-```
-```
-printf("%f \n ", modulus); /* lf would do as well as modulus gets promoted to double. */
+  float x = 10.0;
+  float y = 5.1;
+
+  float modulus = fmodf(x, y);
+
+  printf("%f \n ", modulus); /* lf would do as well as modulus gets promoted to double. */
 }
 ```
 Output:
-
-##### 4.90000
-
+```
+4.90000
+```
 Double Double Precision:
 
 ```c
 #include <math.h> /* for fmodl() */
 #include <stdio.h> /* for printf() */
-```
-```c
+
 int main(void)
 {
-long double x = 10.0;
-long double y = 5.1;
-```
-```
-long double modulus = fmodl(x, y);
-```
-```
-printf("%Lf \n ", modulus); /* Lf is for long double. */
+  long double x = 10.0;
+  long double y = 5.1;
+
+  long double modulus = fmodl(x, y);
+
+  printf("%Lf \n ", modulus); /* Lf is for long double. */
 }
 ```
 Output:
-
-##### 4.90000
-
+```
+4.90000
+```
 
 ## Chapter 15: Iteration Statements/Loops: for, while, do-while
 
 ### Section 15.1: For loop
 
-In order to execute a block of code over an over again, loops comes into the picture. The for loop is to be used
+In order to execute a block of code over an over again, loops comes into the picture. The for loop is to be used when a block of code is to executed a fixed number of times. For example, in order to fill an array of size `n` with the user inputs, we need to execute `scanf()` for `n` times.  
 
-when a block of code is to executed a fixed number of times. For example, in order to fill an array of size n with the
-
-user inputs, we need to execute scanf() for n times.
-
-Version ≥ C99
+Version ≥ C99  
 
 ```c
 #include <stddef.h> // for size_t
-```
-```c
+
 int array[ 10 ]; // array of 10 int
-```
-```
+
 for (size_t i = 0 ; i < 10 ; i++) // i starts at 0 and finishes with 9
 {
-scanf("%d", &array[i]);
+  scanf("%d", &array[i]);
 }
 ```
-In this way the scanf() function call is executed n times (10 times in our example), but is written only once.
+In this way the `scanf()` function call is executed n times (10 times in our example), but is written only once.  
+Here, the variable i is the loop index, and it is best declared as presented. The type `size_t` ( _size type_ ) should be used for everything that counts or loops through data objects.  
+This way of declaring variables inside the for is only available for compilers that have been updated to the `C99` standard. If for some reason you are still stuck with an older compiler you can declare the loop index before the for loop:  
 
-Here, the variable i is the loop index, and it is best declared as presented. The type size_t ( _size type_ ) should be
-
-used for everything that counts or loops through data objects.
-
-This way of declaring variables inside the for is only available for compilers that have been updated to the C99
-
-standard. If for some reason you are still stuck with an older compiler you can declare the loop index before the
-
-for loop:
-
-Version < C99
+Version < C99  
 
 ```c
 #include <stddef.h> /* for size_t */
 size_t i;
 int array[ 10 ]; /* array of 10 int */
-```
-```
+
 for (i = 0 ; i < 10 ; i++) /* i starts at 0 and finishes at 9 */
 {
-scanf("%d", &array[i]);
+  scanf("%d", &array[i]);
 }
-```c
+```
 ### Section 15.2: Loop Unrolling and Du's Device
 
-Sometimes, the straight forward loop cannot be entirely contained within the loop body. This is because, the loop
+Sometimes, the straight forward loop cannot be entirely contained within the loop body. This is because, the loop needs to be primed by some statements **_B_**. Then, the iteration begins with some statements **_A_** , which are then followed by **_B_** again before looping.
 
-needs to be primed by some statements **_B_**. Then, the iteration begins with some statements **_A_** , which are then
-
-followed by **_B_** again before looping.
-
-```
+```c
 do_B();
 while (condition) {
-do_A();
-do_B();
+  do_A();
+  do_B();
 }
 ```
-To avoid potential cut/paste problems with repeating **_B_** twice in the code, Duff's Device could be applied to start the
+To avoid potential cut/paste problems with repeating **_B_** twice in the code, Duff's Device could be applied to start the loop from the middle of the `while` body, using a `switch` statement and fall through behavior.
 
-loop from the middle of the while body, using a switch statement and fall through behavior.
-
-```
+```c
 switch ( true ) while (condition) {
-case false : do_A(); /* FALL THROUGH */
-```
+  case false : do_A(); /* FALL THROUGH */
 
-```
-default: do_B(); /* FALL THROUGH */
+  default: do_B(); /* FALL THROUGH */
 }
 ```
-Duff's Device was actually invented to implement loop unrolling. Imagine applying a mask to a block of memory,
+Duff's Device was actually invented to implement loop `unrolling`. Imagine applying a mask to a block of memory, where `n` is a `signed` integral type with a positive value.
 
-where n is a signed integral type with a positive value.
-
-```
+```c
 do {
-*ptr++ ^= mask;
+  *ptr++ ^= mask;
 } while (--n > 0 );
 ```
 If n were always divisible by 4, you could unroll this easily as:
 
-```
+```c
 do {
-*ptr++ ^= mask;
-*ptr++ ^= mask;
-*ptr++ ^= mask;
-*ptr++ ^= mask;
+  *ptr++ ^= mask;
+  *ptr++ ^= mask;
+  *ptr++ ^= mask;
+  *ptr++ ^= mask;
 } while ((n -= 4 ) > 0 );
 ```
-But, with Duff's Device, the code can follow this unrolling idiom that jumps into the right place in the middle of the
+But, with Duff's Device, the code can follow this unrolling idiom that jumps into the right place in the middle of the loop if n is not divisible by 4.
 
-loop if n is not divisible by 4.
-
-```
+```c
 switch (n % 4 ) do {
-case 0 : *ptr++ ^= mask; /* FALL THROUGH */
-case 3 : *ptr++ ^= mask; /* FALL THROUGH */
-case 2 : *ptr++ ^= mask; /* FALL THROUGH */
-case 1 : *ptr++ ^= mask; /* FALL THROUGH */
+  case 0 : *ptr++ ^= mask; /* FALL THROUGH */
+  case 3 : *ptr++ ^= mask; /* FALL THROUGH */
+  case 2 : *ptr++ ^= mask; /* FALL THROUGH */
+  case 1 : *ptr++ ^= mask; /* FALL THROUGH */
 } while ((n -= 4 ) > 0 );
 ```
-This kind of manual unrolling is rarely required with modern compilers, since the compiler's optimization engine
-
-can unroll loops on the programmer's behalf.
+This kind of manual unrolling is rarely required with modern compilers, since the compiler's optimization engine can unroll loops on the programmer's behalf.
 
 ### Section 15.3: While loop
 
-A while loop is used to execute a piece of code while a condition is true. The while loop is to be used when a block
-
-of code is to be executed a variable number of times. For example the code shown gets the user input, as long as
-
-the user inserts numbers which are not 0. If the user inserts 0 , the while condition is not true anymore so execution
-
-will exit the loop and continue on to any subsequent code:
+A while loop is used to execute a piece of code while a condition is true. The while loop is to be used when a block of code is to be executed a variable number of times. For example the code shown gets the user input, as long as the user inserts numbers which are not 0. If the user inserts 0 , the while condition is not true anymore so execution will exit the loop and continue on to any subsequent code:
 
 ```c
 int num = 1 ;
-```
-```
+
 while (num != 0 )
 {
-scanf("%d", &num);
+  scanf("%d", &num);
 }
-```c
+```
 ### Section 15.4: Do-While loop
 
-Unlike for and while loops, do-while loops check the truth of the condition at the end of the loop, which means
+Unlike `for` and `while` loops, `do-while` loops check the truth of the condition at the end of the loop, which means the do block will execute once, and then check the condition of the `while` at the bottom of the block. Meaning that a `do-while` loop will _always_ run at least once.
 
-the do block will execute once, and then check the condition of the while at the bottom of the block. Meaning that a
-
-do-while loop will _always_ run at least once.
-
-For example this do-while loop will get numbers from user, until the sum of these values is greater than or equal to
-
-50 :
-
+For example this `do-while` loop will get numbers from user, until the sum of these values is greater than or equal to 50 :
 
 ```c
 int num, sum;
 num = sum = 0 ;
-```
-```
+
 do
 {
-scanf("%d", &num);
-sum += num;
-```
-```
+  scanf("%d", &num);
+  sum += num;
+
 } while (sum < 50 );
 ```
-do-while loops are relatively rare in most programming styles.
+`do-while` loops are relatively rare in most programming styles.
 
 ### Section 15.5: Structure and flow of control in a for loop
 
-```
+```c
 for ([declaration-or-expression]; [expression2]; [expression3])
 {
-/* body of the loop */
+  /* body of the loop */
 }
 ```
-In a for loop, the loop condition has three expressions, all optional.
+In a `for` loop, the loop condition has three expressions, all optional.
 
-```
-The first expression, declaration-or-expression, initializes the loop. It is executed exactly once at the
-beginning of the loop.
-```
-Version ≥ C99
+> The first expression, declaration-or-expression, initializes the loop. It is executed exactly once at the beginning of the loop.
 
-It can be either a declaration and initialization of a loop variable, or a general expression. If it is a declaration, the
+Version ≥ C99  
 
-scope of the declared variable is restricted by the for statement.
+It can be either a declaration and initialization of a loop variable, or a general expression. If it is a declaration, the scope of the declared variable is restricted by the for statement.
 
-Version < C99
+Version < C99  
 
-Historical versions of C only allowed an expression, here, and the declaration of a loop variable had to be placed
+Historical versions of C only allowed an expression, here, and the declaration of a loop variable had to be placed before the for.
 
-before the for.
+> The second expression, expression2, is the test condition. It is first executed after the initialization. If the condition is true , then the control enters the body of the loop. If not, it shifts to outside the body of the loop at the end of the loop. Subsequently, this conditon is checked after each execution of the body as well as the update statement. When true , the control moves back to the beginning of the body of the loop. The condition is usually intended to be a check on the number of times the body of the loop executes. This is the primary way of exiting a loop, the other way being using jump statements.
 
-```
-The second expression, expression2, is the test condition. It is first executed after the initialization. If the
-condition is true , then the control enters the body of the loop. If not, it shifts to outside the body of the loop
-at the end of the loop. Subsequently, this conditon is checked after each execution of the body as well as the
-update statement. When true , the control moves back to the beginning of the body of the loop. The
-condition is usually intended to be a check on the number of times the body of the loop executes. This is the
-primary way of exiting a loop, the other way being using jump statements.
-The third expression, expression3, is the update statement. It is executed after each execution of the body of
-the loop. It is often used to increment a variable keeping count of the number of times the loop body has
-executed, and this variable is called an iterator.
-```
-Each instance of execution of the loop body is called an _iteration_.
+> The third expression, expression3, is the update statement. It is executed after each execution of the body of the loop. It is often used to increment a variable keeping count of the number of times the loop body has executed, and this variable is called an iterator.
 
-Example:
+Each instance of execution of the loop body is called an _iteration_.  
+Example:  
 
-Version ≥ C99
+Version ≥ C99  
 
-```
+```c
 for(int i = 0 ; i < 10 ; i++)
 {
-printf("%d", i);
+  printf("%d", i);
 }
 ```
-The output is:
 
+The output is:  
+```
+0123456789
+```
 
-##### 0123456789
-
-In the above example, first i = 0 is executed, initializing i. Then, the condition i < 10 is checked, which evaluates
-
-to be **true**. The control enters the body of the loop and the value of i is printed. Then, the control shifts to i++,
-
-updating the value of i from 0 to 1. Then, the condition is again checked, and the process continues. This goes on
-
-till the value of i becomes 10. Then, the condition i < 10 evaluates **false** , after which the control moves out of the
-
-loop.
+In the above example, first `i = 0` is executed, initializing `i`. Then, the condition `i < 10` is checked, which evaluates to be **true**. The control enters the body of the loop and the value of i is printed. Then, the control shifts to `i++`, updating the value of `i` from `0` to `1`. Then, the condition is again checked, and the process continues. This goes on till the value of `i` becomes `10`. Then, the condition `i < 10` evaluates **false** , after which the control moves out of the loop.
 
 ### Section 15.6: Infinite Loops
 
-A loop is said to be an _infinite loop_ if the control enters but never leaves the body of the loop. This happens when
+A loop is said to be an _infinite loop_ if the control enters but never leaves the body of the loop. This happens when the test condition of the loop never evaluates to **false**.  
 
-the test condition of the loop never evaluates to **false**.
+Example:  
 
-Example:
+Version ≥ C99  
 
-Version ≥ C99
-
-```
+```c
 for (int i = 0 ; i >= 0 ; )
 {
-/* body of the loop where i is not changed*/
+  /* body of the loop where i is not changed*/
 }
 ```
-In the above example, the variable i, the iterator, is initialized to 0. The test condition is initially **true**. However, i is
+In the above example, the variable `i`, the iterator, is initialized to `0`. The test condition is initially **true**. However, i is not modified anywhere in the body and the update expression is empty. Hence, it will remain `0`, and the test condition will never evaluate to **false** , leading to an infinite loop.
 
-not modified anywhere in the body and the update expression is empty. Hence, i will remain 0, and the test
+Assuming that there are no `jump` statements, another way an infinite loop might be formed is by explicitly keeping the condition true:
 
-condition will never evaluate to **false** , leading to an infinite loop.
-
-Assuming that there are no jump statements, another way an infinite loop might be formed is by explicitly keeping
-
-the condition true:
-
-```
+```c
 while ( true )
 {
-/* body of the loop */
+  /* body of the loop */
 }
 ```
-In a for loop, the condition statement optional. In this case, the condition is always **true** vacuously, leading to an
+In a `for` loop, the condition statement optional. In this case, the condition is always **true** vacuously, leading to an infinite loop.
 
-infinite loop.
-
-```
+```c
 for (;;)
 {
-/* body of the loop */
+  /* body of the loop */
 }
 ```
-However, in certain cases, the condition might be kept **true** intentionally, with the intention of exiting the loop
+However, in certain cases, the condition might be kept **true** intentionally, with the intention of exiting the loop using a jump statement such as **break**.
 
-using a jump statement such as **break**.
-
-```
+```c
 while ( true )
 {
-/* statements */
-if (condition)
-{
-/* more statements */
-break ;
-}
+  /* statements */
+  if (condition)
+  {
+    /* more statements */
+    break ;
+  }
 }
 ```
 
@@ -5623,333 +5304,254 @@ break ;
 
 ### Section 16.1: if () Statements
 
-One of the simplest ways to control program flow is by using if selection statements. Whether a block of code is to
+One of the simplest ways to control program flow is by using `if` selection statements. Whether a block of code is to be executed or not to be executed can be decided by this statement. The syntax for if selection statement in C could be as follows:
 
-be executed or not to be executed can be decided by this statement.
-
-The syntax for if selection statement in C could be as follows:
-
-```
+```c
 if(cond)
 {
-statement(s); /*to be executed, on condition being true*/
+  statement(s); /*to be executed, on condition being true*/
 }
 ```
 For example,
 
-```
+```c
 if (a > 1 ) {
-puts("a is larger than 1");
+  puts("a is larger than 1");
 }
 ```
-Where a > 1 is a _condition_ that has to evaluate to **true** in order to execute the statements inside the if block. In
+Where `a > 1` is a _condition_ that has to evaluate to **true** in order to execute the statements inside the `if` block. In this example "a is larger than 1" is only printed if `a > 1` is true.  
+if selection statements can omit the wrapping braces `{` and `}` if there is only one statement within the block. The above example can be rewritten to
 
-this example "a is larger than 1" is only printed if a > 1 is true.
-
-if selection statements can omit the wrapping braces { and } if there is only one statement within the block. The
-
-above example can be rewritten to
-
+```c
+if (a > 1 ) puts("a is larger than 1");
 ```
-if (a > 1 )
-puts("a is larger than 1");
-```
-However for executing multiple statements within block the braces have to used.
-
-The _condition_ for if can include multiple expressions. if will only perform the action if the end result of expression
-
-is true.
-
+However for executing multiple statements within block the braces have to used.  
+The _condition_ for if can include multiple expressions. if will only perform the action if the end result of expression is true.  
 For example
 
-```
+```c
 if ((a > 1 ) && (b > 1 )) {
-puts("a is larger than 1");
-a++;
+  puts("a is larger than 1");
+  a++;
 }
 ```
-will only execute the printf and a++ if **both** a and b are greater than 1.
+will only execute the `printf` and `a++` if **both** a and b are greater than 1.
 
 ### Section 16.2: Nested if()...else VS if()..else Ladder
 
-Nested if()...else statements take more execution time (they are slower) in comparison to an if()...else
-
-ladder because the nested if()...else statements check all the inner conditional statements once the outer
-
-conditional if() statement is satisfied, whereas the if()..else ladder will stop condition testing once any of the
-
-if() or the else if() conditional statements are true.
-
+Nested `if()...else` statements take more execution time (they are slower) in comparison to an `if()...else` ladder because the nested `if()...else` statements check all the inner conditional statements once the outer conditional `if()` statement is satisfied, whereas the `if()..else` ladder will stop condition testing once any of the `if()` or the `else if()` conditional statements are true.  
 An if()...else ladder:
 
 ```c
 #include <stdio.h>
-```
 
-```c
 int main(int argc, char *argv[])
 {
-int a, b, c;
-printf(" \n Enter Three numbers = ");
-scanf("%d%d%d", &a, &b, &c);
-if ((a < b) && (a < c))
-{
-printf(" \n a = %d is the smallest.", a);
-}
-else if ((b < a) && (b < c))
-{
-printf(" \n b = %d is the smallest.", b);
-}
-else if ((c < a) && (c < b))
-{
-printf(" \n c = %d is the smallest.", c);
-}
-else
-{
-printf(" \n Improve your coding logic");
-}
-return 0 ;
+  int a, b, c;
+  printf(" \n Enter Three numbers = ");
+  scanf("%d%d%d", &a, &b, &c);
+  if ((a < b) && (a < c))
+  {
+    printf(" \n a = %d is the smallest.", a);
+  }
+  else if ((b < a) && (b < c))
+  {
+    printf(" \n b = %d is the smallest.", b);
+  }
+  else if ((c < a) && (c < b))
+  {
+    printf(" \n c = %d is the smallest.", c);
+  }
+  else
+  {
+    printf(" \n Improve your coding logic");
+  }
+  
+  return 0 ;
 }
 ```
-Is, in the general case, considered to be better than the equivalent nested if()...else:
+Is, in the general case, considered to be better than the equivalent nested `if()...else`:
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(int argc, char *argv[])
 {
-int a, b, c;
-printf(" \n Enter Three numbers = ");
-scanf("%d%d%d", &a, &b, &c);
-if (a < b)
-{
-if (a < c)
-{
-printf(" \n a = %d is the smallest.", a);
-}
-else
-{
-printf(" \n c = %d is the smallest.", c);
-}
-}
-else
-{
-if(b < c)
-{
-printf(" \n b = %d is the smallest.", b);
-}
-else
-{
-printf(" \n c = %d is the smallest.", c);
-}
-}
-return 0 ;
+  int a, b, c;
+  printf(" \n Enter Three numbers = ");
+  scanf("%d%d%d", &a, &b, &c);
+  if (a < b)
+  {
+    if (a < c)
+    {
+      printf(" \n a = %d is the smallest.", a);
+    }
+    else
+    {
+      printf(" \n c = %d is the smallest.", c);
+    }
+  }
+  else
+  {
+    if(b < c)
+    {
+      printf(" \n b = %d is the smallest.", b);
+    }
+    else
+    {
+      printf(" \n c = %d is the smallest.", c);
+    }
+  }
+  return 0 ;
 }
 ```
 
 ### Section 16.3: switch () Statements
 
-switch statements are useful when you want to have your program do many different things according to the value
-
-of a particular test variable.
-
+`switch` statements are useful when you want to have your program do many different things according to the value of a particular test variable.  
 An example usage of switch statement is like this:
 
 ```c
 int a = 1 ;
-```
-```
+
 switch (a) {
-case 1 :
-puts("a is 1");
-break ;
-case 2 :
-puts("a is 2");
-break ;
-default:
-puts("a is neither 1 nor 2");
-break ;
+  case 1 :
+    puts("a is 1");
+    break ;
+  case 2 :
+    puts("a is 2");
+    break ;
+  default:
+    puts("a is neither 1 nor 2");
+    break ;
 }
 ```
 This example is equivalent to
 
 ```c
 int a = 1 ;
-```
-```
+
 if (a == 1 ) {
-puts("a is 1");
+  puts("a is 1");
 } else if (a == 2 ) {
-puts("a is 2");
+  puts("a is 2");
 } else {
-puts("a is neither 1 nor 2");
+  puts("a is neither 1 nor 2");
 }
 ```
-If the value of a is 1 when the switch statement is used, a is 1 will be printed. If the value of a is 2 then, a is 2 will
-
-be printed. Otherwise, a is neither 1 nor 2 will be printed.
-
-case n: is used to describe where the execution flow will jump in when the value passed to switch statement is _n_.
-
-_n_ must be compile-time constant and the same _n_ can exist at most once in one switch statement.
-
-default: is used to describe that when the value didn't match any of the choices for case n:. It is a good practice
-
-to include a default case in every switch statement to catch unexpected behavior.
-
-A **break** ; statement is required to jump out of the switch block.
-
-**Note:** If you accidentally forget to add a **break** after the end of a case, the compiler will assume that you intend to
-
-"fall through" and all the subsequent case statements, if any, will be executed (unless a _break_ statement is found in
-
-any of the subsequent cases), regardless of whether the subsequent case statement(s) match or not. This particular
-
-property is used to implement Duff's Device. This behavior is often considered a flaw in the C language
-
-specification.
+If the value of a is 1 when the `switch` statement is used, a is 1 will be printed. If the value of a is 2 then, a is 2 will be printed. Otherwise, a is neither 1 nor 2 will be printed.  
+`case n`: is used to describe where the execution flow will jump in when the value passed to switch statement is _n_. _n_ must be compile-time constant and the same _n_ can exist at most once in one switch statement.  
+`default`: is used to describe that when the value didn't match any of the choices for case n:. It is a good practice to include a default case in every switch statement to catch unexpected behavior.  
+A **`break`** ; statement is required to jump out of the switch block.  
+**`Note`:** If you accidentally forget to add a **`break`** after the end of a case, the compiler will assume that you intend to "fall through" and all the subsequent case statements, if any, will be executed (unless a _break_ statement is found in any of the subsequent cases), regardless of whether the subsequent case statement(s) match or not. This particular property is used to implement Duff's Device. This behavior is often considered a flaw in the C language specification.  
 
 Below is an example that shows effects of the absence of **break** ;:
 
 ```c
 int a = 1 ;
-```
-```
-switch (a) {
-case 1 :
-case 2 :
-```
 
-```c
-puts("a is 1 or 2");
-case 3 :
-puts("a is 1, 2 or 3");
-break ;
-default:
-puts("a is neither 1, 2 nor 3");
-break ;
+switch (a) {
+  case 1 :
+  case 2 :
+    puts("a is 1 or 2");
+  case 3 :
+    puts("a is 1, 2 or 3");
+    break ;
+  default:
+    puts("a is neither 1, 2 nor 3");
+    break ;
 }
 ```
-When the value of a is 1 or 2, a is 1 or 2 and a is 1 , 2 or 3 will both be printed. When a is 3, only a is 1 , 2
+When the value of a is 1 or 2, a is 1 or 2 and a is 1 , 2 or 3 will both be printed. When a is 3, only a is 1 , 2 or 3 will be printed. Otherwise, a is neither 1 , 2 nor 3 will be printed.  
+Note that the default case is `not necessary`, especially when the set of values you get in the switch is finished and known at compile time. The best example is using a switch on an **enum**.
 
-or 3 will be printed. Otherwise, a is neither 1 , 2 nor 3 will be printed.
-
-Note that the default case is not necessary, especially when the set of values you get in the switch is finished and
-
-known at compile time.
-
-The best example is using a switch on an **enum**.
-
-```
+```c
 enum msg_type { ACK, PING, ERROR };
 void f( enum msg_type t)
 {
-switch (t) {
-case ACK:
-// do nothing
-break ;
-case PING:
-// do something
-break ;
-case ERROR:
-// do something else
-break ;
-}
+  switch (t) {
+  case ACK:
+    // do nothing
+    break ;
+  case PING:
+    // do something
+    break ;
+  case ERROR:
+    // do something else
+    break ;
+  }
 }
 ```
 There are multiple advantages of doing this:
 
-```
-most compilers will report a warning if you don't handle a value (this would not be reported if a default case
-were present)
-for the same reason, if you add a new value to the enum , you will be notified of all the places where you forgot
-to handle the new value (with a default case, you would need to manually explore your code searching for
-such cases)
-The reader does not need to figure out "what is hidden by the default:", whether there other enum values or
-whether it is a protection for "just in case". And if there are other enum values, did the coder intentionally use
-the default case for them or is there a bug that was introduced when he added the value?
-handling each enum value makes the code self explanatory as you can't hide behind a wild card, you must
-explicitly handle each of them.
-```
+- most compilers will report a warning if you don't handle a value (this would not be reported if a default case were present) for the same reason, if you add a new value to the enum , you will be notified of all the places where you forgot to handle the new value (with a default case, you would need to manually explore your code searching for such cases)
+- The reader does not need to figure out "what is hidden by the default:", whether there other enum values or whether it is a protection for "just in case". And if there are other enum values, did the coder intentionally use the default case for them or is there a bug that was introduced when he added the value? handling each enum value makes the code self explanatory as you can't hide behind a wild card, you must explicitly handle each of them.
+
 Nevertheless, you can't prevent someone to write evil code like:
 
-```
+```c
 enum msg_type t = ( enum msg_type) 666 ; // I'm evil
 ```
 Thus you may add an extra check before your switch to detect it, if you really need it.
 
-```
+```c
 void f( enum msg_type t)
 {
-if (!is_msg_type_valid(t)) {
-// Handle this unlikely error
-}
-```
+  if (!is_msg_type_valid(t)) {
+  // Handle this unlikely error
+  }
 
+  switch(t) {
+    // Same code than before
+  }
+}
 ```
-switch(t) {
-// Same code than before
-}
-}
-```c
 ### Section 16.4: if () else statements and syntax
 
-While if performs an action only when its condition evaluate to **true** , if / else allows you to specify the different
+While if performs an action only when its condition evaluate to **true** , if / else allows you to specify the different actions when the condition **true** and when the condition is **false**.  
 
-actions when the condition **true** and when the condition is **false**.
+Example:  
 
-Example:
-
-```
-if (a > 1 )
-puts("a is larger than 1");
-else
-puts("a is not larger than 1");
-```
-Just like the if statement, when the block within if or else is consisting of only one statement, then the braces can
-
-be omitted (but doing so is not recommended as it can easily introduce problems involuntarily). However if there's
-
-more than one statement within the if or else block, then the braces have to be used on that particular block.
-
-```
-if (a > 1 )
-{
-puts("a is larger than 1");
-a--;
-}
-else
-{
-puts("a is not larger than 1");
-a++;
-}
 ```c
+if (a > 1 )
+  puts("a is larger than 1");
+else
+  puts("a is not larger than 1");
+```
+Just like the `if` statement, when the block within if or else is consisting of only one statement, then the braces can be omitted (but doing so is not recommended as it can easily introduce problems involuntarily). However if there's more than one statement within the if or else block, then the braces have to be used on that particular block.
+
+```c
+if (a > 1 )
+{
+  puts("a is larger than 1");
+  a--;
+}
+else
+{
+  puts("a is not larger than 1");
+  a++;
+}
+```
 ### Section 16.5: if()...else Ladder Chaining two or more if () else statements
 
-While the if ()... else statement allows to define only one (default) behaviour which occurs when the condition
-
-within the if () is not met, chaining two or more if () ... else statements allow to define a couple more
-
-behaviours before going to the last else branch acting as a "default", if any.
+While the `if ()... else` statement allows to define only one (default) behaviour which occurs when the condition within the `if ()` is not met, chaining two or more `if () ... else` statements allow to define a couple more behaviours before going to the last else branch acting as a "default", if any.  
 
 Example:
 
 ```c
 int a = ... /* initialise to some value. */
-```
-```
+
 if (a >= 1 )
 {
-printf("a is greater than or equals 1. \n ");
+  printf("a is greater than or equals 1. \n ");
 }
 else if (a == 0 ) //we already know that a is smaller than 1
 {
-printf("a equals 0. \n ");
+  printf("a equals 0. \n ");
 }
 else /* a is smaller than 1 and not equals 0, hence: */
 {
-printf("a is negative. \n ");
+  printf("a is negative. \n ");
 }
 ```
 
@@ -5957,189 +5559,125 @@ printf("a is negative. \n ");
 
 ### Section 17.1: Initialization of Variables in C
 
-In the absence of explicit initialization, external and static variables are guaranteed to be initialized to zero;
-
-automatic variables (including register variables) have _indeterminate_ 1 (i.e., garbage) initial values.
-
-Scalar variables may be initialized when they are defined by following the name with an equals sign and an
-
-expression:
+In the absence of explicit initialization, external and static variables are guaranteed to be initialized to zero; automatic variables (including register variables) have _indeterminate_ 1 (i.e., garbage) initial values. Scalar variables may be initialized when they are defined by following the name with an equals sign and an expression:
 
 ```c
 int x = 1 ;
 char squota = ' \' ';
 long day = 1000L * 60L * 60L * 24L; /* milliseconds/day */
 ```
-For external and static variables, the initializer must be a _constant expression_ 2; the initialization is done once,
-
-conceptually before the program begins execution.
-
-For automatic and register variables, the initializer is not restricted to being a constant: it may be any expression
-
-involving previously defined values, even function calls.
+For external and static variables, the initializer must be a _constant expression_ 2; the initialization is done once, conceptually before the program begins execution. For automatic and register variables, the initializer is not restricted to being a constant: it may be any expression involving previously defined values, even function calls.  
 
 For example, see the code snippet below
 
 ```c
 int binsearch(int x, int v[], int n)
 {
-int low = 0 ;
-int high = n - 1 ;
-int mid;
-...
+  int low = 0 ;
+  int high = n - 1 ;
+  int mid;
+
 }
 ```
 instead of
 
 ```c
 int low, high, mid;
-```
-```
+
 low = 0 ;
 high = n - 1 ;
 ```
-In effect, initialization of automatic variables are just shorthand for assignment statements. Which form to prefer is
-
-largely a matter of taste. We generally use explicit assignments, because initializers in declarations are harder to
-
-see and further away from the point of use. On the other hand, variables should only be declared when they're
-
-about to be used whenever possible.
+In effect, initialization of automatic variables are just shorthand for assignment statements. Which form to prefer is largely a matter of taste. We generally use explicit assignments, because initializers in declarations are harder to see and further away from the point of use. On the other hand, variables should only be declared when they're about to be used whenever possible.
 
 **Initializing an array:**
 
-An array may be initialized by following its declaration with a list of initializers enclosed in braces and separated by
-
-commas.
-
+An array may be initialized by following its declaration with a list of initializers enclosed in braces and separated by commas.  
 For example, to initialize an array days with the number of days in each month:
 
 ```c
 int days_of_month[] = { 31 , 28 , 31 , 30 , 31 , 30 , 31 , 31 , 30 , 31 , 30 , 31 }
 ```
-(Note that January is encoded as month zero in this structure.)
+(Note that January is encoded as month zero in this structure.)  
+When the size of the array is omitted, the compiler will compute the length by counting the initializers, of which there are 12 in this case.  
 
-When the size of the array is omitted, the compiler will compute the length by counting the initializers, of which
+If there are fewer initializers for an array than the specified size, the others will be zero for all types of variables.  
+It is an error to have too many initializers. There is no standard way to specify repetition of an initializer — but GCC has an extension to do so.  
 
-there are 12 in this case.
+Version < C99  
 
+. In `C89`/`C90` or `earlier` versions of C, there was no way to initialize an element in the middle of an array without supplying all the preceding values as well.  
 
-If there are fewer initializers for an array than the specified size, the others will be zero for all types of variables.
+Version ≥ C99  
 
-It is an error to have too many initializers. There is no standard way to specify repetition of an initializer — but GCC
-
-has an extension to do so.
-
-Version < C99
-
-In C89/C90 or earlier versions of C, there was no way to initialize an element in the middle of an array without
-
-supplying all the preceding values as well.
-
-Version ≥ C99
-
-With C99 and above, designated initializers allow you to initialize arbitrary elements of an array, leaving any
-
-uninitialized values as zeros.
+With `C99` and `above`, designated initializers allow you to initialize arbitrary elements of an array, leaving any uninitialized values as zeros.  
 
 **Initializing Character arrays:**
 
-Character arrays are a special case of initialization; a string may be used instead of the braces and commas
+Character arrays are a special case of initialization; a string may be used instead of the braces and commas notation:
 
-notation:
-
-```
+```C
 char chr_array[] = "hello";
 ```
 is a shorthand for the longer but equivalent:
 
-```
+```C
 char chr_array[] = { 'h', 'e', 'l', 'l', 'o', ' \0 ' };
 ```
-In this case, the array size is six (five characters plus the terminating ' **\0** ').
+In this case, the array size is six (five characters plus the terminating ' **\0** ').  
 
-1 What happens to a declared, uninitialized variable in C? Does it have a value?
-
-2 Note that a _constant expression_ is defined as something that can be evaluated at compile-time. So, int
-
-global_var = f(); is invalid. Another common misconception is thinking of a const qualified variable as a _constant_
-
-_expression_. In C, const means "read-only", not "compile time constant". So, global definitions like const int SIZE =
-
-10 ; int global_arr[SIZE]; and const int SIZE = 10 ; int global_var = SIZE; are not legal in C.
+- 1 What happens to a declared, uninitialized variable in C? Does it have a value?
+- 2 Note that a _constant expression_ is defined as something that can be evaluated at compile-time. So, `int global_var = f();` is invalid. Another common misconception is thinking of a const qualified variable as a _constant_ _expression_. In C, const means "read-only", not "compile time constant". So, global definitions like `const int SIZE = 10 ; int global_arr[SIZE];` and `const int SIZE = 10 ; int global_var = SIZE;` are not legal in C.
 
 ### Section 17.2: Using designated initializers
 
-Version ≥ C99
+Version ≥ C99  
 
-C99 introduced the concept of _designated initializers._ These allow you to specify which elements of an array,
-
-structure or union are to be initialized by the values following.
+`C99` introduced the concept of _designated initializers._ These allow you to specify which elements of an array, structure or union are to be initialized by the values following.
 
 **Designated initializers for array elements**
 
-For a simple type like plain int:
+For a simple type like plain `int`:
 
 ```c
 int array[] = { [ 4 ] = 29 , [ 5 ] = 31 , [ 17 ] = 101 , [ 18 ] = 103 , [ 19 ] = 107 , [ 20 ] = 109 };
 ```
-The term in square brackets, which can be any constant integer expression, specifies which element of the array is
+The term in square brackets, which can be any constant integer expression, specifies which element of the array is to be initialized by the value of the term after the `=` sign. Unspecified elements are default initialized, which means zeros are defined. The example shows the designated initializers in order; they do not have to be in order. The example shows gaps; those are legitimate. The example doesn't show two different initializations for the same element; that too is allowed (`ISO/IEC 9899:2011`, §6.7.9 Initialization, ¶ 19 _The initialization shall occur in initializer list_ _order, each initializer provided for a particular subobject overriding any previously listed initializer for the same_ _subobject_ ).  
 
-to be initialized by the value of the term after the = sign. Unspecified elements are default initialized, which means
+In this example, the size of the array is not defined explicitly, so the maximum index specified in the designated initializers dictates the size of the array — which would be 21 elements in the example. If the size was defined, initializing an entry beyond the end of the array would be an error, as usual.  
 
-zeros are defined. The example shows the designated initializers in order; they do not have to be in order. The
-
-example shows gaps; those are legitimate. The example doesn't show two different initializations for the same
-
-element; that too is allowed (ISO/IEC 9899:2011, §6.7.9 Initialization, ¶ 19 _The initialization shall occur in initializer list_
-
-_order, each initializer provided for a particular subobject overriding any previously listed initializer for the same_
-
-_subobject_ ).
-
-
-In this example, the size of the array is not defined explicitly, so the maximum index specified in the designated
-
-initializers dictates the size of the array — which would be 21 elements in the example. If the size was defined,
-
-initializing an entry beyond the end of the array would be an error, as usual.
-
-**Designated initializers for structures**
+**Designated initializers for structures**  
 
 You can specify which elements of a structure are initialized by using the. _element_ notation:
 
-```
+```C
 struct Date
 {
-int year;
-int month;
-int day;
+  int year;
+  int month;
+  int day;
 };
-```
-```
+
 struct Date us_independence_day = { .day = 4 , .month = 7 , .year = 1776 };
 ```
-If elements are not listed, they are default initialized (zeroed).
+If elements are not listed, they are default initialized (zeroed).  
 
-**Designated initializer for unions**
+**Designated initializer for unions**  
 
-You can specify which element of a union is initialize with a designated initializer.
+You can specify which element of a union is initialize with a designated initializer.  
 
-Version = C89
+Version = C89  
 
-Prior to the C standard, there was no way to initialize a union. The C89/C90 standard allows you to initialize the first
+Prior to the C standard, there was no way to initialize a union. The `C89`/`C90` standard allows you to initialize the first member of a union — so the choice of which member is listed first matters.
 
-member of a union — so the choice of which member is listed first matters.
-
-```
+```C
 struct discriminated_union
 {
-enum { DU_INT, DU_DOUBLE } discriminant;
-union
-{
-int du_int;
-double du_double;
-} du;
+  enum { DU_INT, DU_DOUBLE } discriminant;
+  union
+  {
+  int du_int;
+  double du_double;
+  } du;
 };
 ```
 ```
