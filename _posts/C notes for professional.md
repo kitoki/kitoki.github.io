@@ -5751,67 +5751,53 @@ number ( _maximimal munch_ rule).
 
 ### Section 17.3: Initializing structures and arrays of structures
 
-Structures and arrays of structures can be initialized by a series of values enclosed in braces, one value per
+Structures and arrays of structures can be initialized by a series of values enclosed in braces, one value per member of the structure.
 
-member of the structure.
-
-```
+```c
 struct Date
 {
 int year;
 int month;
 int day;
 };
-```
-```
+
 struct Date us_independence_day = { 1776 , 7 , 4 };
-```
-```
+
 struct Date uk_battles[] =
 {
-{ 1066 , 10 , 14 }, // Battle of Hastings
-{ 1815 , 6 , 18 }, // Battle of Waterloo
-{ 1805 , 10 , 21 }, // Battle of Trafalgar
+  { 1066 , 10 , 14 }, // Battle of Hastings
+  { 1815 , 6 , 18 }, // Battle of Waterloo
+  { 1805 , 10 , 21 }, // Battle of Trafalgar
 };
 ```
-Note that the array initialization could be written without the interior braces, and in times past (before 1990, say)
-
-often would have been written without them:
+Note that the array initialization could be written without the interior braces, and in times past (before 1990, say) often would have been written without them:
 
 
-```
+```c
 struct Date uk_battles[] =
 {
-1066 , 10 , 14 , // Battle of Hastings
-1815 , 6 , 18 , // Battle of Waterloo
-1805 , 10 , 21 , // Battle of Trafalgar
+  1066 , 10 , 14 , // Battle of Hastings
+  1815 , 6 , 18 , // Battle of Waterloo
+  1805 , 10 , 21 , // Battle of Trafalgar
 };
 ```
-Although this works, it is not good modern style — you should not attempt to use this notation in new code and
-
-should fix the compiler warnings it usually yields.
-
+Although this works, it is not good modern style — you should not attempt to use this notation in new code and should fix the compiler warnings it usually yields.
 See also designated initializers.
-
 
 ## Chapter 18: Declaration vs Definition
 
 ### Section 18.1: Understanding Declaration and Definition
 
-A declaration introduces an identifier and describes its type, be it a type, object, or function. A declaration is what
+A declaration introduces an identifier and describes its type, be it a type, object, or function. A declaration is what the compiler needs to accept references to that identifier. These are declarations:
 
-the compiler needs to accept references to that identifier. These are declarations:
-
-```
+```c
 extern int bar;
 extern int g(int, int);
 double f(int, double); /* extern can be omitted for function declarations */
 double h1(); /* declaration without prototype */
 double h2(); /* ditto */
 ```
-A definition actually instantiates/implements this identifier. It's what the linker needs in order to link references to
-
-those entities. These are definitions corresponding to the above declarations:
+A definition actually instantiates/implements this identifier. It's what the linker needs in order to link references to those entities. These are definitions corresponding to the above declarations:
 
 ```c
 int bar;
@@ -5820,88 +5806,68 @@ double f(int i, double d) {return i+d;}
 double h1(int a, int b) {return - 1.5;}
 double h2() {} /* prototype is implied in definition, same as double h2(void) */
 ```
-A definition can be used in the place of a declaration.
-
-However, it must be defined exactly once. If you forget to define something that's been declared and referenced
-
-somewhere, then the linker doesn't know what to link references to and complains about a missing symbols. If you
-
-define something more than once, then the linker doesn't know which of the definitions to link references to and
-
-complains about duplicated symbols.
+A definition can be used in the place of a declaration.  
+However, it must be defined exactly once. If you forget to define something that's been declared and referenced somewhere, then the linker doesn't know what to link references to and complains about a missing symbols. If you define something more than once, then the linker doesn't know which of the definitions to link references to and complains about duplicated symbols.  
 
 Exception:
 
-```
+```c
 extern int i = 0 ; /* defines i */
 extern int j; /* declares j */
 ```
-This exception can be explained using concepts of "Strong symbols vs Weak symbols" (from a linker's perspective).
-
-Please look here ( Slide 22 ) for more explanation.
+This exception can be explained using concepts of "Strong symbols vs Weak symbols" (from a linker's perspective). Please look here ( Slide 22 ) for more explanation.
 
 ```c
 /* All are definitions. */
 struct S { int a; int b; }; /* defines S */
 struct X { /* defines X */
-int x; /* defines non-static data member x */
+  int x; /* defines non-static data member x */
 };
 struct X anX; /* defines anX */
 ```
 
 ## Chapter 19: Command-line arguments
 
-```
+
 Parameter Details
-```
-```
-argc
-argument count - initialized to the number of space-separated arguments given to the program from
-the command-line as well as the program name itself.
-```
-```
-argv
-argument vector - initialized to an array of char-pointers (strings) containing the arguments (and the
-program name) that was given on the command-line.
-```c
+
+`argc`  
+argument count - initialized to the number of space-separated arguments given to the program from the command-line as well as the program name itself.
+
+`argv`  
+argument vector - initialized to an array of char-pointers (strings) containing the arguments (and the program name) that was given on the command-line.
+
 ### Section 19.1: Print the arguments to a program and convert to integer values
 
-The following code will print the arguments to the program, and the code will attempt to convert each argument
-
-into a number (to a long):
+The following code will print the arguments to the program, and the code will attempt to convert each argument into a number (to a `long`):
 
 ```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <limits.h>
-```
-```c
+
 int main(int argc, char* argv[]) {
-```
-```
-for (int i = 1 ; i < argc; i++) {
-printf("Argument %d is: %s \n ", i, argv[i]);
-```
-```
-errno = 0 ;
-char *p;
-long argument_numValue = strtol(argv[i], &p, 10 );
-```
-```
-if (p == argv[i]) {
-fprintf(stderr, "Argument %d is not a number. \n ", i);
-}
-else if ((argument_numValue == LONG_MIN || argument_numValue == LONG_MAX) && errno ==
-ERANGE) {
-fprintf(stderr, "Argument %d is out of range. \n ", i);
-}
-else {
-printf("Argument %d is a number, and the value is: %ld \n ",
-i, argument_numValue);
-}
-}
-return 0 ;
+
+  for (int i = 1 ; i < argc; i++) {
+    printf("Argument %d is: %s \n ", i, argv[i]);
+
+    errno = 0 ;
+    char *p;
+    long argument_numValue = strtol(argv[i], &p, 10 );
+
+    if (p == argv[i]) {
+      fprintf(stderr, "Argument %d is not a number. \n ", i);
+    }
+    else if ((argument_numValue == LONG_MIN || argument_numValue == LONG_MAX) && errno == ERANGE) {
+      fprintf(stderr, "Argument %d is out of range. \n ", i);
+    }
+    else {
+      printf("Argument %d is a number, and the value is: %ld \n ",i, argument_numValue);
+    }
+  }
+  
+  return 0 ;
 }
 ```
 References:
@@ -5909,7 +5875,7 @@ References:
 ```
 strtol() returns an incorrect value
 Correct usage of strtol
-```c
+```
 ### Section 19.2: Printing the command line arguments
 
 After receiving the arguments, you can print them as follows:
@@ -5917,181 +5883,152 @@ After receiving the arguments, you can print them as follows:
 ```c
 int main(int argc, char **argv)
 {
-for (int i = 1 ; i < argc; i++)
-{
-printf("Argument %d: [%s] \n ", i, argv[i]);
+  for (int i = 1 ; i < argc; i++)
+  {
+    printf("Argument %d: [%s] \n ", i, argv[i]);
+  }
+}
 ```
-
-##### }
-
-##### }
 
 **Notes**
 
-1. The argv parameter can be also defined as char *argv[].
-2. argv[^0 ] _may_ contain the program name itself (depending on how the program was executed). The first "real"
-    command line argument is at argv[ 1 ], and this is the reason why the loop variable i is initialized to 1.
-3. In the print statement, you can use *(argv + i) instead of argv[i] - it evaluates to the same thing, but is
-    more verbose.
-4. The square brackets around the argument value help identify the start and end. This can be invaluable if
-    there are trailing blanks, newlines, carriage returns, or other oddball characters in the argument. Some
-    variant on this program is a useful tool for debugging shell scripts where you need to understand what the
-    argument list actually contains (although there are simple shell alternatives that are almost equivalent).
+1. The `argv` parameter can be also defined as `char *argv[]`.  
+2. `argv[0]` _may_ contain the program name itself (depending on how the program was executed). The first "real" command line argument is at `argv[1]`, and this is the reason why the loop variable `i` is initialized to `1`.  
+3. In the print statement, you can use `*(argv + i)` instead of `argv[i]` - it evaluates to the same thing, but is more verbose.  
+4. The square brackets around the argument value help identify the start and end. This can be invaluable if there are trailing blanks, newlines, carriage returns, or other oddball characters in the argument. Some variant on this program is a useful tool `for debugging` shell scripts where you need to understand what the argument list actually contains (although there are simple shell `alternatives` that are almost equivalent).
 
 ### Section 19.3: Using GNU getopt tools
 
-Command-line options for applications are not treated any differently from command-line arguments by the C
+Command-line options for applications are not treated any differently from command-line arguments by the C language. They are just arguments which, in a Linux or Unix environment, traditionally begin with a dash (`-`). With `glibc` in a Linux or Unix environment you can use the `getopt` tools to easily define, validate, and parse command-line options from the rest of your arguments.  
 
-language. They are just arguments which, in a Linux or Unix environment, traditionally begin with a dash (-).
+These tools expect your options to be formatted according to the GNU Coding Standards, which is an extension of what POSIX specifies for the format of command-line options.  
 
-With glibc in a Linux or Unix environment you can use the getopt tools to easily define, validate, and parse
-
-command-line options from the rest of your arguments.
-
-These tools expect your options to be formatted according to the GNU Coding Standards, which is an extension of
-
-what POSIX specifies for the format of command-line options.
-
-The example below demonstrates handling command-line options with the GNU getopt tools.
+The example below demonstrates handling command-line options with the GNU `getopt` tools.
 
 ```c
 #include <stdio.h>
 #include <getopt.h>
 #include <string.h>
-```
-```c
+
 /* print a description of all supported options */
 void usage (FILE *fp, const char *path)
 {
-/* take only the last portion of the path */
-const char *basename = strrchr(path, '/');
-basename = basename? basename + 1 : path;
-```
-```
-fprintf (fp, "usage: %s [OPTION] \n ", basename);
-fprintf (fp, " -h, --help \t\t "
-"Print this help and exit. \n ");
-fprintf (fp, " -f, --file[=FILENAME] \t "
-"Write all output to a file (defaults to out.txt). \n ");
-fprintf (fp, " -m, --msg=STRING \t "
-"Output a particular message rather than 'Hello world'. \n ");
+  /* take only the last portion of the path */
+  const char *basename = strrchr(path, '/');
+  basename = basename? basename + 1 : path;
+
+  fprintf (fp, "usage: %s [OPTION] \n ", basename);
+  fprintf (fp, " -h, --help \t\t " "Print this help and exit. \n ");
+  fprintf (fp, " -f, --file[=FILENAME] \t "  "Write all output to a file (defaults to out.txt). \n ");
+  fprintf (fp, " -m, --msg=STRING \t "   "Output a particular message rather than 'Hello world'. \n ");
 }
-```
-```c
+
 /* parse command-line options and print message */
 int main(int argc, char *argv[])
 {
-/* for code brevity this example just uses fixed buffer sizes for strings */
-char filename[ 256 ] = { 0 };
-char message[ 256 ] = "Hello world";
-FILE *fp;
-int help_flag = 0 ;
-int opt;
-```
+  /* for code brevity this example just uses fixed buffer sizes for strings */
+  char filename[ 256 ] = { 0 };
+  char message[ 256 ] = "Hello world";
+  FILE *fp;
+  int help_flag = 0 ;
+  int opt;
 
-_/* table of all supported options in their long form.
-* fields: name, has_arg, flag, val
-* `has_arg` specifies whether the associated long-form option can (or, in
-* some cases, must) have an argument. the valid values for `has_arg` are
-* `no_argument`, `optional_argument`, and `required_argument`.
-* if `flag` points to a variable, then the variable will be given a value
-* of `val` when the associated long-form option is present at the command
-* line.
-* if `flag` is NULL, then `val` is returned by `getopt_long` (see below)
-* when the associated long-form option is found amongst the command-line
-* arguments.
-*/_
-struct option longopts[] = {
-{ "help", no_argument, &help_flag, 1 },
-{ "file", optional_argument, NULL, 'f' },
-{ "msg", required_argument, NULL, 'm' },
-{ 0 }
-};
+  _/* table of all supported options in their long form.
+  * fields: name, has_arg, flag, val
+  * `has_arg` specifies whether the associated long-form option can (or, in
+  * some cases, must) have an argument. the valid values for `has_arg` are
+  * `no_argument`, `optional_argument`, and `required_argument`.
+  * if `flag` points to a variable, then the variable will be given a value
+  * of `val` when the associated long-form option is present at the command
+  * line.
+  * if `flag` is NULL, then `val` is returned by `getopt_long` (see below)
+  * when the associated long-form option is found amongst the command-line
+  * arguments.
+  */_
+  struct option longopts[] = {
+    { "help", no_argument, &help_flag, 1 },
+    { "file", optional_argument, NULL, 'f' },
+    { "msg", required_argument, NULL, 'm' },
+    { 0 }
+  };
 
-_/* infinite loop, to be broken when we are done parsing options */_
-while ( 1 ) {
-_/* getopt_long supports GNU-style full-word "long" options in addition
-* to the single-character "short" options which are supported by
-* getopt.
-* the third argument is a collection of supported short-form options.
-* these do not necessarily have to correlate to the long-form options.
-* one colon after an option indicates that it has an argument, two
-* indicates that the argument is optional. order is unimportant.
-*/_
-opt = getopt_long (argc, argv, "hf::m:", longopts, 0 );
+  _/* infinite loop, to be broken when we are done parsing options */_
+  while ( 1 ) {
+    _/* getopt_long supports GNU-style full-word "long" options in addition
+    * to the single-character "short" options which are supported by
+    * getopt.
+    * the third argument is a collection of supported short-form options.
+    * these do not necessarily have to correlate to the long-form options.
+    * one colon after an option indicates that it has an argument, two
+    * indicates that the argument is optional. order is unimportant.
+    */_
+    opt = getopt_long (argc, argv, "hf::m:", longopts, 0 );
 
-if (opt == - 1 ) {
-_/* a return value of -1 indicates that there are no more options */_
-break;
-}
+    if (opt == - 1 ) {
+    _/* a return value of -1 indicates that there are no more options */_
+    break;
+    }
 
-switch (opt) {
-case 'h':
-_/* the help_flag and value are specified in the longopts table,
-* which means that when the --help option is specified (in its long
-* form), the help_flag variable will be automatically set.
-* however, the parser for short-form options does not support the
-* automatic setting of flags, so we still need this code to set the
-* help_flag manually when the -h option is specified.
-*/_
-help_flag = 1 ;
-break;
-case 'f':
-_/* optarg is a global variable in getopt.h. it contains the argument
-* for this option. it is null if there was no argument.
-*/_
-printf ("outarg: '%s' **\n** ", optarg);
-strncpy (filename, optarg? optarg : "out.txt", sizeof (filename));
-_/* strncpy does not fully guarantee null-termination */_
-filename[sizeof (filename) - 1 ] = ' **\0** ';
-break;
-case 'm':
-_/* since the argument for this option is required, getopt guarantees
-* that aptarg is non-null.
-*/_
-strncpy (message, optarg, sizeof (message));
-message[sizeof (message) - 1 ] = ' **\0** ';
+    switch (opt) {
+    case 'h':
+      _/* the help_flag and value are specified in the longopts table,
+      * which means that when the --help option is specified (in its long
+      * form), the help_flag variable will be automatically set.
+      * however, the parser for short-form options does not support the
+      * automatic setting of flags, so we still need this code to set the
+      * help_flag manually when the -h option is specified.
+      */_
+      help_flag = 1 ;
+      break;
+    case 'f':
+      _/* optarg is a global variable in getopt.h. it contains the argument
+      * for this option. it is null if there was no argument.
+      */_
+      printf ("outarg: '%s' **\n** ", optarg);
+      strncpy (filename, optarg? optarg : "out.txt", sizeof (filename));
+      _/* strncpy does not fully guarantee null-termination */_
+      filename[sizeof (filename) - 1 ] = ' **\0** ';
+      break;
+    case 'm':
+      _/* since the argument for this option is required, getopt guarantees
+      * that aptarg is non-null.
+      */_
+      strncpy (message, optarg, sizeof (message));
+      message[sizeof (message) - 1 ] = ' **\0** ';
+      break;
+    case '?':
+      /* a return value of '?' indicates that an option was malformed.
+      * this could mean that an unrecognized option was given, or that an
+      * option which requires an argument did not include an argument.
+      */
+      usage (stderr, argv[ 0 ]);
+      return 1 ;
+      default:
+      break;
+    }
+  }
 
+  if (help_flag) {
+    usage (stdout, argv[ 0 ]);
+    return 0 ;
+  }
 
-```
-break;
-case '?':
-/* a return value of '?' indicates that an option was malformed.
-* this could mean that an unrecognized option was given, or that an
-* option which requires an argument did not include an argument.
-*/
-usage (stderr, argv[ 0 ]);
-return 1 ;
-default:
-break;
-}
-}
-```
-```
-if (help_flag) {
-usage (stdout, argv[ 0 ]);
-return 0 ;
-}
-```
-```
-if (filename[ 0 ]) {
-fp = fopen (filename, "w");
-} else {
-fp = stdout;
-}
-```
-```
-if (!fp) {
-fprintf(stderr, "Failed to open file. \n ");
-return 1 ;
-}
-```
-```
-fprintf (fp, "%s \n ", message);
-```
-```
-fclose (fp);
-return 0 ;
+  if (filename[ 0 ]) {
+    fp = fopen (filename, "w");
+  } else {
+    fp = stdout;
+  }
+
+  if (!fp) {
+    fprintf(stderr, "Failed to open file. \n ");
+    return 1 ;
+  }
+
+  fprintf (fp, "%s \n ", message);
+
+  fclose (fp);
+
+  return 0 ;
 }
 ```
 It can be compiled with gcc:
@@ -6099,13 +6036,9 @@ It can be compiled with gcc:
 ```c
 gcc example.c - o example
 ```
-It supports three command-line options (--help, --file, and --msg). All have a "short form" as well (-h, -f, and -m).
+It supports three command-line options (`--help`, `--file`, and `--msg`). All have a "short form" as well (`-h`, `-f`, and `-m`). The "file" and "msg" options both accept arguments. If you specify the "msg" option, its argument is required. Arguments for options are formatted as:
 
-The "file" and "msg" options both accept arguments. If you specify the "msg" option, its argument is required.
-
-Arguments for options are formatted as:
-
-```
+```c
 --option=value (for long-form options)
 ```
 - ovalue or -o"value" (for short-form options)
@@ -6113,144 +6046,98 @@ Arguments for options are formatted as:
 
 ## Chapter 20: Files and I/O streams
 
-```
-Parameter Details
-const char *modeA string describing the opening mode of the file-backed stream. See remarks for possible values.
-```
-```c
-int whence
-Can be SEEK_SET to set from the beginning of the file, SEEK_END to set from its end, or SEEK_CUR
-to set relative to the current cursor value. Note: SEEK_END is non-portable.
-```c
+
+Parameter Details  
+const `char *modeA` string describing the opening mode of the file-backed stream. See remarks for possible values.  
+
+int whence Can be `SEEK_SET` to set from the beginning of the file, `SEEK_END` to set from its end, or `SEEK_CUR` to set relative to the current cursor value. Note: `SEEK_END` is non-portable.
+
 ### Section 20.1: Open and write to file
 
 ```c
 #include <stdio.h> /* for perror(), fopen(), fputs() and fclose() */
 #include <stdlib.h> /* for the EXIT_* macros */
-```
-```c
+
 int main(int argc, char **argv)
 {
-int e = EXIT_SUCCESS;
-```
-```c
-/* Get path from argument to main else default to output.txt */
-char *path = (argc > 1 )? argv[ 1 ] : "output.txt";
-```
-```c
-/* Open file for writing and obtain file pointer */
-FILE *file = fopen(path, "w");
-```
-```c
-/* Print error message and exit if fopen() failed */
-if (!file)
-{
-perror(path);
-return EXIT_FAILURE;
-}
-```
-```c
-/* Writes text to file. Unlike puts(), fputs() does not add a new-line. */
-if (fputs("Output in file. \n ", file) == EOF)
-{
-perror(path);
-e = EXIT_FAILURE;
-}
-```
-```c
-/* Close file */
-if (fclose(file))
-{
-perror(path);
-return EXIT_FAILURE;
-}
+  int e = EXIT_SUCCESS;
+
+  /* Get path from argument to main else default to output.txt */
+  char *path = (argc > 1 )? argv[ 1 ] : "output.txt";
+
+  /* Open file for writing and obtain file pointer */
+  FILE *file = fopen(path, "w");
+
+  /* Print error message and exit if fopen() failed */
+  if (!file)
+  {
+    perror(path);
+    return EXIT_FAILURE;
+  }
+
+  /* Writes text to file. Unlike puts(), fputs() does not add a new-line. */
+  if (fputs("Output in file. \n ", file) == EOF)
+  {
+    perror(path);
+    e = EXIT_FAILURE;
+  }
+
+  /* Close file */
+  if (fclose(file))
+  {
+    perror(path);
+    return EXIT_FAILURE;
+  }
 return e;
 }
 ```
-This program opens the file with name given in the argument to main, defaulting to output.txt if no argument is
+This program opens the file with name given in the argument to main, defaulting to `output.txt` if no argument is given. If a file with the same name already exists, its contents are discarded and the file is treated as a new empty file. If the files does not already exist the `fopen()` call creates it. If the `fopen()` call fails for some reason, it returns a `NULL` value and sets the global `errno` variable value. This means that the program can test the returned value after the `fopen()` call and use `perror()` if `fopen()` fails.  
 
-given. If a file with the same name already exists, its contents are discarded and the file is treated as a new empty
+If the `fopen()` call succeeds, it returns a valid FILE pointer. This pointer can then be used to reference this file until `fclose()` is called on it. The `fputs()` function writes the given text to the opened file, replacing any previous contents of the file. Similarly to `fopen()`, the `fputs()` function also sets the `errno` value if it fails, though in this case the function returns `EOF` to indicate the fail (it otherwise returns a non-negative value).  
 
-file. If the files does not already exist the fopen() call creates it.
-
-If the fopen() call fails for some reason, it returns a NULL value and sets the global errno variable value. This means
-
-that the program can test the returned value after the fopen() call and use perror() if fopen() fails.
-
-If the fopen() call succeeds, it returns a valid FILE pointer. This pointer can then be used to reference this file until
-
-fclose() is called on it.
-
-The fputs() function writes the given text to the opened file, replacing any previous contents of the file. Similarly to
-
-fopen(), the fputs() function also sets the errno value if it fails, though in this case the function returns EOF to
-
-
-indicate the fail (it otherwise returns a non-negative value).
-
-The fclose() function flushes any buffers, closes the file and frees the memory pointed to by FILE *. The return
-
-value indicates completion just as fputs() does (though it returns '0' if successful), again also setting the errno
-
-value in the case of a fail.
+The `fclose()` function flushes any buffers, closes the file and frees the memory pointed to by FILE `*`. The return value indicates completion just as `fputs()` does (though it returns '0' if successful), again also setting the `errno` value in the case of a fail.
 
 ### Section 20.2: Run process
 
 ```c
 #include <stdio.h>
-```
-```
+
 void print_all(FILE *stream)
 {
-int c;
-while ((c = getc(stream)) != EOF)
-putchar(c);
+  int c;
+  while ((c = getc(stream)) != EOF)
+  putchar(c);
 }
+
 int main(void)
 {
-FILE *stream;
-```
-```c
-/* call netstat command. netstat is available for Windows and Linux */
-if ((stream = popen("netstat", "r")) == NULL)
-return 1 ;
-```
-```
-print_all(stream);
-pclose(stream);
-return 0 ;
+  FILE *stream;
+
+  /* call netstat command. netstat is available for Windows and Linux */
+  if ((stream = popen("netstat", "r")) == NULL)
+  return 1 ;
+
+  print_all(stream);
+  pclose(stream);
+  return 0 ;
 }
 ```
-This program runs a process (netstat) via popen() and reads all the standard output from the process and echoes
+This program runs a process (`netstat`) via `popen()` and reads all the standard output from the process and echoes that to standard output.  
 
-that to standard output.
-
-_Note:_ popen() does not exist in the standard C library, but it is rather a part of POSIX C)
+- _Note:_ `popen()` does not exist in the standard C library, but it is rather a part of `POSIX C`)
 
 ### Section 20.3: fprintf
 
-You can use fprintf on a file just like you might on a console with printf. For example to keep track of game wins,
-
-losses and ties you might write
+You can use `fprintf` on a file just like you might on a console with `printf`. For example to keep track of game wins, losses and ties you might write
 
 ```c
 /* saves wins, losses and, ties */
 void savewlt(FILE *fout, int wins, int losses, int ties)
 {
-fprintf(fout, "Wins: %d \n Ties: %d \n Losses: %d \n ", wins, ties, losses);
+  fprintf(fout, "Wins: %d \n Ties: %d \n Losses: %d \n ", wins, ties, losses);
 }
 ```
-A side note: Some systems (infamously, Windows) do not use what most programmers would call "normal" line
-
-endings. While UNIX-like systems use \n to terminate lines, Windows uses a pair of characters: \r (carriage return)
-
-and \n (line feed). This sequence is commonly called CRLF. However, whenever using C, you do not need to worry
-
-about these highly platform-dependent details. A C compiler is required to convert every instance of \n to the
-
-correct platform line ending. So a Windows compiler would convert \n to \r\n, but a UNIX compiler would keep it as-
-
-is.
+- A side note: Some systems (infamously, Windows) do not use what most programmers would call "normal" line endings. While UNIX-like systems use `\n` to terminate lines, Windows uses a pair of characters: `\r` (carriage return) and `\n` (line feed). This sequence is commonly called `CRLF`. However, whenever using C, you do not need to worry about these highly platform-dependent details. A C compiler is required to convert every instance of `\n` to the correct platform line ending. So a Windows compiler would convert `\n` to `\r\n`, but a UNIX compiler would keep it as is.
 
 ### Section 20.4: Get lines from a file using getline()
 
