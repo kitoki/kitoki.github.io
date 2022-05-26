@@ -2990,8 +2990,8 @@ Here `p` remains valid until the end of the block.
 
 ```c
 struct point {
-unsigned x;
-unsigned y;
+  unsigned x;
+  unsigned y;
 };
 
 extern void drawline(struct point, struct point);
@@ -6141,67 +6141,54 @@ void savewlt(FILE *fout, int wins, int losses, int ties)
 
 ### Section 20.4: Get lines from a file using getline()
 
-The POSIX C library defines the getline() function. This function allocates a buffer to hold the line contents and
-
-returns the new line, the number of characters in the line, and the size of the buffer.
-
-
-Example program that gets each line from example.txt:
+The POSIX C library defines the `getline()` function. This function allocates a buffer to hold the line contents and returns the new line, the number of characters in the line, and the size of the buffer.  
+Example program that gets each line from `example.txt`:
 
 ```c
 #include <stdlib.h>
 #include <stdio.h>
-```
-```c
+
 #define FILENAME "example.txt"
-```
-```c
+
 int main(void)
 {
-/* Open the file for reading */
-char *line_buf = NULL;
-size_t line_buf_size = 0 ;
-int line_count = 0 ;
-ssize_t line_size;
-FILE *fp = fopen(FILENAME, "r");
-if (!fp)
-{
-fprintf(stderr, "Error opening file '%s' \n ", FILENAME);
-return EXIT_FAILURE;
-}
-```
-```c
-/* Get the first line of the file. */
-line_size = getline(&line_buf, &line_buf_size, fp);
-```
-```c
-/* Loop through until we are done with the file. */
-while (line_size >= 0 )
-{
-/* Increment our line count */
-line_count++;
-```
-```c
-/* Show the line details */
-printf("line[%06d]: chars=%06zd, buf size=%06zu, contents: %s", line_count,
-line_size, line_buf_size, line_buf);
-```
-```c
-/* Get the next line */
-line_size = getline(&line_buf, &line_buf_size, fp);
-}
-```
-```c
-/* Free the allocated line buffer */
-free(line_buf);
-line_buf = NULL;
-```
-```c
-/* Close the file now that we are done with it */
-fclose(fp);
-```
-```c
-return EXIT_SUCCESS;
+  /* Open the file for reading */
+  char *line_buf = NULL;
+  size_t line_buf_size = 0 ;
+  int line_count = 0 ;
+  ssize_t line_size;
+  FILE *fp = fopen(FILENAME, "r");
+  if (!fp)
+  {
+    fprintf(stderr, "Error opening file '%s' \n ", FILENAME);
+    return EXIT_FAILURE;
+  }
+
+  /* Get the first line of the file. */
+  line_size = getline(&line_buf, &line_buf_size, fp);
+
+  /* Loop through until we are done with the file. */
+  while (line_size >= 0 )
+  {
+    /* Increment our line count */
+    line_count++;
+
+    /* Show the line details */
+    printf("line[%06d]: chars=%06zd, buf size=%06zu, contents: %s", line_count,
+    line_size, line_buf_size, line_buf);
+
+    /* Get the next line */
+    line_size = getline(&line_buf, &line_buf_size, fp);
+  }
+
+  /* Free the allocated line buffer */
+  free(line_buf);
+  line_buf = NULL;
+
+  /* Close the file now that we are done with it */
+  fclose(fp);
+
+  return EXIT_SUCCESS;
 }
 ```
 **Input file example.txt**
@@ -6214,9 +6201,7 @@ with various indentation,
 blank lines
 ```
 ```
-a really long line to show that getline() will reallocate the line buffer if the length of a line
-is too long to fit in the buffer it has been given,
-and punctuation at the end of the lines.
+a really long line to show that `getline()` will reallocate the line buffer if the length of a line is too long to fit in the buffer it has been given, and punctuation at the end of the lines.
 ```
 
 **Output**
@@ -6230,155 +6215,126 @@ line[000005]: chars=000012, buf size=000032, contents: blank lines
 line[000006]: chars=000001, buf size=000032, contents:
 line[000007]: chars=000001, buf size=000032, contents:
 line[000008]: chars=000001, buf size=000032, contents:
-line[000009]: chars=000150, buf size=000160, contents: a really long line to show that getline()
-will reallocate the line buffer if the length of a line is too long to fit in the buffer it has
-been given,
+line[000009]: chars=000150, buf size=000160, contents: a really long line to show that getline() will reallocate the line buffer if the length of a line is too long to fit in the buffer it has been given,
 line[000010]: chars=000042, buf size=000160, contents: and punctuation at the end of the lines.
 line[000011]: chars=000001, buf size=000160, contents:
 ```
-In the example, getline() is initially called with no buffer allocated. During this first call, getline() allocates a
+In the example, `getline()` is initially called with no buffer allocated. During this first call, `getline()` allocates a buffer, reads the first line and places the line's contents in the new buffer. On subsequent calls, `getline()` updates the same buffer and only reallocates the buffer when it is no longer large enough to fit the whole line. The temporary buffer is then freed when we are done with the file.  
 
-buffer, reads the first line and places the line's contents in the new buffer. On subsequent calls, getline() updates
+Another option is `getdelim()`. This is the same as `getline()` except you specify the line ending character. This is only necessary if the last character of the line for your file type is not '`\n`'. `getline()` works even with Windows text files because with the multibyte line ending (" **`\r\n`** ")'`\n`'` is still the last character on the line.  
 
-the same buffer and only reallocates the buffer when it is no longer large enough to fit the whole line. The
-
-temporary buffer is then freed when we are done with the file.
-
-Another option is getdelim(). This is the same as getline() except you specify the line ending character. This is
-
-only necessary if the last character of the line for your file type is not '\n'. getline() works even with Windows text
-
-files because with the multibyte line ending (" **\r\n** ")'\n'` is still the last character on the line.
-
-**Example implementation of getline()**
+**Example implementation of `getline()`**
 
 ```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <stdint.h>
-```
-```c
+
 #if !(defined _POSIX_C_SOURCE)
 typedef long int ssize_t;
 #endif
-```
-```c
+
 /* Only include our version of getline() if the POSIX version isn't available. */
-```
-```c
+
 #if !(defined _POSIX_C_SOURCE) || _POSIX_C_SOURCE < 200809L
-```
-```c
 #if !(defined SSIZE_MAX)
 #define SSIZE_MAX (SIZE_MAX >> 1)
 #endif
-```
-```
+
 ssize_t getline(char **pline_buf, size_t *pn, FILE *fin)
 {
-const size_t INITALLOC = 16 ;
-const size_t ALLOCSTEP = 16 ;
-size_t num_read = 0 ;
-```
-```c
-/* First check that none of our input pointers are NULL. */
-if ((NULL == pline_buf) || (NULL == pn) || (NULL == fin))
-{
-errno = EINVAL;
-return - 1 ;
-}
-```
-```c
-/* If output buffer is NULL, then allocate a buffer. */
-if (NULL == *pline_buf)
-```
+  const size_t INITALLOC = 16 ;
+  const size_t ALLOCSTEP = 16 ;
+  size_t num_read = 0 ;
 
-##### {
+  /* First check that none of our input pointers are NULL. */
+  if ((NULL == pline_buf) || (NULL == pn) || (NULL == fin))
+  {
+    errno = EINVAL;
+    return - 1 ;
+  }
 
-*pline_buf = malloc(INITALLOC);
-if (NULL == *pline_buf)
-{
-_/* Can't allocate memory. */_
-return - 1 ;
-}
-else
-{
-_/* Note how big the buffer is at this time. */_
-*pn = INITALLOC;
-}
+  /* If output buffer is NULL, then allocate a buffer. */
+  if (NULL == *pline_buf)
+  {
+
+    *pline_buf = malloc(INITALLOC);
+    if (NULL == *pline_buf)
+    {
+      _/* Can't allocate memory. */_
+      return - 1 ;
+    }
+    else
+    {
+      _/* Note how big the buffer is at this time. */_
+      *pn = INITALLOC;
+    }
+  }
+
+  _/* Step through the file, pulling characters until either a newline or EOF. */_
+
+  {
+    int c;
+    while (EOF != (c = getc(fin)))
+    {
+      _/* Note we read a character. */_
+      num_read++;
+
+      _/* Reallocate the buffer if we need more room */_
+      if (num_read >= *pn)
+      {
+        size_t n_realloc = *pn + ALLOCSTEP;
+        char * tmp = realloc(*pline_buf, n_realloc + 1 ); _/* +1 for the trailing NUL. */_
+        if (NULL != tmp)
+        {
+          _/* Use the new buffer and note the new buffer size. */_
+          *pline_buf = tmp;
+          *pn = n_realloc;
+        }
+        else
+        {
+          _/* Exit with error and let the caller free the buffer. */_
+          return - 1 ;
+        }
+
+        _/* Test for overflow. */_
+        if (SSIZE_MAX < *pn)
+        {
+          errno = ERANGE;
+          return - 1 ;
+        }
+      }
+
+      _/* Add the character to the buffer. */_
+      (*pline_buf)[num_read - 1 ] = (char) c;
+
+      _/* Break from the loop if we hit the ending character. */_
+      if (c == ' **\n** ')
+      {
+        break;
+      }
+    }
+
+    _/* Note if we hit EOF. */_
+    if (EOF == c)
+    {
+      errno = 0 ;
+      return - 1 ;
+    }
+  }
+
+  /* Terminate the string by suffixing NUL. */
+  (*pline_buf)[num_read] = ' \0 ';
+
+  return (ssize_t) num_read;
 }
 
-_/* Step through the file, pulling characters until either a newline or EOF. */_
-
-##### {
-
-int c;
-while (EOF != (c = getc(fin)))
-{
-_/* Note we read a character. */_
-num_read++;
-
-_/* Reallocate the buffer if we need more room */_
-if (num_read >= *pn)
-{
-size_t n_realloc = *pn + ALLOCSTEP;
-char * tmp = realloc(*pline_buf, n_realloc + 1 ); _/* +1 for the trailing NUL. */_
-if (NULL != tmp)
-{
-_/* Use the new buffer and note the new buffer size. */_
-*pline_buf = tmp;
-*pn = n_realloc;
-}
-else
-{
-_/* Exit with error and let the caller free the buffer. */_
-return - 1 ;
-}
-
-_/* Test for overflow. */_
-if (SSIZE_MAX < *pn)
-{
-errno = ERANGE;
-return - 1 ;
-}
-}
-
-_/* Add the character to the buffer. */_
-(*pline_buf)[num_read - 1 ] = (char) c;
-
-_/* Break from the loop if we hit the ending character. */_
-if (c == ' **\n** ')
-{
-break;
-}
-}
-
-_/* Note if we hit EOF. */_
-if (EOF == c)
-{
-errno = 0 ;
-
-
-```c
-return - 1 ;
-}
-}
-```
-```c
-/* Terminate the string by suffixing NUL. */
-(*pline_buf)[num_read] = ' \0 ';
-```
-```c
-return (ssize_t) num_read;
-}
-```
-```c
 #endif
-```c
+```
 ### Section 20.5: fscanf()
 
-Let's say we have a text file and we want to read all words in that file, in order to do some requirements.
+Let's say we have a text file and we want to read all words in that file, in order to do some requirements.  
 
 **file.txt** :
 
@@ -6392,46 +6348,37 @@ This is the main function:
 ```c
 #include <stdlib.h>
 #include <stdio.h>
-```
-```
+
 void printAllWords(FILE *);
-```
-```c
+
 int main(void)
 {
-FILE *fp;
-```
-```
-if ((fp = fopen("file.txt", "r")) == NULL) {
-perror("Error opening file");
-exit(EXIT_FAILURE);
+  FILE *fp;
+
+  if ((fp = fopen("file.txt", "r")) == NULL) {
+    perror("Error opening file");
+    exit(EXIT_FAILURE);
+  }
+
+  printAllWords(fp);
+
+  fclose(fp);
+
+  return EXIT_SUCCESS;
 }
-```
-```
-printAllWords(fp);
-```
-```
-fclose(fp);
-```
-```c
-return EXIT_SUCCESS;
-}
-```
-```
+
 void printAllWords(FILE * fp)
 {
-char tmp[ 20 ];
-int i = 1 ;
-```
-```
-while (fscanf(fp, "%19s", tmp) != EOF) {
-printf("Word %d: %s \n ", i, tmp);
-i++;
-}
+  char tmp[ 20 ];
+  int i = 1 ;
+
+  while (fscanf(fp, "%19s", tmp) != EOF) {
+    printf("Word %d: %s \n ", i, tmp);
+    i++;
+  }
 }
 ```
 The output will be:
-
 
 ```
 Word 1: This
@@ -6445,70 +6392,58 @@ Word 8: be
 Word 9: used
 Word 10: by
 Word 11: fscanf()
-```c
+```
 ### Section 20.6: Read lines from a file
 
-The stdio.h header defines the fgets() function. This function reads a line from a stream and stores it in a
-
-specified string. The function stops reading text from the stream when either n - 1 characters are read, the
-
-newline character (' **\n** ') is read or the end of file (EOF) is reached.
+The `stdio.h` header defines the `fgets()` function. This function reads a line from a stream and stores it in a specified string. The function stops reading text from the stream when either `n - 1` characters are read, the newline character (' **`\n`** ') is read or the end of file (EOF) is reached.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-```
-```c
+
 #define MAX_LINE_LENGTH 80
-```
-```c
+
 int main(int argc, char **argv)
 {
-char *path;
-char line[MAX_LINE_LENGTH] = { 0 };
-unsigned int line_count = 0 ;
-```
-```
-if (argc < 1 )
-return EXIT_FAILURE;
-path = argv[ 1 ];
-```
-```c
-/* Open file */
-FILE *file = fopen(path, "r");
-```
-```
-if (!file)
-{
-perror(path);
-return EXIT_FAILURE;
+  char *path;
+  char line[MAX_LINE_LENGTH] = { 0 };
+  unsigned int line_count = 0 ;
+
+  if (argc < 1 )
+  return EXIT_FAILURE;
+  path = argv[ 1 ];
+
+  /* Open file */
+  FILE *file = fopen(path, "r");
+
+  if (!file)
+  {
+    perror(path);
+    return EXIT_FAILURE;
+  }
+
+  /* Get each line until there are none left */
+  while (fgets(line, MAX_LINE_LENGTH, file))
+  {
+    /* Print each line */
+    printf("line[%06d]: %s", ++line_count, line);
+
+    /* Add a trailing newline to lines that don't already have one */
+    if (line[strlen(line) - 1 ] != ' \n ')
+    printf(" \n ");
+  }
+
+  /* Close file */
+  if (fclose(file))
+  {
+    return EXIT_FAILURE;
+    perror(path);
+
+  }
+
 }
 ```
-```c
-/* Get each line until there are none left */
-while (fgets(line, MAX_LINE_LENGTH, file))
-{
-/* Print each line */
-printf("line[%06d]: %s", ++line_count, line);
-```
-```c
-/* Add a trailing newline to lines that don't already have one */
-if (line[strlen(line) - 1 ] != ' \n ')
-printf(" \n ");
-}
-```
-```c
-/* Close file */
-if (fclose(file))
-{
-return EXIT_FAILURE;
-perror(path);
-```
-
-##### }
-
-##### }
 
 Calling the program with an argument that is a path to a file containing the following text:
 
@@ -6519,11 +6454,9 @@ multiple lines
 with various indentation,
 blank lines
 ```
-```
-a really long line to show that the line will be counted as two lines if the length of a line is
-too long to fit in the buffer it has been given,
-and punctuation at the end of the lines.
-```
+
+a really long line to show that the line will be counted as two lines if the length of a line is too long to fit in the buffer it has been given, and punctuation at the end of the lines.  
+
 Will result in the following output:
 
 ```
@@ -6540,103 +6473,67 @@ line[000010]: ngth of a line is too long to fit in the buffer it has been given,
 line[000011]: and punctuation at the end of the lines.
 line[000012]:
 ```
-This very simple example allows a fixed maximum line length, such that longer lines will effectively be counted as
+This very simple example allows a fixed maximum line length, such that longer lines will effectively be counted as two lines. The `fgets()` function requires that the calling code provide the memory to be used as the destination for the line that is read.  
 
-two lines. The fgets() function requires that the calling code provide the memory to be used as the destination for
-
-the line that is read.
-
-POSIX makes the getline() function available which instead internally allocates memory to enlarge the buffer as
-
-necessary for a line of any length (as long as there is sufficient memory).
+POSIX makes the `getline()` function available which instead internally allocates memory to enlarge the buffer as necessary for a line of any length (as long as there is sufficient memory).
 
 ### Section 20.7: Open and write to a binary file
 
 ```c
 #include <stdlib.h>
 #include <stdio.h>
-```
-```c
+
 int main(void)
 {
-result = EXIT_SUCCESS;
-```
-```
-char file_name[] = "outbut.bin";
-char str[] = "This is a binary file example";
-FILE * fp = fopen(file_name, "wb");
-```
-```
-if (fp == NULL) /* If an error occurs during the file creation */
-{
-result = EXIT_FAILURE;
-fprintf(stderr, "fopen() failed for '%s' \n ", file_name);
-```
+  result = EXIT_SUCCESS;
 
-##### }
+  char file_name[] = "outbut.bin";
+  char str[] = "This is a binary file example";
+  FILE * fp = fopen(file_name, "wb");
 
-```
-else
-{
-size_t element_size = sizeof *str;
-size_t elements_to_write = sizeof str;
-```
-```c
-/* Writes str (_including_ the NUL-terminator) to the binary file. */
-size_t elements_written = fwrite(str, element_size, elements_to_write, fp);
-if (elements_written != elements_to_write)
-{
-result = EXIT_FAILURE;
-/* This works for >=c99 only, else the z length modifier is unknown. */
-fprintf(stderr, "fwrite() failed: wrote only %zu out of %zu elements. \n ",
-elements_written, elements_to_write);
-/* Use this for <c99: *
-fprintf(stderr, "fwrite() failed: wrote only %lu out of %lu elements.\n",
-(unsigned long) elements_written, (unsigned long) elements_to_write);
-*/
+  if (fp == NULL) /* If an error occurs during the file creation */
+  {
+    result = EXIT_FAILURE;
+    fprintf(stderr, "fopen() failed for '%s' \n ", file_name);
+  }
+  else
+  {
+    size_t element_size = sizeof *str;
+    size_t elements_to_write = sizeof str;
+
+    /* Writes str (_including_ the NUL-terminator) to the binary file. */
+    size_t elements_written = fwrite(str, element_size, elements_to_write, fp);
+    if (elements_written != elements_to_write)
+    {
+      result = EXIT_FAILURE;
+      
+      /* This works for >=c99 only, else the z length modifier is unknown. */
+      fprintf(stderr, "fwrite() failed: wrote only %zu out of %zu elements. \n ",elements_written, elements_to_write);
+      
+      /* Use this for <c99: *fprintf(stderr, "fwrite() failed: wrote only %lu out of %lu elements.\n",(unsigned long) elements_written, (unsigned long) elements_to_write);
+      */
+    }
+    
+    fclose(fp);
+  }
+  return result;
 }
 ```
-```
-fclose(fp);
-}
-```
-```c
-return result;
-}
-```
-This program creates and writes text in the binary form through the fwrite function to the file output.bin.
-
-If a file with the same name already exists, its contents are discarded and the file is treated as a new empty file.
-
-A binary stream is an ordered sequence of characters that can transparently record internal data. In this mode,
-
-bytes are written between the program and the file without any interpretation.
-
-To write integers portably, it must be known whether the file format expects them in big or little-endian format, and
-
-the size (usually 16, 32 or 64 bits). Bit shifting and masking may then be used to write out the bytes in the correct
-
-order. Integers in C are not guaranteed to have two's complement representation (though almost all
-
-implementations do). Fortunately a conversion to unsigned _is_ guaranteed to use twos complement. The code for
-
-writing a signed integer to a binary file is therefore a little surprising.
+This program creates and writes text in the binary form through the `fwrite` function to the file `output.bin`. If a file with the same name already exists, its contents are discarded and the file is treated as a new empty file. A binary stream is an ordered sequence of characters that can transparently record internal data. In this mode, bytes are written between the program and the file without any interpretation. To write integers portably, it must be known whether the file format expects them in big or `little-endian` format, and the size (usually `16`, `32` or `64` bits). Bit shifting and masking may then be used to write out the bytes in the correct order. Integers in C are not guaranteed to have two's complement representation (though almost all implementations do). Fortunately a conversion to `unsigned` _is_ guaranteed to use twos complement. The code for writing a signed integer to a binary file is therefore a little surprising.
 
 ```c
 /* write a 16-bit little endian integer */
 int fput16le(int x, FILE *fp)
 {
-unsigned int rep = x;
-int e1, e2;
-```
-```
-e1 = fputc(rep & 0xFF, fp);
-e2 = fputc((rep >> 8 ) & 0xFF, fp);
-```
-```
-if(e1 == EOF || e2 == EOF)
-return EOF;
-return 0 ;
+  unsigned int rep = x;
+  int e1, e2;
+
+  e1 = fputc(rep & 0xFF, fp);
+  e2 = fputc((rep >> 8 ) & 0xFF, fp);
+
+  if(e1 == EOF || e2 == EOF)
+  return EOF;
+  return 0 ;
 }
 ```
 The other functions follow the same pattern with minor modifications for size and byte order.
