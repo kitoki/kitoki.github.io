@@ -6543,177 +6543,80 @@ The other functions follow the same pattern with minor modifications for size an
 
 ### Section 21.1: Conversion Specifiers for printing
 
-```
-Conversion
-Specifier
-Type of Argument Description
-```
-```
-i, d int prints decimal
-u unsigned int prints decimal
-o unsigned int prints octal
-x unsigned int prints hexadecimal, lower-case
-X unsigned int prints hexadecimal, upper-case
-```
-```
-f double prints float with a default precision of 6, if no precision is given (lower-case used
-for special numbers nan and inf or infinity)
-```
-```
-F double prints float with a default precision of 6, if no precision is given (upper-case
-used for special numbers NAN and INF or INFINITY)
-```
-```
-e double prints float with a default precision of 6, if no precision is given, using scientific
-notation using mantissa/exponent; lower-case exponent and special numbers
-```
-```
-E double
-prints float with a default precision of 6, if no precision is given, using scientific
-notation using mantissa/exponent; upper-case exponent and special numbers
-g double uses either f or e [see below]
-G double uses either F or E [see below]
-a double prints hexadecimal, lower-case
-A double prints hexadecimal, upper-case
-c char prints single character
-```
-```
-s char* prints string of characters up to a NUL terminator, or truncated to length given
-by precision, if specified
-```
-```
-p void* prints void-pointer value; a nonvoid-pointer should be explicitly converted
-("cast") to void*; pointer to object only, not a function-pointer
-% n/a prints the % character
-n int * write the number of bytes printed so far into the int pointed at.
-```
-Note that length modifiers can be applied to %n (e.g. %hhn indicates that _a following n conversion specifier applies to a_
+| Conversion Specifier | Type of Argument | Description |
+| :--- | :--- | :--- |
+| i, d | int | prints decimal |
+| u | unsigned int | prints decimal |
+| o | unsigned int | prints octal |
+| x | unsigned int | prints hexadecimal, lower-case |
+| X | unsigned int | prints hexadecimal, upper-case |
+| f | double | prints float with a default precision of 6, if no precision is given (lower-case used for special numbers nan and inf or infinity) |
+| F | double | prints float with a default precision of 6, if no precision is given (upper-case used for special numbers NAN and INF or INFINITY) |
+| e | double | prints float with a default precision of 6, if no precision is given, using scientific notation using mantissa/exponent; lower-case exponent and special numbers |
+| E | double | prints float with a default precision of 6, if no precision is given, using scientific notation using mantissa/exponent; upper-case exponent and special numbers |
+| g | double | uses either f or e [see below] |
+| G | double | uses either F or E [see below] |
+| a | double | prints hexadecimal, lower-case |
+| A | double | prints hexadecimal, upper-case |
+| c | char   | prints single character |
+| s | char*  | prints string of characters up to a NUL terminator, or truncated to length given by precision, if specified |
+| p | void*  | prints void-pointer value; a nonvoid-pointer should be explicitly converted ("cast") to void*; pointer to object only, not a function-pointer |
+| % | n/a | prints the % character |
+| n | int * | write the number of bytes printed so far into the int pointed at. |
 
-_pointer to a signed char argument_ , according to the ISO/IEC 9899:2011 §7.21.6.1 ¶7).
+Note that length modifiers can be applied to `%n` (e.g. `%hhn` indicates that _a following n conversion specifier applies to a_ _pointer to a signed char argument_ , according to the `ISO/IEC 9899:2011 §7.21.6.1 ¶7`).  
 
-Note that the floating point conversions apply to types float and double because of default promotion rules —
+Note that the floating point conversions apply to types float and double because of `default promotion` rules — §6.5.2.2 Function calls, ¶ 7 _The ellipsis notation in a function prototype declarator causes argument type conversion to_ _stop after the last declared parameter. The default argument promotions are performed on trailing arguments._ ) Thus, functions such as `printf()` are only ever passed double values, even if the variable referenced is of type float.  
 
-§6.5.2.2 Function calls, ¶ 7 _The ellipsis notation in a function prototype declarator causes argument type conversion to_
+With the `g` and `G` formats, the choice between `e` and `f` (or `E` and `F`) notation is documented in the C standard and in the POSIX specification for `printf()`:
 
-_stop after the last declared parameter. The default argument promotions are performed on trailing arguments._ ) Thus,
+> The double argument representing a floating-point number shall be converted in the style `f` or `e` (or in the style `F` or `E` in the case of a `G` conversion specifier), depending on the value converted and the precision. Let `P` equal the precision if non-zero, 6 if the precision is omitted, or 1 if the precision is zero. Then, if a conversion with style `E` would have an exponent of `X`:  
 
-functions such as printf() are only ever passed double values, even if the variable referenced is of type float.
+> If `P > X >= -4`, the conversion shall be with style `f` (or `F`) and precision `P - (X+ 1 )`.
+Otherwise, the conversion shall be with style `e` (or `E`) and precision `P - 1`.  
 
-With the g and G formats, the choice between e and f (or E and F) notation is documented in the C standard and in
+> Finally, unless the '#' flag is used, any trailing zeros shall be removed from the fractional portion of the result and the decimal-point character shall be removed if there is no fractional portion remaining.
 
-the POSIX specification for printf():
-
-```
-The double argument representing a floating-point number shall be converted in the style f or e (or in the
-style F or E in the case of a G conversion specifier), depending on the value converted and the precision.
-Let P equal the precision if non-zero, 6 if the precision is omitted, or 1 if the precision is zero. Then, if a
-conversion with style E would have an exponent of X:
-```
-```
-If P > X >= -4, the conversion shall be with style f (or F) and precision P - (X+ 1 ).
-Otherwise, the conversion shall be with style e (or E) and precision P - 1.
-```
-
-```
-Finally, unless the '#' flag is used, any trailing zeros shall be removed from the fractional portion of the
-result and the decimal-point character shall be removed if there is no fractional portion remaining.
-```c
 ### Section 21.2: The printf() Function
 
-Accessed through including **<stdio.h>** , the function printf() is the primary tool used for printing text to the
+Accessed through including **`<stdio.h>`** , the function `printf()` is the primary tool used for printing text to the console in C.
 
-console in C.
-
-```
+```c
 printf("Hello world!");
 // Hello world!
 ```
-Normal, unformatted character arrays can be printed by themselves by placing them directly in between the
+Normal, unformatted character arrays can be printed by themselves by placing them directly in between the parentheses.
 
-parentheses.
-
-```
+```c
 printf("%d is the answer to life, the universe, and everything.", 42 );
 // 42 is the answer to life, the universe, and everything.
-```
-```c
+
 int x = 3 ;
 char y = 'Z';
 char* z = "Example";
 printf("Int: %d, Char: %c, String: %s", x, y, z);
 // Int: 3, Char: Z, String: Example
 ```
-Alternatively, integers, floating-point numbers, characters, and more can be printed using the escape character %,
-
-followed by a character or sequence of characters denoting the format, known as the _format specifier_.
-
-All additional arguments to the function printf() are separated by commas, and these arguments should be in the
-
-same order as the format specifiers. Additional arguments are ignored, while incorrectly typed arguments or a lack
-
-of arguments will cause errors or undefined behavior. Each argument can be either a literal value or a variable.
-
-After successful execution, the number of characters printed is returned with type int. Otherwise, a failure returns
-
-a negative value.
+Alternatively, `integers`, `floating-point` numbers, `characters`, and more can be printed using the escape character `%`, followed by a character or sequence of characters denoting the format, known as the _format specifier_. All additional arguments to the function `printf()` are separated by commas, and these arguments should be in the same order as the format specifiers. Additional arguments are ignored, while incorrectly typed arguments or a lack of arguments will cause errors or undefined behavior. Each argument can be either a literal value or a variable. After successful execution, the number of characters printed is returned with type `int`. Otherwise, a failure returns a negative value.
 
 ### Section 21.3: Printing format flags
 
-The C standard (C11, and C99 too) defines the following flags for printf():
+The C standard (C11, and C99 too) defines the following flags for `printf()`:  
 
-```
-Flag Conversions Meaning
-```
-- all The result of the conversion shall be left-justified within the field. The conversion is right-
-    justified if this flag is not specified.
+| Flag    | Conversions    | Meaning |
+| :---    | :---           |         |
+| -       | all            | The result of the conversion shall be left-justified within the field. The conversion is right-justified if this flag is not specified. |
+| +       | signed numeric | The result of a signed conversion shall always begin with a sign ( '`+`' or '`-`' ). The conversion shall begin with a sign only when a negative value is converted if this flag is not specified. |
+| <space> | signed numeric | If the first character of a signed conversion is not a sign or if a signed conversion results in no characters, a `<space>` shall be prefixed to the result. This means that if the `<space>` and '+' flags both appear, the <space> flag shall be ignored. |
+| #       | all            | Specifies that the value is to be converted to an alternative form. For `o` conversion, it shall increase the precision, if and only if necessary, to force the first digit of the result to be a zero (if the value and precision are both `0`, a single `0` is printed). For `x` or `X` conversion specifiers, a non-zero result shall have `0x` (or `0X`) prefixed to it. For `a, A, e, E, f, F, g`, and `G` conversion specifiers, the result shall always contain a radix character, even if no digits follow the radix character. Without this flag, a radix character appears in the result of these conversions only if a digit follows it. For `g` and `G` conversion specifiers, trailing zeros shall not be removed from the result as they normally are. For other conversion specifiers, the behavior is undefined. |
+| 0       | numeric        | For `d, i, o, u, x, X, a, A, e, E, f, F, g`, and `G` conversion specifiers, leading zeros (following any indication of sign or base) are used to pad to the field width rather than performing space padding, except when converting an `infinity` or `NaN`. If the '`0`' and '`-`' flags both appear, the '`0`' flag is ignored. For `d, i, o, u, x`, and `X` conversion specifiers, if a precision is specified, the '`0`' flag shall be ignored. If the '`0`' and **`<apostrophe>`** flags both appear, the grouping characters are inserted before zero padding. For other conversions, the behavior is undefined. |
 
-```
-+ signed
-numeric
-```
-```
-The result of a signed conversion shall always begin with a sign ( '+' or '-' ). The conversion
-shall begin with a sign only when a negative value is converted if this flag is not specified.
-```
-```
-<space> signed
-numeric
-```
-```
-If the first character of a signed conversion is not a sign or if a signed conversion results in
-no characters, a <space> shall be prefixed to the result. This means that if the <space>
-and '+' flags both appear, the <space> flag shall be ignored.
-```
-```c
-# all
-```
-```
-Specifies that the value is to be converted to an alternative form. For o conversion, it shall
-increase the precision, if and only if necessary, to force the first digit of the result to be a
-zero (if the value and precision are both 0, a single 0 is printed). For x or X conversion
-specifiers, a non-zero result shall have 0x (or 0X) prefixed to it. For a, A, e, E, f, F, g, and G
-conversion specifiers, the result shall always contain a radix character, even if no digits
-follow the radix character. Without this flag, a radix character appears in the result of
-these conversions only if a digit follows it. For g and G conversion specifiers, trailing zeros
-shall not be removed from the result as they normally are. For other conversion
-specifiers, the behavior is undefined.
-```
+These flags are also supported by Microsoft with the same meanings.  
+The POSIX specification for `printf()` adds:  
 
-(^0) numeric
-For d, i, o, u, x, X, a, A, e, E, f, F, g, and G conversion specifiers, leading zeros (following any
-indication of sign or base) are used to pad to the field width rather than performing space
-padding, except when converting an infinity or NaN. If the '0' and '-' flags both appear, the
-'0' flag is ignored. For d, i, o, u, x, and X conversion specifiers, if a precision is specified, the
-'0' flag shall be ignored. ⌦ If the '0' and **<apostrophe>** flags both appear, the grouping
-characters are inserted before zero padding. For other conversions, the behavior is
-undefined. ⌫
-These flags are also supported by Microsoft with the same meanings.
-The POSIX specification for printf() adds:
-**Flag Conversions Meaning**
-' i, d, u, f, F, g, G
-The integer portion of the result of a decimal conversion shall be formatted with thousands'
-grouping characters. For other conversions the behavior is undefined. The non-monetary
-grouping character is used.
+|Flag Conversions      | Meaning |
+| :---                 | :---    |
+|' i, d, u, f, F, g, G | The integer portion of the result of a decimal conversion shall be formatted with thousands' grouping characters. For other conversions the behavior is undefined. The non-monetary grouping character is used. |
 
 ### Section 21.4: Printing the Value of a Pointer to an Object
 
