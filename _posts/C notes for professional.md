@@ -6620,27 +6620,20 @@ The POSIX specification for `printf()` adds:
 
 ### Section 21.4: Printing the Value of a Pointer to an Object
 
-To print the value of a pointer to an object (as opposed to a function pointer) use the p conversion specifier. It is
-
-defined to print void-pointers only, so to print out the value of a non void-pointer it needs to be explicitly
-
-converted ("casted*") to void*.
+To print the value of a pointer to an object (as opposed to a function pointer) use the `p` conversion specifier. It is defined to print void-pointers only, so to print out the value of a non void-pointer it needs to be explicitly converted ("casted*") to void*.
 
 ```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h> /* for printf() */
-```
-```c
+
 int main(void)
 {
-int i;
-int * p = &i;
-```
-```
-printf("The address of i is %p. \n ", (void*) p);
-```
-```c
-return EXIT_SUCCESS;
+  int i;
+  int * p = &i;
+
+  printf("The address of i is %p. \n ", (void*) p);
+
+  return EXIT_SUCCESS;
 }
 ```
 Version ≥ C99
@@ -6652,92 +6645,63 @@ Another way to print pointers in C99 or later uses the uintptr_t type and the ma
 ```c
 #include <inttypes.h> /* for uintptr_t and PRIXPTR */
 #include <stdio.h> /* for printf() */
-```
-```c
+
 int main(void)
 {
-int i;
-int *p = &i;
-```
-```
-printf("The address of i is 0x%" PRIXPTR ". \n ", (uintptr_t)p);
-```
-```c
-return 0 ;
+  int i;
+  int *p = &i;
+
+  printf("The address of i is 0x%" PRIXPTR ". \n ", (uintptr_t)p);
+
+  return 0 ;
 }
 ```
-In theory, there might not be an integer type that can hold any pointer converted to an integer (so the type
+In theory, there might not be an integer type that can hold any pointer converted to an integer (so the type `uintptr_t` might not exist). In practice, it does exist. Pointers to functions need not be convertible to the `uintptr_t` type — though again they most often are convertible. If the `uintptr_t` type exists, so does the `intptr_t` type. It is not clear why you'd ever want to treat addresses as signed integers, though.  
 
-uintptr_t might not exist). In practice, it does exist. Pointers to functions need not be convertible to the uintptr_t
+Version = K&R Version < C89  
 
-type — though again they most often are convertible.
+**Pre-Standard History:**  
 
-If the uintptr_t type exists, so does the intptr_t type. It is not clear why you'd ever want to treat addresses as
+Prior to C89 during K&R-C times there was no type void* (nor header **`<stdlib.h>`** , nor `prototypes`, and hence no `int main(void)` notation), so the pointer was cast to `long unsigned int` and printed using the `lx` length modifier/conversion specifier.  
 
-
-signed integers, though.
-
-Version = K&R Version < C89
-
-**Pre-Standard History:**
-
-Prior to C89 during K&R-C times there was no type void* (nor header **<stdlib.h>** , nor prototypes, and hence no
-
-int main(void) notation), so the pointer was cast to long unsigned int and printed using the lx length
-
-modifier/conversion specifier.
-
-**The example below is just for informational purpose. Nowadays this is invalid code, which very well might**
-
-**provoke the infamous Undefined Behaviour.**
+**The example below is just for informational purpose. Nowadays this is invalid code, which very well might provoke the infamous Undefined Behaviour.**
 
 ```c
 #include <stdio.h> /* optional in pre-standard C - for printf() */
-```
-```c
+
 int main()
 {
-int i;
-int *p = &i;
-```
-```
-printf("The address of i is 0x%lx. \n ", (long unsigned) p);
-```
-```c
-return 0 ;
+  int i;
+  int *p = &i;
+
+  printf("The address of i is 0x%lx. \n ", (long unsigned) p);
+
+  return 0 ;
 }
-```c
+```
+
 ### Section 21.5: Printing the Dierence of the Values of two Pointers to an Object
 
-Subtracting the values of two pointers to an object results in a signed integer *1. So it would be printed using _at_
+Subtracting the values of two pointers to an object results in a signed integer `*1`. So it would be printed using _at_least_ the d conversion specifier. To make sure there is a type being wide enough to hold such a "pointer-difference", since C99 **`<stddef.h>`** defines the type `ptrdiff_t`. To print a `ptrdiff_t` use the `t` length modifier.  
 
-_least_ the d conversion specifier.
-
-To make sure there is a type being wide enough to hold such a "pointer-difference", since C99 **<stddef.h>** defines
-
-the type ptrdiff_t. To print a ptrdiff_t use the t length modifier.
-
-Version ≥ C99
+Version ≥ C99  
 
 ```c
 #include <stdlib.h> /* for EXIT_SUCCESS */
 #include <stdio.h> /* for printf() */
 #include <stddef.h> /* for ptrdiff_t */
-```
-```c
+
 int main(void)
 {
-int a[ 2 ];
-int * p1 = &a[ 0 ], * p2 = &a[ 1 ];
-ptrdiff_t pd = p2 - p1;
-```
-```
-printf("p1 = %p \n ", (void*) p1);
-printf("p2 = %p \n ", (void*) p2);
-printf("p2 - p1 = %td \n ", pd);
-```
-```c
-return EXIT_SUCCESS;
+  int a[ 2 ];
+  int * p1 = &a[ 0 ], * p2 = &a[ 1 ];
+  ptrdiff_t pd = p2 - p1;
+
+  printf("p1 = %p \n ", (void*) p1);
+  printf("p2 = %p \n ", (void*) p2);
+  printf("p2 - p1 = %td \n ", pd);
+
+  return EXIT_SUCCESS;
 }
 ```
 The result might look like this:
@@ -6748,66 +6712,43 @@ p2 = 0x7fff6679f434
 p2 - p1 = 1
 ```
 
-Please note that the resulting value of the difference is scaled by the size of the type the pointers subtracted point
-
-to, an int here. The size of an int for this example is 4.
-
+Please note that the resulting value of the difference is scaled by the size of the type the pointers subtracted point to, an `int` here. The size of an `int` for this example is 4.  
 *1If the two pointers to be subtracted do not point to the same object the behaviour is undefined.
 
 ### Section 21.6: Length modifiers
 
-The C99 and C11 standards specify the following length modifiers for printf(); their meanings are:
+The C99 and C11 standards specify the following length modifiers for `printf();` their meanings are:
 
-```
-Modifier Modifies Applies to
-hh d, i, o, u, x, or X char, signed char or unsigned char
-h d, i, o, u, x, or X short int or unsigned short int
-l d, i, o, u, x, or X long int or unsigned long int
-l a, A, e, E, f, F, g, or Gdouble (for compatibility with scanf(); undefined in C90)
-ll d, i, o, u, x, or X long long int or unsigned long long int
-j d, i, o, u, x, or X intmax_t or uintmax_t
-z d, i, o, u, x, or X size_t or the corresponding signed type (ssize_t in POSIX)
-t d, i, o, u, x, or X ptrdiff_t or the corresponding unsigned integer type
-L a, A, e, E, f, F, g, or Glong double
-```
+| Modifier | Modifies            | Applies to |
+| :---     | :---                | :---       |
+| hh | d, i, o, u, x, or X       | `char`, `signed char` or `unsigned char`                         |
+| h  | d, i, o, u, x, or X       | `short int` or `unsigned short int`                              |
+| l  | d, i, o, u, x, or X       | `long int` or `unsigned long int`                                |
+| l  | a, A, e, E, f, F, g, or G | `double` (for compatibility with `scanf()`; undefined in C90)    |
+| ll | d, i, o, u, x, or X       | `long long int` or `unsigned long long int`                      |
+| j  | d, i, o, u, x, or X       | `intmax_t` or `uintmax_t`                                        |
+| z  | d, i, o, u, x, or X       | `size_t` or the corresponding `signed` type (`ssize_t` in POSIX) |
+| t  | d, i, o, u, x, or X       | `ptrdiff_t` or the corresponding `unsigned integer` type         |
+| L  | a, A, e, E, f, F, g, or G | `long double`                                                    |
+
 If a length modifier appears with any conversion specifier other than as specified above, the behavior is undefined.
 
-Microsoft specifies some different length modifiers, and explicitly does not support hh, j, z, or t.
+Microsoft specifies some different length modifiers, and explicitly does not support `hh`, `j`, `z`, or `t`.
 
-```
-Modifier Modifies Applies to
-I32 d, i, o, x, or X __int32
-I32 o, u, x, or X unsigned __int32
-I64 d, i, o, x, or X __int64
-I64 o, u, x, or X unsigned __int64
-I d, i, o, x, or X ptrdiff_t (that is, __int32 on 32-bit platforms, __int64 on 64-bit platforms)
-```
-```
-I o, u, x, or X
-size_t (that is, unsigned __int32 on 32-bit platforms, unsigned __int64 on 64-bit
-platforms)
-```
-```
-l or L a, A, e, E, f, g, or G
-long double (In Visual C++, although long double is a distinct type, it has the same
-internal representation as double.)
-```
-```
-l or w c or C
-Wide character with printf and wprintf functions. (An lc, lC, wc or wC type specifier is
-synonymous with C in printf functions and with c in wprintf functions.)
-```
-```
-l or w s, S, or Z
-Wide-character string with printf and wprintf functions. (An ls, lS, ws or wS type
-specifier is synonymous with S in printf functions and with s in wprintf functions.)
-```
-Note that the C, S, and Z conversion specifiers and the I, I32, I64, and w length modifiers are Microsoft extensions.
+| Modifier | Modifies | Applies to  |
+| :---     | :---     | :---        |
+| I32      | d, i, o, x, or X       | __int32 |
+| I32      | o, u, x, or X          | `unsigned` __int32 |
+| I64      | d, i, o, x, or X       | __int64 |
+| I64      | o, u, x, or X          | `unsigned` __int64 |
+| I        | d, i, o, x, or X       | `ptrdiff_t` (that is, __int32 on 32-bit platforms, __int64 on 64-bit platforms) |
+| I        | o, u, x, or X          | `size_t` (that is, `unsigned` __int32 on 32-bit platforms, `unsigned` __int64 on 64-bit platforms) |
+| l or L   | a, A, e, E, f, g, or G | `long double` (In Visual C++, although `long double` is a distinct type, it has the same internal representation as `double`.) |
+| l or w   | c or C                 | Wide character with `printf` and `wprintf` functions. (An `lc`, `lC`, `wc` or `wC` type specifier is synonymous with C in `printf` functions and with c in `wprintf` functions.) |
+| l or w   | s, S, or Z             | Wide-character string with `printf` and `wprintf` functions. (An `ls`, `lS`, `ws` or `wS` type specifier is synonymous with `S` in `printf` functions and with `s` in `wprintf` functions.) |
 
-Treating l as a modifier for long double rather than double is different from the standard, though you'll be hard-
-
-pressed to spot the difference unless long double has a different representation from double.
-
+Note that the `C`, `S`, and `Z` conversion specifiers and the `I`, `I32`, `I64`, and `w` length modifiers are Microsoft extensions.  
+Treating `l` as a modifier for `long double` rather than `double` is different from the standard, though you'll be hard-pressed to spot the difference unless `long double` has a different representation from `double`.
 
 ## Chapter 22: Pointers
 
