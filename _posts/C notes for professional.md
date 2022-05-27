@@ -6604,7 +6604,7 @@ Alternatively, `integers`, `floating-point` numbers, `characters`, and more can 
 The C standard (C11, and C99 too) defines the following flags for `printf()`:  
 
 | Flag    | Conversions    | Meaning |
-| :---    | :---           |         |
+| :---    | :---           | :---    |
 | -       | all            | The result of the conversion shall be left-justified within the field. The conversion is right-justified if this flag is not specified. |
 | +       | signed numeric | The result of a signed conversion shall always begin with a sign ( '`+`' or '`-`' ). The conversion shall begin with a sign only when a negative value is converted if this flag is not specified. |
 | <space> | signed numeric | If the first character of a signed conversion is not a sign or if a signed conversion results in no characters, a `<space>` shall be prefixed to the result. This means that if the `<space>` and '+' flags both appear, the <space> flag shall be ignored. |
