@@ -7389,69 +7389,43 @@ It's expressed as `p` **_points to_** `i`.
 
 ### Section 22.9: Initializing Pointers
 
-Pointer initialization is a good way to avoid wild pointers. The initialization is simple and is no different from
-
-initialization of a variable.
+Pointer initialization is a good way to avoid wild pointers. The initialization is simple and is no different from initialization of a variable.
 
 ```c
 #include <stddef.h>
-```
-```c
+
 int main()
 {
-int *p1 = NULL;
-char *p2 = NULL;
-float *p3 = NULL;
-```
-```c
-/* NULL is a macro defined in stddef.h, stdio.h, stdlib.h, and string.h */
-```
-```
-...
+  int *p1 = NULL;
+  char *p2 = NULL;
+  float *p3 = NULL;
+
+  /* NULL is a macro defined in stddef.h, stdio.h, stdlib.h, and string.h */
 }
 ```
-In most operating systems, inadvertently using a pointer that has been initialized to NULL will often result in the
+In most operating systems, inadvertently using a pointer that has been initialized to `NULL` will often result in the program crashing immediately, making it easy to identify the cause of the problem. Using an uninitialized pointer can often cause hard-to-diagnose bugs.  
 
-program crashing immediately, making it easy to identify the cause of the problem. Using an uninitialized pointer
+**Caution:**  
 
-can often cause hard-to-diagnose bugs.
+The result of dereferencing a `NULL` pointer is `undefined`, so it _will `not necessarily` cause a crash_ even if that is the natural behaviour of the operating system the program is running on. Compiler optimizations `may mask` the crash, cause the crash to occur before or after the point in the source code at which the null pointer dereference occurred, or cause parts of the code that contains the null pointer dereference to be unexpectedly removed from the program. Debug builds will not usually exhibit these behaviours, but this is not guaranteed by the language standard. Other unexpected and/or undesirable behaviour is also allowed. Because NULL never points to a variable, to allocated memory, or to a function, it is safe to use as a guard value.  
 
-**Caution:**
+**Caution:**  
 
-The result of dereferencing a NULL pointer is undefined, so it _will not necessarily cause a crash_ even if that is the
-
-natural behaviour of the operating system the program is running on. Compiler optimizations may mask the crash,
-
-cause the crash to occur before or after the point in the source code at which the null pointer dereference
-
-occurred, or cause parts of the code that contains the null pointer dereference to be unexpectedly removed from
-
-the program. Debug builds will not usually exhibit these behaviours, but this is not guaranteed by the language
-
-standard. Other unexpected and/or undesirable behaviour is also allowed.
-
-Because NULL never points to a variable, to allocated memory, or to a function, it is safe to use as a guard value.
-
-
-**Caution:**
-
-Usually NULL is defined as (void *)^0. But this does not imply that the assigned memory address is 0x0. For more
-
-clarification refer to C-faq for NULL pointers
+Usually NULL is defined as (void *) `0`. But this does not imply that the assigned memory address is 0x0. For more clarification refer to `C-faq` for NULL pointers  
 
 Note that you can also initialize pointers to contain values other than NULL.
 
 ```c
 int i1;
-```
-```c
+
 int main()
 {
-int *p1 = &i1;
-const char *p2 = "A constant string to point to";
-float *p3 = malloc( 10 * sizeof(float));
+  int *p1 = &i1;
+  const char *p2 = "A constant string to point to";
+  float *p3 = malloc( 10 * sizeof(float));
 }
-```c
+```
+  
 ### Section 22.10: Pointer to Pointer
 
 In C, a pointer can refer to another pointer.
@@ -7459,34 +7433,31 @@ In C, a pointer can refer to another pointer.
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 int main(void) {
-int A = 42 ;
-int* pA = &A;
-int** ppA = &pA;
-int*** pppA = &ppA;
-```
-```
-printf("%d", ***pppA); /* prints 42 */
-```
-```c
+  int A = 42 ;
+  int* pA = &A;
+  int** ppA = &pA;
+  int*** pppA = &ppA;
+
+  printf("%d", ***pppA); /* prints 42 */
+
 return EXIT_SUCCESS;
 }
 ```
-But, reference-and-reference directly is not allowed.
+But, reference-and-reference directly is `not allowed`.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 int main(void) {
-int A = 42 ;
-int* pA = &A;
-int** ppA = &&A; /* Compilation error here! */
-int*** pppA = &&&A; /* Compilation error here! */
-```c
+  int A = 42 ;
+  int* pA = &A;
+  int** ppA = &&A; /* Compilation error here! */
+  int*** pppA = &&&A; /* Compilation error here! */
+```
+  
 ### Section 22.11: void* pointers as arguments and return values to standard functions
 
 Version > K&R  
@@ -7533,17 +7504,17 @@ Firstly, you use `*` to **declare** a pointer variable.
 
 ```c
 int i = 5 ;
-/* 'p' is a pointer to an integer, initialized as NULL */
+  /* 'p' is a pointer to an integer, initialized as NULL */
 int *p = NULL;
-/* '&i' evaluates into address of 'i', which then assigned to 'p' */
+  /* '&i' evaluates into address of 'i', which then assigned to 'p' */
 p = &i;
-/* 'p' is now holding the address of 'i' */
+  /* 'p' is now holding the address of 'i' */
 ```
 When you're not declaring (or multiplying), `*` is used to **dereference** a pointer variable:
 
-```
+```c
 *p = 123 ;
-/* 'p' was pointing to 'i', so this changes value of 'i' to 123 */
+  /* 'p' was pointing to 'i', so this changes value of 'i' to 123 */
 ```
 When you want an existing pointer variable to hold address of other variable, you **don't** use `*`, but do it like this:
 
@@ -7572,11 +7543,11 @@ It is important to mind your P's and Q's, so to speak, when dealing with pointer
 
 ### Section 23.1: Unsequenced expressions
 
-Version ≥ C11
+Version ≥ C11  
 
-The following expressions are _unsequenced_ :
+The following expressions are _unsequenced_ :  
 
-```
+```c
 a + b;
 a - b;
 a * b;
@@ -7585,24 +7556,20 @@ a % b;
 a & b;
 a | b;
 ```
-In the above examples, the expression a may be evaluated before or after the expression b, b may be evaluated
+In the above examples, the expression `a` may be evaluated before or after the expression `b`, `b` may be evaluated before `a`, or they may even be intermixed if they correspond to several instructions.  
 
-before a, or they may even be intermixed if they correspond to several instructions.
+A similar rule holds for function calls:  
 
-A similar rule holds for function calls:
-
-```
+```c
 f(a, b);
 ```
-Here not only a and b are unsequenced (i.e. the , operator in a function call _does not_ produce a sequence point) but
-
-also f, the expression that determines the function that is to be called.
+Here not only `a` and `b` are unsequenced (i.e. the , operator in a function call _does not_ produce a sequence point) but also `f`, the expression that determines the function that is to be called.  
 
 Side effects may be applied immediately after evaluation or deferred until a later point.
 
 Expressions like
 
-```
+```c
 x++ & x++;
 f(x++, x++); /* the ',' in a function call is *not* the same as the comma operator */
 x++ * x++;
@@ -7610,7 +7577,7 @@ a[i] = i++;
 ```
 or
 
-```
+```c
 x++ & x;
 f(x++, x);
 x++ * x;
@@ -7619,38 +7586,27 @@ a[i++] = i;
 will yield _undefined behavior_ because
 
 ```
-a modification of an object and any other access to it must be sequenced
-the order of evaluation and the order in which side effects 1 are applied is not specified.
-```
-1 Any changes in the state of the execution environment.
+a modification of an object and any other access to it must be sequenced the order of evaluation and the order in which side effects [1] are applied is not specified.
+
+- 1 Any changes in the state of the execution environment.
 
 ### Section 23.2: Sequenced expressions
 
 The following expressions are _sequenced_ :
 
-```
+```c
 a && b
 a || b
-```
 
-```
 a , b
 a? b : c
 for ( a ; b ; c ) { ... }
 ```
-In all cases, the expression a is fully evaluated and _all side effects are applied_ before either b or c are evaluated. In
+In all cases, the expression a is fully evaluated and _all side effects are applied_ before either `b` or `c` are evaluated. In the fourth case, only one of `b` or `c` will be evaluated. In the last case, `b` is fully evaluated and all side effects are applied before `c` is evaluated.  
 
-the fourth case, only one of b or c will be evaluated. In the last case, b is fully evaluated and all side effects are
+In all cases, the evaluation of expression a is _sequenced before_ the evaluations of `b` or `c` (alternately, the evaluations of `b` and `c` are _sequenced after_ the evaluation of `a`). Thus, expressions like
 
-applied before c is evaluated.
-
-In all cases, the evaluation of expression a is _sequenced before_ the evaluations of b or c (alternately, the evaluations
-
-of b and c are _sequenced after_ the evaluation of a).
-
-Thus, expressions like
-
-```
+```c
 x++ && x++
 x++? x++ : y++
 (x = f()) && x != 0
@@ -7661,30 +7617,20 @@ have well defined behavior.
 
 ### Section 23.3: Indeterminately sequenced expressions
 
-Function calls as f(a) always imply a sequence point between the evaluation of the arguments and the designator
+Function calls as `f(a)` always imply a sequence point between the evaluation of the arguments and the designator (here `f` and `a`) and the actual call. If two such calls are unsequenced, the two function calls are indeterminately sequenced, that is, one is executed before the other, and order is unspecified.
 
-(here f and a) and the actual call. If two such calls are unsequenced, the two function calls are indeterminately
-
-sequenced, that is, one is executed before the other, and order is unspecified.
-
-```
-unsigned counter = 0 ;
-```
-```
-unsingned account(void) {
-return counter++;
-}
-```
 ```c
+unsigned counter = 0 ;
+
+unsingned account(void) {
+  return counter++;
+}
+
 int main(void) {
-printf("the order is %u %u \n ", account(), account());
+  printf("the order is %u %u \n ", account(), account());
 }
 ```
-This implicit twofold modification of counter during the evaluation of the printf arguments is valid, we just don't
-
-know which of the calls comes first. As the order is unspecified, it may vary and cannot be depended on. So the
-
-printout could be:
+This implicit twofold modification of counter during the evaluation of the `printf` arguments is valid, we just dont know which of the calls comes first. As the order is unspecified, it may vary and cannot be depended on. So the printout could be:
 
 ```
 the order is 0 1
@@ -7696,7 +7642,7 @@ the order is 1 0
 ```
 The analogous statement to the above without intermediate function call
 
-```
+```c
 printf("the order is %u %u \n ", counter++, counter++); // undefined behavior
 ```
 has undefined behavior because there is no sequence point between the two modifications of counter.
@@ -7704,312 +7650,239 @@ has undefined behavior because there is no sequence point between the two modifi
 
 ## Chapter 24: Function Pointers
 
-Function pointers are pointers that point to functions instead of data types. They can be used to allow variability in
-
-the function that is to be called, at run-time.
+Function pointers are pointers that point to functions instead of data types. They can be used to allow variability in the function that is to be called, at run-time.
 
 ### Section 24.1: Introduction
 
-Just like char and int, a function is a fundamental feature of C. As such, you can declare a pointer to one: which
+Just like `char` and `int`, a function is a fundamental feature of C. As such, you can declare a pointer to one: which means that you can pass _which function to call_ to another function to help it do its job. For example, if you had a `graph()` function that displayed a graph, you could pass _which function to graph_ into `graph()`.
 
-means that you can pass _which function to call_ to another function to help it do its job. For example, if you had a
-
-graph() function that displayed a graph, you could pass _which function to graph_ into graph().
-
-```
+```c
 // A couple of external definitions to make the example clearer
-extern unsigned int screenWidth;
-extern void plotXY(double x, double y);
-```
-```
+  extern unsigned int screenWidth;
+  extern void plotXY(double x, double y);
+
 // The graph() function.
 // Pass in the bounds: the minimum and maximum X and Y that should be plotted.
 // Also pass in the actual function to plot.
-void graph(double minX, double minY,
-double maxX, double maxY,
-???? *fn) { // See below for syntax
-```
-```
-double stepX = (maxX - minX) / screenWidth;
-for (double x=minX; x<maxX; x+=stepX) {
-```
-```
-double y = fn(x); // Get y for this x by calling passed-in fn()
-```
-```
-if (minY<=y && y<maxY) {
-plotXY(x, y); // Plot calculated point
-} // if
-} for
-} // graph(minX, minY, maxX, maxY, fn)
-```
-**Usage**
+  void graph(double minX, double minY,
+  double maxX, double maxY,
+  ???? *fn) { // See below for syntax
 
-So the above code will graph whatever function you passed into it - as long as that function meets certain criteria:
+    double stepX = (maxX - minX) / screenWidth;
+    for (double x=minX; x<maxX; x+=stepX) {
 
-namely, that you pass a double in and get a double out. There are many functions like that - sin(), cos(), tan(),
+      double y = fn(x); // Get y for this x by calling passed-in fn()
 
-exp() etc. - but there are many that aren't, such as graph() itself!
-
-**Syntax**
-
-So how do you specify which functions you can pass into graph() and which ones you can't? The conventional way
-
-is by using a syntax that may not be easy to read or understand:
-
+      if (minY<=y && y<maxY) {
+        plotXY(x, y); // Plot calculated point
+      } // if
+    } for
+  } // graph(minX, minY, maxX, maxY, fn)
 ```
+**Usage**  
+
+So the above code will graph whatever function you passed into it - as long as that function meets certain criteria: namely, that you pass a double in and get a double out. There are many functions like that - `sin()`, `cos()`, `tan()`, `exp()` etc. - but there are many that aren't, such as `graph()` itself!  
+
+**Syntax**  
+
+So how do you specify which functions you can pass into `graph()` and which ones you can't? The conventional way is by using a syntax that may not be easy to read or understand:
+
+```c
 double (*fn)(double); // fn is a pointer-to-function that takes a double and returns one
 ```
-The problem above is that there are two things trying to be defined at the same time: the structure of the function,
-
-and the fact that it's a pointer. So, split the two definitions! But by using typedef, a better syntax (easier to read &
-
-understand) can be achieved.
+The problem above is that there are two things trying to be defined at the same time: the structure of the function, and the fact that it's a pointer. So, split the two definitions! But by using `typedef`, a better syntax (easier to read & understand) can be achieved.
 
 ### Section 24.2: Returning Function Pointers from a Function
 
 ```c
 #include <stdio.h>
-```
-```
+
 enum Op
 {
-```
+  ADD = '+',
+  SUB = '-',
+};
 
-##### ADD = '+',
-
-##### SUB = '-',
-
-##### };
-
-```c
 /* add: add a and b, return result */
 int add(int a, int b)
 {
-return a + b;
+  return a + b;
 }
-```
-```c
+
 /* sub: subtract b from a, return result */
 int sub(int a, int b)
 {
-return a - b;
+  return a - b;
 }
-```
-```c
+
 /* getmath: return the appropriate math function */
 int (*getmath(enum Op op))(int,int)
 {
-switch (op)
-{
-case ADD:
-return &add;
-case SUB:
-return &sub;
-default:
-return NULL;
+  switch (op)
+  {
+    case ADD:
+    return &add;
+    case SUB:
+    return &sub;
+    default:
+    return NULL;
+  }
 }
-}
-```
-```c
+
 int main(void)
 {
-int a, b, c;
-int (*fp)(int,int);
-```
-```
-fp = getmath(ADD);
-```
-```
-a = 1 , b = 2 ;
-c = (*fp)(a, b);
-printf("%d + %d = %d \n ", a, b, c);
-return 0 ;
+  int a, b, c;
+  int (*fp)(int,int);
+
+  fp = getmath(ADD);
+
+  a = 1 , b = 2 ;
+  c = (*fp)(a, b);
+  printf("%d + %d = %d \n ", a, b, c);
+  return 0 ;
 }
-```c
+```
 ### Section 24.3: Best Practices
 
-**Using typedef**
+**Using typedef**  
 
-It might be handy to use a typedef instead of declaring the function pointer each time by hand.
+It might be handy to use a `typedef` instead of declaring the function pointer each time by hand. The syntax for declaring a `typedef` for a function pointer is:
 
-The syntax for declaring a typedef for a function pointer is:
-
-```
+```c
 typedef returnType (*name)(parameters);
 ```
-**Example:**
+**Example:**  
 
 Posit that we have a function, sort, that expects a function pointer to a function compare such that:
 
-```
-compare - A compare function for two elements which is to be supplied to a sort function.
-```
+- compare - A compare function for two elements which is to be supplied to a sort function.
+- "compare" is expected to `return 0` if the two elements are deemed equal, a positive value if the first element passed is "larger" in some sense than the latter element and otherwise the function returns a negative value (meaning that the first element is "lesser" than the latter).
+- Without a typedef we would pass a function pointer as an argument to a function in the following manner:
 
-```
-"compare" is expected to return 0 if the two elements are deemed equal, a positive value if the first
-element passed is "larger" in some sense than the latter element and otherwise the function returns a
-negative value (meaning that the first element is "lesser" than the latter).
-```
-Without a typedef we would pass a function pointer as an argument to a function in the following manner:
-
-```
+```c
 void sort(int (*compare)(const void *elem1, const void *elem2)) {
-/* inside of this block, the function is named "compare" */
+  /* inside of this block, the function is named "compare" */
 }
 ```
-With a typedef, we'd write:
+With a `typedef`, we'd write:
 
-```
+```c
 typedef int (*compare_func)(const void *, const void *);
 ```
 and then we could change the function signature of sort to:
 
-```
+```c
 void sort(compare_func func) {
-/* In this block the function is named "func" */
+  /* In this block the function is named "func" */
 }
 ```
 both definitions of sort would accept any function of the form
 
 ```c
 int compare(const void *arg1, const void *arg2) {
-/* Note that the variable names do not have to be "elem1" and "elem2" */
+  /* Note that the variable names do not have to be "elem1" and "elem2" */
 }
 ```
-Function pointers are the only place where you should include the pointer property of the type, e.g. do not try to
+Function pointers are the only place where you should include the pointer property of the type, e.g. do not try to define types like `typedef struct something_struct *something_type`. This applies even for a structure with members which are not supposed to accessed directly by `API` callers, for example the `stdio.h` FILE type (which as you now will notice is not a pointer).  
 
-define types like typedef struct something_struct *something_type. This applies even for a structure with
+**Taking context pointers.**  
 
-members which are not supposed to accessed directly by API callers, for example the stdio.h FILE type (which as
+A function pointer should almost always take a user-supplied `void *` as a context pointer.  
 
-you now will notice is not a pointer).
-
-**Taking context pointers.**
-
-A function pointer should almost always take a user-supplied void * as a context pointer.
-
-**Example**
+**Example**  
 
 ```c
 /* function minimiser, details unimportant */
 double findminimum( double (*fptr)(double x, double y, void *ctx), void *ctx)
 {
 ...
-/* repeatedly make calls like this */
-temp = (*fptr)(testx, testy, ctx);
+  /* repeatedly make calls like this */
+  temp = (*fptr)(testx, testy, ctx);
 }
-```
-```c
+
 /* the function we are minimising, sums two cubics */
 double *cubics(double x, double y, void *ctx)
 {
-double *coeffsx = ctx;
-double *coeffsy = coeffx + 4 ;
-```
-```c
-return coeffsx[ 0 ] * x * x * x + coeffsx[ 1 ] * x * x + coeffsx[ 2 ] * x + coeffsx[ 3 ] +
-coeffsy[ 0 ] * y * y * y + coeffsy[ 1 ] * y * y + coeffsy[ 2 ] * y + coeffsy[ 3 ];
-```c
-##### }
+  double *coeffsx = ctx;
+  double *coeffsy = coeffx + 4 ;
 
-```
+  return coeffsx[ 0 ] * x * x * x + coeffsx[ 1 ] * x * x + coeffsx[ 2 ] * x + coeffsx[ 3 ] +
+  coeffsy[ 0 ] * y * y * y + coeffsy[ 1 ] * y * y + coeffsy[ 2 ] * y + coeffsy[ 3 ];
+}
+
 void caller()
-```
+{
+  /* context, the coefficients of the cubics */
+  double coeffs[ 8 ] = { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 };
+  double min;
 
-##### {
-
-```c
-/* context, the coefficients of the cubics */
-double coeffs[ 8 ] = { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 };
-double min;
-```
-```
-min = findminimum(cubics, coeffs);
+  min = findminimum(cubics, coeffs);
 }
 ```
-Using the context pointer means that the extra parameters do not need to be hard-coded into the function pointed
+Using the context pointer means that the extra parameters do not need to be hard-coded into the function pointed to, or require the use globals. The library function `qsort()` does not follow this rule, and one can often get away without context for trivial comparison functions. But for anything more complicated, the context pointer becomes essential.  
 
-to, or require the use globals.
+**See also**  
 
-The library function qsort() does not follow this rule, and one can often get away without context for trivial
-
-comparison functions. But for anything more complicated, the context pointer becomes essential.
-
-**See also**
-
-Functions pointers
+Functions pointers  
 
 ### Section 24.4: Assigning a Function Pointer
 
 ```c
 #include <stdio.h>
-```
-```c
+
 /* increment: take number, increment it by one, and return it */
 int increment(int i)
 {
-printf("increment %d by 1 \n ", i);
-return i + 1 ;
+  printf("increment %d by 1 \n ", i);
+  return i + 1 ;
 }
-```
-```c
+
 /* decrement: take number, decrement it by one, and return it */
 int decrement(int i)
 {
-printf("decrement %d by 1 \n ", i);
-return i - 1 ;
+  printf("decrement %d by 1 \n ", i);
+  return i - 1 ;
 }
-```
-```c
+
 int main(void)
 {
-int num = 0 ; /* declare number to increment */
-int (*fp)(int); /* declare a function pointer */
-```
-```
-fp = &increment; /* set function pointer to increment function */
-num = (*fp)(num); /* increment num */
-num = (*fp)(num); /* increment num a second time */
-```
-```
-fp = &decrement; /* set function pointer to decrement function */
-num = (*fp)(num); /* decrement num */
-printf("num is now: %d \n ", num);
-return 0 ;
+  int num = 0 ; /* declare number to increment */
+  int (*fp)(int); /* declare a function pointer */
+
+  fp = &increment; /* set function pointer to increment function */
+  num = (*fp)(num); /* increment num */
+  num = (*fp)(num); /* increment num a second time */
+
+  fp = &decrement; /* set function pointer to decrement function */
+  num = (*fp)(num); /* decrement num */
+  printf("num is now: %d \n ", num);
+  return 0 ;
 }
-```c
+```
 ### Section 24.5: Mnemonic for writing function pointers
 
-All C functions are in actuality pointers to a spot in the program memory where some code exists. The main use of
-
-a function pointer is to provide a "callback" to other functions (or to simulate classes and objects).
+All C functions are in actuality pointers to a spot in the program memory where some code exists. The main use of a function pointer is to provide a "callback" to other functions (or to simulate classes and objects).  
 
 The syntax of a function, as defined further down on this page is:
-
-
+```
 returnType (*name)(parameters)
-
-A mnemonic for writing a function pointer definition is the following procedure:
-
-1. Begin by writing a normal function declaration: returnType name(parameters)
-2. Wrap the function name with pointer syntax: returnType (*name)(parameters)
+```
+A mnemonic for writing a function pointer definition is the following procedure:  
+* Begin by writing a normal function declaration: `returnType name(parameters)`
+* Wrap the function name with pointer syntax: `returnType (*name)(parameters)`
 
 ### Section 24.6: Basics
 
-Just like you can have a pointer to an **int** , **char** , **float** , **array/string** , **struct** , etc. - you can have a pointer to a
+Just like you can have a pointer to an `**int** , **char** , **float** , **array/string** , **struct**` , etc. - you can have a pointer to a function.  
 
-function.
-
-**Declaring the pointer** takes the _return value of the function_ , the _name of the function_ , and the _type of_
-
-_arguments/parameters it receives_.
+**Declaring the pointer**  
+takes the _return value of the function_ , the _name of the function_ , and the _type of_ _arguments/parameters it receives_.  
 
 Say you have the following function declared and initialized:
 
 ```c
 int addInt(int n, int m){
-return n+m;
+  return n+m;
 }
 ```
 You can declare and initialize a pointer to this function:
@@ -8019,57 +7892,44 @@ int (*functionPtrAdd)(int, int) = addInt; // or &addInt - the & is optional
 ```
 If you have a void function it could look like this:
 
-```
+```c
 void Print(void){
-printf("look ma' - no hands, only pointers! \n ");
+  printf("look ma' - no hands, only pointers! \n ");
 }
 ```
 Then declaring the pointer to it would be:
 
-```
+```c
 void (*functionPtrPrint)(void) = Print;
 ```
-**Accessing** the function itself would require dereferencing the pointer:
+**Accessing**  
+the function itself would require dereferencing the pointer:
 
-```
+```c
 sum = (*functionPtrAdd)( 2 , 3 ); //will assign 5 to sum
 (*functionPtrPrint)(); //will print the text in Print function
 ```
-As seen in more advanced examples in this document, declaring a pointer to a function could get messy if the
+As seen in more advanced examples in this document, declaring a pointer to a function could get messy if the function is passed more than a few parameters. If you have a few pointers to functions that have identical "structure" (same type of return value, and same type of parameters) it's best to use the **typedef** command to save you some typing, and to make the code more clear:
 
-function is passed more than a few parameters. If you have a few pointers to functions that have identical
-
-"structure" (same type of return value, and same type of parameters) it's best to use the **typedef** command to save
-
-you some typing, and to make the code more clear:
-
-```
+```c
 typedef int (*ptrInt)(int, int);
-```
-```c
+
 int Add(int i, int j){
-return i+j;
+  return i+j;
 }
-```
-```c
+
 int Multiply(int i, int j){
-return i*j;
+  return i*j;
 }
-```
-```c
+
 int main()
-```
+{
+  ptrInt ptr1 = Add;
+  ptrInt ptr2 = Multiply;
 
-##### {
-
-```
-ptrInt ptr1 = Add;
-ptrInt ptr2 = Multiply;
-```
-```
-printf("%d \n ", (*ptr1)( 2 , 3 )); //will print 5
-printf("%d \n ", (*ptr2)( 2 , 3 )); //will print 6
-return 0 ;
+  printf("%d \n ", (*ptr1)( 2 , 3 )); //will print 5
+  printf("%d \n ", (*ptr2)( 2 , 3 )); //will print 6
+  return 0 ;
 }
 ```
 You can also create an **Array of function-pointers**. If all the pointers are of the same "structure":
@@ -8079,11 +7939,9 @@ int (*array[ 2 ]) (int x, int y); // can hold 2 function pointers
 array[ 0 ] = Add;
 array[ 1 ] = Multiply;
 ```
-You can learn more here and here.
+You can learn more here and here.  
 
-It is also possible to define an array of function-pointers of different types, though that would require casting when-
-
-ever you want to access the specific function. You can learn more here.
+It is also possible to define an array of function-pointers of different types, though that would require casting whenever you want to access the specific function. You can learn more here.  
 
 
 ## Chapter 25: Function Parameters
