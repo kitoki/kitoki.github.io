@@ -8775,115 +8775,73 @@ The above rules are applicable for pointers as well. For example, the following 
 ```c
 int main(void)
 {
-int *p;
-p++; // Trying to increment an uninitialized pointer.
+  int *p;
+  p++; // Trying to increment an uninitialized pointer.
 }
 ```
-Note that the above code on its own might not cause an error or segmentation fault, but trying to dereference this
-
-pointer later would cause the undefined behavior.
+Note that the above code on its own might not cause an error or segmentation fault, but trying to dereference this pointer later would cause the undefined behavior.
 
 ### Section 28.5: Data race
 
-Version ≥ C11
+Version ≥ C11  
 
-C11 introduced support for multiple threads of execution, which affords the possibility of data races. A program
-
-contains a data race if an object in it is accessed1 by two different threads, where at least one of the accesses is
-
-non-atomic, at least one modifies the object, and program semantics fail to ensure that the two accesses cannot
-
-overlap temporally.2 Note well that actual concurrency of the accesses involved is not a condition for a data race;
-
-data races cover a broader class of issues arising from (allowed) inconsistencies in different threads' views of
-
-memory.
+C11 introduced support for `multiple threads` of execution, which affords the possibility of data races. A program contains a data race if an object in it is accessed `1` by two different threads, where at least one of the accesses is non-atomic, at least one modifies the object, and program semantics fail to ensure that the two accesses cannot overlap temporally.`2` Note well that actual concurrency of the accesses involved is not a condition for a data race; data races cover a broader class of issues arising from (allowed) inconsistencies in different threads views of memory.  
 
 Consider this example:
 
 ```c
 #include <threads.h>
-```
-```c
-int a = 0 ;
-```
 
-```c
+int a = 0 ;
 int Function( void* ignore )
 {
-a = 1 ;
-```
-```c
-return 0 ;
+  a = 1 ;
+
+  return 0 ;
 }
-```
-```c
+
 int main( void )
 {
-thrd_t id;
-thrd_create( &id , Function , NULL );
-```
-```c
-int b = a;
-```
-```
-thrd_join( id , NULL );
+  thrd_t id;
+  thrd_create( &id , Function , NULL );
+
+  int b = a;
+
+  thrd_join( id , NULL );
 }
 ```
-The main thread calls thrd_create to start a new thread running function Function. The second thread modifies a,
-
-and the main thread reads a. Neither of those access is atomic, and the two threads do nothing either individually
-
-or jointly to ensure that they do not overlap, so there is a data race.
+The main thread calls `thrd_create` to start a new thread running function Function. The second thread modifies a, and the main thread reads a. Neither of those access is atomic, and the two threads do nothing either individually or jointly to ensure that they do not overlap, so there is a data race.  
 
 Among the ways this program could avoid the data race are
 
 ```
 the main thread could perform its read of a before starting the other thread;
 the main thread could perform its read of a after ensuring via thrd_join that the other has terminated;
-the threads could synchronize their accesses via a mutex, each one locking that mutex before accessing a
-and unlocking it afterward.
+the threads could synchronize their accesses via a mutex, each one locking that mutex before accessing a and unlocking it afterward.
 ```
-As the mutex option demonstrates, avoiding a data race does not require ensuring a specific order of operations,
+As the `mutex` option demonstrates, avoiding a data race does not require ensuring a specific order of operations, such as the child thread modifying a before the main thread reads it; it is sufficient (for avoiding a data race) to ensure that for a given execution, one access will happen before the other.  
+* Modifying or reading an object.
+* (Quoted from `ISO:IEC 9889:201x`, section `5.1.2.4` "Multi-threaded executions and data races")
 
-such as the child thread modifying a before the main thread reads it; it is sufficient (for avoiding a data race) to
-
-ensure that for a given execution, one access will happen before the other.
-
-1 Modifying or reading an object.
-
-2 (Quoted from ISO:IEC 9889:201x, section 5.1.2.4 "Multi-threaded executions and data races")
-
-The execution of a program contains a data race if it contains two conflicting actions in different threads, at least
-
-one of which is not atomic, and neither happens before the other. Any such data race results in undefined
-
-behavior.
+The execution of a program contains a data race if it contains two conflicting actions in different threads, at least one of which is not atomic, and neither happens before the other. Any such data race results in undefined behavior.
 
 ### Section 28.6: Read value of pointer that was freed
 
-Even just **reading** the value of a pointer that was freed (i.e. without trying to dereference the pointer) is undefined
+Even just **reading** the value of a pointer that was freed (i.e. without trying to dereference the pointer) is undefined behavior(UB), e.g.
 
-behavior(UB), e.g.
-
-```
+```c
 char *p = malloc( 5 );
 free(p);
 if (p == NULL) /* NOTE: even without dereferencing, this may have UB */
 {
-```c
-##### }
 
-Quoting **ISO/IEC 9899:2011** , section 6.2.4 §2:
-
+}
 ```
-[...] The value of a pointer becomes indeterminate when the object it points to (or just past) reaches the
-end of its lifetime.
-```
+Quoting **`ISO/IEC 9899:2011`** , section `6.2.4 §2`:
 
-The use of indeterminate memory for anything, including apparently harmless comparison or arithmetic, can have
-
-undefined behavior if the value can be a trap representation for the type.
+[...] The value of a pointer becomes indeterminate when the object it points to (or just past) reaches the end of its lifetime.
+ 
+The use of indeterminate memory for anything, including apparently harmless comparison or arithmetic, can have undefined behavior if the value can be a trap representation for the type.
 
 ### Section 28.7: Using incorrect format specifier in printf
 
@@ -8891,96 +8849,71 @@ Using an incorrect format specifier in the first argument to printf invokes unde
 
 code below invokes undefined behavior:
 
-```
+```c
 long z = 'B';
 printf("%c \n ", z);
 ```
 Here is another example
 
-```
+```c
 printf("%f \n ", 0 );
 ```
-Above line of code is undefined behavior. %f expects double. However 0 is of type int.
+Above line of code is undefined behavior. `%f` expects double. However `0` is of type `int`.  
+Note that your compiler usually can help you avoid cases like these, if you turn on the proper flags during compiling (`-Wformat` in `clang` and `gcc`). From the last example:
 
-Note that your compiler usually can help you avoid cases like these, if you turn on the proper flags during compiling
-
-(-Wformat in clang and gcc). From the last example:
-
-```
-warning: format specifies type 'double' but the argument has type
-'int' [-Wformat]
+```c
+warning: format specifies type 'double' but the argument has type 'int' [-Wformat]
 printf("%f \n ", 0 );
 ~~ ^
 %d
-```c
+```
 ### Section 28.8: Modify string literal
 
-In this code example, the char pointer p is initialized to the address of a string literal. Attempting to modify the
+In this code example, the `char` pointer `p` is initialized to the address of a string literal. Attempting to modify the string literal has undefined behavior.
 
-string literal has undefined behavior.
-
-```
+```c
 char *p = "hello world";
 p[ 0 ] = 'H'; // Undefined behavior
 ```
-However, modifying a mutable array of char directly, or through a pointer is naturally not undefined behavior, even
+However, modifying a `mutable` array of `char` directly, or through a pointer is naturally not undefined behavior, even if its initializer is a literal string. The following is fine:
 
-if its initializer is a literal string. The following is fine:
-
-```
+```c
 char a[] = "hello, world";
 char *p = a;
-```
-```
+
 a[ 0 ] = 'H';
 p[ 7 ] = 'W';
 ```
-That's because the string literal is effectively copied to the array each time the array is initialized (once for variables
-
-with static duration, each time the array is created for variables with automatic or thread duration — variables with
-
-allocated duration aren't initialized), and it is fine to modify array contents.
+Thats because the string literal is effectively copied to the array each time the array is initialized (once for variables with static duration, each time the array is created for variables with automatic or thread duration — variables with allocated duration aren't initialized), and it is fine to modify array contents.
 
 ### Section 28.9: Passing a null pointer to printf %s conversion
 
-The %s conversion of printf states that the corresponding argument _a pointer to the initial element of an array of_
+The `%s` conversion of printf states that the corresponding argument _a pointer to the initial element of an array of_character type_. A `null` pointer does not point to the initial element of any array of character type, and thus thebehavior of the following is undefined:
 
-_character type_. A null pointer does not point to the initial element of any array of character type, and thus the
-
-behavior of the following is undefined:
-
-```
+```c
 char *foo = NULL;
-```
 
-```
 printf("%s", foo); /* undefined behavior */
 ```
-However, the undefined behavior does not always mean that the program crashes — some systems take steps to
-
-avoid the crash that normally happens when a null pointer is dereferenced. For example Glibc is known to print
+However, the undefined behavior does not always mean that the program crashes — some systems take steps to avoid the crash that normally happens when a null pointer is dereferenced. For example `Glibc` is known to print
 
 ```
 ( null )
 ```
 for the code above. However, add (just) a newline to the format string and you will get a crash:
 
-```
+```c
 char *foo = 0 ;
 printf("%s \n ", foo); /* undefined behavior */
 ```
-In this case, it happens because GCC has an optimization that turns printf("%s **\n** ", argument); into a call to puts
+In this case, it happens because `GCC has an optimization` that turns `printf("%s **\n** ", argument);` into a call to puts with puts(argument), and puts in `Glibc` does not handle null pointers. All this behavior is standard conforming.
 
-with puts(argument), and puts in Glibc does not handle null pointers. All this behavior is standard conforming.
+Note that _null pointer_ is different from an _empty string_. So, the following is valid and has no undefined behaviour. It'll just print a _newline_ :
 
-Note that _null pointer_ is different from an _empty string_. So, the following is valid and has no undefined behaviour. It'll
-
-just print a _newline_ :
-
-```
+```c
 char *foo = "";
 printf("%s \n ", foo);
-```c
+```
 ### Section 28.10: Modifying any object more than once between two sequence points
 
 ```c
@@ -8988,41 +8921,22 @@ int i = 42 ;
 i = i++; /* Assignment changes variable, post-increment as well */
 int a = i++ + i--;
 ```
-Code like this often leads to speculations about the "resulting value" of i. Rather than specifying an outcome,
-
-however, the C standards specify that evaluating such an expression produces _undefined behavior_. Prior to C2011,
-
-the standard formalized these rules in terms of so-called _sequence points_ :
+Code like this often leads to speculations about the "resulting value" of `i`. Rather than specifying an outcome, however, the C standards specify that evaluating such an expression produces _undefined behavior_. Prior to C2011, the standard formalized these rules in terms of so-called _sequence points_ :
 
 ```
-Between the previous and next sequence point a scalar object shall have its stored value modified at
-most once by the evaluation of an expression. Furthermore, the prior value shall be read only to
-determine the value to be stored.
+Between the previous and next sequence point a scalar object shall have its stored value modified at most once by the evaluation of an expression. Furthermore, the prior value shall be read only to determine the value to be stored.
 ```
-(C99 standard, section 6.5, paragraph 2)
+(C99 standard, section 6.5, paragraph 2)  
 
-That scheme proved to be a little too coarse, resulting in some expressions exhibiting undefined behavior with
-
-respect to C99 that plausibly should not do. C2011 retains sequence points, but introduces a more nuanced
-
-approach to this area based on _sequencing_ and a relationship it calls "sequenced before":
+That scheme proved to be a little too coarse, resulting in some expressions exhibiting undefined behavior with respect to C99 that plausibly should not do. C2011 retains sequence points, but introduces a more nuanced approach to this area based on _sequencing_ and a relationship it calls "sequenced before":
 
 ```
-If a side effect on a scalar object is unsequenced relative to either a different side effect on the same
-scalar object or a value computation using the value of the same scalar object, the behavior is undefined.
-If there are multiple allowable orderings of the subexpressions of an expression, the behavior is
-undefined if such an unsequenced side effect occurs in any of the orderings.
+If a side effect on a scalar object is unsequenced relative to either a different side effect on the same scalar object or a value computation using the value of the same scalar object, the behavior is undefined.
+If there are multiple allowable orderings of the subexpressions of an expression, the behavior is undefined if such an unsequenced side effect occurs in any of the orderings.
 ```
-(C2011 standard, section 6.5, paragraph 2)
+(C2011 standard, section 6.5, paragraph 2)  
 
-The full details of the "sequenced before" relation are too long to describe here, but they supplement sequence
-
-points rather than supplanting them, so they have the effect of defining behavior for some evaluations whose
-
-
-behavior previously was undefined. In particular, if there is a sequence point between two evaluations, then the
-
-one before the sequence point is "sequenced before" the one after.
+The full details of the "sequenced before" relation are too long to describe here, but they supplement sequence points rather than supplanting them, so they have the effect of defining behavior for some evaluations whose behavior previously was undefined. In particular, if there is a sequence point between two evaluations, then the one before the sequence point is "sequenced before" the one after.  
 
 The following example has well-defined behaviour:
 
@@ -9036,11 +8950,7 @@ The following example has undefined behaviour:
 int i = 42 ;
 printf("%d %d \n ", i++, i++); /* commas as separator of function arguments are not comma-operators */
 ```
-As with any form of undefined behavior, observing the actual behavior of evaluating expressions that violate the
-
-sequencing rules is not informative, except in a retrospective sense. The language standard provides no basis for
-
-expecting such observations to be predictive even of the future behavior of the same program.
+As with any form of undefined behavior, observing the actual behavior of evaluating expressions that violate the sequencing rules is not informative, except in a retrospective sense. The language standard provides no basis for expecting such observations to be predictive even of the future behavior of the same program.
 
 ### Section 28.11: Freeing memory twice
 
@@ -9052,12 +8962,10 @@ int * x = malloc(sizeof(int));
 free(x);
 free(x);
 ```
-Quote from standard(7.20.3.2. The free function of C99 ):
+Quote from standard(`7.20.3.2`. The free function of C99 ):
 
-```
-Otherwise, if the argument does not match a pointer earlier returned by the calloc, malloc, or realloc
-function, or if the space has been deallocated by a call to free or realloc, the behavior is undefined.
-```c
+Otherwise, if the argument does not match a pointer earlier returned by the `calloc, malloc, or realloc function, or if the space has been deallocated by a call to free or realloc, the behavior is undefined.
+
 ### Section 28.12: Bit shifting using negative counts or beyond the width of the type
 
 If the _shift count_ value is a **negative value** then both _left shift_ and _right shift_ operations are undefined1:
@@ -9071,62 +8979,48 @@ If _left shift_ is performed on a **negative value** , it's undefined:
 ```c
 int x = - 5 << 3 ; /* undefined */
 ```
-If _left shift_ is performed on a **positive value** and result of the mathematical value is **not** representable in the type,
-
-it's undefined1:
+If _left shift_ is performed on a **positive value** and result of the mathematical value is **not** representable in the type, it's undefined1:
 
 ```c
 /* Assuming an int is 32-bits wide, the value '5 * 2^72' doesn't fit
 * in an int. So, this is undefined. */
-```
-```c
+
 int x = 5 << 72 ;
 ```
-Note that _right shift_ on a **negative value** (.e.g - 5 >> 3 ) is _not_ undefined but _implementation-defined_.
+Note that _right shift_ on a **negative value** (.e.g - `5 >> 3` ) is _not_ undefined but _implementation-defined_.
 
-
-1 Quoting _ISO/IEC 9899:201x_ , section 6.5.7:
+* Quoting _ISO/IEC 9899:201x_ , section 6.5.7:
 
 ```
-If the value of the right operand is negative or is greater than or equal to the width of the promoted left
-operand, the behavior is undefined.
-```c
+If the value of the right operand is negative or is greater than or equal to the width of the promoted left noperand, the behavior is undefined.
+```
 #### Section 28.13: Returning from a function that's declared with `_Noreturn` or `noreturn` function specifier
 
-Version ≥ C11
+Version ≥ C11  
 
-The function specifier _Noreturn was introduced in C11. The header **<stdnoreturn.h>** provides a macro noreturn
+The function specifier _Noreturn was introduced in C11. The header **`<stdnoreturn.h>`** provides a macro noreturn which expands to _Noreturn. So using _Noreturn or noreturn from **`<stdnoreturn.h>`** is fine and equivalent.  
 
-which expands to _Noreturn. So using _Noreturn or noreturn from **<stdnoreturn.h>** is fine and equivalent.
-
-A function that's declared with _Noreturn (or noreturn) is not allowed to return to its caller. If such a function _does_
-
-return to its caller, the behavior is undefined.
-
-In the following example, func() is declared with noreturn specifier but it returns to its caller.
+A function that's declared with _Noreturn (or noreturn) is not allowed to return to its caller. If such a function _does_ return to its caller, the behavior is undefined. In the following example, `func()` is declared with noreturn specifier but it returns to its caller.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
-```
-```
+
 noreturn void func(void);
-```
-```
+
 void func(void)
 {
-printf("In func()... \n ");
+  printf("In func()... \n ");
 } /* Undefined behavior as func() returns */
-```
-```c
+
 int main(void)
 {
-func();
-return 0 ;
+  func();
+  return 0 ;
 }
-```c
-gcc and clang produce warnings for the above program:
+```
+`gcc` and `clang` produce warnings for the above program:
 
 ```
 $ gcc test.c
@@ -9145,82 +9039,64 @@ An example using noreturn that has well-defined behavior:
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
-```
-```
-noreturn void my_exit(void);
-```
 
-```c
+noreturn void my_exit(void);
+
 /* calls exit() and doesn't return to its caller. */
 void my_exit(void)
 {
-printf("Exiting... \n ");
-exit( 0 );
+  printf("Exiting... \n ");
+  exit( 0 );
 }
-```
-```c
+
 int main(void)
 {
-my_exit();
-return 0 ;
+  my_exit();
+  return 0 ;
 }
-```c
+```
 ### Section 28.14: Accessing memory beyond allocated chunk
 
-A a pointer to a piece of memory containing n elements may only be dereferenced if it is in the range memory and
-
-memory + (n - 1 ). Dereferencing a pointer outside of that range results in undefined behavior. As an example,
-
-consider the following code:
+A a pointer to a piece of memory containing n elements may only be dereferenced if it is in the `range memory` and `memory + (n - 1 )`. Dereferencing a pointer outside of that range results in undefined behavior. As an example, consider the following code:
 
 ```c
 int array[ 3 ];
 int *beyond_array = array + 3 ;
 *beyond_array = 0 ; /* Accesses memory that has not been allocated. */
 ```
-The third line accesses the 4th element in an array that is only 3 elements long, leading to undefined behavior.
-
+The third line accesses the 4th element in an array that is only 3 elements long, leading to undefined behavior.  
 Similarly, the behavior of the second line in the following code fragment is also not well defined:
 
 ```c
 int array[ 3 ];
 array[ 3 ] = 0 ;
 ```
-Note that pointing past the last element of an array is not undefined behavior (beyond_array = array + 3 is well
-
-defined here), but dereferencing it is (*beyond_array is undefined behavior). This rule also holds for dynamically
-
-allocated memory (such as buffers created through malloc).
+Note that pointing past the last element of an array is not undefined behavior (`beyond_array = array + 3` is well defined here), but dereferencing it is (*beyond_array is undefined behavior). This rule also holds for `dynamically allocated memory` (such as buffers created through `malloc`).
 
 ### Section 28.15: Modifying a const variable using a pointer
 
 ```c
 int main (void)
 {
-const int foo_readonly = 10 ;
-int *foo_ptr;
-```
-```
-foo_ptr = (int *)&foo_readonly; /* (1) This casts away the const qualifier */
-*foo_ptr = 20 ; /* This is undefined behavior */
-```
-```c
-return 0 ;
+  const int foo_readonly = 10 ;
+  int *foo_ptr;
+
+  foo_ptr = (int *)&foo_readonly; /* (1) This casts away the const qualifier */
+  *foo_ptr = 20 ; /* This is undefined behavior */
+
+  return 0 ;
 }
 ```
-Quoting _ISO/IEC 9899:201x_ , section 6.7.3 §2:
+Quoting _`ISO/IEC 9899:201x`_ , section `6.7.3 §2`:
 
 ```
-If an attempt is made to modify an object defined with a const-qualified type through use of an lvalue
-with non-const-qualified type, the behavior is undefined. [...]
+If an attempt is made to modify an object defined with a const-qualified type through use of an lvalue with non-const-qualified type, the behavior is undefined. [...]
 ```
-(1) In GCC this can throw the following warning: warning: assignment discards ‘const’ qualifier from pointer
-target type [-Wdiscarded-qualifiers]
-
+* In GCC this can throw the following warning: warning: assignment discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
 
 ### Section 28.16: Reading an uninitialized object that is not backed by memory
 
-Version ≥ C11
+Version ≥ C11  
 
 Reading an object will cause undefined behavior, if the object is1:
 
@@ -9234,40 +9110,34 @@ The variable a in the below example satisfies all those conditions:
 ```
 void Function( void )
 {
-int a;
-int b = a;
+  int a;
+  int b = a;
 }
 ```
-1 (Quoted from: ISO:IEC 9899:201X 6.3.2.1 Lvalues, arrays, and function designators 2)
+* (Quoted from: `ISO:IEC 9899:201X 6.3.2.1` Lvalues, arrays, and function designators 2)
 
-If the lvalue designates an object of automatic storage duration that could have been declared with the register
-
-storage class (never had its address taken), and that object is uninitialized (not declared with an initializer and no
-
-assignment to it has been performed prior to use), the behavior is undefined.
+If the lvalue designates an object of automatic storage duration that could have been declared with the register storage class (never had its address taken), and that object is uninitialized (not declared with an initializer and no assignment to it has been performed prior to use), the behavior is undefined.
 
 ### Section 28.17: Addition or subtraction of pointer not properly bounded
 
 The following code has undefined behavior:
 
-```
+```c
 char buffer[ 6 ] = "hello";
 char *ptr1 = buffer - 1 ; /* undefined behavior */
 char *ptr2 = buffer + 5 ; /* OK, pointing to the '\0' inside the array */
 char *ptr3 = buffer + 6 ; /* OK, pointing to just beyond */
 char *ptr4 = buffer + 7 ; /* undefined behavior */
 ```
-According to C11, if addition or subtraction of a pointer into, or just beyond, an array object and an integer type
-
-produces a result that does not point into, or just beyond, the same array object, the behavior is undefined (6.5.6).
+According to C11, if addition or subtraction of a pointer into, or just beyond, an array object and an integer type produces a result that does not point into, or just beyond, the same array object, the behavior is undefined (6.5.6).  
 
 Additionally it is naturally undefined behavior to _dereference_ a pointer that points to just beyond the array:
 
-```
+```c
 char buffer[ 6 ] = "hello";
 char *ptr3 = buffer + 6 ; /* OK, pointing to just beyond */
 char value = *ptr3; /* undefined behavior */
-```c
+```
 ### Section 28.18: Dereferencing a null pointer
 
 This is an example of dereferencing a NULL pointer, causing undefined behavior.
@@ -9276,150 +9146,118 @@ This is an example of dereferencing a NULL pointer, causing undefined behavior.
 int * pointer = NULL;
 int value = *pointer; /* Dereferencing happens here */
 ```
-A NULL pointer is guaranteed by the C standard to compare unequal to any pointer to a valid object, and
-
-dereferencing it invokes undefined behavior.
-
+A `NULL` pointer is guaranteed by the C standard to compare unequal to any pointer to a valid object, and dereferencing it invokes undefined behavior.
 
 ### Section 28.19: Using ush on an input stream
 
-The POSIX and C standards explicitly state that using fflush on an input stream is undefined behavior. The fflush
-
-is defined only for output streams.
+The POSIX and C standards explicitly state that using `fflush` on an input stream is undefined behavior. The `fflush` is defined only for output streams.
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main()
 {
-int i;
-char input[ 4096 ];
-```
-```
-scanf("%i", &i);
-fflush(stdin); // <-- undefined behavior
-gets(input);
-```
-```c
-return 0 ;
+  int i;
+  char input[ 4096 ];
+
+  scanf("%i", &i);
+  fflush(stdin); // <-- undefined behavior
+  gets(input);
+
+  return 0 ;
 }
 ```
-There is no standard way to discard unread characters from an input stream. On the other hand, some
+There is no standard way to discard `unread` characters from an input stream. On the other hand, some implementations uses `fflush` to clear `stdin` buffer. Microsoft defines the behavior of `fflush` on an input stream: If the stream is open for `input`, `fflush` clears the contents of the buffer.  
+According to `POSIX.1-2008`, the behavior of `fflush` is undefined unless the input file is seekable.  
 
-implementations uses fflush to clear stdin buffer. Microsoft defines the behavior of fflush on an input stream: If
-
-the stream is open for input, fflush clears the contents of the buffer. According to POSIX.1-2008, the behavior of
-
-fflush is undefined unless the input file is seekable.
-
-See Using fflush(stdin) for many more details.
+See Using `fflush(stdin)` for many more details.
 
 ### Section 28.20: Inconsistent linkage of identifiers
 
-```
+```c
 extern int var;
 static int var; /* Undefined behaviour */
 ```
 _C11,_ § _6.2.2, 7_ says:
 
 ```
-If, within a translation unit, the same identifier appears with both internal and external linkage, the
-behavior is undefined.
+If, within a translation unit, the same identifier appears with both internal and external linkage, the behavior is undefined.
 ```
-Note that if an prior declaration of an identifier is visible then it'll have the prior declaration's linkage. _C11,_ § _6.2.2, 4_
-
-allows it:
+Note that if an prior declaration of an identifier is visible then it will have the prior declarations linkage. `_C11,_ § _6.2.2, 4_` allows it:
 
 ```
-For an identifier declared with the storage-class specifier extern in a scope in which a prior declaration of
-that identifier is visible,31) if the prior declaration specifies internal or external linkage, the linkage of the
-identifier at the later declaration is the same as the linkage specified at the prior declaration. If no prior
-declaration is visible, or if the prior declaration specifies no linkage, then the identifier has external
-linkage.
+For an identifier declared with the storage-class specifier extern in a scope in which a prior declaration of that identifier is visible,31) if the prior declaration specifies internal or external linkage, the linkage of the identifier at the later declaration is the same as the linkage specified at the prior declaration.  
+If no prior declaration is visible, or if the prior declaration specifies no linkage, then the identifier has external linkage.
 ```
+
 ```c
 /* 1. This is NOT undefined */
 static int var;
 extern int var;
-```
-```c
+
 /* 2. This is NOT undefined */
 static int var;
 static int var;
-```
 
-```c
 /* 3. This is NOT undefined */
 extern int var;
 extern int var;
-```c
+```
 ### Section 28.21: Missing return statement in value returning function
 
 ```c
 int foo(void) {
-/* do stuff */
-/* no return here */
+  /* do stuff */
+  /* no return here */
 }
-```
-```c
+
 int main(void) {
-/* Trying to use the (not) returned value causes UB */
-int value = foo();
-return 0 ;
+  /* Trying to use the (not) returned value causes UB */
+  int value = foo();
+  return 0 ;
 }
 ```
-When a function is declared to return a value then it has to do so on every possible code path through it. Undefined
+When a function is declared to return a value then it has to do so on every possible code path through it. Undefined behavior occurs as soon as the caller (which is expecting a return value) tries to use the return value1.  
 
-behavior occurs as soon as the caller (which is expecting a return value) tries to use the return value1.
-
-Note that the undefined behaviour happens _only if_ the caller attempts to use/access the value from the function.
-
-For example,
+Note that the undefined behaviour happens _only if_ the caller attempts to use/access the value from the function. For example,
 
 ```c
 int foo(void) {
-/* do stuff */
-/* no return here */
+  /* do stuff */
+  /* no return here */
 }
-```
-```c
+
 int main(void) {
-/* The value (not) returned from foo() is unused. So, this program
-* doesn't cause *undefined behaviour*. */
-foo();
-return 0 ;
+  /* The value (not) returned from foo() is unused. So, this program
+  * doesnt cause *undefined behaviour*. */
+  foo();
+  return 0 ;
 }
 ```
-Version ≥ C99
+Version ≥ C99  
 
-The main() function is an exception to this rule in that it is possible for it to be terminated without a return
+The `main()` function is an exception to this rule in that it is possible for it to be terminated without a return statement because an assumed return value of `0` will automatically be used in this case2.  
 
-statement because an assumed return value of^0 will automatically be used in this case2.
+* ( `_ISO/IEC 9899:201x_ , 6.9.1/12`)
 
-1 ( _ISO/IEC 9899:201x_ , 6.9.1/12)
 
-```
 If the } that terminates a function is reached, and the value of the function call is used by the caller, the
 behavior is undefined.
 ```
 2 ( _ISO/IEC 9899:201x_ , 5.1.2.2.3/1)
-
 ```
-reaching the } that terminates the main function returns a value of 0.
-```c
+reaching the `}` that terminates the main function returns a value of `0`.
+
 ### Section 28.22: Division by zero
 
 ```c
 int x = 0 ;
-```
 
-```c
 int y = 5 / x; /* integer division */
 ```
 or
 
-```
+```c
 double x = 0.0;
 double y = 5.0 / x; /* floating point division */
 ```
@@ -9429,96 +9267,63 @@ or
 int x = 0 ;
 int y = 5 % x; /* modulo operation */
 ```
-For the second line in each example, where the value of the second operand (x) is zero, the behaviour is undefined.
-
-Note that most implementations of floating point math will follow a standard (e.g. IEEE 754), in which case
-
-operations like divide-by-zero will have consistent results (e.g., INFINITY) even though the C standard says the
-
-operation is undefined.
+For the second line in each example, where the value of the second operand (x) is zero, the behaviour is undefined.  
+Note that most implementations of floating point math will follow a standard (e.g. `IEEE 754`), in which case operations like divide-by-zero will have consistent results (e.g., `INFINITY`) even though the C standard says the operation is undefined.
 
 ### Section 28.23: Conversion between pointer types produces incorrectly aligned result
 
 The following _might_ have undefined behavior due to incorrect pointer alignment:
 
-```
+```c
 char *memory_block = calloc(sizeof(uint32_t) + 1 , 1 );
 uint32_t *intptr = (uint32_t*)(memory_block + 1 ); /* possible undefined behavior */
 uint32_t mvalue = *intptr;
 ```
-The undefined behavior happens as the pointer is converted. According to C11, if a _conversion between two pointer_
+The undefined behavior happens as the pointer is converted. According to C11, if a _conversion between two pointer_ types produces a result that is incorrectly aligned (`6.3.2.3`), the behavior is undefined_. Here an `uint32_t` could require alignment of 2 or 4 for example.  
 
-_types produces a result that is incorrectly aligned (6.3.2.3), the behavior is undefined_. Here an uint32_t could require
+`calloc` on the other hand is required to return a pointer that is suitably aligned for any object type; thus `memory_block` is properly aligned to contain an `uint32_t` in its initial part. Then, on a system where `uint32_t` has required alignment of `2` or `4`, `memory_block + 1` will be an _odd_ address and thus not properly aligned.  
 
-alignment of 2 or 4 for example.
+Observe that the C standard requests that already the cast operation is undefined. This is imposed because on platforms where addresses are segmented, the byte address `memory_block + 1` may not even have a proper representation as an integer pointer.  
 
-calloc on the other hand is required to return a pointer that is suitably aligned for any object type; thus
+Casting `char *` to pointers to other types without any concern to alignment requirements is sometimes incorrectly used for decoding packed structures such as file headers or network packets. You can avoid the undefined behavior arising from misaligned pointer conversion by using `memcpy`:
 
-memory_block is properly aligned to contain an uint32_t in its initial part. Then, on a system where uint32_t has
-
-required alignment of 2 or 4, memory_block + 1 will be an _odd_ address and thus not properly aligned.
-
-Observe that the C standard requests that already the cast operation is undefined. This is imposed because on
-
-platforms where addresses are segmented, the byte address memory_block + 1 may not even have a proper
-
-representation as an integer pointer.
-
-Casting char * to pointers to other types without any concern to alignment requirements is sometimes incorrectly
-
-used for decoding packed structures such as file headers or network packets.
-
-You can avoid the undefined behavior arising from misaligned pointer conversion by using memcpy:
-
-```
+```c
 memcpy(&mvalue, memory_block + 1 , sizeof mvalue);
 ```
-Here no pointer conversion to uint32_t* takes place and the bytes are copied one by one.
-
-This copy operation for our example only leads to valid value of mvalue because:
+Here no pointer conversion to `uint32_t* takes place and the bytes are copied one by one.  
+This copy operation for our example only leads to valid value of `mvalue` because:
 
 ```
-We used calloc, so the bytes are properly initialized. In our case all bytes have value^0 , but any other proper
-initialization would do.
+We used calloc, so the bytes are properly initialized. In our case all bytes have value^0 , but any other proper initialization would do.
 uint32_t is an exact width type and has no padding bits
 Any arbitrary bit pattern is a valid representation for any unsigned type.
 ```
 
 ### Section 28.24: Modifying the string returned by getenv, strerror, and setlocale functions
 
-Modifying the strings returned by the standard functions getenv(), strerror() and setlocale() is undefined. So,
+Modifying the strings returned by the standard functions `getenv()`, `strerror()` and `setlocale()` is undefined. So, implementations may use static storage for these strings.
 
-implementations may use static storage for these strings.
-
-_The getenv() function, C11,_ § _7.22.4.7, 4_ , says:
+_The `getenv()` function, C11,_ `§ _7.22.4.7, 4`_ , says:
 
 ```
-The getenv function returns a pointer to a string associated with the matched list member. The string
-pointed to shall not be modified by the program, but may be overwritten by a subsequent call to the
-getenv function.
+The getenv function returns a pointer to a string associated with the matched list member. The string pointed to shall not be modified by the program, but may be overwritten by a subsequent call to the getenv function.
 ```
-_The strerror() function, C11,_ § _7.23.6.3, 4_ says:
+_The `strerror()` function, C11,_ `§ _7.23.6.3, 4`_ says:
 
 ```
-The strerror function returns a pointer to the string, the contents of which are localespecific. The array
-pointed to shall not be modified by the program, but may be overwritten by a subsequent call to the
-strerror function.
+The strerror function returns a pointer to the string, the contents of which are localespecific. The array pointed to shall not be modified by the program, but may be overwritten by a subsequent call to the strerror function.
 ```
-_The setlocale() function, C11,_ § _7.11.1.1, 8_ says:
+_The `setlocale()` function, C11,_ `§ _7.11.1.1, 8`_ says:
 
 ```
-The pointer to string returned by the setlocale function is such that a subsequent call with that string
-value and its associated category will restore that part of the program’s locale. The string pointed to shall
-not be modified by the program, but may be overwritten by a subsequent call to the setlocale function.
+The pointer to string returned by the setlocale function is such that a subsequent call with that string value and its associated category will restore that part of the program’s locale. The string pointed to shall not be modified by the program, but may be overwritten by a subsequent call to the setlocale function.
 ```
-Similarly the localeconv() function returns a pointer to struct lconv which shall not be modified.
+Similarly the `localeconv()` function returns a pointer to `struct lconv` which shall not be modified.  
 
-_The localeconv() function, C11,_ § _7.11.2.1, 8_ says:
+_The `localeconv()` function, C11,_ `§ _7.11.2.1, 8`_ says:
 
 ```
-The localeconv function returns a pointer to the filled-in object. The structure pointed to by the return
-value shall not be modified by the program, but may be overwritten by a subsequent call to the
-localeconv function.
+The localeconv function returns a pointer to the filled-in object. The structure pointed to by the return value shall not be modified by the program, but may be overwritten by a subsequent call to the localeconv function.
 ```
 
 ## Chapter 29: Random Number Generation
