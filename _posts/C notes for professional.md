@@ -7948,228 +7948,180 @@ It is also possible to define an array of function-pointers of different types, 
 
 ### Section 25.1: Parameters are passed by value
 
-In C, all function parameters are passed by value, so modifying what is passed in callee functions won't affect caller
-
-functions' local variables.
+In C, all function parameters are passed by value, so modifying what is passed in callee functions won't affect caller functions' local variables.
 
 ```c
 #include <stdio.h>
-```
-```
+
 void modify(int v) {
-printf("modify 1: %d \n ", v); /* 0 is printed */
-v = 42 ;
-printf("modify 2: %d \n ", v); /* 42 is printed */
+  printf("modify 1: %d \n ", v); /* 0 is printed */
+  v = 42 ;
+  printf("modify 2: %d \n ", v); /* 42 is printed */
 }
-```
-```c
-int main(void) {
-int v = 0 ;
-printf("main 1: %d \n ", v); /* 0 is printed */
-modify(v);
-printf("main 2: %d \n ", v); /* 0 is printed, not 42 */
-return 0 ;
-}
-```
-You can use pointers to let callee functions modify caller functions' local variables. Note that this is not _pass by_
 
-_reference_ but the pointer _values_ pointing at the local variables are passed.
+int main(void) {
+  int v = 0 ;
+  printf("main 1: %d \n ", v); /* 0 is printed */
+  modify(v);
+  printf("main 2: %d \n ", v); /* 0 is printed, not 42 */
+  return 0 ;
+}
+```
+
+You can use pointers to let callee functions modify caller functions' local variables. Note that this is not _pass by_ reference_ but the pointer _values_ pointing at the local variables are passed.
 
 ```c
 #include <stdio.h>
-```
-```
-void modify(int* v) {
-printf("modify 1: %d \n ", *v); /* 0 is printed */
-*v = 42 ;
-printf("modify 2: %d \n ", *v); /* 42 is printed */
-}
-```
-```c
-int main(void) {
-int v = 0 ;
-printf("main 1: %d \n ", v); /* 0 is printed */
-modify(&v);
-printf("main 2: %d \n ", v); /* 42 is printed */
-return 0 ;
-}
-```
-However returning the address of a local variable to the callee results in undefined behaviour. See Dereferencing a
 
-pointer to variable beyond its lifetime.
+void modify(int* v) {
+  printf("modify 1: %d \n ", *v); /* 0 is printed */
+  *v = 42 ;
+  printf("modify 2: %d \n ", *v); /* 42 is printed */
+}
+
+int main(void) {
+  int v = 0 ;
+  printf("main 1: %d \n ", v); /* 0 is printed */
+  modify(&v);
+  printf("main 2: %d \n ", v); /* 42 is printed */
+  return 0 ;
+}
+```
+However returning the address of a local variable to the callee results in undefined behaviour. See Dereferencing a pointer to variable beyond its lifetime.
 
 ### Section 25.2: Passing in Arrays to Functions
 
 ```c
 int getListOfFriends(size_t size, int friend_indexes[]) {
-size_t i = 0 ;
-for (; i < size; i++) {
-friend_indexes[i] = i;
+  size_t i = 0 ;
+  for (; i < size; i++) {
+    friend_indexes[i] = i;
+  }
 }
-}
-```
-Version ≥ C99 Version < C11
 
-```c
-/* Type "void" and VLAs ("int friend_indexes[static size]") require C99 at least.
-In C11 VLAs are optional. */
+/* Version ≥ C99 Version < C11, Type "void" and VLAs ("int friend_indexes[static size]") require C99 at least. In C11 VLAs are optional. */
+
 void getListOfFriends(size_t size, int friend_indexes[static size]) {
-```
-
-```
-size_t i = 0 ;
-for (; i < size; i++) {
-friend_indexes[i] = 1 ;
-}
+  size_t i = 0 ;
+  for (; i < size; i++) {
+    friend_indexes[i] = 1 ;
+  }
 }
 ```
-Here the static inside the [] of the function parameter, request that the argument array must have at least as
+Here the static inside the `[]` of the function parameter, request that the argument array must have at least as many elements as are specified (i.e. size elements). To be able to use that feature we have to ensure that the size parameter comes before the array parameter in the list.
 
-many elements as are specified (i.e. size elements). To be able to use that feature we have to ensure that the size
-
-parameter comes before the array parameter in the list.
-
-Use getListOfFriends() like this:
+Use `getListOfFriends()` like this:
 
 ```c
 #define LIST_SIZE (50)
-```
-```c
+
 int main(void) {
-size_t size_of_list = LIST_SIZE;
-int friends_indexes[size_of_list];
-```
-```
-getListOfFriends(size_of_list, friend_indexes); /* friend_indexes decays to a pointer to the
-address of its 1st element:
-&friend_indexes[0] */
-```
-```c
-/* Here friend_indexes carries: {0, 1, 2, ..., 49}; */
-```
-```c
-return 0 ;
+  size_t size_of_list = LIST_SIZE;
+  int friends_indexes[size_of_list];
+
+getListOfFriends(size_of_list, friend_indexes); /* friend_indexes decays to a pointer to the address of its 1st element: &friend_indexes[0] */
+
+  /* Here friend_indexes carries: {0, 1, 2, ..., 49}; */
+
+  return 0 ;
 }
 ```
-**See also**
+**See also**  
 
-Passing multidimensional arrays to a function
+Passing multidimensional arrays to a function  
 
 ### Section 25.3: Order of function parameter execution
 
-The order of execution of parameters is undefined in C programming. Here it may execute from left to right or from
-
-right to left. The order depends on the implementation.
+The order of execution of parameters is undefined in C programming. Here it may execute from left to right or from right to left. The order depends on the implementation.
 
 ```c
 #include <stdio.h>
-```
-```
+
 void function(int a, int b)
 {
-printf("%d %d \n ", a, b);
+  printf("%d %d \n ", a, b);
 }
-```
-```c
+
 int main(void)
 {
-int a = 1 ;
-function(a++, ++a);
-return 0 ;
+  int a = 1 ;
+  function(a++, ++a);
+  return 0 ;
 }
-```c
+```
+
 ### Section 25.4: Using pointer parameters to return multiple values
 
 A common pattern in C, to easily imitate returning multiple values from a function, is to use pointers.
 
 ```c
 #include <stdio.h>
-```
 
-```
 void Get( int* c , double* d )
 {
-*c = 72 ;
-*d = 175.0;
+  *c = 72 ;
+  *d = 175.0;
 }
-```
-```c
+
 int main(void)
 {
-int a = 0 ;
-double b = 0.0;
-```
-```
-Get( &a , &b );
-```
-```
-printf("a: %d, b: %f \n ", a , b );
-```
-```c
-return 0 ;
+  int a = 0 ;
+  double b = 0.0;
+  Get( &a , &b );
+
+  printf("a: %d, b: %f \n ", a , b );
+
+  return 0 ;
 }
-```c
+```
 ### Section 25.5: Example of function returning struct containing values with error codes
 
-Most examples of a function returning a value involve providing a pointer as one of the arguments to allow the
-
-function to modify the value pointed to, similar to the following. The actual return value of the function is usually
-
-some type such as an int to indicate the status of the result, whether it worked or not.
+Most examples of a function returning a value involve providing a pointer as one of the arguments to allow the function to modify the value pointed to, similar to the following. The actual return value of the function is usually some type such as an `int` to indicate the status of the result, whether it worked or not.
 
 ```c
 int func (int *pIvalue)
 {
-int iRetStatus = 0 ; /* Default status is no change */
-```
-```
-if (*pIvalue > 10 ) {
-*pIvalue = *pIvalue * 45 ; /* Modify the value pointed to */
-iRetStatus = 1 ; /* indicate value was changed */
+  int iRetStatus = 0 ; /* Default status is no change */
+
+  if (*pIvalue > 10 ) {
+    *pIvalue = *pIvalue * 45 ; /* Modify the value pointed to */
+    iRetStatus = 1 ; /* indicate value was changed */
+  }
+
+  return iRetStatus; /* Return an error code */
 }
 ```
+However you can also use a struct as a return value which allows you to return both an error status along with other values as well. For instance.
+
 ```c
-return iRetStatus; /* Return an error code */
-}
-```
-However you can also use a struct as a return value which allows you to return both an error status along with
-
-other values as well. For instance.
-
-```
 typedef struct {
-int iStat; /* Return status */
-int iValue; /* Return value */
+  int iStat; /* Return status */
+  int iValue; /* Return value */
 } RetValue;
-```
-```
+
 RetValue func (int iValue)
 {
-RetValue iRetStatus = { 0 , iValue};
-```
-```
-if (iValue > 10 ) {
-iRetStatus.iValue = iValue * 45 ;
-iRetStatus.iStat = 1 ;
-}
-```
-```c
-return iRetStatus;
+  RetValue iRetStatus = { 0 , iValue};
+
+  if (iValue > 10 ) {
+    iRetStatus.iValue = iValue * 45 ;
+    iRetStatus.iStat = 1 ;
+  }
+
+  return iRetStatus;
 }
 ```
 This function could then be used like the following sample.
 
-
 ```c
 int usingFunc (int iValue)
 {
-RetValue iRet = func (iValue);
-```
-```
-if (iRet.iStat == 1 ) {
-/* do things with iRet.iValue, the returned value */
-}
-return 0 ;
+  RetValue iRet = func (iValue);
+
+  if (iRet.iStat == 1 ) {
+    /* do things with iRet.iValue, the returned value */
+  }
+  return 0 ;
 }
 ```
 Or it could be used like the following.
@@ -8177,13 +8129,12 @@ Or it could be used like the following.
 ```c
 int usingFunc (int iValue)
 {
-RetValue iRet;
-```
-```
-if ( (iRet = func (iValue)).iStat == 1 ) {
-/* do things with iRet.iValue, the returned value */
-}
-return 0 ;
+  RetValue iRet;
+
+  if ( (iRet = func (iValue)).iStat == 1 ) {
+  /* do things with iRet.iValue, the returned value */
+  }
+  return 0 ;
 }
 ```
 
@@ -8196,37 +8147,31 @@ Passing a 2d array to a functions seems simple and obvious and we happily write:
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 #define ROWS 3
 #define COLS 2
-```
-```
+
 void fun1(int **, int, int);
-```
-```c
+
 int main()
 {
-int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
-int n = ROWS;
-int m = COLS;
-```
-```
-fun1(array_2D, n, m);
-```
-```c
-return EXIT_SUCCESS;
+  int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
+  int n = ROWS;
+  int m = COLS;
+
+  fun1(array_2D, n, m);
+
+  return EXIT_SUCCESS;
 }
-```
-```
+
 void fun1(int **a, int n, int m)
 {
-int i, j;
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
-}
-}
+  int i, j;
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+    }
+  }
 }
 ```
 But the compiler, here GCC in version 4.9.4 , does not appreciate it well.
@@ -8240,47 +8185,36 @@ fun1(array_2D, n, m);
 passarr.c:8:6: note: expected ‘int **’ but argument is of type ‘int (*)[2]’
 void fun1(int **, int, int);
 ```
-The reasons for this are twofold: the main problem is that arrays are not pointers and the second inconvenience is
-
-the so called _pointer decay_. Passing an array to a function will decay the array to a pointer to the first element of the
-
-array--in the case of a 2d array it decays to a pointer to the first row because in C arrays are sorted row-first.
+The reasons for this are `twofold`: the main problem is that arrays are not pointers and the second inconvenience is the so called _`pointer decay`_. Passing an array to a function will decay the array to a pointer to the first element of the array--in the case of a 2d array it decays to a pointer to the first row because in C arrays are sorted row-first.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 #define ROWS 3
 #define COLS 2
-```
-```
-void fun1(int (*)[COLS], int, int);
-```
 
-```c
+void fun1(int (*)[COLS], int, int);
+
 int main()
 {
-int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
-int n = ROWS;
-int m = COLS;
-```
-```
-fun1(array_2D, n, m);
-```
-```c
-return EXIT_SUCCESS;
+  int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
+  int n = ROWS;
+  int m = COLS;
+
+  fun1(array_2D, n, m);
+
+  return EXIT_SUCCESS;
 }
-```
-```
+
 void fun1(int (*a)[COLS], int n, int m)
 {
-int i, j;
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
-}
-}
+  int i, j;
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+    }
+  }
 }
 ```
 It _is_ necessary to pass the number of rows, they cannot be computed.
@@ -8288,131 +8222,99 @@ It _is_ necessary to pass the number of rows, they cannot be computed.
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 #define ROWS 3
 #define COLS 2
-```
-```
+
 void fun1(int (*)[COLS], int);
-```
-```c
+
 int main()
 {
-int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
-int rows = ROWS;
-```
-```c
-/* works here because array_2d is still in scope and still an array */
-printf("MAIN: %zu \n ",sizeof(array_2D)/sizeof(array_2D[ 0 ]));
-```
-```
-fun1(array_2D, rows);
-```
-```c
-return EXIT_SUCCESS;
+  int array_2D[ROWS][COLS] = { { 1 , 2 }, { 3 , 4 }, { 5 , 6 } };
+  int rows = ROWS;
+
+  /* works here because array_2d is still in scope and still an array */
+  printf("MAIN: %zu \n ",sizeof(array_2D)/sizeof(array_2D[ 0 ]));
+
+  fun1(array_2D, rows);
+
+  return EXIT_SUCCESS;
 }
-```
-```
+
 void fun1(int (*a)[COLS], int rows)
 {
-int i, j;
-int n, m;
+  int i, j;
+  int n, m;
+
+  n = rows;
+  /* Works, because that information is passed (as "COLS").
+  It is also redundant because that value is known at compile time (in "COLS"). */
+  m = (int) (sizeof(a[ 0 ])/sizeof(a[ 0 ][ 0 ]));
+
+  /* Does not work here because the "decay" in "pointer decay" is meant
+  literally--information is lost. */
+  printf("FUN1: %zu \n ",sizeof(a)/sizeof(a[ 0 ]));
+
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+    }
+  }
+}
 ```
-```
-n = rows;
-/* Works, because that information is passed (as "COLS").
-It is also redundant because that value is known at compile time (in "COLS"). */
-m = (int) (sizeof(a[ 0 ])/sizeof(a[ 0 ][ 0 ]));
-```
-```c
-/* Does not work here because the "decay" in "pointer decay" is meant
-literally--information is lost. */
-printf("FUN1: %zu \n ",sizeof(a)/sizeof(a[ 0 ]));
-```
-```
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
-```
+Version = C99  
 
-##### }
-
-##### }
-
-##### }
-
-Version = C99
-
-The number of columns is predefined and hence fixed at compile time, but the predecessor to the current C-
-
-standard (that was ISO/IEC 9899:1999, current is ISO/IEC 9899:2011) implemented VLAs (TODO: link it) and although
-
-the current standard made it optional, almost all modern C-compilers support it (TODO: check if MS Visual Studio
-
-supports it now).
+The number of columns is predefined and hence fixed at compile time, but the predecessor to the current C-standard (that was `ISO/IEC 9899:1999`, current is `ISO/IEC 9899:2011`) implemented VLAs (TODO: link it) and although the current standard made it optional, almost all modern C-compilers support it (TODO: check if MS Visual Studio supports it now).
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 /* ALL CHECKS OMMITTED!*/
-```
-```
+
 void fun1(int (*)[], int rows, int cols);
-```
-```c
+
 int main(int argc, char **argv)
 {
-int rows, cols, i, j;
-```
-```
-if(argc != 3 ){
-fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
-exit(EXIT_FAILURE);
+  int rows, cols, i, j;
+
+  if(argc != 3 ){
+    fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
+    exit(EXIT_FAILURE);
+  }
+
+  rows = atoi(argv[ 1 ]);
+  cols = atoi(argv[ 2 ]);
+
+  int array_2D[rows][cols];
+
+  for (i = 0 ; i < rows; i++) {
+    for (j = 0 ; j < cols; j++) {
+      array_2D[i][j] = (i + 1 ) * (j + 1 );
+     printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
+    }
+  }
+
+  fun1(array_2D, rows, cols);
+
+  exit(EXIT_SUCCESS);
 }
-```
-```
-rows = atoi(argv[ 1 ]);
-cols = atoi(argv[ 2 ]);
-```
-```c
-int array_2D[rows][cols];
-```
-```
-for (i = 0 ; i < rows; i++) {
-for (j = 0 ; j < cols; j++) {
-array_2D[i][j] = (i + 1 ) * (j + 1 );
-printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
-}
-}
-```
-```
-fun1(array_2D, rows, cols);
-```
-```
-exit(EXIT_SUCCESS);
-}
-```
-```
+
 void fun1(int (*a)[], int rows, int cols)
 {
-int i, j;
-int n, m;
-```
-```
-n = rows;
-/* Does not work anymore, no sizes are specified anymore
-m = (int) (sizeof(a[0])/sizeof(a[0][0])); */
-m = cols;
-```
-```
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
-}
-}
+  int i, j;
+  int n, m;
+
+  n = rows;
+  /* Does not work anymore, no sizes are specified anymore
+  m = (int) (sizeof(a[0])/sizeof(a[0][0])); */
+  m = cols;
+
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+    }
+  }
 }
 ```
 
@@ -8424,11 +8326,7 @@ passarr.c: In function ‘fun1’:
 passarr.c:168:7: error: invalid use of array with unspecified bounds
 printf("array[%d][%d]=%d\n", i, j, a[i][j]);
 ```
-It becomes a bit clearer if we intentionally make an error in the call of the function by changing the declaration to
-
-void fun1(int **a, int rows, int cols). That causes the compiler to complain in a different, but equally
-
-nebulous way
+It becomes a bit clearer if we intentionally make an error in the call of the function by changing the declaration to `void fun1(int **a, int rows, int cols)`. That causes the compiler to complain in a different, but equally nebulous way
 
 ```
 $ gcc-4.9 - O3 -g3 -W -Wall -Wextra -std=c99 passarr.c - o passarr
@@ -8444,202 +8342,164 @@ We can react in several ways, one of it is to ignore all of it and do some illeg
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```c
+
 ##### /* ALL CHECKS OMMITTED!*/
 
-```
 void fun1(int (*)[], int rows, int cols);
-```
-```c
+
 int main(int argc, char **argv)
 {
-int rows, cols, i, j;
-```
-```
-if(argc != 3 ){
-fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
-exit(EXIT_FAILURE);
+  int rows, cols, i, j;
+
+  if(argc != 3 ){
+    fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
+    exit(EXIT_FAILURE);
+  }
+
+  rows = atoi(argv[ 1 ]);
+  cols = atoi(argv[ 2 ]);
+
+  int array_2D[rows][cols];
+  printf("Make array with %d rows and %d columns \n ", rows, cols);
+  for (i = 0 ; i < rows; i++) {
+    for (j = 0 ; j < cols; j++) {
+      array_2D[i][j] = i * cols + j;
+      printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
+    }
+  }
+
+  fun1(array_2D, rows, cols);
+
+  exit(EXIT_SUCCESS);
 }
-```
-```
-rows = atoi(argv[ 1 ]);
-cols = atoi(argv[ 2 ]);
-```
-```c
-int array_2D[rows][cols];
-printf("Make array with %d rows and %d columns \n ", rows, cols);
-for (i = 0 ; i < rows; i++) {
-for (j = 0 ; j < cols; j++) {
-array_2D[i][j] = i * cols + j;
-printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
-}
-}
-```
-```
-fun1(array_2D, rows, cols);
-```
-```
-exit(EXIT_SUCCESS);
-}
-```
-```
+
 void fun1(int (*a)[], int rows, int cols)
 {
-int i, j;
-int n, m;
-```
+  int i, j;
+  int n, m;
 
-```
-n = rows;
-m = cols;
-```
-```
-printf(" \n Print array with %d rows and %d columns \n ", rows, cols);
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, *( (*a) + (i * cols + j)));
-}
-}
+  n = rows;
+  m = cols;
+
+  printf(" \n Print array with %d rows and %d columns \n ", rows, cols);
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, *( (*a) + (i * cols + j)));
+    }
+  }
 }
 ```
-Or we do it right and pass the needed information to fun1. To do so wee need to rearrange the arguments to fun1:
-
-the size of the column must come before the declaration of the array. To keep it more readable the variable holding
-
-the number of rows has changed its place, too, and is first now.
+Or we do it right and pass the needed information to `fun1`. To do so wee need to rearrange the arguments to `fun1`:  
+- the size of the column must come before the declaration of the array.
+- To keep it more readable the variable holding the number of rows has changed its place, too, and is first now.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```c
+
 ##### /* ALL CHECKS OMMITTED!*/
 
-```
 void fun1(int rows, int cols, int (*)[]);
-```
-```c
+
 int main(int argc, char **argv)
 {
-int rows, cols, i, j;
-```
-```
-if(argc != 3 ){
-fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
-exit(EXIT_FAILURE);
+  int rows, cols, i, j;
+
+  if(argc != 3 ){
+    fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
+    exit(EXIT_FAILURE);
+  }
+
+  rows = atoi(argv[ 1 ]);
+  cols = atoi(argv[ 2 ]);
+
+  int array_2D[rows][cols];
+  printf("Make array with %d rows and %d columns \n ", rows, cols);
+  for (i = 0 ; i < rows; i++) {
+    for (j = 0 ; j < cols; j++) {
+      array_2D[i][j] = i * cols + j;
+      printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
+    }
+  }
+
+  fun1(rows, cols, array_2D);
+
+  exit(EXIT_SUCCESS);
 }
-```
-```
-rows = atoi(argv[ 1 ]);
-cols = atoi(argv[ 2 ]);
-```
-```c
-int array_2D[rows][cols];
-printf("Make array with %d rows and %d columns \n ", rows, cols);
-for (i = 0 ; i < rows; i++) {
-for (j = 0 ; j < cols; j++) {
-array_2D[i][j] = i * cols + j;
-printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
-}
-}
-```
-```
-fun1(rows, cols, array_2D);
-```
-```
-exit(EXIT_SUCCESS);
-}
-```
-```
+
 void fun1(int rows, int cols, int (*a)[cols])
 {
-int i, j;
-int n, m;
-```
-```
-n = rows;
-m = cols;
-```
-```
-printf(" \n Print array with %d rows and %d columns \n ", rows, cols);
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+  int i, j;
+  int n, m;
+
+  n = rows;
+  m = cols;
+
+  printf(" \n Print array with %d rows and %d columns \n ", rows, cols);
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+    }
+  }
 }
 ```
-
-##### }
-
-##### }
-
-This looks awkward to some people, who hold the opinion that the order of variables should not matter. That is not
-
-much of a problem, just declare a pointer and let it point to the array.
+This looks awkward to some people, who hold the opinion that the order of variables should not matter. That is not much of a problem, just declare a pointer and let it point to the array.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-```
-```c
+
 /* ALL CHECKS OMMITTED!*/
-```
-```
+
 void fun1(int rows, int cols, int **);
-```
-```c
+
 int main(int argc, char **argv)
 {
-int rows, cols, i, j;
-```
-```
-if(argc != 3 ){
-fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
-exit(EXIT_FAILURE);
+  int rows, cols, i, j;
+
+  if(argc != 3 ){
+    fprintf(stderr,"Usage: %s rows cols \n ",argv[ 0 ]);
+    exit(EXIT_FAILURE);
+  }
+
+  rows = atoi(argv[ 1 ]);
+  cols = atoi(argv[ 2 ]);
+
+  int array_2D[rows][cols];
+  printf("Make array with %d rows and %d columns \n ", rows, cols);
+  for (i = 0 ; i < rows; i++) {
+    for (j = 0 ; j < cols; j++) {
+      array_2D[i][j] = i * cols + j;
+      printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
+    }
+  }
+  // a "rows" number of pointers to "int". Again a VLA
+  int *a[rows];
+
+  // initialize them to point to the individual rows
+  for (i = 0 ; i < rows; i++) {
+    a[i] = array_2D[i];
+  }
+ 
+  fun1(rows, cols, a);
+ 
+  exit(EXIT_SUCCESS);
 }
-```
-```
-rows = atoi(argv[ 1 ]);
-cols = atoi(argv[ 2 ]);
-```
-```c
-int array_2D[rows][cols];
-printf("Make array with %d rows and %d columns \n ", rows, cols);
-for (i = 0 ; i < rows; i++) {
-for (j = 0 ; j < cols; j++) {
-array_2D[i][j] = i * cols + j;
-printf("array[%d][%d]=%d \n ", i, j, array_2D[i][j]);
-}
-}
-// a "rows" number of pointers to "int". Again a VLA
-int *a[rows];
-// initialize them to point to the individual rows
-for (i = 0 ; i < rows; i++) {
-a[i] = array_2D[i];
-}
-```
-```
-fun1(rows, cols, a);
-```
-```
-exit(EXIT_SUCCESS);
-}
-```
-```
+
 void fun1(int rows, int cols, int **a)
 {
-int i, j;
-int n, m;
-```
-```
-n = rows;
-m = cols;
-```
-```
-printf(" \n Print array with %d rows and %d columns \n ", rows, cols);
-for (i = 0 ; i < n; i++) {
-for (j = 0 ; j < m; j++) {
-printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
-}
-}
+  int i, j;
+  int n, m;
+
+  n = rows;
+  m = cols;
+
+  printf(" \n Print array with %d rows and %d columns \n ", rows, cols);
+  for (i = 0 ; i < n; i++) {
+    for (j = 0 ; j < m; j++) {
+      printf("array[%d][%d]=%d \n ", i, j, a[i][j]);
+    }
+  }
 }
 ```
 
@@ -8650,39 +8510,33 @@ Often the easiest solution is simply to pass 2D and higher arrays around as flat
 ```c
 /* create 2D array with dimensions determined at runtime */
 double *matrix = malloc(width * height * sizeof(double));
-```
-```c
+
 /* initialise it (for the sake of illustration we want 1.0 on the diagonal) */
 int x, y;
 for (y = 0 ; y < height; y++)
 {
-for (x = 0 ; x < width; x++)
-{
-if (x == y)
-matrix[y * width + x] = 1.0;
-else
-matrix[y * width + x] = 0.0;
+  for (x = 0 ; x < width; x++)
+  {
+    if (x == y) matrix[y * width + x] = 1.0;
+    else matrix[y * width + x] = 0.0;
+  }
 }
-}
-```
-```c
+
 /* pass it to a subroutine */
 manipulate_matrix(matrix, width, height);
-```
-```c
+
 /* do something with the matrix, e.g. scale by 2 */
 void manipulate_matrix(double *matrix, int width, int height)
 {
-int x, y;
-```
-```
-for (y = 0 ; y < height; y++)
-{
-for (x = 0 ; x < width; x++)
-{
-matrix[y * width + x] *= 2.0;
-}
-}
+  int x, y;
+
+  for (y = 0 ; y < height; y++)
+  {
+    for (x = 0 ; x < width; x++)
+    {
+      matrix[y * width + x] *= 2.0;
+    }
+  }
 }
 ```
 
@@ -8690,107 +8544,87 @@ matrix[y * width + x] *= 2.0;
 
 ### Section 27.1: errno
 
-When a standard library function fails, it often sets errno to the appropriate error code. The C standard requires at
-
-least 3 values for errno be set:
+When a standard library function `fails`, it often sets errno to the appropriate error code. The C standard requires at least 3 values for errno be set:
 
 ```
 Value Meaning
 EDOM Domain error
 ERANGERange error
 EILSEQ Illegal multi-byte character sequence
-```c
+```
+
 ### Section 27.2: strerror
 
-If perror is not flexible enough, you may obtain a user-readable error description by calling strerror from
-
-**<string.h>**.
+If perror is not flexible enough, you may obtain a `user-readable error` description by calling `strerror` from **`<string.h>`**.
 
 ```c
 int main(int argc, char *argv[])
 {
-FILE *fout;
-int last_error = 0 ;
-```
-```
-if ((fout = fopen(argv[ 1 ], "w")) == NULL) {
-last_error = errno;
-/* reset errno and continue */
-errno = 0 ;
+  FILE *fout;
+  int last_error = 0 ;
+
+  if ((fout = fopen(argv[ 1 ], "w")) == NULL) {
+    last_error = errno;
+    /* reset errno and continue */
+    errno = 0 ;
+  }
+
+  /* do some processing and try opening the file differently, then */
+
+  if (last_error) {
+    fprintf(stderr, "fopen: Could not open %s for writing: %s", argv[ 1 ], strerror(last_error));
+    fputs("Cross fingers and continue", stderr);
+  }
+
+  /* do some other processing */
+
+  return EXIT_SUCCESS;
 }
 ```
-```c
-/* do some processing and try opening the file differently, then */
-```
-```
-if (last_error) {
-fprintf(stderr, "fopen: Could not open %s for writing: %s",
-argv[ 1 ], strerror(last_error));
-fputs("Cross fingers and continue", stderr);
-}
-```
-```c
-/* do some other processing */
-```
-```c
-return EXIT_SUCCESS;
-}
-```c
 ### Section 27.3: perror
 
-To print a user-readable error message to stderr, call perror from <stdio.h>.
+To print a user-readable error message to `stderr`, call perror from `<stdio.h>`.
 
 ```c
 int main(int argc, char *argv[])
 {
-FILE *fout;
-```
-```
-if ((fout = fopen(argv[ 1 ], "w")) == NULL) {
-perror("fopen: Could not open file for writing");
-return EXIT_FAILURE;
-}
-return EXIT_SUCCESS;
+  FILE *fout;
+
+  if ((fout = fopen(argv[ 1 ], "w")) == NULL) {
+    perror("fopen: Could not open file for writing");
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
 }
 ```
 
-This will print an error message concerning the current value of errno.
-
+This will print an error message concerning the current value of `errno`.
 
 ## Chapter 28: Undefined behavior
 
-In C, some expressions yield _undefined behavior_. The standard explicitly chooses to not define how a compiler
+In C, some expressions yield _undefined behavior_. The standard explicitly chooses to not define how a compiler should behave if it encounters such an expression. As a result, a compiler is free to do whatever it sees fit and may produce useful results, unexpected results, or even crash.  
 
-should behave if it encounters such an expression. As a result, a compiler is free to do whatever it sees fit and may
-
-produce useful results, unexpected results, or even crash.
-
-Code that invokes UB may work as intended on a specific system with a specific compiler, but will likely not work on
-
-another system, or with a different compiler, compiler version or compiler settings.
+Code that invokes UB may work as intended on a specific system with a specific compiler, but will likely not work on another system, or with a different compiler, compiler version or compiler settings.  
 
 ### Section 28.1: Dereferencing a pointer to variable beyond its lifetime
 
 ```c
 int* foo(int bar)
 {
-int baz = 6 ;
-baz += bar;
-return &baz; /* (&baz) copied to new memory location outside of foo. */
+  int baz = 6 ;
+  baz += bar;
+  return &baz; /* (&baz) copied to new memory location outside of foo. */
 } /* (1) The lifetime of baz and bar end here as they have automatic storage
 * duration (local variables), thus the returned pointer is not valid! */
-```
-```c
+
 int main (void)
 {
-int* p;
-```
-```
-p = foo( 5 ); /* (2) this expression's behavior is undefined */
-*p = *p - 6 ; /* (3) Undefined behaviour here */
-```
-```c
-return 0 ;
+  int* p;
+
+  p = foo( 5 ); /* (2) this expression's behavior is undefined */
+  *p = *p - 6 ; /* (3) Undefined behaviour here */
+
+  return 0 ;
 }
 ```
 Some compilers helpfully point this out. For example, gcc warns with:
@@ -8806,33 +8640,19 @@ warning: address of stack memory associated with local variable 'baz' returned
 ```
 for the above code. But compilers may not be able to help in complex code.
 
-(1) Returning reference to variable declared static is defined behaviour, as the variable is not destroyed after
-
-leaving current scope.
-
-(2) According to ISO/IEC 9899:2011 6.2.4 §2, "The value of a pointer becomes indeterminate when the object it
-
-points to reaches the end of its lifetime."
-
-(3) Dereferencing the pointer returned by the function foo is undefined behaviour as the memory it references
-
-holds an indeterminate value.
+* Returning reference to variable declared static is defined behaviour, as the variable is not destroyed after leaving current scope.
+* According to `ISO/IEC 9899:2011 6.2.4 §2`, "The value of a pointer becomes indeterminate when the object it points to reaches the end of its lifetime."
+` Dereferencing the pointer returned by the function foo is undefined behaviour as the memory it references holds an indeterminate value.
 
 ### Section 28.2: Copying overlapping memory
 
-A wide variety of standard library functions have among their effects copying byte sequences from one memory
+A wide variety of standard library functions have among their effects copying byte sequences from one memory region to another. Most of these functions have undefined behavior when the source and destination regions overlap.  
 
-
-region to another. Most of these functions have undefined behavior when the source and destination regions
-
-overlap.
-
-For example, this ...
+For example, this ...  
 
 ```c
 #include <string.h> /* for memcpy() */
-```
-```
+
 char str[ 19 ] = "This is an example";
 memcpy(str + 7 , str, 10 );
 ```
@@ -8851,83 +8671,42 @@ T h i s i s a n e x a m p l e \ 0
 |
 source
 ```
-Because of the overlap, the resulting behavior is undefined.
-
-Among the standard library functions with a limitation of this kind are memcpy(), strcpy(), strcat(), sprintf(),
-
-and sscanf(). The standard says of these and several other functions:
+Because of the overlap, the resulting behavior is undefined.  
+Among the standard library functions with a limitation of this kind are `memcpy()`, `strcpy()`, `strcat()`, `sprintf()`, and `sscanf()`. The standard says of these and several other functions:
 
 ```
 If copying takes place between objects that overlap, the behavior is undefined.
 ```
-The memmove() function is the principal exception to this rule. Its definition specifies that the function behaves as if
+The `memmove()` function is the principal exception to this rule. Its definition specifies that the function behaves as if the source data were first copied into a temporary buffer and then written to the destination address. There is no exception for overlapping source and destination regions, nor any need for one, so `memmove()` has well-defined behavior in such cases.  
 
-the source data were first copied into a temporary buffer and then written to the destination address. There is no
-
-exception for overlapping source and destination regions, nor any need for one, so memmove() has well-defined
-
-behavior in such cases.
-
-The distinction reflects an efficiency _vs_. generality tradeoff. Copying such as these functions perform usually occurs
-
-between disjoint regions of memory, and often it is possible to know at development time whether a particular
-
-instance of memory copying will be in that category. Assuming non-overlap affords comparatively more efficient
-
-implementations that do not reliably produce correct results when the assumption does not hold. Most C library
-
-functions are allowed the more efficient implementations, and memmove() fills in the gaps, serving the cases where
-
-the source and destination may or do overlap. To produce the correct effect in all cases, however, it must perform
-
-additional tests and / or employ a comparatively less efficient implementation.
+The distinction reflects an efficiency _`vs`_. generality tradeoff. Copying such as these functions perform usually occurs between disjoint regions of memory, and often it is possible to know at development time whether a particular instance of memory copying will be in that category. Assuming non-overlap affords comparatively more efficient implementations that do not reliably produce correct results when the assumption does not hold. Most C library functions are allowed the more efficient implementations, and `memmove()` fills in the gaps, serving the cases where the source and destination may or do overlap. To produce the correct effect in all cases, however, it must perform additional tests and / or employ a comparatively less efficient implementation.
 
 ### Section 28.3: Signed integer overflow
 
-Per paragraph 6.5/5 of both C99 and C11, evaluation of an expression produces undefined behavior if the result is
-
-not a representable value of the expression's type. For arithmetic types, that's called an _overflow_. Unsigned integer
-
-arithmetic does not overflow because paragraph 6.2.5/9 applies, causing any unsigned result that otherwise would
-
-be out of range to be reduced to an in-range value. There is no analogous provision for _signed_ integer types,
-
-however; these can and do overflow, producing undefined behavior. For example,
+Per paragraph 6.5/5 of both C99 and C11, evaluation of an expression produces undefined behavior if the result is not a representable value of the expression's type. For arithmetic types, that's called an _overflow_. `Unsigned integer` arithmetic does not overflow because paragraph 6.2.5/9 applies, causing any unsigned result that otherwise would be out of range to be reduced to an in-range value. There is no analogous provision for _signed_ integer types, however; these can and do overflow, producing undefined behavior. For example,
 
 ```c
 #include <limits.h> /* to get INT_MAX */
-```
 
-```c
 int main(void) {
-int i = INT_MAX + 1 ; /* Overflow happens here */
-return 0 ;
+  int i = INT_MAX + 1 ; /* Overflow happens here */
+  return 0 ;
 }
 ```
-Most instances of this type of undefined behavior are more difficult to recognize or predict. Overflow can in
-
-principle arise from any addition, subtraction, or multiplication operation on signed integers (subject to the usual
-
-arithmetic conversions) where there are not effective bounds on or a relationship between the operands to prevent
-
-it. For example, this function:
+Most instances of this type of undefined behavior are more difficult to recognize or predict. Overflow can in principle arise from any addition, subtraction, or multiplication operation on signed integers (subject to the usual arithmetic conversions) where there are not effective bounds on or a relationship between the operands to prevent it. For example, this function:
 
 ```c
 int square(int x) {
-return x * x; /* overflows for some values of x */
+  return x * x; /* overflows for some values of x */
 }
 ```
-is reasonable, and it does the right thing for small enough argument values, but its behavior is undefined for larger
-
-argument values. You cannot judge from the function alone whether programs that call it exhibit undefined
-
-behavior as a result. It depends on what arguments they pass to it.
+is reasonable, and it does the right thing for small enough argument values, but its behavior is undefined for larger argument values. You cannot judge from the function alone whether programs that call it exhibit undefined behavior as a result. It depends on what arguments they pass to it.  
 
 On the other hand, consider this trivial example of overflow-safe signed integer arithmetic:
 
 ```c
 int zero(int x) {
-return x - x; /* Cannot overflow */
+  return x - x; /* Cannot overflow */
 }
 ```
 The relationship between the operands of the subtraction operator ensures that the subtraction never overflows.
@@ -8936,18 +8715,15 @@ Or consider this somewhat more practical example:
 
 ```c
 int sizeDelta(FILE *f1, FILE *f2) {
-int count1 = 0 ;
-int count2 = 0 ;
-while (fgetc(f1) != EOF) count1++; /* might overflow */
-while (fgetc(f2) != EOF) count2++; /* might overflow */
-```
-```c
-return count1 - count2; /* provided no UB to this point, will not overflow */
+  int count1 = 0 ;
+  int count2 = 0 ;
+  while (fgetc(f1) != EOF) count1++; /* might overflow */
+  while (fgetc(f2) != EOF) count2++; /* might overflow */
+
+  return count1 - count2; /* provided no UB to this point, will not overflow */
 }
 ```
-As long as that the counters do not overflow individually, the operands of the final subtraction will both be non-
-
-negative. All differences between any two such values are representable as int.
+As long as that the counters do not overflow individually, the operands of the final subtraction will both be non-negative. All differences between any two such values are representable as int.
 
 ### Section 28.4: Use of an uninitialized variable
 
@@ -8955,39 +8731,28 @@ negative. All differences between any two such values are representable as int.
 int a;
 printf("%d", a);
 ```
-The variable a is an int with automatic storage duration. The example code above is trying to print the value of an
+The variable a is an `int` with automatic storage duration. The example code above is trying to print the value of an uninitialized variable (a was never initialized). Automatic variables which are not initialized have indeterminate values; accessing these can lead to undefined behavior.  
 
-uninitialized variable (a was never initialized). Automatic variables which are not initialized have indeterminate
+**Note:** Variables with `static` or `thread` local storage, including `global variables without` the static keyword, are initialized to either zero, or their initialized value. Hence the following is legal.
 
-values; accessing these can lead to undefined behavior.
-
-**Note:** Variables with static or thread local storage, including global variables without the static keyword, are
-
-initialized to either zero, or their initialized value. Hence the following is legal.
-
-```
+```c
 static int b;
 printf("%d", b);
 ```
-A very common mistake is to not initialize the variables that serve as counters to 0. You add values to them, but
-
-
-since the initial value is garbage, you will invoke **Undefined Behavior** , such as in the question Compilation on
-
-terminal gives off pointer warning and strange symbols.
+A very common mistake is to not initialize the variables that serve as counters to `0`. You add values to them, but since the initial value is garbage, you will invoke **Undefined Behavior** , such as in the question Compilation on terminal gives off pointer warning and strange symbols.  
 
 Example:
 
 ```c
 #include <stdio.h>
-```
-```c
+
 int main(void) {
-int i, counter;
-for(i = 0 ; i < 10 ; ++i)
-counter += i;
-printf("%d \n ", counter);
-return 0 ;
+  int i, counter;
+  for(i = 0 ; i < 10 ; ++i)
+    counter += i;
+
+  printf("%d \n ", counter);
+  return 0 ;
 }
 ```
 Output:
