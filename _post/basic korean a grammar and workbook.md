@@ -35,19 +35,40 @@ There are vowel symbols that cannot be combined together
 ㅜ Does not combine with ㅏ or ㅐ
 > Reason : korean vowel harmony principle
 
-버스 = 
-커피 = 
-코트 = 
-재즈 = 
-큊즈 = 
-로맨스 = 
-택시 = 
-스타벅스 = 
-핫도그 = 
-샌드위치 = 
-햄버거 = 
+버스 = bus
+커피 = coffee
+코트 = coat
+재즈 = jazz
+퀴즈 = quiz
+로맨스 = romance
+택시 = taxi
+스타벅스 = starbucks
+핫도그 = hot dog
+샌드위치 = sandwich
+햄버거 = hamburger
 카메라 = camera
 
+브랒리 = Brazil
+스페인 = Spain?
+노르웨이 = Norway
+핀란드 = Finland
+칠리핀 = Philippine
+이탈리아 = Italy
+프랑스 = Franch
+잉글랜드 = 
+캐나다 = Canada
+멕시코 = Mexico
+
+뉴욕 = New york
+시드니 = Sidney
+샌프란시스커 = San Francisco
+런던 = London
+파리 = Paris
+서울 = Seoul
+마드리드 = Madrid
+라스베가스 = Las Vegas
+뉴델리 = New delhi
+리스본 = 
 
 
 
