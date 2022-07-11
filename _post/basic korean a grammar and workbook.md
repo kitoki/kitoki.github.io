@@ -10,8 +10,7 @@ Content :
 7. The special particle 은 eun / 는 neun
 8. Pronouns
 9. Numbers, ordinals and plural marker 들 teul
-10. Counters, question word 
-
+10. Counters, question word 몆
 
 
 
