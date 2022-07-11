@@ -33,7 +33,7 @@ Content :
 There are vowel symbols that cannot be combined together
 ㅗ Does not combine with ㅓ or ㅔ
 ㅜ Does not combine with ㅏ or ㅐ
-> #### Reason : korean vowel harmony principle
+> ###### Reason : korean vowel harmony principle
 
 > Exercise 1.5 :  
 ```
