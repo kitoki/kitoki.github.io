@@ -28,6 +28,32 @@ Content :
 25. The suffixes - 겠 ket and - (으)시 (eu)si
 
 
+>---  
+
+There are vowel symbols that cannot be combined together
+ㅗ Does not combine with ㅓ or ㅔ
+ㅜ Does not combine with ㅏ or ㅐ
+> Reason : korean vowel harmony principle
+
+버스 = 
+커피 = 
+코트 = 
+재즈 = 
+큊즈 = 
+로맨스 = 
+택시 = 
+스타벅스 = 
+핫도그 = 
+샌드위치 = 
+햄버거 = 
+카메라 = camera
+
+
+
+
+
+
+
 
 
 
