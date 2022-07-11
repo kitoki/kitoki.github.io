@@ -21,7 +21,11 @@ Content :
 18. Negation
 19. Irregular verbs
 20. Expressing desire - 고 싶다 ko sip'ta and progressive form - 고 있다 ko itta
-
+21. The endings - (으)ㄹ 거예요 (eu)L keoyeyo and - (으)ㄹ까요? (eu)L kkayo?
+22. Prenouns
+23. Adverbs and adverbials
+24. The endings - (으) ㄹ래요 (eu)L laeyo and - (으)ㄹ 게요 (eu)L geyo
+25. The suffixes - 겠 ket and - (으)시 (eu)si
 
 
 
