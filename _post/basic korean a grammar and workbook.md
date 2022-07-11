@@ -35,6 +35,8 @@ There are vowel symbols that cannot be combined together
 ㅜ Does not combine with ㅏ or ㅐ
 > Reason : korean vowel harmony principle
 
+> Exercise 1.5 :  
+```
 버스 = bus
 커피 = coffee
 코트 = coat
@@ -47,7 +49,10 @@ There are vowel symbols that cannot be combined together
 샌드위치 = sandwich
 햄버거 = hamburger
 카메라 = camera
+```
 
+> Exercise 1.6 :
+```
 브랒리 = Brazil
 스페인 = Spain?
 노르웨이 = Norway
@@ -58,7 +63,10 @@ There are vowel symbols that cannot be combined together
 잉글랜드 = 
 캐나다 = Canada
 멕시코 = Mexico
+```
 
+> Exercise 1.7 :
+```
 뉴욕 = New york
 시드니 = Sidney
 샌프란시스커 = San Francisco
@@ -69,11 +77,39 @@ There are vowel symbols that cannot be combined together
 라스베가스 = Las Vegas
 뉴델리 = New delhi
 리스본 = 
+```
+> Exercise 1.8 :
+```
+포르투갈 = Portugal
+사우디 아라비아 = Saudi Arabia
+뉴질랜드 = New Zealand
+아르헨티나 = Argentina
+이집트 = Egypt
+인디아  = India
+러시아 = Russia
+오스트레일리아 = Australia
+이스라엘 = Israel
+헝가리 = Hungary
+```
 
+> Exercise 1.9 :
+```
+오슬로 = Oslo
+헬싱키 = Helsinki
+모스크바 = Moscow
+로마 = Rome
+토쿄 = Tokyo
+상항이 = Shanghai
+방콕 = Bangkok
+카이로 = Cairo
+멕시코시티 = Mexico city
+리오데 자네이로 = Rio de Janeiro
+```
 
+> Exercise 1.10 :
+```
 
-
-
+```
 
 
 
