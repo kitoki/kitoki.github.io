@@ -16,8 +16,14 @@ Content :
 13. Case particles 2 의 ui, 에 e, 와 wa/ 과 kwa, (이) 랑 irang, and 하고 hago
 14. Case particles 3 에서 eseo, 에게 ege, 한테 hant'e, 께 kke, 에게서 egeseo, and 한테서 hant'eseo
 15. Special particles 1 도 to and 만 man
-16. Special particles 2 이나 ina, 부터 puteo, and 까 
-ㅈㅊ
+16. Special particles 2 이나 ina, 부터 puteo, and 까지 kkaji
+17. Past tense and double past tense marker
+18. Negation
+19. Irregular verbs
+20. Expressing desire - 고 싶다 ko sip'ta and progressive form - 고 있다 ko itta
+
+
+
 
 
 
