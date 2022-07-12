@@ -197,7 +197,7 @@ The korean is a `context-oriented` language in that any contextually understood 
 | | | 만족을 원하다. | i want satisfaction. |
 | | | 장수를 원하다. | i want longevity. |
 | | | 행복을 원하다. | i want happiness. |
-| 튀기다 | fry | 콩을 튀기다. | fry the beans. |
+| 튀기다 | fry / splash | 콩을 튀기다. | fry the beans. |
 | | | 쌀을 튀기다. | Fry the rice. |
 | | | 팝콘을 튀기다. | fry the popcorn. |
 | | | 옥수수를 튀기다. | fry the corn. |
