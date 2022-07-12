@@ -109,8 +109,34 @@ There are vowel symbols that cannot be combined together
 
 > Exercise 1.10 :
 ```
-
+지미 카터 = 
+저지 부쉬 = 
+애브래햄 링컨 = Abraham Lincoln
+조지 화싱턴 = 
+윈스턴 처칠 = 
+토마스 애디슨 = Thomas Edison
+빌 클린턴 = 
+리오나르도 다빈치 = Leonardo da Vinci
+엘비스 프레슬리 = 
+존 레논 = 
 ```
+
+> Exercise 1.11 :
+```
+스키 = Ski
+쿠키 = Cookie
+나이프 = knife
+펜 = Pen
+모니터 = Monitor
+텔레비전 = Television
+카드 = Card
+팝송 = Pop song
+바나나 = Banana
+피자 = Pizza
+오렌지 = Orange
+샴푸 = Shampoo
+```
+
 
 
 
