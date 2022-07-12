@@ -165,6 +165,19 @@ The fact that Korean nouns can be freely arranged differs from English,
 Since the English word order typically determines grammatical relationships.
 The word order affects the korean language `only when certain particles are missing in given sentences (often during the colloquial usages.)`
 
+The further the word is from the end of the sentence, the less important the element is and more likely it is to be dropped.
+In other words, what appears at the very end of the sentence (e.g., verbs) is most important.
+Consequently, korean sentence that `have no subject` or `object` but just a verb or an adjective, such as in 먹어요 "eat", are `grammatically correct` and natural in conversation. Here Ex :
+
+- 안녕하십니까? (are peaceful?) How are you?
+- 뭐 공부하세요? (What study?) What do you study?
+- 감사함니다 (thanks do) thank you
+
+Notice that none of the above expressions contains the first or second person pronoun.
+What determines the omission is the context.
+The korean is a `context-oriented` language in that any contextually understood elements may be omitted unless they are indispensable.
+
+
 
 
 
