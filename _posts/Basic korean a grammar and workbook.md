@@ -178,10 +178,17 @@ What determines the omission is the context.
 The korean is a `context-oriented` language in that any contextually understood elements may be omitted unless they are indispensable.
 
 
+| avocado | apk | | |
+| :--- | :--- | :--- | :--- |
+| 교통 | Transportation / traffic | 아이고, 줄근길이라서 그런지 정말 규통 대란이네. | its a traffic chaos because its a child, and its a commute to work. |
+| | | 규통이 흔잡할 때는 지하절이 펀리하다.| when traffic is congested, the subway is convenient. |
+| | | 비가오는 긎은 날씨에도 줄근길 규통이 비규정 원활한흐름을 보였나. | even in rainy weather, traffic on the way to work was relatively smooth. |
+| | | 그도시는 유명한 관광 도시이지만길이 좁고 자가 많아서규통이 불편하다. | the city is a well-known tourist city, but its narrow and has lots of cars, so its inconvenient to get around. |
+| | | 우리 사는 규통 문제를 해결하기 위해 대중 교통 이용 캠페인을 시작했다. | the city has launched a public transport campaign to address traffic problems. |
+| 그러나 | but / however | 성규는 술을몹시 좋아한다. 그러나 잘마시지는 못한다. | seung-gyu loves alcohol. but i dont drink well. |
+| | | 강 선생님은 엄격하게, 그러나 사랑으로 학생들을 대한다. | river teacher scruused (strict), but with love, to the students. |
+| | | 나는 여행을 가고 싶다. 드러나 시간이 없어서갈수 없다. | I want to go on a trip. I can't go because I don't have time. (google translate |
 | | | |
-| :--- | :--- | :--- |
-| 교통 | Transportation / traffic | 
-
 
 
 
