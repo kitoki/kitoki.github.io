@@ -178,7 +178,7 @@ What determines the omission is the context.
 The korean is a `context-oriented` language in that any contextually understood elements may be omitted unless they are indispensable.
 
 
-| avocado | apk | | |
+| word | meaning | example | translate |
 | :--- | :--- | :--- | :--- |
 | 교통 | Transportation / traffic | 아이고, 줄근길이라서 그런지 정말 규통 대란이네. | its a traffic chaos because its a child, and its a commute to work. |
 | | | 규통이 흔잡할 때는 지하절이 펀리하다.| when traffic is congested, the subway is convenient. |
@@ -187,8 +187,27 @@ The korean is a `context-oriented` language in that any contextually understood 
 | | | 우리 사는 규통 문제를 해결하기 위해 대중 교통 이용 캠페인을 시작했다. | the city has launched a public transport campaign to address traffic problems. |
 | 그러나 | but / however | 성규는 술을몹시 좋아한다. 그러나 잘마시지는 못한다. | seung-gyu loves alcohol. but i dont drink well. |
 | | | 강 선생님은 엄격하게, 그러나 사랑으로 학생들을 대한다. | river teacher scruused (strict), but with love, to the students. |
-| | | 나는 여행을 가고 싶다. 드러나 시간이 없어서갈수 없다. | I want to go on a trip. I can't go because I don't have time. (google translate |
-| | | |
+| | | 나는 여행을 가고 싶다. 드러나 시간이 없어서갈수 없다. | I want to go on a trip. I can't go because I don't have time. (google translate) |
+| 줌주다 | jump with joy (figurative) | 기뻐서 줌주다. | dance with joy. |
+| | | 날아갈 듯이 줌주다. | dance like a fly away. |
+| | | 반가워서 줌주다. | nice to dance. |
+| | | 좋아서 줌주다. | i like to dance. |
+| 원하다 | want / wish / hope | 도움을 원하다. | i want help. |
+| | | 돈을 원하다. | i want money. |
+| | | 만족을 원하다. | i want satisfaction. |
+| | | 장수를 원하다. | i want longevity. |
+| | | 행복을 원하다. | i want happiness. |
+| 튀기다 | fry | 콩을 튀기다. | fry the beans. |
+| | | 쌀을 튀기다. | Fry the rice. |
+| | | 팝콘을 튀기다. | fry the popcorn. |
+| | | 옥수수를 튀기다. | fry the corn. |
+| | | 고소하게 튀하다. | spit out bitterly. |
+| 이기다. | win / beat / overcome / suppress | 슬픔을 이기다. | overcome sorrow. |
+| | | 유혹을 이기다. | resist temptation. |
+| | | 궁금함을 못 이기다. | Curiosity can't be overcome. (google translate) |
+| | | 분을못 이기다. | beat the minute. (google translate) |
+| | | 
+| | | 
 
 
 
