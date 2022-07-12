@@ -137,8 +137,33 @@ There are vowel symbols that cannot be combined together
 샴푸 = Shampoo
 ```
 
+English = Subject + Verb   + Object (SVO)  
+Korea   = Subject + Object + Verb   (SOV)  
 
+> Ex :  
 
+- 앤드류가 한국어를 공부해요.
+- 피터가 도서관에서 옉사를 공부해요. Peter Library-at history studies.
+- 앤드류가 집에서 점심을 먹어요. Andrew eats lunch at home.
+
+Subject 가 + location 에서 + object 를.  
+
+Because of particles, korean sentences do not always follow the SOV pattern.
+Korean nouns (as subjects or objects) can be freely arranged in a sentence.
+For instance, the following six sentences mean "Andrew eats lunch at home."
+
+> Another Ex :
+
+- 앤드류가 집에서 점심을 먹어요. Andrew home-at lunch eats.
+- 앤드류가 점심을 집에서 먹어요. Andrew lunch home-at eats.
+- 집에서 앤드류가 점심을 먹어요. Home-at Andrew lunch eats.
+- 집에서 점심을 앤드류가 먹어요. Home-at lunch Andrew eats.
+- 점심을 앤드류가 집에서 먹어요. Lunch Andrew home-at eats.
+- 점심을 집에서 앤드류가 먹어요. Lunch home-at Andrew eats.
+
+The fact that Korean nouns can be freely arranged differs from English,
+Since the English word order typically determines grammatical relationships.
+The word order affects the korean language `only when certain particles are missing in given sentences (often during the colloquial usages.)`
 
 
 
