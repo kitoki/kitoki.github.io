@@ -178,7 +178,9 @@ What determines the omission is the context.
 The korean is a `context-oriented` language in that any contextually understood elements may be omitted unless they are indispensable.
 
 
-
+| | | |
+| :--- | :--- | :--- |
+| 교통 | Transportation / traffic | 
 
 
 
