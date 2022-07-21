@@ -1,3 +1,9 @@
+#### 1
+restaurant (foreign food) = 레스토랑  
+restaurant (small meal / snacks) = 분식칩  
+seem like there mistake, need to check before continue further
+
+
 Author : andrew byon
 
 Content :
