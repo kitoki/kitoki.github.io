@@ -10,35 +10,35 @@ Week 1-A
 1. 아/어 보이다 (~게 보이다) = "look like" / "seems like"
    - conveys feelings based on outward appearance
    - used with ADJECTIVES only
-   > past (과거)    : ~아/어 보였다
-     present (현재) : ~아/어 보이다
-     future (추측)  : ~아/어 보일 것이다
+   > past (과거)    : ~아/어 보였다  
+     present (현재) : ~아/어 보이다  
+     future (추측)  : ~아/어 보일 것이다  
 
 2. (으)ᄂ/는 모양이다 = "shape" / "appearance"
    - guess a situation after observation (sth you KNOW)
    - can be used with ~(으)ᄂ/는 걸 보니까 (reason)
    - NOT for self, NOT subjective ideas (use ~(으)ᄅ 것같다)
-   > 과거 : ~았/었던 모양이다
-     현재 : ~(으)ᄂ 모양이다
-     미래 : ~(으)ᄅ 모양이다
+   > 과거 : ~았/었던 모양이다  
+     현재 : ~(으)ᄂ 모양이다  
+     미래 : ~(으)ᄅ 모양이다  
    
-   > 과거 : ~(으)ᄂ 모양이다
-     현재 : ~는 모양이다
-     미래 : ~(으)ᄅ 모양이다
+   > 과거 : ~(으)ᄂ 모양이다  
+     현재 : ~는 모양이다  
+     미래 : ~(으)ᄅ 모양이다  
    
-   > 과거 : 였던/이었던 모양이다
-     현재 : 인 모양이다
+   > 과거 : 였던/이었던 모양이다  
+     현재 : 인 모양이다  
 
 3. (으)ᄅ 텐데 (~(으)ᄅ 텐데요) = Expected Future
    - ~(으)ᄅ터이다 (intention) + ~(으)ᄂ/는데 (background)
    - Clause1: St. expectation 2: related/contrary stmts
    - Diff: ~(으)ᄂ 데    = background info, or next topic
    - Diff: ~(으)ᄅ 텐데  = guess abt a current/future sit.
-   > 과거 : ~았/었은 텐데
-     현재 : ~(으)ᄅ 텐데
+   > 과거 : ~았/었은 텐데  
+     현재 : ~(으)ᄅ 텐데  
      
-   > 과거 : 였을/이었을 텐데
-     현제 : 일 텐데
+   > 과거 : 였을/이었을 텐데  
+     현제 : 일 텐데  
 
 4. (으)ᄅ 테니까 (~(으)ᄅ 테니까요) = suggestion
    - ~(으)ᄅ 터이다 (itention) + ~(으)니까 (reason)
@@ -47,11 +47,11 @@ Week 1-A
    - Diff: ~(으)ᄅ 텐데   = actual sit. for assumption
    - Diff: ~(으)ᄅ 테니까 = reason for assumption
    - NOT with 걱정이다, 고맙다, 미안하다
-   > 과거     : ~았/었을 테니까
-     현제/미래 : ~(으)ᄅ 테니까
+   > 과거     : ~았/었을 테니까  
+     현제/미래 : ~(으)ᄅ 테니까  
      
-   > 과거     : 였을/이었을 테니까
-     현재/미래 : 일 테니까
+   > 과거     : 였을/이었을 테니까  
+     현재/미래 : 일 테니까  
 
  
 
