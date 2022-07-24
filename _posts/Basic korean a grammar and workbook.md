@@ -53,7 +53,22 @@ Week 1-A
    > 과거     : 였을/이었을 테니까  
      현재/미래 : 일 테니까  
 
- 
+| Day 1 part 1 | Meaning |
+|:---   | :---    |
+| 추측              |  guess, supposition       |
+| 예상 (하다/되다)   |  expectation, conjecture  |
+| 장                |  chapter                 |
+| 나타내다           |  express                 |
+| 표현 (하다/되다)   |   express, expression     |
+| 단게              |  step                     |
+| 관련 (하다/되다)   |  relation, be related to  |
+| 조금씩            |  little by little         |
+| 에문              |  example sentence         |
+| 통하다            |  pass, lead to            |
+| 성확하다          |  be correct               |
+| 바라다            |  wish, hope, want, desire |
+
+
 
 :---  
 Author : andrew byon
