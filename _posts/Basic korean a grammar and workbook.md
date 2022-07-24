@@ -81,7 +81,7 @@ Week 1-A
 | 익숙해지다   |  get skillful             |
 | 따라서      |  therefore                 |
 | 보기보다    |  compared to how it looks  |
-| 남방        |  shirt                    |
+| 남방        |  shirt or southern region |
 
 :---  
 Author : andrew byon
