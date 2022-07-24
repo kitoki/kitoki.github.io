@@ -68,7 +68,20 @@ Week 1-A
 | 성확하다          |  be correct               |
 | 바라다            |  wish, hope, want, desire |
 
-
+| Day 1 part 2 | Meaning |
+|:---   | :---    |
+| 모양        |  shape, signs, indication | 
+| 겉          |  surface                  |
+| 감정        |  emotion                  |
+| 상태        |  condition                |
+| 흑은        |  or                       |
+| 느껴지      |  be felt                  |
+| 과거        |  past tense               |
+| 젊다        |  be young                 |
+| 익숙해지다   |  get skillful             |
+| 따라서      |  therefore                 |
+| 보기보다    |  compared to how it looks  |
+| 남방        |  shirt                    |
 
 :---  
 Author : andrew byon
